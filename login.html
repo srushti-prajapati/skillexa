@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login – Skillexa</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    .form-container {
+      max-width: 400px;
+      margin: 50px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    button {
+      background: #4f46e5;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #4338ca;
+    }
+    .form-footer {
+      text-align: center;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <h1>Login to Skillexa</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="signup.html">Signup</a>
+    </nav>
+  </header>
+
+  <div class="form-container">
+    <form onsubmit="return loginUser()">
+      <label for="email">Email:</label>
+      <input type="email" id="email" required />
+      
+      <label for="password">Password:</label>
+      <input type="password" id="password" required />
+
+      <button type="submit">Login</button>
+    </form>
+    <div class="form-footer">
+      <p>Don't have an account? <a href="signup.html">Sign up</a></p>
+    </div>
+  </div>
+
+  <script>
+    function loginUser() {
+      const email = document.getElementById('email').value;
+      alert(`Welcome back, ${email}! Redirecting to dashboard...`);
+      window.location.href = 'dashboard.html';
+      return false; // Prevent real submission
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Doubt Solver – Skillexa</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    .chat-section {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .chat-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .chat-box {
+      height: 400px;
+      overflow-y: auto;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 15px;
+      background: #f9fafb;
+    }
+    .bubble {
+      margin: 10px 0;
+      max-width: 70%;
+      padding: 10px 15px;
+      border-radius: 16px;
+      line-height: 1.4;
+    }
+    .user {
+      background: #4f46e5;
+      color: white;
+      margin-left: auto;
+    }
+    .ai {
+      background: #e5e7eb;
+      color: #333;
+      margin-right: auto;
+    }
+    .chat-input {
+      display: flex;
+      margin-top: 15px;
+      gap: 10px;
+    }
+    .chat-input input {
+      flex: 1;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    .chat-input button {
+      background: #22c55e;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <h1>Ask Your Doubts Instantly</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="tutor.html">AI Tutor</a>
+      <a href="judge.html">AI Judge</a>
+      <a href="certificate.html">Certificates</a>
+    </nav>
+  </header>
+
+  <section class="chat-section">
+    <div class="chat-header">
+      <h2>🗣️ Multilingual Doubt Solver Chatbot</h2>
+      <p>Ask in your language, get instant voice + text answers!</p>
+    </div>
+    <div id="chat-box" class="chat-box">
+      <div class="bubble ai">Hi there! Ask me any doubt you have 👋</div>
+    </div>
+    <div class="chat-input">
+      <input type="text" id="userInput" placeholder="Type your doubt here..." />
+      <button onclick="askDoubt()">Ask</button>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Skillexa. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function askDoubt() {
+      const input = document.getElementById("userInput");
+      const chatBox = document.getElementById("chat-box");
+      const userMsg = input.value.trim();
+
+      if (userMsg === "") return;
+
+      chatBox.innerHTML += `<div class="bubble user">${userMsg}</div>`;
+      input.value = "";
+
+      setTimeout(() => {
+        chatBox.innerHTML += `<div class="bubble ai">🤖 Here's an explanation for: "${userMsg}" (Feature coming soon!)</div>`;
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }, 800);
+    }
+  </script>
+</body>
+</html>

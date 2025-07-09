@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Signup – Skillexa</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    .form-container {
+      max-width: 400px;
+      margin: 50px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    button {
+      background: #22c55e;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #16a34a;
+    }
+    .form-footer {
+      text-align: center;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <h1>Create Your Skillexa Account</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="login.html">Login</a>
+    </nav>
+  </header>
+
+  <div class="form-container">
+    <form onsubmit="return signupUser()">
+      <label for="name">Full Name:</label>
+      <input type="text" id="name" required />
+      
+      <label for="email">Email:</label>
+      <input type="email" id="email" required />
+      
+      <label for="password">Password:</label>
+      <input type="password" id="password" required />
+
+      <button type="submit">Sign Up</button>
+    </form>
+    <div class="form-footer">
+      <p>Already have an account? <a href="login.html">Login</a></p>
+    </div>
+  </div>
+
+  <script>
+    function signupUser() {
+      const name = document.getElementById('name').value;
+      alert(`Hi ${name}! Account created. Redirecting to dashboard...`);
+      window.location.href = 'dashboard.html';
+      return false;
+    }
+  </script>
+</body>
+</html>

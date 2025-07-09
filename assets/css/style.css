@@ -174,3 +174,100 @@ footer {
 #ai-judge a {
   color: #333; /* dark gray for readability */
 }
+#doubt-solver {
+  padding: 60px 20px;
+  background: #eef2ff;
+  text-align: center;
+}
+
+.doubt-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.doubt-chat {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.chat-bubble {
+  padding: 10px 15px;
+  border-radius: 15px;
+  margin: 10px 0;
+  max-width: 80%;
+  font-size: 15px;
+  text-align: left;
+}
+
+.user {
+  background: #e0e7ff;
+  align-self: flex-start;
+}
+
+.ai {
+  background: #d1fae5;
+  align-self: flex-end;
+}
+
+.doubt-details {
+  max-width: 400px;
+  text-align: left;
+}
+
+.doubt-details ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.doubt-details li {
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #333;
+}
+#skill-dashboard {
+  padding: 60px 20px;
+  background: #f5faff;
+  text-align: center;
+}
+
+.skills-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.skill-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  width: 240px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  transition: transform 0.2s;
+}
+
+.skill-card:hover {
+  transform: scale(1.03);
+}
+
+.skill-card.premium {
+  border: 2px solid #4f46e5;
+}
+
+.skill-card h3 {
+  color: #4f46e5;
+  margin-bottom: 10px;
+}
+
+.skill-card p {
+  margin: 5px 0;
+  font-size: 14px;
+}

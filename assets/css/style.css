@@ -93,3 +93,38 @@ footer {
   color: #4f46e5;
   text-decoration: none;
 }
+#ai-tutor {
+  padding: 50px 20px;
+  background: #ffffff;
+  text-align: center;
+}
+
+.tutor-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.tutor-avatar img {
+  max-width: 250px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.tutor-details {
+  max-width: 400px;
+  text-align: left;
+}
+
+.tutor-details ul {
+  list-style: none;
+  padding: 0;
+}
+
+.tutor-details ul li {
+  margin: 10px 0;
+  font-size: 16px;
+}

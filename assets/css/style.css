@@ -128,3 +128,40 @@ footer {
   margin: 10px 0;
   font-size: 16px;
 }
+#ai-judge {
+  padding: 50px 20px;
+  background: #f2f7ff;
+  text-align: center;
+}
+
+.judge-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.judge-avatar img {
+  max-width: 250px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.judge-details {
+  max-width: 400px;
+  text-align: left;
+}
+
+.judge-details p {
+  margin-bottom: 20px;
+}
+
+.judge-features {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 16px;
+  margin-bottom: 20px;
+}

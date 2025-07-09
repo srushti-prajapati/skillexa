@@ -165,3 +165,12 @@ footer {
   font-size: 16px;
   margin-bottom: 20px;
 }
+#ai-tutor h2,
+#ai-tutor li,
+#ai-tutor a,
+#ai-judge h2,
+#ai-judge p,
+#ai-judge .judge-features div,
+#ai-judge a {
+  color: #333; /* dark gray for readability */
+}

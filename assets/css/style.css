@@ -347,3 +347,9 @@ footer {
     flex-direction: column;
   }
 }
+.locked {
+  background-color: #ccc;
+  cursor: not-allowed;
+  border: 1px dashed #999;
+  color: #444;
+}

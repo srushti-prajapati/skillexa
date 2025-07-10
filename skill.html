@@ -5,25 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Skill Detail – Skillexa</title>
   <link rel="stylesheet" href="assets/css/style.css" />
+  <script defer src="assets/js/skill.js"></script>
 </head>
 <body>
   <header class="hero">
-    <h1>Skill: Communication Skills</h1>
-    <p>Learn with AI Tutor, Practice, and Earn Certificate</p>
-    <a href="dashboard.html" class="cta">Back to Dashboard</a>
+    <h1>Skill Detail</h1>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="tutor.html">AI Tutor</a>
+      <a href="judge.html">AI Judge</a>
+      <a href="certificate.html">Certificate</a>
+      <a href="chatbot.html">Doubt Solver</a>
+      <a href="#" onclick="logout()" style="color: #f87171;">Logout</a>
+    </nav>
   </header>
 
-  <section>
-    <h2>AI Tutor Access</h2>
-    <p>✅ You have access to our human-like AI Tutor for this skill.</p>
-    <a class="cta" href="#">Start AI Tutor</a>
-  </section>
+  <main class="skill-detail">
+    <h2 id="skillName">Skill Title</h2>
+    <p id="skillDesc">Skill description will appear here...</p>
 
-  <section>
-    <h2>Certificate & AI Judge</h2>
-    <p>❌ Certificate and AI Judge are only available with paid plans.</p>
-    <a class="cta" href="pricing.html">Upgrade for ₹99</a>
-  </section>
+    <div class="action-buttons">
+      <button onclick="goToTutor()">Learn with AI Tutor</button>
+      <button id="judgeBtn" class="locked">AI Judge (Premium)</button>
+      <button id="certBtn" class="locked">Get Certificate (Premium)</button>
+    </div>
+  </main>
 
   <footer>
     <p>© 2025 Skillexa. All rights reserved.</p>

@@ -11,42 +11,59 @@
       flex-wrap: wrap;
       justify-content: center;
       align-items: center;
-      padding: 40px 20px;
-      gap: 40px;
+      padding: 50px 20px;
+      gap: 50px;
     }
+
     .judge-avatar {
       width: 300px;
       height: 300px;
-      background: url('https://media.giphy.com/media/xT0GqFhcoBdKYPLi3C/giphy.gif') no-repeat center/cover;
+      background: url('https://media.giphy.com/media/iIqmM5tTjmpOB9mpbn/giphy.gif') no-repeat center/cover;
       border-radius: 20px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
+
     .judge-info {
       max-width: 500px;
       text-align: left;
     }
+
     .judge-info h2 {
-      color: #4f46e5;
-      margin-bottom: 10px;
+      color: #7c3aed;
+      margin-bottom: 12px;
+      font-size: 2rem;
     }
-    .judge-columns {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      margin-top: 20px;
+
+    .judge-info p {
+      margin-bottom: 20px;
+      color: #333;
+      font-size: 1rem;
     }
-    .column {
-      background: #f3f4f6;
-      padding: 15px;
-      border-radius: 10px;
-      flex: 1 1 150px;
-      text-align: center;
+
+    .judge-features {
+      list-style: none;
+      padding-left: 0;
     }
+
+    .judge-features li {
+      margin-bottom: 12px;
+      font-size: 1rem;
+      position: relative;
+      padding-left: 25px;
+    }
+
+    .judge-features li::before {
+      content: "⚖️";
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
     .cta-btn {
       display: inline-block;
       margin-top: 20px;
-      padding: 12px 20px;
-      background: #22c55e;
+      padding: 12px 24px;
+      background: #6366f1;
       color: white;
       border-radius: 8px;
       text-decoration: none;
@@ -56,7 +73,7 @@
 </head>
 <body>
   <header class="hero">
-    <h1>AI Judge for Skill Testing</h1>
+    <h1>AI Judge for Real-Time Evaluation</h1>
     <nav>
       <a href="index.html">Home</a>
       <a href="dashboard.html">Dashboard</a>
@@ -69,13 +86,14 @@
   <section class="judge-section">
     <div class="judge-avatar"></div>
     <div class="judge-info">
-      <h2>Your Personal AI Interviewer</h2>
-      <p>The AI Judge simulates real interview scenarios, evaluates answers, and provides instant feedback based on voice and expressions.</p>
-      <div class="judge-columns">
-        <div class="column">🎤 Voice Interaction</div>
-        <div class="column">📋 Real-time Evaluation</div>
-        <div class="column">🏆 Instant Feedback</div>
-      </div>
+      <h2>AI Judge Feedback System</h2>
+      <p>Get evaluated in real-time through interactive skill tests. The AI Judge listens, observes, and scores your performance intelligently.</p>
+      <ul class="judge-features">
+        <li>Voice & video-based evaluation</li>
+        <li>Real-time scoring with instant feedback</li>
+        <li>Emotion and tone detection</li>
+        <li>Used in Communication & Soft Skill Tests</li>
+      </ul>
       <a href="dashboard.html" class="cta-btn">Back to Skills</a>
     </div>
   </section>

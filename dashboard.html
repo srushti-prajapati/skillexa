@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Skill Dashboard – Skillexa</title>
   <link rel="stylesheet" href="assets/css/style.css" />
@@ -9,69 +10,23 @@
 </head>
 <body>
   <header class="hero">
-    <h1>Welcome, <span id="userName">User</span> 👋</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="tutor.html">AI Tutor</a>
-      <a href="judge.html">AI Judge</a>
-      <a href="certificate.html">Certificates</a>
-      <a href="chatbot.html">Doubt Solver</a>
-      <a href="#" onclick="logout()" style="color: #f87171;">Logout</a>
-    </nav>
+    <h1>Welcome to Skillexa Dashboard</h1>
+    <p>Upgrade your skills with AI-powered learning and real-time judging.</p>
   </header>
 
-  <section class="dashboard">
-    <div class="category">
-      <h2>🧠 Soft Skills</h2>
-      <div class="skills-grid">
-        <div class="skill-card">
-          <h3>Communication Skills</h3>
-          <p>Learn to express clearly & confidently.</p>
-          <button onclick="location.href='tutor.html'">Start Learning</button>
-        </div>
-        <div class="skill-card">
-          <h3>Public Speaking</h3>
-          <p>Master stage confidence & clarity.</p>
-          <button class="locked">Premium Only</button>
-        </div>
-      </div>
+  <section class="card-section">
+    <div class="card">
+      <h2>AI Tutor</h2>
+      <p>Learn any skill with a human-like avatar in your language and emotions.</p>
     </div>
-
-    <div class="category">
-      <h2>💻 Technical Skills</h2>
-      <div class="skills-grid">
-        <div class="skill-card">
-          <h3>Programming (Python)</h3>
-          <p>Intro to programming with Python.</p>
-          <button onclick="location.href='tutor.html'">Start Learning</button>
-        </div>
-        <div class="skill-card">
-          <h3>Web Development</h3>
-          <p>Build websites using HTML/CSS/JS.</p>
-          <button class="locked">Premium Only</button>
-        </div>
-      </div>
+    <div class="card">
+      <h2>AI Judge</h2>
+      <p>Practice skills and get scored instantly by an intelligent virtual judge.</p>
     </div>
-
-    <div class="category">
-      <h2>📊 Business & Marketing</h2>
-      <div class="skills-grid">
-        <div class="skill-card">
-          <h3>Digital Marketing</h3>
-          <p>Master SEO & online ads.</p>
-          <button class="locked">Premium Only</button>
-        </div>
-        <div class="skill-card">
-          <h3>Entrepreneurship</h3>
-          <p>Start & scale your own business.</p>
-          <button class="locked">Premium Only</button>
-        </div>
-      </div>
+    <div class="card">
+      <h2>Certificate</h2>
+      <p>Get auto-generated certificates after passing skill assessments.</p>
     </div>
   </section>
-
-  <footer>
-    <p>© 2025 Skillexa. All rights reserved.</p>
-  </footer>
 </body>
 </html>

@@ -1,32 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-<meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Skill Dashboard – Skillexa</title>
-  <link rel="stylesheet" href="assets/css/style.css" />
-  <script defer src="assets/js/dashboard.js"></script>
-</head>
-<body>
-  <header class="hero">
-    <h1>Welcome to Skillexa Dashboard</h1>
-    <p>Upgrade your skills with AI-powered learning and real-time judging.</p>
-  </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Dashboard – Skillexa</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body class="bg-gray-100 text-gray-800">
+    <div class="flex min-h-screen">
+      <!-- Sidebar -->
+      <aside class="w-64 bg-gradient-to-br from-indigo-600 to-purple-600 text-white p-6 hidden md:block">
+        <h2 class="text-3xl font-bold mb-10">Skillexa</h2>
+        <nav class="space-y-4">
+          <a href="dashboard.html" class="block hover:underline">🏠 Dashboard</a>
+          <a href="tutor.html" class="block hover:underline">🤖 AI Tutor</a>
+          <a href="judge.html" class="block hover:underline">🧠 AI Judge</a>
+          <a href="certificate.html" class="block hover:underline">📜 Certificate</a>
+          <a href="chatbot.html" class="block hover:underline">💬 Chatbot</a>
+          <a href="#" onclick="logout()" class="block text-red-200 hover:text-red-400">🚪 Logout</a>
+        </nav>
+      </aside>
 
-  <section class="card-section">
-    <div class="card">
-      <h2>AI Tutor</h2>
-      <p>Learn any skill with a human-like avatar in your language and emotions.</p>
+      <!-- Main Content -->
+      <main class="flex-1 p-6">
+        <div class="flex justify-between items-center mb-8">
+          <h1 class="text-2xl font-semibold">Welcome, <span id="userName" class="text-purple-600">User</span> 👋</h1>
+          <button onclick="logout()" class="text-sm bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600">
+            Logout
+          </button>
+        </div>
+
+        <section>
+          <h2 class="text-xl font-bold mb-4">Your Skills</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6" id="skillsContainer">
+            <!-- Skills injected by JS -->
+          </div>
+        </section>
+      </main>
     </div>
-    <div class="card">
-      <h2>AI Judge</h2>
-      <p>Practice skills and get scored instantly by an intelligent virtual judge.</p>
-    </div>
-    <div class="card">
-      <h2>Certificate</h2>
-      <p>Get auto-generated certificates after passing skill assessments.</p>
-    </div>
-  </section>
-</body>
+
+    <script src="assets/js/dashboard.js"></script>
+  </body>
 </html>

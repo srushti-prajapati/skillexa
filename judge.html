@@ -1,105 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AI Judge – Skillexa</title>
-  <link rel="stylesheet" href="assets/css/style.css" />
-  <style>
-    .judge-section {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
-      padding: 50px 20px;
-      gap: 50px;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>AI Judge – Skillexa</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body class="bg-gradient-to-br from-orange-50 to-yellow-100 min-h-screen text-gray-800">
+    <header class="p-4 bg-white shadow-md flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-orange-600">Skillexa AI Judge</h1>
+      <a href="dashboard.html" class="text-sm text-orange-600 hover:underline">← Back to Dashboard</a>
+    </header>
 
-    .judge-avatar {
-      width: 300px;
-      height: 300px;
-      background: url('https://media.giphy.com/media/iIqmM5tTjmpOB9mpbn/giphy.gif') no-repeat center/cover;
-      border-radius: 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
+    <main class="p-6 max-w-4xl mx-auto">
+      <section class="mb-6">
+        <h2 class="text-xl font-semibold mb-2">Choose a Judging Skill</h2>
+        <select id="judgeSkill" class="w-full p-2 border rounded">
+          <option value="">-- Select Skill --</option>
+          <option value="publicSpeaking">Public Speaking</option>
+          <option value="mockInterview">Mock Interview</option>
+          <option value="presentation">Presentation Skills</option>
+          <option value="customerHandling">Customer Handling</option>
+        </select>
+      </section>
 
-    .judge-info {
-      max-width: 500px;
-      text-align: left;
-    }
+      <section class="bg-white p-6 rounded-lg shadow-md">
+        <h3 class="text-lg font-bold text-gray-700 mb-3">AI Judge Interaction</h3>
+        <p class="text-sm mb-4 text-gray-600">Click "Start Judging" to receive a test prompt.</p>
+        <div id="judgePrompt" class="bg-gray-100 p-4 rounded h-32 overflow-y-auto text-sm mb-4">
+          Your prompt will appear here.
+        </div>
+        <button onclick="generatePrompt()" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600">
+          Start Judging
+        </button>
+      </section>
+    </main>
 
-    .judge-info h2 {
-      color: #7c3aed;
-      margin-bottom: 12px;
-      font-size: 2rem;
-    }
+    <script>
+      function generatePrompt() {
+        const skill = document.getElementById('judgeSkill').value;
+        const promptBox = document.getElementById('judgePrompt');
 
-    .judge-info p {
-      margin-bottom: 20px;
-      color: #333;
-      font-size: 1rem;
-    }
+        if (!skill) {
+          alert("Please select a skill to judge.");
+          return;
+        }
 
-    .judge-features {
-      list-style: none;
-      padding-left: 0;
-    }
+        let prompt = '';
+        switch (skill) {
+          case 'publicSpeaking':
+            prompt = "Speak on the topic: 'The Impact of AI in Education' for 2 minutes.";
+            break;
+          case 'mockInterview':
+            prompt = "Answer: 'Tell me about a time you solved a tough problem under pressure.'";
+            break;
+          case 'presentation':
+            prompt = "Present a product idea that could help reduce plastic waste.";
+            break;
+          case 'customerHandling':
+            prompt = "Handle a scenario where a customer is unhappy with your service.";
+            break;
+          default:
+            prompt = "Invalid skill selected.";
+        }
 
-    .judge-features li {
-      margin-bottom: 12px;
-      font-size: 1rem;
-      position: relative;
-      padding-left: 25px;
-    }
-
-    .judge-features li::before {
-      content: "⚖️";
-      position: absolute;
-      left: 0;
-      top: 0;
-    }
-
-    .cta-btn {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 12px 24px;
-      background: #6366f1;
-      color: white;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 600;
-    }
-  </style>
-</head>
-<body>
-  <header class="hero">
-    <h1>AI Judge for Real-Time Evaluation</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="dashboard.html">Dashboard</a>
-      <a href="tutor.html">AI Tutor</a>
-      <a href="certificate.html">Certificates</a>
-      <a href="chatbot.html">Doubt Solver</a>
-    </nav>
-  </header>
-
-  <section class="judge-section">
-    <div class="judge-avatar"></div>
-    <div class="judge-info">
-      <h2>AI Judge Feedback System</h2>
-      <p>Get evaluated in real-time through interactive skill tests. The AI Judge listens, observes, and scores your performance intelligently.</p>
-      <ul class="judge-features">
-        <li>Voice & video-based evaluation</li>
-        <li>Real-time scoring with instant feedback</li>
-        <li>Emotion and tone detection</li>
-        <li>Used in Communication & Soft Skill Tests</li>
-      </ul>
-      <a href="dashboard.html" class="cta-btn">Back to Skills</a>
-    </div>
-  </section>
-
-  <footer>
-    <p>© 2025 Skillexa. All rights reserved.</p>
-  </footer>
-</body>
+        promptBox.innerHTML = `<p class="text-orange-700 font-medium">${prompt}</p>`;
+      }
+    </script>
+  </body>
 </html>

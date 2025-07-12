@@ -1,32 +1,60 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Skillexa - Learn Smarter</title>
-  <link rel="stylesheet" href="assets/css/style.css" />
-</head>
-<body class="home">
-  <header>
-    <div class="logo">Skillexa</div>
-    <nav>
-      <a href="login.html">Login</a>
-      <a href="signup.html">Signup</a>
-      <a href="dashboard.html">Dashboard</a>
-    </nav>
-  </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Skillexa – Empower Your Future</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body class="bg-gradient-to-br from-primary-100 to-white text-gray-800">
+    <!-- Navbar -->
+    <header class="flex justify-between items-center p-4 shadow-md bg-white">
+      <h1 class="text-2xl font-bold text-primary-700">Skillexa</h1>
+      <nav class="space-x-6 text-sm font-medium">
+        <a href="index.html" class="text-primary-600 hover:underline">Home</a>
+        <a href="dashboard.html" class="hover:underline">Dashboard</a>
+        <a href="login.html" class="hover:underline">Login</a>
+        <a href="signup.html" class="hover:underline">Signup</a>
+      </nav>
+    </header>
 
-  <section class="hero">
-    <div class="hero-content">
-      <h1>Welcome to <span class="brand">Skillexa</span></h1>
-      <p>Your AI-powered Skill Learning & Testing Platform</p>
-      <a href="signup.html" class="cta-button">Get Started</a>
-    </div>
-  </section>
+    <!-- Hero Section -->
+    <section class="text-center py-20 px-6 bg-primary-50">
+      <h2 class="text-4xl font-bold mb-4 text-primary-800">Welcome to Skillexa</h2>
+      <p class="text-lg max-w-2xl mx-auto text-gray-600 mb-6">
+        Master job-ready skills with AI-powered Tutors and real-time AI Judges. Get certified and grow faster.
+      </p>
+      <div class="flex justify-center gap-4">
+        <a href="signup.html" class="bg-primary-600 text-white px-6 py-2 rounded-full hover:bg-primary-700 transition">Get Started</a>
+        <a href="dashboard.html" class="border border-primary-600 text-primary-600 px-6 py-2 rounded-full hover:bg-primary-100 transition">Explore Skills</a>
+      </div>
+    </section>
 
-  <footer>
-    <p>&copy; 2025 Skillexa. All rights reserved.</p>
-  </footer>
-</body>
+    <!-- Skills Section -->
+    <section class="py-16 px-6">
+      <h3 class="text-2xl font-semibold text-center mb-10 text-secondary-700">Top Features</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div class="bg-white shadow-lg p-6 rounded-2xl">
+          <h4 class="text-lg font-bold mb-2 text-primary-700">AI Tutor</h4>
+          <p class="text-gray-600 mb-2">Learn from realistic avatars with multilingual support.</p>
+          <a href="tutor.html" class="text-primary-600 text-sm hover:underline">Try Tutor</a>
+        </div>
+        <div class="bg-white shadow-lg p-6 rounded-2xl">
+          <h4 class="text-lg font-bold mb-2 text-primary-700">AI Judge</h4>
+          <p class="text-gray-600 mb-2">Test skills with AI-driven evaluation & performance feedback.</p>
+          <a href="judge.html" class="text-primary-600 text-sm hover:underline">Try Judge</a>
+        </div>
+        <div class="bg-white shadow-lg p-6 rounded-2xl">
+          <h4 class="text-lg font-bold mb-2 text-primary-700">Certificates</h4>
+          <p class="text-gray-600 mb-2">Earn verifiable certificates and boost your career path.</p>
+          <a href="certificate.html" class="text-primary-600 text-sm hover:underline">View Certificate</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 py-6 text-center text-sm text-gray-500">
+      © 2025 Skillexa. Empower Your Future.
+    </footer>
+  </body>
 </html>

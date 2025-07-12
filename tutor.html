@@ -1,105 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AI Tutor – Skillexa</title>
-  <link rel="stylesheet" href="assets/css/style.css" />
-  <style>
-    .tutor-section {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
-      padding: 50px 20px;
-      gap: 50px;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>AI Tutor – Skillexa</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body class="bg-gradient-to-br from-blue-50 to-violet-100 min-h-screen text-gray-800">
+    <header class="p-4 bg-white shadow-md flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-indigo-600">Skillexa AI Tutor</h1>
+      <a href="dashboard.html" class="text-sm text-indigo-600 hover:underline">← Back to Dashboard</a>
+    </header>
 
-    .tutor-avatar {
-      width: 300px;
-      height: 300px;
-      background: url('https://media.giphy.com/media/W3QKEujo8vztC/giphy.gif') no-repeat center/cover;
-      border-radius: 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
+    <main class="p-6 max-w-5xl mx-auto">
+      <section class="mb-6">
+        <label for="skillSelect" class="block text-lg font-medium mb-2">Choose a Skill:</label>
+        <select id="skillSelect" class="w-full p-2 rounded border border-gray-300 shadow-sm">
+          <option value="">-- Select Skill --</option>
+          <option value="communication">Communication Skills</option>
+          <option value="webdev">Web Development</option>
+          <option value="python">Python Programming</option>
+          <option value="marketing">Marketing Basics</option>
+        </select>
+      </section>
 
-    .tutor-info {
-      max-width: 500px;
-      text-align: left;
-    }
+      <section class="bg-white p-6 rounded-lg shadow-md">
+        <div class="flex items-center gap-4 mb-4">
+          <img src="assets/images/avatar.png" alt="AI Tutor Avatar" class="w-16 h-16 rounded-full border" />
+          <div>
+            <p class="font-semibold text-indigo-600">AI Tutor</p>
+            <p class="text-sm text-gray-500">Emotionally Intelligent Assistant</p>
+          </div>
+        </div>
+        <div id="tutorResponse" class="bg-gray-100 p-4 rounded h-40 overflow-y-auto mb-4 text-sm text-gray-700">
+          Please select a skill and ask your question to get help!
+        </div>
+        <div class="flex gap-2">
+          <input type="text" id="doubtInput" placeholder="Type your doubt..." class="flex-grow p-2 rounded border border-gray-300" />
+          <button onclick="askDoubt()" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">Ask</button>
+        </div>
+      </section>
+    </main>
 
-    .tutor-info h2 {
-      color: #4f46e5;
-      margin-bottom: 12px;
-      font-size: 2rem;
-    }
-
-    .tutor-info p {
-      margin-bottom: 20px;
-      color: #333;
-      font-size: 1rem;
-    }
-
-    .features-list {
-      list-style: none;
-      padding-left: 0;
-    }
-
-    .features-list li {
-      margin-bottom: 12px;
-      font-size: 1rem;
-      position: relative;
-      padding-left: 25px;
-    }
-
-    .features-list li::before {
-      content: "✅";
-      position: absolute;
-      left: 0;
-      top: 0;
-    }
-
-    .cta-btn {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 12px 24px;
-      background: #22c55e;
-      color: white;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 600;
-    }
-  </style>
-</head>
-<body>
-  <header class="hero">
-    <h1>Meet Your AI Tutor</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="dashboard.html">Dashboard</a>
-      <a href="judge.html">AI Judge</a>
-      <a href="certificate.html">Certificates</a>
-      <a href="chatbot.html">Doubt Solver</a>
-    </nav>
-  </header>
-
-  <section class="tutor-section">
-    <div class="tutor-avatar"></div>
-    <div class="tutor-info">
-      <h2>Realistic AI Tutor Experience</h2>
-      <p>Your personal human-like AI Tutor helps you learn interactively with real emotions, voice support, and instant feedback.</p>
-      <ul class="features-list">
-        <li>Realistic facial expressions</li>
-        <li>Voice-enabled explanations</li>
-        <li>Live doubt solving</li>
-        <li>Multi-language support</li>
-      </ul>
-      <a href="dashboard.html" class="cta-btn">Back to Skills</a>
-    </div>
-  </section>
-
-  <footer>
-    <p>© 2025 Skillexa. All rights reserved.</p>
-  </footer>
-</body>
+    <script>
+      function askDoubt() {
+        const input = document.getElementById('doubtInput').value.trim();
+        const responseBox = document.getElementById('tutorResponse');
+        if (!input) {
+          alert("Please type a doubt.");
+          return;
+        }
+        responseBox.innerHTML += `<p class="mb-2"><strong>You:</strong> ${input}</p>`;
+        // Mock AI Response
+        setTimeout(() => {
+          responseBox.innerHTML += `<p class="mb-2 text-indigo-700"><strong>AI Tutor:</strong> Here's a helpful explanation for: "${input}"</p>`;
+          responseBox.scrollTop = responseBox.scrollHeight;
+        }, 1000);
+        document.getElementById('doubtInput').value = '';
+      }
+    </script>
+  </body>
 </html>

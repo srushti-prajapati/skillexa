@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Verify Certificate – Skillexa</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #e0f2fe, #f0fdfa);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .verify-container {
+      background: #fff;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+    }
+
+    .verify-container h1 {
+      font-size: 1.8rem;
+      color: #1e3a8a;
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      font-size: 1rem;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      outline: none;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #2563eb;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .valid {
+      color: green;
+    }
+
+    .invalid {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="verify-container">
+    <h1>Verify Certificate</h1>
+    <input type="text" id="certIdInput" placeholder="Enter Certificate ID (e.g. SKLX-20250713-001)" />
+    <button onclick="verifyCertificate()">Verify</button>
+    <div id="result" class="result"></div>
+  </div>
+
+  <script>
+    // Static mock certificate IDs (can update later)
+    const validCertIds = [
+      "SKLX-20250713-001",
+      "SKLX-20250713-002",
+      "SKLX-20250713-003"
+    ];
+
+    function verifyCertificate() {
+      const inputId = document.getElementById("certIdInput").value.trim();
+      const resultBox = document.getElementById("result");
+
+      if (!inputId) {
+        resultBox.innerHTML = "Please enter a certificate ID.";
+        resultBox.className = "result invalid";
+        return;
+      }
+
+      if (validCertIds.includes(inputId)) {
+        resultBox.innerHTML = "✅ Valid Certificate!";
+        resultBox.className = "result valid";
+      } else {
+        resultBox.innerHTML = "❌ Invalid Certificate ID.";
+        resultBox.className = "result invalid";
+      }
+    }
+  </script>
+
+</body>
+</html>

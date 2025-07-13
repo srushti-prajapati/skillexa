@@ -1,118 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Signup – Skillexa</title>
-    <meta name="description" content="Skillexa – Upgrade Your Skills with AI Tutor and AI Judge." />
-    <meta name="keywords" content="AI Tutor, Skill Learning, AI Judge, Skillexa" />
-    <link rel="stylesheet" href="assets/css/style.css" />
-    <style>
-      body {
-        margin: 0;
-        font-family: 'Poppins', sans-serif;
-        background: linear-gradient(to right, #e0f2ff, #ffffff);
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up - Skillexa</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center">
+  <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
+    <h1 class="text-2xl font-bold text-center mb-6">Create Your Skillexa Account</h1>
+    <form id="signupForm" class="space-y-4">
+      <input type="text" id="name" placeholder="Your Name" class="w-full p-3 border border-gray-300 rounded-lg" required />
+      <input type="email" id="email" placeholder="Email Address" class="w-full p-3 border border-gray-300 rounded-lg" required />
+      <input type="password" id="password" placeholder="Password" class="w-full p-3 border border-gray-300 rounded-lg" required />
+      <button
+        type="submit"
+        id="signupBtn"
+        class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+      >
+        Sign Up
+      </button>
+    </form>
+    <p class="mt-4 text-center text-sm">
+      Already have an account?
+      <a href="login.html" class="text-blue-600 underline">Login</a>
+    </p>
+  </div>
 
-      .signup-container {
-        background-color: white;
-        padding: 40px;
-        border-radius: 16px;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        width: 100%;
-        max-width: 420px;
-      }
-
-      .signup-container img {
-        display: block;
-        margin: 0 auto 20px;
-        width: 80px;
-      }
-
-      .signup-container h2 {
-        text-align: center;
-        font-size: 1.8rem;
-        margin-bottom: 20px;
-        color: #1e3a8a;
-      }
-
-      .signup-container label {
-        display: block;
-        margin-bottom: 6px;
-        color: #374151;
-        font-weight: 500;
-      }
-
-      .signup-container input {
-        width: 100%;
-        padding: 10px 14px;
-        margin-bottom: 16px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        font-size: 1rem;
-        transition: border 0.2s ease;
-      }
-
-      .signup-container input:focus {
-        border-color: #3b82f6;
-        outline: none;
-      }
-
-      .signup-container button {
-        width: 100%;
-        padding: 12px;
-        background-color: #2563eb;
-        color: white;
-        font-size: 1rem;
-        font-weight: 600;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: background 0.3s ease;
-      }
-
-      .signup-container button:hover {
-        background-color: #1d4ed8;
-      }
-
-      .signup-container p {
-        text-align: center;
-        margin-top: 16px;
-        font-size: 0.9rem;
-        color: #4b5563;
-      }
-
-      .signup-container a {
-        color: #2563eb;
-        text-decoration: underline;
-      }
-    </style>
-  </head>
-
-  <body>
-    <div class="signup-container">
-      <img src="assets/logo.jpg" alt="Skillexa Logo" />
-      <h2>Create Your Account</h2>
-      <form id="signupForm">
-        <label for="name">Full Name</label>
-        <input type="text" id="name" required />
-
-        <label for="email">Email</label>
-        <input type="email" id="email" required />
-
-        <label for="password">Password</label>
-        <input type="password" id="password" required />
-
-        <button type="submit">Sign Up</button>
-        <p>Already have an account? <a href="login.html">Login</a></p>
-      </form>
-    </div>
-
-    <script src="assets/js/signup.js"></script>
-  </body>
+  <!-- JavaScript -->
+  <script src="assets/js/signup.js"></script>
+</body>
 </html>

@@ -1,17 +1,27 @@
-document.getElementById('signupForm').addEventListener('submit', function(e) {
-  e.preventDefault();
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("signupForm");
 
-  const name = document.getElementById('fullName').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const password = document.getElementById('password').value;
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
 
-  if (!name || !email || !password) {
-    alert('All fields are required!');
-    return;
-  }
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
 
-  const user = { name, email, password };
-  localStorage.setItem('skillexa-user', JSON.stringify(user));
-  alert('Signup successful! Please login.');
-  window.location.href = 'login.html';
+    if (!name || !email || !password) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    const userData = {
+      name,
+      email,
+      password,
+      plan: "free", // default
+    };
+
+    localStorage.setItem("skillexa-user", JSON.stringify(userData));
+    alert("Signup successful!");
+    window.location.href = "dashboard.html";
+  });
 });

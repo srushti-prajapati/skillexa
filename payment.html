@@ -1,106 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
-<meta charset="UTF-8" />
-  <title>Upgrade Plan – Skillexa</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
- <meta name="description" content="Skillexa – Upgrade Your Skills with AI Tutor and AI Judge.">
-<meta name="keywords" content="AI Tutor, Skill Learning, AI Judge, Skillexa">
- <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pricing – Skillexa</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #e0f2fe, #f0fdfa);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
+      background: linear-gradient(to bottom right, #e0f2fe, #f9fafb);
       margin: 0;
-    }
-
-    .container {
-      background: white;
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      max-width: 500px;
-      width: 100%;
+      padding: 40px 20px;
     }
 
     h1 {
-      color: #1e3a8a;
+      text-align: center;
+      color: #1d4ed8;
+      margin-bottom: 40px;
+    }
+
+    .plans {
+      display: grid;
+      gap: 2rem;
+      max-width: 1100px;
+      margin: auto;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .plan {
+      background: white;
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+      text-align: center;
+      border: 2px solid transparent;
+      transition: 0.3s;
+    }
+
+    .plan:hover {
+      transform: translateY(-5px);
+      border-color: #2563eb;
+    }
+
+    .plan h2 {
+      color: #2563eb;
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+
+    .plan .price {
+      font-size: 1.2rem;
       margin-bottom: 20px;
-    }
-
-    p {
-      margin-bottom: 30px;
-      font-size: 1rem;
-    }
-
-    .upgrade-btn {
-      padding: 12px 24px;
-      font-size: 1rem;
-      background-color: #3b82f6;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    .upgrade-btn:hover {
-      background-color: #2563eb;
-    }
-
-    .status {
-      margin-top: 20px;
-      font-size: 1.1rem;
       font-weight: bold;
     }
 
-    .premium {
-      color: green;
+    .plan ul {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 20px;
+      text-align: left;
     }
 
-    .free {
-      color: red;
+    .plan ul li {
+      margin: 8px 0;
+    }
+
+    .btn-select {
+      background: #2563eb;
+      color: white;
+      padding: 10px 24px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn-select:hover {
+      background: #1d4ed8;
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <h1>Upgrade to Premium</h1>
-    <p>Free users have limited access. Upgrade now to unlock all skills, AI Judge, and Certification!</p>
+  <h1>Choose Your Plan</h1>
 
-    <button class="upgrade-btn" onclick="upgradePlan()">Upgrade to Premium</button>
+  <div class="plans">
+    <!-- Freemium -->
+    <div class="plan">
+      <h2>🎓 Freemium</h2>
+      <p class="price">Free (₹99/certificate)</p>
+      <ul>
+        <li>Access 5 Skills</li>
+        <li>No AI Judge</li>
+        <li>No Certification (₹99 extra)</li>
+      </ul>
+      <button class="btn-select" onclick="alert('You are already on the Freemium plan.')">Select</button>
+    </div>
 
-    <div class="status" id="planStatus">Checking your plan...</div>
+    <!-- Premium -->
+    <div class="plan">
+      <h2>💼 Premium</h2>
+      <p class="price">₹399/month</p>
+      <ul>
+        <li>Access All Skills</li>
+        <li>AI Tutor + AI Judge</li>
+        <li>10 Certificates included</li>
+      </ul>
+      <button class="btn-select" onclick="selectPlan('premium')">Select</button>
+    </div>
+
+    <!-- All-in-One -->
+    <div class="plan">
+      <h2>🏆 All-in-One</h2>
+      <p class="price">₹599/year</p>
+      <ul>
+        <li>Unlimited Skills</li>
+        <li>Unlimited Certification</li>
+        <li>AI Tutor + AI Judge access</li>
+      </ul>
+      <button class="btn-select" onclick="selectPlan('all')">Select</button>
+    </div>
   </div>
 
   <script>
-    function upgradePlan() {
-      localStorage.setItem("userPlan", "premium");
-      updateStatus();
+    function selectPlan(plan) {
+      localStorage.setItem("selectedPlan", plan);
+      window.location.href = "checkout.html";
     }
-
-    function updateStatus() {
-      const plan = localStorage.getItem("userPlan") || "free";
-      const statusBox = document.getElementById("planStatus");
-
-      if (plan === "premium") {
-        statusBox.textContent = "✅ You are on the Premium Plan!";
-        statusBox.className = "status premium";
-      } else {
-        statusBox.textContent = "❌ You are currently on the Free Plan.";
-        statusBox.className = "status free";
-      }
-    }
-
-    // Show status when page loads
-    updateStatus();
   </script>
-
 </body>
 </html>

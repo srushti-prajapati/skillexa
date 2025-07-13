@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment – Skillexa</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #e0f2fe, #ffffff);
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .payment-container {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      max-width: 450px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .payment-container h2 {
+      color: #1d4ed8;
+      font-size: 26px;
+      margin-bottom: 20px;
+    }
+
+    .payment-container input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    .pay-btn {
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s ease;
+      width: 100%;
+    }
+
+    .pay-btn:hover {
+      background-color: #1e40af;
+    }
+
+    .success-msg {
+      color: green;
+      margin-top: 20px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="payment-container">
+    <h2>Complete Payment</h2>
+    <p>Mock payment gateway. No real payment involved.</p>
+
+    <input type="text" placeholder="Cardholder Name" required />
+    <input type="text" placeholder="Card Number" maxlength="16" required />
+    <input type="text" placeholder="Expiry (MM/YY)" maxlength="5" required />
+    <input type="text" placeholder="CVV" maxlength="3" required />
+
+    <button class="pay-btn" onclick="processPayment()">Pay Now</button>
+
+    <div class="success-msg" id="successMsg" style="display:none;">
+      ✅ Payment Successful! Redirecting...
+    </div>
+  </div>
+
+  <script>
+    function processPayment() {
+      // Simulate payment success
+      document.getElementById("successMsg").style.display = "block";
+
+      // Store premium status
+      localStorage.setItem("isPremium", "true");
+
+      // Optional: you can also store plan name if needed
+      // localStorage.setItem("plan", "premium");
+
+      setTimeout(() => {
+        window.location.href = "dashboard.html";
+      }, 2000);
+    }
+  </script>
+
+</body>
+</html>

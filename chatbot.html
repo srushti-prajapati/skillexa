@@ -1,79 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
-<meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="description" content="Skillexa – Upgrade Your Skills with AI Tutor and AI Judge.">
-<meta name="keywords" content="AI Tutor, Skill Learning, AI Judge, Skillexa">
-<title>Doubt Solver – Skillexa</title>
-    <link rel="stylesheet" href="assets/css/style.css" />
-  </head>
-  <body class="bg-gradient-to-br from-purple-50 to-purple-100 min-h-screen text-gray-800">
-    <header class="p-4 bg-white shadow-md flex justify-between items-center">
-     <!-- Inside body, at the top -->
-<img src="assets/logo.jpg" alt="Skillexa Logo" class="logo" />
- <h1 class="text-2xl font-bold text-purple-600">Skillexa Doubt Solver</h1>
-      <a href="dashboard.html" class="text-sm text-purple-600 hover:underline">← Back to Dashboard</a>
-    </header>
+<head>
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Skillexa Chatbot – Solve your doubts with AI support">
+  <meta name="keywords" content="AI Chatbot, Skillexa, Skill Doubt Solver">
+  <title>AI Chatbot – Skillexa</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: linear-gradient(to right, #e0f2fe, #ffffff);
+      color: #1f2937;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
 
-    <main class="max-w-3xl mx-auto p-6">
-      <section class="bg-white rounded-lg shadow-lg p-6">
-        <h2 class="text-lg font-semibold text-gray-800 mb-4">Ask your doubts below</h2>
+    header {
+      background-color: white;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
 
-        <div id="chatContainer" class="h-64 overflow-y-auto bg-gray-100 rounded p-4 space-y-3 mb-4 text-sm">
-          <!-- Messages will appear here -->
-        </div>
+    header h1 {
+      font-size: 24px;
+      color: #2563eb;
+    }
 
-        <div class="flex items-center gap-2">
-          <input
-            type="text"
-            id="userInput"
-            placeholder="Type your question..."
-            class="w-full border rounded p-2 focus:outline-none"
-          />
-          <button
-            onclick="sendMessage()"
-            class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
-          >
-            Send
-          </button>
-        </div>
-      </section>
-    </main>
+    nav a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: #2563eb;
+      font-weight: 500;
+    }
 
-    <script>
-      function sendMessage() {
-        const input = document.getElementById("userInput");
-        const container = document.getElementById("chatContainer");
-        const question = input.value.trim();
+    nav a:hover {
+      text-decoration: underline;
+    }
 
-        if (!question) return;
+    .chat-container {
+      max-width: 700px;
+      margin: 50px auto;
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      flex-grow: 1;
+    }
 
-        const userMsg = document.createElement("div");
-        userMsg.className = "text-right text-purple-700";
-        userMsg.textContent = `You: ${question}`;
-        container.appendChild(userMsg);
+    .chat-container h2 {
+      text-align: center;
+      color: #1d4ed8;
+      margin-bottom: 20px;
+    }
 
-        const botMsg = document.createElement("div");
-        botMsg.className = "text-left text-gray-700";
-        botMsg.textContent = "AI: " + getResponse(question);
-        container.appendChild(botMsg);
+    .chat-box {
+      height: 300px;
+      overflow-y: auto;
+      background: #f9fafb;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
 
-        container.scrollTop = container.scrollHeight;
-        input.value = "";
-      }
+    .chat-input {
+      display: flex;
+      gap: 10px;
+    }
 
-      function getResponse(q) {
-        // Simple simulated AI logic
-        if (q.toLowerCase().includes("certificate"))
-          return "You can download your certificate from the Certificate section after passing the test.";
-        if (q.toLowerCase().includes("plan") || q.toLowerCase().includes("premium"))
-          return "We have Freemium, Premium, and All-in-One plans. Check Pricing page.";
-        if (q.toLowerCase().includes("contact"))
-          return "You can contact us from the Contact page or email support@skillexa.com.";
-        return "I'm still learning. Please try rephrasing your question.";
-      }
-    </script>
-  </body>
-</html>
+    input[type="text"] {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #cbd5e0;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    button.send-btn {
+      background-color: #2563eb;
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button.send-btn:hover {
+      background-color: #1e40af;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      color: #6b7280;
+      background-color: #f9fafb;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <img src="assets/logo.jpg" alt="Logo" class="logo" width="80">
+    <h1>AI Chatbot</h1>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="#" onclick="logout()" style="color: #ef4444;">Logout</a>
+    </nav>
+  </header>
+
+  <!-- Chat Section -->
+  <div class="chat-container">
+    <h2>Ask Your Doubts</h2>
+    <div class="chat-box" id="chatBox">
+      <div><strong>AI:</strong> Hello! How can I help you today?</div>
+    </div>
+    <div class="chat-input">
+      <input type="text" id="userInput" placeholder="Type your question..." />
+      <button class="send-btn" onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    © 2025 Skillexa. Empower Your Future.
+  </footer>
+
+  <script>
+    function logout() {
+      localStorage.clear();
+      window.location.href = "login.html";
+    }
+
+    function sendMessage() {
+      const input = document.getElementById('userInput');
+      const message = input.value.trim();
+      const chatBox = document.getElementById('chatBox');
+
+      if (message) {
+        const userMessage = `<div><strong>You:</strong> ${message}</div>`;
+        const aiReply = `<div><strong>AI:</strong> 🤖 Sorry, this is a demo. Full chatbot

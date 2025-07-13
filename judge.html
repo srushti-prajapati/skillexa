@@ -7,38 +7,55 @@
     <link rel="stylesheet" href="assets/css/style.css" />
   </head>
   <body class="bg-gradient-to-br from-orange-50 to-yellow-100 min-h-screen text-gray-800">
-    <header class="p-4 bg-white shadow-md flex justify-between items-center">
-      <!-- Inside body, at the top -->
-<img src="assets/logo.jpg" alt="Skillexa Logo" class="logo" />
-<h1 class="text-2xl font-bold text-orange-600">Skillexa AI Judge</h1>
-      <a href="dashboard.html" class="text-sm text-orange-600 hover:underline">← Back to Dashboard</a>
-    </header>
 
-    <main class="p-6 max-w-4xl mx-auto">
-      <section class="mb-6">
-        <h2 class="text-xl font-semibold mb-2">Choose a Judging Skill</h2>
-        <select id="judgeSkill" class="w-full p-2 border rounded">
-          <option value="">-- Select Skill --</option>
-          <option value="publicSpeaking">Public Speaking</option>
-          <option value="mockInterview">Mock Interview</option>
-          <option value="presentation">Presentation Skills</option>
-          <option value="customerHandling">Customer Handling</option>
-        </select>
-      </section>
+    <!-- ❌ Upgrade Notice (for Free Plan users) -->
+    <div id="upgradeNotice" style="display: none; color: red; text-align: center; margin-top: 50px;">
+      ❌ This feature is only for Premium users. <a href="payment.html" class="text-orange-600 underline">Upgrade now</a>.
+    </div>
 
-      <section class="bg-white p-6 rounded-lg shadow-md">
-        <h3 class="text-lg font-bold text-gray-700 mb-3">AI Judge Interaction</h3>
-        <p class="text-sm mb-4 text-gray-600">Click "Start Judging" to receive a test prompt.</p>
-        <div id="judgePrompt" class="bg-gray-100 p-4 rounded h-32 overflow-y-auto text-sm mb-4">
-          Your prompt will appear here.
-        </div>
-        <button onclick="generatePrompt()" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600">
-          Start Judging
-        </button>
-      </section>
-    </main>
+    <!-- ✅ Premium Content Only -->
+    <div id="judgeSection" style="display: none;">
+      <header class="p-4 bg-white shadow-md flex justify-between items-center">
+        <img src="assets/logo.jpg" alt="Skillexa Logo" class="logo" />
+        <h1 class="text-2xl font-bold text-orange-600">Skillexa AI Judge</h1>
+        <a href="dashboard.html" class="text-sm text-orange-600 hover:underline">← Back to Dashboard</a>
+      </header>
 
+      <main class="p-6 max-w-4xl mx-auto">
+        <section class="mb-6">
+          <h2 class="text-xl font-semibold mb-2">Choose a Judging Skill</h2>
+          <select id="judgeSkill" class="w-full p-2 border rounded">
+            <option value="">-- Select Skill --</option>
+            <option value="publicSpeaking">Public Speaking</option>
+            <option value="mockInterview">Mock Interview</option>
+            <option value="presentation">Presentation Skills</option>
+            <option value="customerHandling">Customer Handling</option>
+          </select>
+        </section>
+
+        <section class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="text-lg font-bold text-gray-700 mb-3">AI Judge Interaction</h3>
+          <p class="text-sm mb-4 text-gray-600">Click "Start Judging" to receive a test prompt.</p>
+          <div id="judgePrompt" class="bg-gray-100 p-4 rounded h-32 overflow-y-auto text-sm mb-4">
+            Your prompt will appear here.
+          </div>
+          <button onclick="generatePrompt()" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600">
+            Start Judging
+          </button>
+        </section>
+      </main>
+    </div>
+
+    <!-- 🔐 Premium Check Script -->
     <script>
+      const plan = localStorage.getItem("userPlan") || "free";
+
+      if (plan === "premium") {
+        document.getElementById("judgeSection").style.display = "block";
+      } else {
+        document.getElementById("upgradeNotice").style.display = "block";
+      }
+
       function generatePrompt() {
         const skill = document.getElementById('judgeSkill').value;
         const promptBox = document.getElementById('judgePrompt');

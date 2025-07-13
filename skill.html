@@ -2,17 +2,15 @@
 <html lang="en">
 <head>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-<meta charset="UTF-8" />
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Skill Detail – Skillexa</title>
   <link rel="stylesheet" href="assets/css/style.css" />
-  <script defer src="assets/js/skill.js"></script>
 </head>
 <body>
   <header class="hero">
-    <!-- Inside body, at the top -->
-<img src="assets/logo.jpg" alt="Skillexa Logo" class="logo" />
-<h1>Skill Detail</h1>
+    <img src="assets/logo.jpg" alt="Skillexa Logo" class="logo" />
+    <h1>Skill Detail</h1>
     <nav>
       <a href="dashboard.html">Dashboard</a>
       <a href="tutor.html">AI Tutor</a>
@@ -23,7 +21,13 @@
     </nav>
   </header>
 
-  <main class="skill-detail">
+  <!-- Shown for blocked skills -->
+  <div id="upgradeNotice" style="display:none; color:red; text-align:center; margin:20px;">
+    ❌ This skill is available for Premium users only. <a href="payment.html">Upgrade now</a> to access.
+  </div>
+
+  <!-- Skill Content Section -->
+  <main class="skill-detail" id="skillSection" style="display:none;">
     <h2 id="skillName">Skill Title</h2>
     <p id="skillDesc">Skill description will appear here...</p>
 
@@ -38,5 +42,38 @@
   <footer>
     <p>© 2025 Skillexa. All rights reserved.</p>
   </footer>
+
+  <script>
+    // Get current plan and skill from localStorage
+    const plan = localStorage.getItem("userPlan") || "free";
+    const currentSkill = localStorage.getItem("selectedSkill") || "Skill";
+
+    // Define free access skills
+    const freeSkills = [
+      "communication skills",
+      "public speaking skills",
+      "attention to detail skills",
+      "understanding skills",
+      "active listening skills"
+    ];
+
+    // Display content based on access
+    if (plan === "premium" || freeSkills.includes(currentSkill.toLowerCase())) {
+      document.getElementById("skillSection").style.display = "block";
+      document.getElementById("skillName").textContent = currentSkill;
+      document.getElementById("skillDesc").textContent = `You are currently viewing details about ${currentSkill}. Practice and improve this skill through AI-powered tools.`;
+    } else {
+      document.getElementById("upgradeNotice").style.display = "block";
+    }
+
+    function goToTutor() {
+      window.location.href = "tutor.html";
+    }
+
+    function logout() {
+      localStorage.clear();
+      window.location.href = "login.html";
+    }
+  </script>
 </body>
 </html>

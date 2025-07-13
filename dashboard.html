@@ -1,82 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-   <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
- <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-   <meta name="description" content="Skillexa – Upgrade Your Skills with AI Tutor and AI Judge.">
-<meta name="keywords" content="AI Tutor, Skill Learning, AI Judge, Skillexa">
- <title>Dashboard – Skillexa</title>
-    <link rel="stylesheet" href="assets/css/style.css" />
-  </head>
-  <body class="bg-gray-100 text-gray-800">
-    <!-- Free users see this -->
-<div id="upgradeMessage" style="display:none;">
-  <p style="color:red;">You are on the Free Plan. <a href="payment.html">Upgrade to Premium</a> to unlock all features!</p>
-</div>
+<head>
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Skillexa Dashboard – Access AI Tutors, Skills, and Certificates.">
+  <meta name="keywords" content="AI Tutor, Skill Dashboard, Skillexa, Learning">
+  <title>Dashboard – Skillexa</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-white min-h-screen text-gray-800">
 
-<!-- Premium-only content -->
-<div id="premiumFeatures" style="display:none;">
-  <h2>✨ Premium Features Unlocked</h2>
-  <ul>
-    <li>Access to AI Judge</li>
-    <li>Certificate Generator</li>
-    <li>All advanced skills</li>
-  </ul>
-</div>
+  <!-- Header -->
+  <header class="flex justify-between items-center p-4 shadow-md bg-white">
+    <img src="assets/logo.jpg" alt="Skillexa Logo" class="logo" />
+    <h1 class="text-2xl font-bold text-blue-700">Skillexa Dashboard</h1>
+    <nav class="space-x-4">
+      <a href="index.html" class="text-blue-600 hover:underline">Home</a>
+      <a href="#" onclick="logout()" class="text-red-500 hover:underline">Logout</a>
+    </nav>
+  </header>
 
-    <div class="flex min-h-screen">
-<!-- Inside body, at the top -->
-<img src="assets/logo.jpg" alt="Skillexa Logo" class="logo" />
-      <!-- Sidebar -->
-      <aside class="w-64 bg-gradient-to-br from-indigo-600 to-purple-600 text-white p-6 hidden md:block">
-        <h2 class="text-3xl font-bold mb-10">Skillexa</h2>
-        <nav class="space-y-4">
-          <a href="dashboard.html" class="block hover:underline">🏠 Dashboard</a>
-          <a href="tutor.html" class="block hover:underline">🤖 AI Tutor</a>
-          <a href="judge.html" class="block hover:underline">🧠 AI Judge</a>
-          <a href="certificate.html" class="block hover:underline">📜 Certificate</a>
-          <a href="chatbot.html" class="block hover:underline">💬 Chatbot</a>
-          <a href="#" onclick="logout()" class="block text-red-200 hover:text-red-400">🚪 Logout</a>
-<a href="verify.html" class="nav-link">Verify Certificate</a>
-       <a href="payment.html" class="nav-link">Upgrade Plan</a>
- </nav>
-      </aside>
+  <!-- Main Dashboard -->
+  <main class="p-8 max-w-7xl mx-auto">
+    <h2 class="text-3xl font-semibold mb-6 text-blue-800" id="welcomeUser">Welcome!</h2>
+    <p class="text-gray-600 mb-10">Access your AI Tutor, AI Judge, certificates, and more below.</p>
 
-      <!-- Main Content -->
-      <main class="flex-1 p-6">
-        <div class="flex justify-between items-center mb-8">
-          <h1 class="text-2xl font-semibold">Welcome, <span id="userName" class="text-purple-600">User</span> 👋</h1>
-          <button onclick="logout()" class="text-sm bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600">
-            Logout
-          </button>
-        </div>
+    <!-- Grid of Cards -->
+    <div class="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+      <div class="bg-white shadow-md rounded-xl p-6">
+        <h3 class="text-xl font-bold mb-2 text-blue-700">AI Tutor</h3>
+        <p class="text-sm text-gray-600 mb-4">Learn interactively with emotion-based avatars.</p>
+        <a href="tutor.html" class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Start Learning</a>
+      </div>
 
-        <section>
-          <h2 class="text-xl font-bold mb-4">Your Skills</h2>
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6" id="skillsContainer">
-            <!-- Skills injected by JS -->
-          </div>
-        </section>
-      </main>
+      <div class="bg-white shadow-md rounded-xl p-6">
+        <h3 class="text-xl font-bold mb-2 text-blue-700">AI Judge</h3>
+        <p class="text-sm text-gray-600 mb-4">Simulate real-world speaking tests and get feedback.</p>
+        <a href="judge.html" class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Try Judge</a>
+      </div>
+
+      <div class="bg-white shadow-md rounded-xl p-6">
+        <h3 class="text-xl font-bold mb-2 text-blue-700">Get Certificate</h3>
+        <p class="text-sm text-gray-600 mb-4">Download your personalized certificate.</p>
+        <a href="certificate.html" class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">View Certificate</a>
+      </div>
+
+      <div class="bg-white shadow-md rounded-xl p-6">
+        <h3 class="text-xl font-bold mb-2 text-blue-700">Verify Certificate</h3>
+        <p class="text-sm text-gray-600 mb-4">Check if a certificate is authentic.</p>
+        <a href="verify.html" class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Verify Now</a>
+      </div>
+
+      <div class="bg-white shadow-md rounded-xl p-6">
+        <h3 class="text-xl font-bold mb-2 text-blue-700">Doubt Solver</h3>
+        <p class="text-sm text-gray-600 mb-4">Clear your doubts instantly with AI chatbot.</p>
+        <a href="chatbot.html" class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Ask Doubt</a>
+      </div>
+
+      <div class="bg-white shadow-md rounded-xl p-6">
+        <h3 class="text-xl font-bold mb-2 text-blue-700">Upgrade Plan</h3>
+        <p class="text-sm text-gray-600 mb-4">Get full access to premium features.</p>
+        <a href="payment.html" class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Upgrade</a>
+      </div>
     </div>
+  </main>
 
-    <script src="assets/js/dashboard.js"></script>
-    <script>
-  const userPlan = localStorage.getItem("userPlan") || "free";
+  <!-- Footer -->
+  <footer class="text-center text-sm text-gray-500 mt-16 py-6 border-t">
+    © 2025 Skillexa. Empower Your Future.
+  </footer>
 
-  const premiumOnlySection = document.getElementById("premiumFeatures");
-  const upgradeMessage = document.getElementById("upgradeMessage");
+  <!-- JavaScript -->
+  <script>
+    const userName = localStorage.getItem("userName") || "Skillexa User";
+    document.getElementById("welcomeUser").innerText = `Welcome, ${userName}!`;
 
-  if (userPlan === "premium") {
-    // Show premium content
-    premiumOnlySection.style.display = "block";
-    upgradeMessage.style.display = "none";
-  } else {
-    // Hide premium content and show upgrade prompt
-    premiumOnlySection.style.display = "none";
-    upgradeMessage.style.display = "block";
-  }
-</script>
-  </body>
+    function logout() {
+      localStorage.clear();
+      window.location.href = "login.html";
+    }
+  </script>
+</body>
 </html>

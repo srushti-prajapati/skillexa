@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Skillexa AI Tutor – Learn with an AI-powered emotional tutor">
-  <meta name="keywords" content="AI Tutor, Skillexa, Skill Learning, Avatar Tutor">
   <title>AI Tutor – Skillexa</title>
   <link rel="stylesheet" href="assets/css/style.css" />
   <style>
@@ -42,7 +39,7 @@
     }
 
     .tutor-section {
-      max-width: 1000px;
+      max-width: 900px;
       margin: 60px auto;
       padding: 0 20px;
       text-align: center;
@@ -96,6 +93,11 @@
       background-color: #1e40af;
     }
 
+    .locked {
+      background-color: gray !important;
+      cursor: not-allowed !important;
+    }
+
     footer {
       text-align: center;
       padding: 20px;
@@ -116,8 +118,7 @@
 
   <!-- Header -->
   <header>
-    <img src="assets/logo.jpg" alt="Logo" class="logo" width="80">
-    <h1>AI Tutor</h1>
+    <h1>Skillexa – AI Tutor</h1>
     <nav>
       <a href="dashboard.html">Dashboard</a>
       <a href="#" onclick="logout()" style="color: #ef4444;">Logout</a>
@@ -132,7 +133,7 @@
     <div class="avatar-box">
       <img src="assets/avatar.png" alt="AI Tutor Avatar" class="avatar-image" />
       <p class="text-gray-700 mb-4">Hello! I'm your AI Tutor. Let's begin your learning session.</p>
-      <button class="start-btn">Start Lesson</button>
+      <button id="startLesson" class="start-btn">Start Lesson</button>
     </div>
   </section>
 
@@ -142,18 +143,36 @@
   </footer>
 
   <script>
-  function logout() {
-    localStorage.clear();
-    window.location.href = "login.html";
-  }
+    const user = JSON.parse(localStorage.getItem("skillexa-user"));
+    if (!user) {
+      alert("Please log in to continue.");
+      window.location.href = "login.html";
+    }
 
-  document.querySelector('.start-btn').addEventListener('click', () => {
-    alert("🎉 Your AI Tutor session will begin soon! (Functionality coming in Premium version)");
-  });
+    const isPremium = user.plan === "premium" || user.plan === "all";
+    const startBtn = document.getElementById("startLesson");
+
+    if (!isPremium) {
+      startBtn.classList.add("locked");
+      startBtn.innerText = "Start Lesson (Premium)";
+      startBtn.onclick = () => alert("🔒 This feature is available for Premium users.");
+    } else {
+      startBtn.onclick = () => {
+        alert("🎉 Your AI Tutor session will begin soon! (Feature under development)");
+      };
+    }
+
     function logout() {
-      localStorage.clear();
+      localStorage.removeItem("skillexa-user");
       window.location.href = "login.html";
     }
   </script>
+  <script>
+  function logout() {
+    localStorage.removeItem("skillexa-user");
+    window.location.href = "login.html";
+  }
+</script>
+
 </body>
 </html>

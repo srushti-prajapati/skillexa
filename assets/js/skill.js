@@ -8,40 +8,34 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  // Set default skill content (if needed)
-  document.getElementById("skillName").textContent = "Communication Skills";
-  document.getElementById("skillDesc").textContent = "Learn how to communicate clearly and confidently.";
+  // Get skill name from URL or default to example
+  const urlParams = new URLSearchParams(window.location.search);
+  const skillName = urlParams.get("skill") || "Communication Skills";
 
-  // Button access control for AI Judge & Certificate
+  // Set skill name and description dynamically
+  document.getElementById("skillName").textContent = skillName;
+  document.getElementById("skillDesc").textContent =
+    "Learn and master the skill: " + skillName;
+
+  // Handle AI Judge and Certificate buttons
   if (isPremium) {
-    document.getElementById("judgeBtn")?.classList.remove("locked");
-    document.getElementById("judgeBtn")?.addEventListener("click", () => {
+    document.getElementById("judgeBtn").classList.remove("locked");
+    document.getElementById("judgeBtn").onclick = () => {
       location.href = "judge.html";
-    });
+    };
 
-    document.getElementById("certBtn")?.classList.remove("locked");
-    document.getElementById("certBtn")?.addEventListener("click", () => {
+    document.getElementById("certBtn").classList.remove("locked");
+    document.getElementById("certBtn").onclick = () => {
+      localStorage.setItem("completedSkill", skillName); // Save skill for certificate
       location.href = "certificate.html";
-    });
+    };
   } else {
-    document.getElementById("judgeBtn")?.textContent = "AI Judge (Premium)";
-    document.getElementById("certBtn")?.textContent = "Certificate (Premium)";
+    document.getElementById("judgeBtn").textContent = "AI Judge (Premium)";
+    document.getElementById("certBtn").textContent = "Certificate (Premium)";
   }
-
-  // Lock premium skill cards if not premium
-  document.querySelectorAll(".premium-skill").forEach(skill => {
-    if (!isPremium) {
-      skill.classList.add("locked");
-      skill.innerHTML += `<div class="lock-overlay">🔒 Premium</div>`;
-      skill.addEventListener("click", () => {
-        alert("This skill is only available to Premium users. Please upgrade.");
-        window.location.href = "payment.html";
-      });
-    }
-  });
 });
 
-// Go to Tutor
+// Go to tutor page
 function goToTutor() {
   location.href = "tutor.html";
 }

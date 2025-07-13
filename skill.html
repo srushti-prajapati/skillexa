@@ -2,160 +2,237 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Skills – Skillexa</title>
-  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
   <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #e0f2fe, #ffffff);
-      color: #1f2937;
       margin: 0;
-      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f3f4f6;
     }
+
     header {
-      background-color: white;
-      padding: 20px 40px;
+      background: white;
+      padding: 1rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
+
+    h1 {
+      font-size: 1.6rem;
+      color: #2563eb;
+    }
+
     nav a {
       margin-left: 20px;
       text-decoration: none;
-      color: #2563eb;
       font-weight: 500;
-    }
-    nav a:hover {
-      text-decoration: underline;
-    }
-    .section {
-      max-width: 1100px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
-    h2 {
-      text-align: center;
-      font-size: 32px;
-      margin-bottom: 30px;
-      color: #1e40af;
-    }
-    .category {
-      margin-top: 50px;
-    }
-    .category h3 {
-      font-size: 24px;
-      margin-bottom: 20px;
       color: #2563eb;
     }
+
+    .container {
+      max-width: 1100px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    h2 {
+      color: #1e3a8a;
+      margin-bottom: 1rem;
+    }
+
+    .skill-category {
+      margin-bottom: 2.5rem;
+    }
+
     .skills-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.2rem;
     }
-    .skill-card {
+
+    .skill-box {
       background: white;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
       text-align: center;
+      transition: transform 0.2s;
+      position: relative;
     }
-    .skill-card h4 {
-      margin-bottom: 10px;
-      font-size: 18px;
-      color: #1d4ed8;
+
+    .skill-box:hover {
+      transform: translateY(-4px);
     }
-    .btn {
-      padding: 10px 20px;
-      border-radius: 9999px;
-      font-weight: 500;
-      font-size: 14px;
-      cursor: pointer;
-      border: none;
-      transition: background-color 0.3s;
-    }
-    .btn-free {
-      background-color: #2563eb;
+
+    .skill-box.locked::after {
+      content: "🔒 Premium";
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #ef4444;
       color: white;
+      padding: 2px 6px;
+      font-size: 12px;
+      border-radius: 4px;
     }
-    .btn-free:hover {
-      background-color: #1d4ed8;
+
+    .skill-box h3 {
+      font-size: 1rem;
+      color: #2563eb;
     }
-    .btn-locked {
-      background-color: #cbd5e1;
-      color: #64748b;
-      cursor: not-allowed;
+
+    .skill-box button {
+      margin-top: 0.5rem;
+      padding: 6px 12px;
+      font-size: 0.85rem;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
     }
+
+    .skill-box button:hover {
+      background: #1e40af;
+    }
+
     footer {
       text-align: center;
-      padding: 20px;
-      font-size: 14px;
+      padding: 1rem;
+      background: #f9fafb;
       color: #6b7280;
-      background-color: #f9fafb;
-      margin-top: 80px;
+      margin-top: 3rem;
+      font-size: 0.85rem;
     }
   </style>
 </head>
 <body>
-  <header>
-    <div><img src="assets/logo.jpg" alt="Logo" width="70"></div>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="dashboard.html">Dashboard</a>
-      <a href="#" onclick="logout()">Logout</a>
-    </nav>
-  </header>
 
-  <section class="section">
-    <h2>Explore Skills</h2>
+<header>
+  <h1>Skillexa</h1>
+  <nav>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="#" onclick="logout()">Logout</a>
+  </nav>
+</header>
 
-    <!-- Free Skills -->
-    <div class="category">
-      <h3>🆓 Free Skills</h3>
-      <div class="skills-grid">
-        <div class="skill-card"><h4>Communication Skills</h4><button class="btn btn-free">Start</button></div>
-        <div class="skill-card"><h4>Public Speaking</h4><button class="btn btn-free">Start</button></div>
-        <div class="skill-card"><h4>Interview Preparation</h4><button class="btn btn-free">Start</button></div>
-        <div class="skill-card"><h4>Programming</h4><button class="btn btn-free">Start</button></div>
-        <div class="skill-card"><h4>Web Development</h4><button class="btn btn-free">Start</button></div>
-        <div class="skill-card"><h4>App Development</h4><button class="btn btn-free">Start</button></div>
-        <div class="skill-card"><h4>Spoken English</h4><button class="btn btn-free">Start</button></div>
-        <div class="skill-card"><h4>Grammar & Vocabulary</h4><button class="btn btn-free">Start</button></div>
-        <div class="skill-card"><h4>Professional Email Writing</h4><button class="btn btn-free">Start</button></div>
-      </div>
-    </div>
+<div class="container">
+  <div class="skill-category">
+    <h2>🧠 Soft Skills</h2>
+    <div class="skills-grid" id="softSkills"></div>
+  </div>
 
-    <!-- Premium Skills -->
-    <div class="category">
-      <h3>🔒 Premium Skills</h3>
-      <div class="skills-grid">
-        <!-- Add remaining locked skills -->
-        <div class="skill-card"><h4>Emotional Intelligence</h4><button class="btn btn-locked">🔒 Premium Only</button></div>
-        <div class="skill-card"><h4>Leadership Skills</h4><button class="btn btn-locked">🔒 Premium Only</button></div>
-        <div class="skill-card"><h4>Time Management</h4><button class="btn btn-locked">🔒 Premium Only</button></div>
-        <div class="skill-card"><h4>Critical Thinking</h4><button class="btn btn-locked">🔒 Premium Only</button></div>
-        <div class="skill-card"><h4>Problem Solving</h4><button class="btn btn-locked">🔒 Premium Only</button></div>
-        <div class="skill-card"><h4>Cybersecurity</h4><button class="btn btn-locked">🔒 Premium Only</button></div>
-        <div class="skill-card"><h4>Digital Marketing</h4><button class="btn btn-locked">🔒 Premium Only</button></div>
-        <div class="skill-card"><h4>SEO</h4><button class="btn btn-locked">🔒 Premium Only</button></div>
-        <div class="skill-card"><h4>Graphic Design</h4><button class="btn btn-locked">🔒 Premium Only</button></div>
-        <div class="skill-card"><h4>UI/UX Design</h4><button class="btn btn-locked">🔒 Premium Only</button></div>
-        <div class="skill-card"><h4>Accent Training</h4><button class="btn btn-locked">🔒 Premium Only</button></div>
-      </div>
-    </div>
-  </section>
+  <div class="skill-category">
+    <h2>💻 Technical Skills</h2>
+    <div class="skills-grid" id="technicalSkills"></div>
+  </div>
 
-  <footer>
-    © 2025 Skillexa. Empower Your Future.
-  </footer>
+  <div class="skill-category">
+    <h2>📊 Business & Marketing</h2>
+    <div class="skills-grid" id="businessSkills"></div>
+  </div>
 
-  <script>
-    function logout() {
-      localStorage.clear();
-      window.location.href = "login.html";
-    }
-  </script>
+  <div class="skill-category">
+    <h2>🎨 Creative & Design</h2>
+    <div class="skills-grid" id="creativeSkills"></div>
+  </div>
+
+  <div class="skill-category">
+    <h2>🌐 Language & Cultural</h2>
+    <div class="skills-grid" id="languageSkills"></div>
+  </div>
+</div>
+
+<footer>
+  © 2025 Skillexa. Empower Your Future.
+</footer>
+
+<script>
+  const categories = {
+    softSkills: [
+      "Communication Skills", "Public Speaking", "Interview Preparation", "Emotional Intelligence",
+      "Leadership Skills", "Time Management", "Critical Thinking", "Problem Solving",
+      "Conflict Resolution", "Decision Making"
+    ],
+    technicalSkills: [
+      "Programming", "Web Development", "App Development", "Data Structures and Algorithms",
+      "Machine Learning & AI", "Data Science & Analytics", "Cybersecurity",
+      "Cloud Computing", "Database Management"
+    ],
+    businessSkills: [
+      "Digital Marketing", "SEO", "Social Media Marketing", "Content Creation", "Business Communication",
+      "Entrepreneurship", "Sales Skills", "Project Management", "Branding", "Business Analytics"
+    ],
+    creativeSkills: [
+      "Graphic Design", "UI/UX Design", "Video Editing", "Motion Graphics", "Photography",
+      "Creative Writing", "Storytelling", "Logo Design", "Presentation Design"
+    ],
+    languageSkills: [
+      "Spoken English", "Grammar & Vocabulary", "Multilingual Communication", "Email Writing",
+      "Translation Practice", "Accent Training", "Cultural Sensitivity"
+    ]
+  };
+
+  const user = JSON.parse(localStorage.getItem("skillexa-user"));
+  const isPremium = user?.plan === "premium" || user?.plan === "all";
+
+  if (!user) {
+    alert("Please login first.");
+    window.location.href = "login.html";
+  }
+
+  function createSkillBox(skill, unlocked = false) {
+    const box = document.createElement("div");
+    box.className = "skill-box" + (unlocked ? "" : " locked");
+    const h3 = document.createElement("h3");
+    h3.textContent = skill;
+
+    const btn = document.createElement("button");
+    btn.textContent = unlocked ? "Start Learning" : "Upgrade Now";
+    btn.onclick = () => {
+      if (unlocked) {
+        localStorage.setItem("completedSkill", skill);
+        window.location.href = "skill-detail.html";
+      } else {
+        window.location.href = "payment.html";
+      }
+    };
+
+    box.appendChild(h3);
+    box.appendChild(btn);
+    return box;
+  }
+
+  // Only "Communication Skills" free, rest locked for free users
+  categories.softSkills.forEach((s, i) =>
+    document.getElementById("softSkills").appendChild(
+      createSkillBox(s, isPremium || i === 0)
+    )
+  );
+
+  Object.entries(categories).forEach(([key, list]) => {
+    if (key === "softSkills") return;
+    list.forEach(skill => {
+      document.getElementById(key).appendChild(createSkillBox(skill, isPremium));
+    });
+  });
+
+  function logout() {
+    localStorage.removeItem("skillexa-user");
+    window.location.href = "login.html";
+  }
+</script>
+<script>
+  function logout() {
+    localStorage.removeItem("skillexa-user");
+    window.location.href = "login.html";
+  }
+</script>
+
 </body>
 </html>

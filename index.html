@@ -1,201 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Skillexa – Upgrade Your Skills with AI Tutor and AI Judge." />
-    <meta name="keywords" content="AI Tutor, Skill Learning, AI Judge, Skillexa" />
     <title>Skillexa – Empower Your Future</title>
+    <link rel="icon" href="assets/favicon.ico" />
     <link rel="stylesheet" href="assets/css/style.css" />
-    <style>
-      /* Blue theme colors */
-      :root {
-        --primary-50: #eff6ff;
-        --primary-100: #dbeafe;
-        --primary-600: #2563eb;
-        --primary-700: #1d4ed8;
-        --primary-800: #1e40af;
-        --secondary-700: #1e3a8a;
-      }
-
-      body {
-        background: linear-gradient(to bottom right, var(--primary-100), white);
-        color: #1f2937; /* dark slate */
-        font-family: 'Poppins', sans-serif;
-        margin: 0;
-        padding: 0;
-      }
-
-      header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1rem 2rem;
-        background: white;
-        box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
-      }
-
-      .logo {
-        width: 100px;
-        height: auto;
-      }
-
-      h1 {
-        font-size: 1.8rem;
-        font-weight: 700;
-        color: var(--primary-700);
-        margin-left: 1rem;
-      }
-
-      nav a {
-        margin-left: 1.5rem;
-        font-weight: 500;
-        color: var(--primary-600);
-        text-decoration: none;
-        font-size: 0.95rem;
-        transition: color 0.3s;
-      }
-
-      nav a:hover {
-        text-decoration: underline;
-        color: var(--primary-800);
-      }
-
-      /* Hero Section */
-      section.hero {
-        text-align: center;
-        padding: 5rem 1.5rem 6rem;
-        background: var(--primary-50);
-      }
-
-      section.hero h2 {
-        font-size: 3rem;
-        font-weight: 700;
-        color: var(--primary-800);
-        margin-bottom: 1rem;
-      }
-
-      section.hero p {
-        max-width: 600px;
-        margin: 0 auto 2rem;
-        font-size: 1.125rem;
-        color: #475569; /* slate-600 */
-      }
-
-      section.hero .btn-group {
-        display: flex;
-        justify-content: center;
-        gap: 1.5rem;
-        flex-wrap: wrap;
-      }
-
-      section.hero .btn-primary,
-      section.hero .btn-secondary {
-        padding: 0.75rem 2.5rem;
-        font-size: 1.1rem;
-        border-radius: 9999px;
-        font-weight: 600;
-        cursor: pointer;
-        text-decoration: none;
-        transition: background-color 0.3s;
-      }
-
-      section.hero .btn-primary {
-        background-color: var(--primary-600);
-        color: white;
-        border: none;
-      }
-      section.hero .btn-primary:hover {
-        background-color: var(--primary-700);
-      }
-
-      section.hero .btn-secondary {
-        background-color: transparent;
-        border: 2px solid var(--primary-600);
-        color: var(--primary-600);
-      }
-      section.hero .btn-secondary:hover {
-        background-color: var(--primary-50);
-      }
-
-      /* Features Section */
-      section.features {
-        padding: 4rem 1.5rem 6rem;
-        max-width: 1100px;
-        margin: 0 auto;
-      }
-
-      section.features h3 {
-        text-align: center;
-        font-size: 2rem;
-        font-weight: 700;
-        margin-bottom: 3rem;
-        color: var(--secondary-700);
-      }
-
-      .feature-cards {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 2.5rem;
-      }
-
-      @media (min-width: 768px) {
-        .feature-cards {
-          grid-template-columns: repeat(3, 1fr);
-        }
-      }
-
-      .feature-card {
-        background: white;
-        padding: 2rem;
-        border-radius: 1rem;
-        box-shadow: 0 8px 20px rgb(0 0 0 / 0.08);
-        transition: transform 0.3s;
-      }
-
-      .feature-card:hover {
-        transform: translateY(-5px);
-      }
-
-      .feature-card h4 {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin-bottom: 0.75rem;
-        color: var(--primary-700);
-      }
-
-      .feature-card p {
-        color: #64748b; /* slate-500 */
-        margin-bottom: 1rem;
-      }
-
-      .feature-card a {
-        color: var(--primary-600);
-        font-weight: 600;
-        font-size: 0.9rem;
-        text-decoration: none;
-      }
-
-      .feature-card a:hover {
-        text-decoration: underline;
-      }
-
-      /* Footer */
-      footer {
-        text-align: center;
-        padding: 1.5rem;
-        background: #f9fafb;
-        color: #64748b;
-        font-size: 0.9rem;
-      }
-    </style>
   </head>
-
   <body>
-    <header>
-      <div style="display:flex; align-items:center;">
-        <img src="assets/logo.jpg" alt="Skillexa Logo" class="logo" />
+    <!-- Header -->
+    <header class="navbar">
+      <div class="logo-title">
+        <img src="assets/logo.jpg" alt="Skillexa Logo" />
         <h1>Skillexa</h1>
       </div>
       <nav>
@@ -208,39 +24,39 @@
       </nav>
     </header>
 
+    <!-- Hero Section -->
     <section class="hero">
-      <h2>Welcome to Skillexa</h2>
-      <p>
-        Master job-ready skills with AI-powered Tutors and real-time AI Judges. Get certified and grow faster.
-      </p>
+      <h2>Upgrade Your Skills with AI</h2>
+      <p>Learn with AI Tutors, get certified, and test your knowledge with AI Judges.</p>
       <div class="btn-group">
-        <a href="signup.html" class="btn-primary">Get Started</a>
-<a href="skill.html" class="btn-secondary">Explore Skills</a>
-
+        <a href="signup.html" class="btn btn-primary">Get Started</a>
+        <a href="skill.html" class="btn btn-secondary">Explore Skills</a>
       </div>
     </section>
 
+    <!-- Features Section -->
     <section class="features">
-      <h3>Top Features</h3>
-      <div class="feature-cards">
+      <h3>Why Skillexa?</h3>
+      <div class="feature-grid">
         <div class="feature-card">
-          <h4>AI Tutor</h4>
-          <p>Learn from realistic avatars with multilingual support.</p>
-          <a href="tutor.html">Try Tutor</a>
+          <h4>🤖 AI Tutor</h4>
+          <p>Learn with multilingual, emotional avatars that guide you step by step.</p>
+          <a href="tutor.html">Try AI Tutor →</a>
         </div>
         <div class="feature-card">
-          <h4>AI Judge</h4>
-          <p>Test skills with AI-driven evaluation & performance feedback.</p>
-          <a href="judge.html">Try Judge</a>
+          <h4>🧠 AI Judge</h4>
+          <p>Simulate real-world tests and get instant feedback on your skills.</p>
+          <a href="judge.html">Try AI Judge →</a>
         </div>
         <div class="feature-card">
-          <h4>Certificates</h4>
-          <p>Earn verifiable certificates and boost your career path.</p>
-          <a href="certificate.html">View Certificate</a>
+          <h4>📜 Certificate</h4>
+          <p>Earn verified, personalized certificates on skill completion.</p>
+          <a href="certificate.html">View Certificate →</a>
         </div>
       </div>
     </section>
 
+    <!-- Footer -->
     <footer>
       © 2025 Skillexa. Empower Your Future.
     </footer>

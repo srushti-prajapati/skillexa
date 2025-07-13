@@ -4,56 +4,92 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Certificate – Skillexa</title>
-  <link rel="stylesheet" href="assets/css/style.css" />
   <style>
     body {
-      font-family: 'Poppins', sans-serif;
       margin: 0;
-      background: #f0f4ff;
-      color: #1f2937;
-      text-align: center;
-      padding: 40px;
-    }
-
-    header {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f0f4f8;
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
-      background: white;
-      padding: 16px 40px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      height: 100vh;
     }
 
-    .logo {
-      width: 80px;
+    .certificate-container {
+      position: relative;
+      width: 1000px;
+      height: 700px;
+      background-image: url('assets/certificate/certificate.jpg');
+      background-size: cover;
+      background-position: center;
     }
 
-    .main {
-      margin-top: 40px;
+    .cert-name, .cert-skill {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      font-weight: 600;
+      color: #1e3a8a;
     }
 
-    canvas {
-      max-width: 100%;
-      border: 2px solid #ccc;
-      border-radius: 12px;
+    .cert-name {
+      top: 330px;
+      font-size: 32px;
     }
 
-    .btn-download {
-      background-color: #2563eb;
-      color: white;
+    .cert-skill {
+      top: 390px;
+      font-size: 24px;
+    }
+
+    .download-btn {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
       padding: 12px 24px;
       font-size: 16px;
+      background-color: #2563eb;
+      color: white;
       border: none;
       border-radius: 8px;
-      margin-top: 20px;
       cursor: pointer;
     }
 
-    .btn-download:hover {
+    .download-btn:hover {
       background-color: #1d4ed8;
     }
   </style>
 </head>
 <body>
-  <header>
-    <img
+  <div class="certificate-container" id="certificate">
+    <div class="cert-name" id="certName">[Name]</div>
+    <div class="cert-skill" id="certSkill">[Skill]</div>
+    <button class="download-btn" onclick="downloadCertificate()">Download Certificate</button>
+  </div>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem("skillexa-user"));
+    const skill = localStorage.getItem("completedSkill");
+
+    if (!user || !skill) {
+      alert("Please complete a skill to view the certificate.");
+      window.location.href = "dashboard.html";
+    } else {
+      document.getElementById("certName").innerText = `${user.name}`;
+      document.getElementById("certSkill").innerText = `has successfully completed ${skill}`;
+    }
+
+    function downloadCertificate() {
+      html2canvas(document.getElementById("certificate")).then(canvas => {
+        const link = document.createElement("a");
+        link.download = "skillexa_certificate.jpg";
+        link.href = canvas.toDataURL("image/jpeg");
+        link.click();
+      });
+    }
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</body>
+</html>

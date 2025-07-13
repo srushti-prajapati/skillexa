@@ -1,33 +1,23 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("signupForm");
+document.getElementById("signupForm").addEventListener("submit", function (e) {
+  e.preventDefault();
 
-  if (!form) {
-    alert("Signup form not found!");
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+
+  if (!name || !email || !password) {
+    alert("Please fill all the fields.");
     return;
   }
 
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
+  const user = {
+    name,
+    email,
+    password,         // (Optional: you can remove this for security)
+    plan: "freemium"  // default plan
+  };
 
-    const name = document.getElementById("name").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value.trim();
-
-    if (!name || !email || !password) {
-      alert("Please fill in all fields.");
-      return;
-    }
-
-    const userData = {
-      name,
-      email,
-      password,
-      plan: "free", // default plan
-    };
-
-    localStorage.setItem("skillexa-user", JSON.stringify(userData));
-
-    alert("Signup successful!");
-    window.location.href = "dashboard.html";
-  });
+  localStorage.setItem("skillexa-user", JSON.stringify(user));
+  alert("Signup successful! Redirecting to dashboard...");
+  window.location.href = "dashboard.html";
 });

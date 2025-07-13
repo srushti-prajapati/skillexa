@@ -2,100 +2,171 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Payment – Skillexa</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Doubt Solver – Skillexa</title>
   <link rel="stylesheet" href="assets/css/style.css" />
   <style>
     body {
-      background: linear-gradient(to bottom right, #e0f2fe, #ffffff);
       font-family: 'Segoe UI', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      background: #f1f5f9;
+      margin: 0;
+      padding: 0;
+      color: #1f2937;
     }
 
-    .payment-container {
+    header {
       background: white;
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-      max-width: 450px;
-      width: 100%;
-      text-align: center;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
 
-    .payment-container h2 {
-      color: #1d4ed8;
-      font-size: 26px;
-      margin-bottom: 20px;
+    header h1 {
+      font-size: 24px;
+      color: #2563eb;
     }
 
-    .payment-container input {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 16px;
-      border: 1px solid #ccc;
+    nav a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: #2563eb;
+      font-weight: 500;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .chat-container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      padding: 30px;
+    }
+
+    .chat-box {
+      height: 400px;
+      overflow-y: auto;
+      border: 1px solid #e5e7eb;
       border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      background: #f9fafb;
     }
 
-    .pay-btn {
+    .chat-message {
+      margin-bottom: 12px;
+    }
+
+    .chat-message.user {
+      text-align: right;
+      color: #2563eb;
+    }
+
+    .chat-message.bot {
+      text-align: left;
+      color: #1f2937;
+    }
+
+    .chat-input-area {
+      display: flex;
+      gap: 10px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 15px;
+    }
+
+    button.send-btn {
+      padding: 12px 20px;
       background-color: #2563eb;
       color: white;
       border: none;
-      padding: 12px 24px;
       border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
-      transition: background 0.3s ease;
-      width: 100%;
-    }
-
-    .pay-btn:hover {
-      background-color: #1e40af;
-    }
-
-    .success-msg {
-      color: green;
-      margin-top: 20px;
       font-weight: 600;
+      cursor: pointer;
+    }
+
+    button.send-btn:hover {
+      background-color: #1d4ed8;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      color: #6b7280;
+      background-color: #f9fafb;
+      margin-top: 80px;
     }
   </style>
 </head>
 <body>
+  <header>
+    <h1>Skillexa – AI Doubt Solver</h1>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="#" onclick="logout()" style="color: #ef4444;">Logout</a>
+    </nav>
+  </header>
 
-  <div class="payment-container">
-    <h2>Complete Payment</h2>
-    <p>Mock payment gateway. No real payment involved.</p>
+  <div class="chat-container">
+    <div class="chat-box" id="chatBox">
+      <div class="chat-message bot">🤖 Hi! I’m your AI assistant. Ask me any doubt.</div>
+    </div>
 
-    <input type="text" placeholder="Cardholder Name" required />
-    <input type="text" placeholder="Card Number" maxlength="16" required />
-    <input type="text" placeholder="Expiry (MM/YY)" maxlength="5" required />
-    <input type="text" placeholder="CVV" maxlength="3" required />
-
-    <button class="pay-btn" onclick="processPayment()">Pay Now</button>
-
-    <div class="success-msg" id="successMsg" style="display:none;">
-      ✅ Payment Successful! Redirecting...
+    <div class="chat-input-area">
+      <input type="text" id="chatInput" placeholder="Type your question..." />
+      <button class="send-btn" onclick="sendMessage()">Send</button>
     </div>
   </div>
+<div class="max-w-xl mx-auto mt-10 p-6 bg-white rounded-lg shadow">
+  <div id="chatBox" class="h-96 overflow-y-auto border p-4 mb-4 rounded"></div>
+  <form id="chatForm" class="flex gap-2">
+    <input id="userInput" type="text" placeholder="Ask your AI Tutor..." class="flex-1 p-2 border rounded" required />
+    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Send</button>
+  </form>
+</div>
+
+  <footer>
+    © 2025 Skillexa. Empower Your Future.
+  </footer>
 
   <script>
-    function processPayment() {
-      // Simulate payment success
-      document.getElementById("successMsg").style.display = "block";
+    function logout() {
+      localStorage.removeItem("skillexa-user");
+      window.location.href = "login.html";
+    }
 
-      // Store premium status
-      localStorage.setItem("isPremium", "true");
+    function sendMessage() {
+      const input = document.getElementById("chatInput");
+      const message = input.value.trim();
+      if (!message) return;
 
-      // Optional: you can also store plan name if needed
-      // localStorage.setItem("plan", "premium");
+      const chatBox = document.getElementById("chatBox");
 
-      setTimeout(() => {
-        window.location.href = "dashboard.html";
-      }, 2000);
+      const userMessage = document.createElement("div");
+      userMessage.className = "chat-message user";
+      userMessage.textContent = message;
+      chatBox.appendChild(userMessage);
+
+      // Dummy AI reply
+      const botMessage = document.createElement("div");
+      botMessage.className = "chat-message bot";
+      botMessage.textContent = "🤖 That's a great question! Let me help you understand: " + message;
+      chatBox.appendChild(botMessage);
+
+      input.value = "";
+      chatBox.scrollTop = chatBox.scrollHeight;
     }
   </script>
-
 </body>
 </html>

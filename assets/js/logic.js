@@ -1,21 +1,17 @@
-function loginUser(event) {
-  event.preventDefault();
-  const email = document.getElementById("login-email").value;
-  const name = email.split("@")[0];
-  const user = {
-    name: name.charAt(0).toUpperCase() + name.slice(1),
-    email: email,
-    plan: "free" // Default plan
-  };
-  localStorage.setItem("skillexa_user", JSON.stringify(user));
+document.getElementById("loginForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+
+  const storedUser = JSON.parse(localStorage.getItem("skillexa-user"));
+
+  if (!storedUser || storedUser.email !== email || storedUser.password !== password) {
+    alert("Invalid credentials!");
+    return;
+  }
+
+  localStorage.setItem("skillexa-user", JSON.stringify(storedUser));
+  alert("Login successful! Redirecting...");
   window.location.href = "dashboard.html";
-}
-
-function getUser() {
-  return JSON.parse(localStorage.getItem("skillexa_user"));
-}
-
-function logout() {
-  localStorage.removeItem("skillexa_user");
-  window.location.href = "login.html";
-}
+});

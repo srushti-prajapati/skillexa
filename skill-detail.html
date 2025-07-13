@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Skill Detail – Skillexa</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: #f0f4f8;
+      color: #1f2937;
+    }
+
+    header {
+      background-color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      color: #2563eb;
+      font-size: 1.6rem;
+    }
+
+    nav a {
+      margin-left: 20px;
+      color: #2563eb;
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    }
+
+    h2 {
+      color: #1d4ed8;
+    }
+
+    p {
+      color: #4b5563;
+      font-size: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .btn-group {
+      margin-top: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .btn-group button {
+      flex: 1;
+      min-width: 150px;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      background: #2563eb;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .btn-group button:hover {
+      background: #1e40af;
+    }
+
+    .btn-group button.locked {
+      background: gray;
+      cursor: not-allowed;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      margin-top: 3rem;
+      background: #f9fafb;
+      font-size: 0.85rem;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Skillexa</h1>
+  <nav>
+    <a href="skill.html">Back to Skills</a>
+    <a href="#" onclick="logout()">Logout</a>
+  </nav>
+</header>
+
+<div class="container">
+  <h2 id="skillName">Skill Name</h2>
+  <p id="skillDesc">Skill description will be displayed here based on selected skill.</p>
+
+  <div class="btn-group">
+    <button onclick="goToTutor()">Start Tutor</button>
+    <button id="judgeBtn" class="locked">AI Judge (Premium)</button>
+    <button id="certBtn" class="locked">Certificate (Premium)</button>
+  </div>
+</div>
+
+<footer>
+  © 2025 Skillexa. Empower Your Future.
+</footer>
+
+<script>
+  const user = JSON.parse(localStorage.getItem("skillexa-user"));
+  const skill = localStorage.getItem("completedSkill");
+
+  if (!user || !skill) {
+    alert("Invalid session. Redirecting...");
+    window.location.href = "login.html";
+  }
+
+  const isPremium = user.plan === "premium" || user.plan === "all";
+
+  const descriptions = {
+    "Communication Skills": "Learn how to communicate clearly and confidently.",
+    "Programming": "Master programming fundamentals and build real projects.",
+    "Web Development": "Build responsive websites using HTML, CSS, JS, and frameworks.",
+    "Machine Learning & AI": "Understand ML algorithms, models, and real-world applications.",
+    "Graphic Design": "Learn to design visually engaging content using tools like Canva and Photoshop.",
+    "Spoken English": "Improve your spoken English with guided practice and pronunciation tips.",
+    // add more as needed
+  };
+
+  document.getElementById("skillName").textContent = skill;
+  document.getElementById("skillDesc").textContent = descriptions[skill] || "Enhance your knowledge and build confidence in this skill.";
+
+  if (isPremium) {
+    document.getElementById("judgeBtn").classList.remove("locked");
+    document.getElementById("certBtn").classList.remove("locked");
+
+    document.getElementById("judgeBtn").onclick = () => location.href = "judge.html";
+    document.getElementById("certBtn").onclick = () => location.href = "certificate.html";
+  } else {
+    document.getElementById("judgeBtn").onclick = () => alert("🔒 This feature is available for Premium users.");
+    document.getElementById("certBtn").onclick = () => alert("🔒 This feature is available for Premium users.");
+  }
+
+  function goToTutor() {
+    localStorage.setItem("completedSkill", skill);
+    location.href = "tutor.html";
+  }
+
+  function logout() {
+    localStorage.removeItem("skillexa-user");
+    window.location.href = "login.html";
+  }
+</script>
+
+</body>
+</html>

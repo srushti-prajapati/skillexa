@@ -3,162 +3,101 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Upgrade Plan – Skillexa</title>
+  <title>Select a Plan – Skillexa</title>
   <link rel="stylesheet" href="assets/css/style.css" />
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #e0f2fe, #ffffff);
       margin: 0;
-      color: #1f2937;
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      background-color: white;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    header h1 {
-      font-size: 1.5rem;
-      color: #2563eb;
-    }
-
-    .pricing-section {
-      max-width: 1000px;
-      margin: 60px auto;
-      padding: 0 20px;
+      background: #f3f4f6;
+      padding: 2rem;
       text-align: center;
     }
 
-    .pricing-grid {
+    h2 {
+      color: #1e3a8a;
+      margin-bottom: 2rem;
+    }
+
+    .plan-container {
       display: flex;
-      gap: 2rem;
       flex-wrap: wrap;
+      gap: 2rem;
       justify-content: center;
-      margin-top: 40px;
+      margin-bottom: 2rem;
     }
 
     .plan {
       background: white;
       border-radius: 12px;
-      padding: 30px;
-      width: 300px;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-      border: 2px solid #2563eb20;
-    }
-
-    .plan h2 {
-      color: #1d4ed8;
-      font-size: 1.25rem;
-    }
-
-    .price {
-      font-size: 2rem;
-      color: #2563eb;
-      margin: 15px 0;
-    }
-
-    .plan ul {
-      list-style: none;
-      padding: 0;
+      padding: 2rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      width: 280px;
       text-align: left;
-      margin-bottom: 20px;
     }
 
-    .plan ul li {
-      margin: 10px 0;
+    .plan h3 {
+      color: #2563eb;
+      margin-bottom: 0.5rem;
+    }
+
+    .plan p {
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+      color: #374151;
     }
 
     .plan button {
-      background-color: #2563eb;
+      background: #2563eb;
       color: white;
-      border: none;
       padding: 10px 20px;
+      border: none;
       border-radius: 8px;
+      font-size: 1rem;
       cursor: pointer;
-      font-weight: 500;
-      transition: background-color 0.3s ease;
     }
 
     .plan button:hover {
-      background-color: #1e40af;
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      font-size: 14px;
-      color: #6b7280;
-      background-color: #f9fafb;
-      margin-top: 80px;
+      background: #1e40af;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Skillexa</h1>
-    <a href="dashboard.html" style="text-decoration:none; color:#2563eb;">← Back to Dashboard</a>
-  </header>
 
-  <section class="pricing-section">
-    <h2>Choose Your Plan</h2>
-    <div class="pricing-grid">
-      
-      <!-- Freemium Plan -->
-      <div class="plan">
-        <h2>🎓 Freemium</h2>
-        <div class="price">Free</div>
-        <ul>
-          <li>✔️ Limited Access (5 Skills)</li>
-          <li>❌ AI Judge</li>
-          <li>❌ Certificate (₹99 each)</li>
-        </ul>
-        <button onclick="selectPlan('freemium')">Select</button>
-      </div>
+  <h2>Select Your Learning Plan</h2>
 
-      <!-- Premium Plan -->
-      <div class="plan">
-        <h2>💼 Premium</h2>
-        <div class="price">₹399/month</div>
-        <ul>
-          <li>✔️ All Skills</li>
-          <li>✔️ AI Judge Access</li>
-          <li>✔️ 10 Certificates</li>
-        </ul>
-        <button onclick="selectPlan('premium')">Select</button>
-      </div>
-
-      <!-- All-in-One Plan -->
-      <div class="plan">
-        <h2>🏆 All-in-One</h2>
-        <div class="price">₹599/year</div>
-        <ul>
-          <li>✔️ All Skills + Judge</li>
-          <li>✔️ Unlimited Certificates</li>
-        </ul>
-        <button onclick="selectPlan('all-in-one')">Select</button>
-      </div>
-
+  <div class="plan-container">
+    <div class="plan">
+      <h3>🎓 Freemium</h3>
+      <p>Free access to 1 skill. ₹99 per certificate.</p>
+      <button onclick="selectPlan('freemium')">Select</button>
     </div>
-  </section>
-
-  <footer>
-    © 2025 Skillexa. Empower Your Future.
-  </footer>
+    <div class="plan">
+      <h3>💼 Premium</h3>
+      <p>₹399/month. All skills unlocked. 10 certificates included.</p>
+      <button onclick="selectPlan('premium')">Select</button>
+    </div>
+    <div class="plan">
+      <h3>🏆 All-in-One</h3>
+      <p>₹599/year. Unlimited skills + certificates.</p>
+      <button onclick="selectPlan('all')">Select</button>
+    </div>
+  </div>
 
   <script>
     function selectPlan(plan) {
-      const user = JSON.parse(localStorage.getItem("skillexa-user")) || {};
-      user.plan = plan;
-      localStorage.setItem("skillexa-user", JSON.stringify(user));
-
-      alert("✅ Plan upgraded successfully!");
-      window.location.href = "dashboard.html";
+      const user = JSON.parse(localStorage.getItem("skillexa-user"));
+      if (user) {
+        user.plan = plan;
+        localStorage.setItem("skillexa-user", JSON.stringify(user));
+        alert("Plan selected: " + plan.toUpperCase());
+        window.location.href = "dashboard.html"; // or redirect wherever you want
+      } else {
+        alert("Please login first.");
+        window.location.href = "login.html";
+      }
     }
   </script>
+
 </body>
 </html>

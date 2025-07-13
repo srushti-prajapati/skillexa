@@ -13,6 +13,7 @@
       align-items: center;
       justify-content: center;
       min-height: 100vh;
+      margin: 0;
     }
 
     .certificate-container {
@@ -70,14 +71,31 @@
     .download-btn:hover {
       background-color: #2563eb;
     }
+
+    .upgrade-notice {
+      text-align: center;
+      color: red;
+      font-size: 1.1rem;
+      padding: 20px;
+    }
+
+    .upgrade-notice a {
+      color: #3b82f6;
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
-<!-- Inside body, at the top -->
-<img src="assets/logo.jpg" alt="Skillexa Logo" class="logo" />
 
-  <div class="certificate-container" id="certificate">
-    <img src="assets/logo.png" alt="Skillexa Logo" class="logo" />
+  <!-- ❌ Shown only if user is NOT premium -->
+  <div id="upgradeNotice" class="upgrade-notice" style="display: none;">
+    ❌ This feature is available only for Premium users.<br />
+    <a href="payment.html">Upgrade to Premium</a> to unlock your certificate.
+  </div>
+
+  <!-- ✅ Certificate shown only to Premium users -->
+  <div class="certificate-container" id="certificateSection" style="display: none;">
+    <img src="assets/logo.jpg" alt="Skillexa Logo" class="logo" />
     <h1>Certificate of Completion</h1>
     <p>This is proudly presented to</p>
     <div class="username" id="username">[Your Name]</div>
@@ -87,13 +105,18 @@
   </div>
 
   <script>
-    // Auto-fill name from localStorage
-    const name = localStorage.getItem("userName") || "Skillexa Learner";
-    document.getElementById("username").textContent = name;
+    const plan = localStorage.getItem("userPlan") || "free";
 
-    // Download certificate as image
+    if (plan === "premium") {
+      document.getElementById("certificateSection").style.display = "block";
+      const name = localStorage.getItem("userName") || "Skillexa Learner";
+      document.getElementById("username").textContent = name;
+    } else {
+      document.getElementById("upgradeNotice").style.display = "block";
+    }
+
     function downloadCertificate() {
-      html2canvas(document.getElementById("certificate")).then(canvas => {
+      html2canvas(document.getElementById("certificateSection")).then(canvas => {
         const link = document.createElement("a");
         link.download = "Skillexa_Certificate.png";
         link.href = canvas.toDataURL("image/png");
@@ -102,7 +125,6 @@
     }
   </script>
 
-  <!-- Include html2canvas via CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </body>
 </html>

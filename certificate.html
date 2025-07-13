@@ -3,92 +3,104 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Skillexa Certificate</title>
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <title>Certificate – Skillexa</title>
+  <link rel="stylesheet" href="style.css" />
   <style>
+    body {
+      background: linear-gradient(to right, #f3f4f6, #e5e7eb);
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
     .certificate-container {
-      max-width: 900px;
-      margin: 60px auto;
+      background: #fff;
+      border: 6px double #333;
       padding: 40px;
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      max-width: 800px;
+      width: 90%;
       text-align: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      border-radius: 12px;
       position: relative;
     }
 
-    .certificate-title {
-      font-size: 2rem;
-      font-weight: bold;
-      color: #4f46e5;
+    .certificate-container img.logo {
+      width: 100px;
+      margin-bottom: 20px;
+    }
+
+    .certificate-container h1 {
+      font-size: 2.2rem;
       margin-bottom: 10px;
+      color: #1f2937;
     }
 
-    .certificate-body {
-      margin-top: 30px;
-      font-size: 1.2rem;
-      color: #333;
-    }
-
-    .username-placeholder {
-      color: #000;
-      font-weight: bold;
+    .certificate-container h2 {
       font-size: 1.5rem;
+      color: #4b5563;
+      margin: 20px 0 10px;
+    }
+
+    .certificate-container .username {
+      font-weight: bold;
+      font-size: 1.8rem;
+      color: #111827;
+      margin: 10px 0;
+    }
+
+    .certificate-container p {
+      font-size: 1rem;
+      color: #374151;
     }
 
     .download-btn {
       margin-top: 30px;
-      padding: 12px 20px;
+      padding: 10px 20px;
       font-size: 1rem;
-      background: #4f46e5;
+      background-color: #3b82f6;
       color: white;
       border: none;
-      border-radius: 10px;
+      border-radius: 8px;
       cursor: pointer;
     }
 
     .download-btn:hover {
-      background: #4338ca;
-    }
-
-    .certificate-footer {
-      margin-top: 40px;
-      font-size: 0.9rem;
-      color: #777;
+      background-color: #2563eb;
     }
   </style>
 </head>
 <body>
-  <header class="hero">
-    <h1>Skillexa Certificate</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="dashboard.html">Dashboard</a>
-      <a href="tutor.html">AI Tutor</a>
-      <a href="judge.html">AI Judge</a>
-      <a href="chatbot.html">Chatbot</a>
-    </nav>
-  </header>
 
-  <section class="certificate-container">
-    <h2 class="certificate-title">Certificate of Completion</h2>
-    <p class="certificate-body">
-      This is proudly presented to<br>
-      <span class="username-placeholder" id="certName">[Your Name]</span><br><br>
-      For successfully completing the selected skill on the Skillexa platform.
-    </p>
-    <button class="download-btn" onclick="downloadCertificate()">Download PDF</button>
-    <p class="certificate-footer">Powered by Skillexa • AI-based Certification Platform</p>
-  </section>
+  <div class="certificate-container" id="certificate">
+    <img src="assets/logo.png" alt="Skillexa Logo" class="logo" />
+    <h1>Certificate of Completion</h1>
+    <p>This is proudly presented to</p>
+    <div class="username" id="username">[Your Name]</div>
+    <h2>For successfully completing a skill on Skillexa</h2>
+    <p>We wish you the best on your learning journey!</p>
+    <button class="download-btn" onclick="downloadCertificate()">Download Certificate</button>
+  </div>
 
   <script>
-    // This can be replaced with dynamic login name
-    const userName = localStorage.getItem("username") || "Your Name";
-    document.getElementById("certName").innerText = userName;
+    // Auto-fill name from localStorage
+    const name = localStorage.getItem("userName") || "Skillexa Learner";
+    document.getElementById("username").textContent = name;
 
+    // Download certificate as image
     function downloadCertificate() {
-      alert("Certificate downloaded! (Mock function)");
+      html2canvas(document.getElementById("certificate")).then(canvas => {
+        const link = document.createElement("a");
+        link.download = "Skillexa_Certificate.png";
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      });
     }
   </script>
+
+  <!-- Include html2canvas via CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </body>
 </html>

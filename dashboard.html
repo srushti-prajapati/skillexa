@@ -7,6 +7,21 @@
     <link rel="stylesheet" href="assets/css/style.css" />
   </head>
   <body class="bg-gray-100 text-gray-800">
+    <!-- Free users see this -->
+<div id="upgradeMessage" style="display:none;">
+  <p style="color:red;">You are on the Free Plan. <a href="payment.html">Upgrade to Premium</a> to unlock all features!</p>
+</div>
+
+<!-- Premium-only content -->
+<div id="premiumFeatures" style="display:none;">
+  <h2>✨ Premium Features Unlocked</h2>
+  <ul>
+    <li>Access to AI Judge</li>
+    <li>Certificate Generator</li>
+    <li>All advanced skills</li>
+  </ul>
+</div>
+
     <div class="flex min-h-screen">
 <!-- Inside body, at the top -->
 <img src="assets/logo.jpg" alt="Skillexa Logo" class="logo" />
@@ -21,7 +36,8 @@
           <a href="chatbot.html" class="block hover:underline">💬 Chatbot</a>
           <a href="#" onclick="logout()" class="block text-red-200 hover:text-red-400">🚪 Logout</a>
 <a href="verify.html" class="nav-link">Verify Certificate</a>
-        </nav>
+       <a href="payment.html" class="nav-link">Upgrade Plan</a>
+ </nav>
       </aside>
 
       <!-- Main Content -->
@@ -43,5 +59,21 @@
     </div>
 
     <script src="assets/js/dashboard.js"></script>
+    <script>
+  const userPlan = localStorage.getItem("userPlan") || "free";
+
+  const premiumOnlySection = document.getElementById("premiumFeatures");
+  const upgradeMessage = document.getElementById("upgradeMessage");
+
+  if (userPlan === "premium") {
+    // Show premium content
+    premiumOnlySection.style.display = "block";
+    upgradeMessage.style.display = "none";
+  } else {
+    // Hide premium content and show upgrade prompt
+    premiumOnlySection.style.display = "none";
+    upgradeMessage.style.display = "block";
+  }
+</script>
   </body>
 </html>

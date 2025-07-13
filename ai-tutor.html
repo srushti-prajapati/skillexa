@@ -1,0 +1,97 @@
+<!-- ai-tutor.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Tutor – Skillexa</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9fafb;
+      margin: 0;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    h1 {
+      color: #2563eb;
+      margin-bottom: 1rem;
+    }
+
+    #avatarContainer {
+      max-width: 600px;
+      margin: auto;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+    }
+
+    iframe {
+      width: 100%;
+      height: 400px;
+      border: none;
+    }
+
+    .controls {
+      margin-top: 1rem;
+    }
+
+    button, select {
+      padding: 0.6rem 1.2rem;
+      margin: 0.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      background-color: #2563eb;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #1e40af;
+    }
+
+    select {
+      background-color: #f3f4f6;
+      color: #1e3a8a;
+    }
+
+    #lessonText {
+      max-width: 700px;
+      margin: 1.5rem auto;
+      background: white;
+      padding: 1.2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎓 Your AI Tutor</h1>
+
+  <div id="avatarContainer">
+    <!-- Replace src with your D-ID video embed URL -->
+    <iframe id="aiVideo" src="https://studio.d-id.com/share/YOUR_VIDEO_ID" allow="autoplay"></iframe>
+  </div>
+
+  <div id="lessonText">Welcome to your first lesson. Let's begin learning!</div>
+
+  <div class="controls">
+    <button onclick="playLesson()">▶️ Start Lesson</button>
+    <button onclick="nextLesson()">⏭️ Next</button>
+    <button onclick="repeatLesson()">🔁 Repeat</button>
+    <select id="languageSelect" onchange="changeLanguage(this.value)">
+      <option value="en">English</option>
+      <option value="hi">Hindi</option>
+      <option value="ta">Tamil</option>
+      <option value="te">Telugu</option>
+    </select>
+  </div>
+
+  <script src="assets/js/ai-tutor.js"></script>
+</body>
+</html>

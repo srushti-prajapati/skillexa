@@ -1,133 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
-<meta charset="UTF-8" />
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
- <meta name="description" content="Skillexa – Upgrade Your Skills with AI Tutor and AI Judge.">
-<meta name="keywords" content="AI Tutor, Skill Learning, AI Judge, Skillexa">
- <title>Certificate – Skillexa</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Certificate – Skillexa</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
   <style>
     body {
-      background: linear-gradient(to right, #f3f4f6, #e5e7eb);
-      font-family: 'Segoe UI', sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
+      font-family: 'Poppins', sans-serif;
       margin: 0;
-    }
-
-    .certificate-container {
-      background: #fff;
-      border: 6px double #333;
-      padding: 40px;
-      max-width: 800px;
-      width: 90%;
-      text-align: center;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-      border-radius: 12px;
-      position: relative;
-    }
-
-    .certificate-container img.logo {
-      width: 100px;
-      margin-bottom: 20px;
-    }
-
-    .certificate-container h1 {
-      font-size: 2.2rem;
-      margin-bottom: 10px;
+      background: #f0f4ff;
       color: #1f2937;
+      text-align: center;
+      padding: 40px;
     }
 
-    .certificate-container h2 {
-      font-size: 1.5rem;
-      color: #4b5563;
-      margin: 20px 0 10px;
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: white;
+      padding: 16px 40px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
 
-    .certificate-container .username {
-      font-weight: bold;
-      font-size: 1.8rem;
-      color: #111827;
-      margin: 10px 0;
+    .logo {
+      width: 80px;
     }
 
-    .certificate-container p {
-      font-size: 1rem;
-      color: #374151;
+    .main {
+      margin-top: 40px;
     }
 
-    .download-btn {
-      margin-top: 30px;
-      padding: 10px 20px;
-      font-size: 1rem;
-      background-color: #3b82f6;
+    canvas {
+      max-width: 100%;
+      border: 2px solid #ccc;
+      border-radius: 12px;
+    }
+
+    .btn-download {
+      background-color: #2563eb;
       color: white;
+      padding: 12px 24px;
+      font-size: 16px;
       border: none;
       border-radius: 8px;
+      margin-top: 20px;
       cursor: pointer;
     }
 
-    .download-btn:hover {
-      background-color: #2563eb;
-    }
-
-    .upgrade-notice {
-      text-align: center;
-      color: red;
-      font-size: 1.1rem;
-      padding: 20px;
-    }
-
-    .upgrade-notice a {
-      color: #3b82f6;
-      text-decoration: underline;
+    .btn-download:hover {
+      background-color: #1d4ed8;
     }
   </style>
 </head>
 <body>
-
-  <!-- ❌ Shown only if user is NOT premium -->
-  <div id="upgradeNotice" class="upgrade-notice" style="display: none;">
-    ❌ This feature is available only for Premium users.<br />
-    <a href="payment.html">Upgrade to Premium</a> to unlock your certificate.
-  </div>
-
-  <!-- ✅ Certificate shown only to Premium users -->
-  <div class="certificate-container" id="certificateSection" style="display: none;">
-    <img src="assets/logo.jpg" alt="Skillexa Logo" class="logo" />
-    <h1>Certificate of Completion</h1>
-    <p>This is proudly presented to</p>
-    <div class="username" id="username">[Your Name]</div>
-    <h2>For successfully completing a skill on Skillexa</h2>
-    <p>We wish you the best on your learning journey!</p>
-    <button class="download-btn" onclick="downloadCertificate()">Download Certificate</button>
-  </div>
-
-  <script>
-    const plan = localStorage.getItem("userPlan") || "free";
-
-    if (plan === "premium") {
-      document.getElementById("certificateSection").style.display = "block";
-      const name = localStorage.getItem("userName") || "Skillexa Learner";
-      document.getElementById("username").textContent = name;
-    } else {
-      document.getElementById("upgradeNotice").style.display = "block";
-    }
-
-    function downloadCertificate() {
-      html2canvas(document.getElementById("certificateSection")).then(canvas => {
-        const link = document.createElement("a");
-        link.download = "Skillexa_Certificate.png";
-        link.href = canvas.toDataURL("image/png");
-        link.click();
-      });
-    }
-  </script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-</body>
-</html>
+  <header>
+    <img

@@ -8,24 +8,19 @@ document.getElementById("sendBtn").addEventListener("click", async () => {
   input.value = "";
 
   try {
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    const response = await fetch("/api/chat", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${import.meta.env.VITE_OPENAI_API_KEY || "sk-REPLACEME"}`, // fallback for local dev
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        model: "gpt-3.5-turbo",
-        messages: [{ role: "user", content: message }],
-      }),
+      body: JSON.stringify({ message })
     });
 
     const data = await response.json();
-    const reply = data.choices?.[0]?.message?.content || "Sorry, something went wrong!";
+    const reply = data.reply || "No response";
     appendMessage("Skillexa", reply, "bot");
-  } catch (err) {
-    appendMessage("Skillexa", "Error connecting to chatbot.", "bot");
-    console.error(err);
+  } catch (error) {
+    appendMessage("Skillexa", "Failed to connect to chatbot.", "bot");
   }
 });
 

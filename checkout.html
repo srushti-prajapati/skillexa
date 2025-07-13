@@ -3,163 +3,114 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AI Doubt Solver – Skillexa</title>
+  <title>Select Plan – Skillexa</title>
   <link rel="stylesheet" href="assets/css/style.css" />
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f1f5f9;
-      margin: 0;
-      padding: 0;
-      color: #1f2937;
+      font-family: Arial, sans-serif;
+      background: #f0f4f8;
+      padding: 2rem;
+      text-align: center;
     }
 
-    header {
-      background: white;
-      padding: 20px 40px;
+    h1 {
+      color: #1e40af;
+    }
+
+    .plans {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+      margin-top: 2rem;
     }
 
-    header h1 {
-      font-size: 24px;
-      color: #2563eb;
-    }
-
-    nav a {
-      margin-left: 20px;
-      text-decoration: none;
-      color: #2563eb;
-      font-weight: 500;
-    }
-
-    nav a:hover {
-      text-decoration: underline;
-    }
-
-    .chat-container {
-      max-width: 900px;
-      margin: 40px auto;
+    .plan {
       background: white;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-      padding: 30px;
+      padding: 2rem;
+      border-radius: 12px;
+      width: 280px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+      border: 2px solid #e5e7eb;
     }
 
-    .chat-box {
-      height: 400px;
-      overflow-y: auto;
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
-      padding: 20px;
-      margin-bottom: 20px;
-      background: #f9fafb;
-    }
-
-    .chat-message {
-      margin-bottom: 12px;
-    }
-
-    .chat-message.user {
-      text-align: right;
+    .plan h3 {
       color: #2563eb;
+      margin-bottom: 0.5rem;
     }
 
-    .chat-message.bot {
-      text-align: left;
-      color: #1f2937;
+    .plan p {
+      color: #6b7280;
+      font-size: 0.95rem;
+      margin: 0.5rem 0;
     }
 
-    .chat-input-area {
-      display: flex;
-      gap: 10px;
+    .plan .price {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #1e3a8a;
+      margin: 1rem 0;
     }
 
-    input[type="text"] {
-      flex: 1;
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid #d1d5db;
-      font-size: 15px;
-    }
-
-    button.send-btn {
-      padding: 12px 20px;
-      background-color: #2563eb;
+    .plan button {
+      padding: 10px 20px;
+      background: #2563eb;
       color: white;
       border: none;
       border-radius: 8px;
-      font-weight: 600;
       cursor: pointer;
     }
 
-    button.send-btn:hover {
-      background-color: #1d4ed8;
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      font-size: 14px;
-      color: #6b7280;
-      background-color: #f9fafb;
-      margin-top: 80px;
+    .plan button:hover {
+      background: #1e40af;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Skillexa – AI Doubt Solver</h1>
-    <nav>
-      <a href="dashboard.html">Dashboard</a>
-      <a href="#" onclick="logout()" style="color: #ef4444;">Logout</a>
-    </nav>
-  </header>
 
-  <div class="chat-container">
-    <div class="chat-box" id="chatBox">
-      <div class="chat-message bot">🤖 Hi! I’m your AI assistant. Ask me any doubt.</div>
+  <h1>Choose Your Plan</h1>
+
+  <div class="plans">
+    <div class="plan">
+      <h3>🎓 Freemium</h3>
+      <p>Free plan with limited access</p>
+      <p class="price">₹0</p>
+      <p>✅ 1 Skill</p>
+      <p>❌ No Certificate</p>
+      <p>❌ No AI Judge</p>
+      <button disabled>Current Plan</button>
     </div>
 
-    <div class="chat-input-area">
-      <input type="text" id="chatInput" placeholder="Type your question..." />
-      <button class="send-btn" onclick="sendMessage()">Send</button>
+    <div class="plan">
+      <h3>💼 Premium</h3>
+      <p>Full access for 1 month</p>
+      <p class="price">₹399 / month</p>
+      <p>✅ All Skills</p>
+      <p>✅ 10 Certificates</p>
+      <p>✅ AI Tutor + Judge</p>
+      <button onclick="selectPlan('premium')">Select</button>
+    </div>
+
+    <div class="plan">
+      <h3>🏆 All-in-One</h3>
+      <p>Unlimited yearly access</p>
+      <p class="price">₹599 / year</p>
+      <p>✅ All Skills</p>
+      <p>✅ Unlimited Certificates</p>
+      <p>✅ AI Tutor + Judge</p>
+      <button onclick="selectPlan('all')">Select</button>
     </div>
   </div>
 
-  <footer>
-    © 2025 Skillexa. Empower Your Future.
-  </footer>
-
   <script>
-    function logout() {
-      localStorage.removeItem("skillexa-user");
-      window.location.href = "login.html";
-    }
-
-    function sendMessage() {
-      const input = document.getElementById("chatInput");
-      const message = input.value.trim();
-      if (!message) return;
-
-      const chatBox = document.getElementById("chatBox");
-
-      const userMessage = document.createElement("div");
-      userMessage.className = "chat-message user";
-      userMessage.textContent = message;
-      chatBox.appendChild(userMessage);
-
-      // Dummy AI reply
-      const botMessage = document.createElement("div");
-      botMessage.className = "chat-message bot";
-      botMessage.textContent = "🤖 That's a great question! Let me help you understand: " + message;
-      chatBox.appendChild(botMessage);
-
-      input.value = "";
-      chatBox.scrollTop = chatBox.scrollHeight;
+    function selectPlan(plan) {
+      const user = JSON.parse(localStorage.getItem("skillexa-user")) || {};
+      user.plan = plan;
+      localStorage.setItem("skillexa-user", JSON.stringify(user));
+      alert("Plan activated successfully! Redirecting to Dashboard...");
+      window.location.href = "dashboard.html";
     }
   </script>
+
 </body>
 </html>

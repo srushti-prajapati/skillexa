@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Assessment – Skillexa</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <script type="module" src="assets/js/questions.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9fafb;
+      padding: 2rem;
+      color: #1f2937;
+    }
+    .timer {
+      font-size: 1.2rem;
+      color: #dc2626;
+      margin-bottom: 1rem;
+    }
+    .question-box {
+      margin-bottom: 2rem;
+      padding: 1rem;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+    button {
+      background: #2563eb;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 2rem;
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📝 Skill Assessment</h1>
+  <div class="timer" id="timer">Time Remaining: 10:00</div>
+
+  <form id="quizForm"></form>
+
+  <div class="result" id="result"></div>
+
+  <script type="module">
+    import { assessments } from './assets/js/questions.js';
+
+    const skill = localStorage.getItem("completedSkill") || "Programming";
+    const questions = assessments[skill];
+    const form = document.getElementById("quizForm");
+    const resultBox = document.getElementById("result");
+
+    if (!questions) {
+      form.innerHTML = `<p>No questions found for skill: ${skill}</p>`;
+    }
+
+    // Render questions
+    questions.forEach((q, index) => {
+      const div = document.createElement("div");
+      div.className = "question-box";
+      div.innerHTML = `<p><strong>${index + 1}. ${q.question}</strong></p>` +
+        q.options.map((opt, i) =>
+          `<label><input type="radio" name="q${index}" value="${i}"/> ${opt}</label><br/>`
+        ).join("");
+      form.appendChild(div);
+    });
+
+    form.innerHTML += `<button type="submit">Submit Test</button>`;
+
+    // Timer
+    let time = 600;
+    const timerDisplay = document.getElementById("timer");
+    const timer = setInterval(() => {
+      time--;
+      const min = Math.floor(time / 60);
+      const sec = time % 60;
+      timerDisplay.textContent = `Time Remaining: ${min}:${sec < 10 ? "0" + sec : sec}`;
+      if (time <= 0) {
+        clearInterval(timer);
+        form.dispatchEvent(new Event("submit"));
+      }
+    }, 1000);
+
+    // Submit logic
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      clearInterval(timer);
+
+      let score = 0;
+      questions.forEach((q, i) => {
+        const selected = form.querySelector(`input[name="q${i}"]:checked`);
+        if (selected && Number(selected.value) === q.answer) score++;
+      });
+
+      const passed = score >= Math.ceil(questions.length * 0.6);
+
+      resultBox.innerHTML = `
+        <h2>🎯 You scored ${score} out of ${questions.length}</h2>
+        ${passed
+          ? (checkPayment()
+              ? `<p>✅ Great! You passed. <a href="certificate.html">Get Certificate</a></p>`
+              : `<p>🔒 You passed! Please <a href="payment.html">make payment</a> to unlock your certificate.</p>`)
+          : `<p>❌ You did not pass. Please try again.</p>`
+        }
+      `;
+    });
+
+    function checkPayment() {
+      const user = JSON.parse(localStorage.getItem("skillexa-user"));
+      return user && (user.plan === "premium" || user.plan === "all");
+    }
+  </script>
+</body>
+</html>

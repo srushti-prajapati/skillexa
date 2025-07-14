@@ -20,6 +20,7 @@ button {
 }
 
 /* ==== Navbar ==== */
+/* ==== Navbar ==== */
 header {
   background-color: white;
   padding: 1rem 2rem;
@@ -27,15 +28,38 @@ header {
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  position: relative;
+  z-index: 5;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo {
+  width: 80px;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+  z-index: 10;
+  position: relative;
 }
 
 header h1 {
   font-size: 1.5rem;
   color: #2563eb;
+  margin: 0;
+  padding: 0;
+}
+
+nav {
+  display: flex;
+  gap: 1.5rem;
 }
 
 nav a {
-  margin-left: 1.2rem;
   font-weight: 500;
   color: #2563eb;
 }
@@ -43,12 +67,6 @@ nav a {
 nav a:hover {
   text-decoration: underline;
   color: #1e40af;
-}
-
-.logo {
-  width: 60px;
-  height: auto;
-  border-radius: 8px;
 }
 
 /* ==== Hero Section ==== */
@@ -69,6 +87,29 @@ nav a:hover {
   margin: 0 auto 2rem;
   color: #475569;
   font-size: 1.125rem;
+}
+/* ==== About Section ==== */
+.about {
+  background-color: #ffffff;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.about-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.about h2 {
+  font-size: 2.5rem;
+  color: #1d4ed8;
+  margin-bottom: 1rem;
+}
+
+.about p {
+  font-size: 1.125rem;
+  color: #475569;
+  line-height: 1.8;
 }
 
 .btn-group {
@@ -174,4 +215,47 @@ footer {
   font-size: 0.875rem;
   color: #6b7280;
   margin-top: 3rem;
+}
+/* ==== Skills Section ==== */
+.skills {
+  padding: 4rem 2rem;
+  background: #f8fafc;
+  text-align: center;
+}
+
+.skills h2 {
+  font-size: 2.2rem;
+  margin-bottom: 2rem;
+  color: #1d4ed8;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.skill-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.skill-card:hover {
+  transform: translateY(-5px);
+}
+
+.skill-card img {
+  width: 60px;
+  margin-bottom: 1rem;
+}
+
+.skill-card h3 {
+  font-size: 1.1rem;
+  color: #2563eb;
+  margin: 0;
 }

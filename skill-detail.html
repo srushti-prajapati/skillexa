@@ -86,6 +86,14 @@
       cursor: not-allowed;
     }
 
+    #assessBtn {
+      background-color: #10b981;
+    }
+
+    #assessBtn:hover {
+      background-color: #059669;
+    }
+
     footer {
       text-align: center;
       padding: 1rem;
@@ -98,9 +106,8 @@
 </head>
 <body>
 <header>
-<img src="assets/logo.jpg" class="logo" />
- <a href="index.html">
-  </a>
+  <img src="assets/logo.jpg" class="logo" />
+  <a href="index.html"></a>
 </header>
 
 <header>
@@ -117,6 +124,7 @@
 
   <div class="btn-group">
     <button onclick="goToTutor()">Start Tutor</button>
+    <button id="assessBtn">Take Assessment</button>
     <button id="judgeBtn" class="locked">AI Judge (Premium)</button>
     <button id="certBtn" class="locked">Certificate (Premium)</button>
   </div>
@@ -165,6 +173,12 @@
     localStorage.setItem("completedSkill", skill);
     location.href = "tutor.html";
   }
+
+  // NEW: Take Assessment button
+  document.getElementById("assessBtn").onclick = () => {
+    localStorage.setItem("currentSkill", skill);
+    location.href = "assessment.html";
+  };
 
   function logout() {
     localStorage.removeItem("skillexa-user");

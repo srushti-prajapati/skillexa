@@ -1,26 +1,32 @@
-export const assessments = {
+
+// assets/js/questions.js
+const questionBank = {
   "Communication Skills": [
     {
-      question: "What is the key to active listening?",
-      options: ["Ignoring the speaker", "Interrupting often", "Fully concentrating", "Speaking faster"],
-      answer: 2
+      question: "Which is an example of active listening?",
+      options: ["Interrupting", "Nodding", "Changing subject", "Ignoring"],
+      answer: "Nodding"
     },
     {
-      question: "Effective communication requires?",
-      options: ["Yelling", "Clear tone and feedback", "Fast talking", "Silence"],
-      answer: 1
+      question: "What does eye contact convey?",
+      options: ["Disrespect", "Confidence", "Anger", "Boredom"],
+      answer: "Confidence"
+    },
+    {
+      question: "Which of these is a communication barrier?",
+      options: ["Clarity", "Noise", "Feedback", "Tone"],
+      answer: "Noise"
+    },
+    {
+      question: "Body language includes:",
+      options: ["Voice tone", "Posture", "Email", "Text"],
+      answer: "Posture"
+    },
+    {
+      question: "Feedback helps to:",
+      options: ["Confuse", "End communication", "Improve", "Ignore"],
+      answer: "Improve"
     }
   ],
-  "Programming": [
-    {
-      question: "What does HTML stand for?",
-      options: ["Hyper Text Markup Language", "High Transfer Mode Language", "Hyperlink Tool Machine Language", "Home Tool Markup Language"],
-      answer: 0
-    },
-    {
-      question: "Which language is used to style a web page?",
-      options: ["Python", "CSS", "HTML", "SQL"],
-      answer: 1
-    }
-  ]
+  // Add more skills like "Programming", "Web Development", etc.
 };

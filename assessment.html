@@ -3,118 +3,186 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Assessment – Skillexa</title>
+  <title>Skill Assessment – Skillexa</title>
   <link rel="stylesheet" href="assets/css/style.css" />
-  <script type="module" src="assets/js/questions.js"></script>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: #f9fafb;
+      background: #f3f4f6;
+      margin: 0;
       padding: 2rem;
-      color: #1f2937;
+      color: #111827;
+    }
+    h1 {
+      font-size: 1.8rem;
+      color: #1d4ed8;
     }
     .timer {
-      font-size: 1.2rem;
-      color: #dc2626;
+      color: red;
+      font-weight: bold;
       margin-bottom: 1rem;
     }
     .question-box {
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
+      background: white;
       padding: 1rem;
-      background: #fff;
       border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
     button {
       background: #2563eb;
       color: white;
-      padding: 12px 20px;
+      padding: 0.75rem 1.5rem;
       border: none;
       border-radius: 8px;
+      font-size: 1rem;
       cursor: pointer;
     }
-    .result {
-      margin-top: 2rem;
-      font-size: 1.2rem;
+    button:hover {
+      background: #1e40af;
     }
   </style>
 </head>
 <body>
 
-  <h1>📝 Skill Assessment</h1>
-  <div class="timer" id="timer">Time Remaining: 10:00</div>
+<h1>📝 Skill Assessment - <span id="skillName">Loading...</span></h1>
+<p class="timer" id="timer">Time Remaining: 10:00</p>
 
-  <form id="quizForm"></form>
+<div id="questionsContainer"></div>
 
-  <div class="result" id="result"></div>
+<button onclick="submitAssessment()">Submit</button>
+<script>
+  const skill = localStorage.getItem("currentSkill") || "Skill";
+  document.getElementById("skillName").textContent = skill;
 
-  <script type="module">
-    import { assessments } from './assets/js/questions.js';
+  const questionTemplates = [
+    skill => ({
+      question: `What is the main purpose of ${skill}?`,
+      correct: "To improve understanding",
+      options: ["To confuse people", "To show power", "To improve understanding", "To waste time"]
+    }),
+    skill => ({
+      question: `Which of the following is important in ${skill}?`,
+      correct: "Practice",
+      options: ["Guesswork", "Ignoring feedback", "Arguing", "Practice"]
+    }),
+    skill => ({
+      question: `A common challenge in ${skill} is:`,
+      correct: "Lack of clarity",
+      options: ["Excess coffee", "Loud music", "Lack of clarity", "Too much vacation"]
+    }),
+    skill => ({
+      question: `Effective ${skill} helps in:`,
+      correct: "Better results",
+      options: ["More confusion", "Worse outcomes", "Better results", "Anger"]
+    }),
+    skill => ({
+      question: `Which is a key part of ${skill}?`,
+      correct: "Active participation",
+      options: ["Distraction", "Sleeping", "Active participation", "Multitasking randomly"]
+    })
+  ];
 
-    const skill = localStorage.getItem("completedSkill") || "Programming";
-    const questions = assessments[skill];
-    const form = document.getElementById("quizForm");
-    const resultBox = document.getElementById("result");
+  const questions = questionTemplates.map(fn => {
+    const q = fn(skill);
+    // Shuffle options
+    q.options = q.options.sort(() => Math.random() - 0.5);
+    return q;
+  });
 
-    if (!questions) {
-      form.innerHTML = `<p>No questions found for skill: ${skill}</p>`;
-    }
+  const container = document.getElementById("questionsContainer");
+  questions.forEach((q, idx) => {
+    const div = document.createElement("div");
+    div.className = "question-box";
+    div.innerHTML = `
+      <p><strong>Q${idx + 1}:</strong> ${q.question}</p>
+      ${q.options.map((opt, i) =>
+        `<label><input type="radio" name="q${idx}" value="${opt}"/> ${opt}</label><br>`
+      ).join("")}
+    `;
+    container.appendChild(div);
+  });
 
-    // Render questions
-    questions.forEach((q, index) => {
-      const div = document.createElement("div");
-      div.className = "question-box";
-      div.innerHTML = `<p><strong>${index + 1}. ${q.question}</strong></p>` +
-        q.options.map((opt, i) =>
-          `<label><input type="radio" name="q${index}" value="${i}"/> ${opt}</label><br/>`
-        ).join("");
-      form.appendChild(div);
-    });
-
-    form.innerHTML += `<button type="submit">Submit Test</button>`;
-
-    // Timer
-    let time = 600;
-    const timerDisplay = document.getElementById("timer");
-    const timer = setInterval(() => {
-      time--;
-      const min = Math.floor(time / 60);
-      const sec = time % 60;
-      timerDisplay.textContent = `Time Remaining: ${min}:${sec < 10 ? "0" + sec : sec}`;
-      if (time <= 0) {
+  // Timer
+  let minutes = 10, seconds = 0;
+  const timerDisplay = document.getElementById("timer");
+  const timer = setInterval(() => {
+    if (seconds === 0) {
+      if (minutes === 0) {
         clearInterval(timer);
-        form.dispatchEvent(new Event("submit"));
+        submitAssessment();
+        return;
       }
-    }, 1000);
+      minutes--;
+      seconds = 59;
+    } else {
+      seconds--;
+    }
+    timerDisplay.textContent = `Time Remaining: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  }, 1000);
 
-    // Submit logic
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      clearInterval(timer);
+  function submitAssessment() {
+    clearInterval(timer);
+    let score = 0;
 
-      let score = 0;
-      questions.forEach((q, i) => {
-        const selected = form.querySelector(`input[name="q${i}"]:checked`);
-        if (selected && Number(selected.value) === q.answer) score++;
-      });
-
-      const passed = score >= Math.ceil(questions.length * 0.6);
-
-      resultBox.innerHTML = `
-        <h2>🎯 You scored ${score} out of ${questions.length}</h2>
-        ${passed
-          ? (checkPayment()
-              ? `<p>✅ Great! You passed. <a href="certificate.html">Get Certificate</a></p>`
-              : `<p>🔒 You passed! Please <a href="payment.html">make payment</a> to unlock your certificate.</p>`)
-          : `<p>❌ You did not pass. Please try again.</p>`
-        }
-      `;
+    questions.forEach((q, i) => {
+      const selected = document.querySelector(`input[name="q${i}"]:checked`);
+      if (selected && selected.value === q.correct) score++;
     });
 
-    function checkPayment() {
-      const user = JSON.parse(localStorage.getItem("skillexa-user"));
-      return user && (user.plan === "premium" || user.plan === "all");
+    const user = JSON.parse(localStorage.getItem("skillexa-user"));
+    const results = JSON.parse(localStorage.getItem("assessmentResults") || "[]");
+
+    results.push({
+      name: user?.name || "Unknown",
+      skill,
+      score,
+      total: questions.length,
+      date: new Date().toLocaleDateString()
+    });
+
+    localStorage.setItem("assessmentResults", JSON.stringify(results));
+    alert(`Assessment Completed! You scored ${score}/${questions.length}`);
+    window.location.href = "scoreboard.html";
+  }
+</script>
+
+<script>
+  const skill = localStorage.getItem("currentSkill") || "Unknown Skill";
+  document.getElementById("skillName").textContent = skill;
+
+  // Load Questions
+  const container = document.getElementById("questionsContainer");
+  const questions = questionBank[skill] || [];
+
+  questions.slice(0, 5).forEach((q, idx) => {
+    const div = document.createElement("div");
+    div.className = "question-box";
+    div.innerHTML = `
+      <p><strong>Q${idx + 1}:</strong> ${q.question}</p>
+      ${q.options.map((opt, i) =>
+        `<label><input type="radio" name="q${idx}" value="${opt}"/> ${opt}</label><br>`
+      ).join("")}
+    `;
+    container.appendChild(div);
+  });
+
+  // Timer
+  let minutes = 10, seconds = 0;
+  const timerDisplay = document.getElementById("timer");
+  const timer = setInterval(() => {
+    if (seconds === 0) {
+      if (minutes === 0) {
+        clearInterval(timer);
+        submitAssessment();
+        return;
+      }
+      minutes--;
+      seconds = 59;
+    } else {
+      seconds--;
     }
-  </script>
-</body>
-</html>
+    timerDisplay.textContent = `Time Remaining: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  }, 1000);
+
+  function submitA

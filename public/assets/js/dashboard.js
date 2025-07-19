@@ -31,6 +31,20 @@ skills.forEach(skill => {
 
   skillsContainer.appendChild(card);
 });
+let userProgress = {
+  username: "Sru",
+  skills: {
+    "Communication Skills": {
+      progress: 70,
+      certified: false
+    },
+    "Decision Making": {
+      progress: 100,
+      certified: true
+    }
+  }
+};
+localStorage.setItem("userProgress", JSON.stringify(userProgress));
 
 // Logout function
 function logout() {

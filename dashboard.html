@@ -34,29 +34,80 @@
       font-weight: 500;
     }
 
-    .container {
-      max-width: 800px;
+    .dashboard-header {
+      max-width: 1000px;
       margin: 2rem auto;
-      padding: 1.5rem;
       background: white;
       border-radius: 12px;
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      text-align: center;
     }
 
-    .user-info {
-      font-size: 1.2rem;
-      margin-bottom: 1rem;
+    .user-details {
+      text-align: left;
     }
 
-    .plan {
+    .user-details h2 {
+      margin-bottom: 0.3rem;
+    }
+
+    .user-stats {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .user-stats div {
+      font-weight: bold;
       font-size: 1rem;
       color: #10b981;
-      font-weight: 600;
+    }
+
+    .dashboard-main {
+      max-width: 1000px;
+      margin: 2rem auto;
+      display: flex;
+      gap: 2rem;
+    }
+
+    .left-panel, .right-panel {
+      flex: 1;
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .card {
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      background-color: #f9fafb;
+    }
+
+    .card h3 {
+      margin-bottom: 0.5rem;
+    }
+
+    progress {
+      width: 100%;
+      height: 20px;
+    }
+
+    .leaderboard ul {
+      padding-left: 1rem;
+    }
+
+    .leaderboard li {
+      margin: 0.5rem 0;
+      font-weight: 500;
     }
 
     button {
-      margin-top: 2rem;
+      margin-top: 1rem;
       background: #2563eb;
       color: white;
       border: none;
@@ -72,23 +123,61 @@
   </style>
 </head>
 <body>
-<header>
-<img src="assets/logo.jpg" class="logo" />
-</header>
 
 <header>
-  <h1>Skillexa</h1>
+  <img src="assets/logo.jpg" class="logo" />
   <nav>
     <a href="index.html">Home</a>
+            <a href="verify.html">Verify Certificate</a>
     <a href="skill.html">Skills</a>
     <a href="#" onclick="logout()">Logout</a>
   </nav>
 </header>
 
-<div class="container">
-  <div id="welcomeMsg" class="user-info">Welcome back, <strong>User</strong></div>
-  <div id="planMsg" class="plan">Checking plan...</div>
-  <button onclick="window.location.href='payment.html'">Change Plan</button>
+<!-- Dashboard Header Section -->
+<div class="dashboard-header">
+  <div class="user-details">
+    <h2>Welcome back, <span id="username-display">User</span></h2>
+    <p>Email: <span id="user-email">demo@example.com</span></p>
+    <div class="plan" id="planMsg">Checking plan...</div>
+    <button onclick="window.location.href='payment.html'">Change Plan</button>
+  </div>
+  <div class="user-stats">
+    <div>🎯 Points: <strong>980</strong></div>
+    <div>📅 Days Trained: <strong>6</strong></div>
+  </div>
+</div>
+
+<!-- Main Section (Two Columns) -->
+<div class="dashboard-main">
+  <!-- Left Column: Skills -->
+  <div class="left-panel">
+    <h3>🧠 Skill Progress</h3>
+
+    <div class="card">
+      <h3>Communication Skills</h3>
+      <progress value="70" max="100"></progress>
+      <p>Status: In Progress</p>
+      <p>Certification: Not Attempted</p>
+    </div>
+
+    <div class="card">
+      <h3>Leadership Skills</h3>
+      <progress value="40" max="100"></progress>
+      <p>Status: In Progress</p>
+      <p>Certification: Not Attempted</p>
+    </div>
+  </div>
+
+  <!-- Right Column: Leaderboard -->
+  <div class="right-panel leaderboard">
+    <h3>🏆 Top Learners</h3>
+    <ul>
+      <li>1. Sru - 980 pts</li>
+      <li>2. Riya - 940 pts</li>
+      <li>3. Aarav - 900 pts</li>
+    </ul>
+  </div>
 </div>
 
 <script>
@@ -98,7 +187,8 @@
     window.location.href = "login.html";
   }
 
-  document.getElementById("welcomeMsg").innerHTML = `Welcome back, <strong>${user.name}</strong>`;
+  document.getElementById("username-display").textContent = user.name;
+  document.getElementById("user-email").textContent = user.email || "N/A";
 
   let planText = "";
   switch (user.plan) {
@@ -118,6 +208,7 @@
     localStorage.removeItem("skillexa-user");
     window.location.href = "login.html";
   }
+</script>
 
 </body>
 </html>

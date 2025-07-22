@@ -3,154 +3,93 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sign Up – Skillexa</title>
-  <link rel="stylesheet" href="assets/css/style.css" />
-  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+  <title>Skillexa Signup</title>
+  <link rel="stylesheet" href="assets/style.css" />
   <style>
+    /* Optional: Add your custom styling here */
     .signup-container {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: row;
-    }
-
-    .left {
-      background: linear-gradient(to bottom right, #2563eb, #1e3a8a);
-      color: white;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 2rem;
-    }
-
-    .left h1 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .left p {
-      font-size: 1.1rem;
       max-width: 400px;
-      text-align: center;
-    }
-
-    .right {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      margin: 60px auto;
       background: white;
-      padding: 2rem;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     }
 
-    .form-box {
+    .signup-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .signup-container input,
+    .signup-container select,
+    .signup-container button {
       width: 100%;
-      max-width: 400px;
-    }
-
-    .form-box h2 {
-      font-size: 1.8rem;
-      margin-bottom: 1.5rem;
-      color: #1e3a8a;
-    }
-
-    input {
-      width: 100%;
-      padding: 0.75rem;
-      margin-bottom: 1rem;
+      padding: 12px;
+      margin-bottom: 15px;
       border: 1px solid #ccc;
       border-radius: 8px;
-      font-size: 1rem;
+      font-size: 16px;
     }
 
-    button {
-      width: 100%;
-      background-color: #2563eb;
+    .signup-container button {
+      background-color: #4CAF50;
       color: white;
-      padding: 0.75rem;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 600;
+      cursor: pointer;
     }
 
-    button:hover {
-      background-color: #1e3a8a;
-    }
-
-    .link {
-      margin-top: 1rem;
-      text-align: center;
-      color: #2563eb;
-    }
-
-    @media (max-width: 768px) {
-      .signup-container {
-        flex-direction: column;
-      }
-
-      .left {
-        display: none;
-      }
-
-      .right {
-        flex: none;
-        padding: 3rem 1rem;
-      }
+    .signup-container button:hover {
+      background-color: #45a049;
     }
   </style>
 </head>
 <body>
-  <header>
-  <img src="assets/logo.jpg" class="logo" />
-
-<a href="index.html">
-</a>
-</header>
-<div class="signup-container">
-    <div class="left">
-      <h1>Join Skillexa Today!</h1>
-      <p>Create your account to access premium AI-based skill learning with certification.</p>
-    </div>
-    <div class="right">
-      <div class="form-box">
-        <h2>Create an Account</h2>
-        <form id="signupForm">
-          <input type="text" id="name" placeholder="Your Name" required />
-          <input type="email" id="email" placeholder="Email" required />
-          <input type="password" id="password" placeholder="Password" required />
-          <button type="submit">Sign Up</button>
-          <p class="link">Already have an account? <a href="login.html">Login</a></p>
-        </form>
-      </div>
-    </div>
+  <div class="signup-container">
+    <h2>Sign Up</h2>
+    <form id="signupFormToSheet">
+      <input type="text" name="name" placeholder="Full Name" required />
+      <input type="email" name="email" placeholder="Email" required />
+      <select name="plan" required>
+        <option value="">Select Plan</option>
+        <option value="free">Free</option>
+        <option value="premium">Premium</option>
+      </select>
+      <button type="submit">Sign Up</button>
+    </form>
   </div>
-  <script src="assets/js/signup.js"></script>
-<footer style="background-color: #1e3a8a; color: white; padding: 40px 20px; text-align: center;">
-  <div style="max-width: 1000px; margin: auto;">
-    <h2 style="margin-bottom: 10px; font-size: 1.6rem;">Skillexa</h2>
-    <p style="margin: 5px 0;">Empowering skill development with AI-powered learning and evaluation.</p>
 
-    <div style="margin: 20px 0;">
-      <p>📧 Email us: <a href="mailto:skillexa@gmail.com" style="color: #dbeafe; text-decoration: underline;">skillexa@gmail.com</a></p>
-      <p>📍 Location: India</p>
-    </div>
+  <script>
+    document.getElementById("signupFormToSheet").addEventListener("submit", async function (e) {
+      e.preventDefault();
 
-    <div style="margin: 30px 0;">
-      <a href="https://www.instagram.com/_skillexa_?igsh=MXEzZzZ4N213aTdxNA%3D%3D&utm_source=qr" target="_blank" style="margin: 0 12px; color: #dbeafe; text-decoration: none;">📸 Instagram</a>
-      |
-      <a href="https://www.youtube.com/@Skillexaa" target="_blank" style="margin: 0 12px; color: #dbeafe; text-decoration: none;">▶️ YouTube</a>
-      |
-      <a href="https://www.linkedin.com/in/jagdeep-kaur-i-2b3b632a2" target="_blank" style="margin: 0 12px; color: #dbeafe; text-decoration: none;">💼 LinkedIn</a>
-      |
-      <a href="https://www.linkedin.com/in/jagdeep-kaur-i-2b3b632a2" target="_blank" style="margin: 0 12px; color: #dbeafe; text-decoration: none;">📢 Telegram Channel</a>
-    </div>
+      const form = e.target;
+      const data = {
+        name: form.name.value,
+        email: form.email.value,
+        plan: form.plan.value
+      };
 
-    <hr style="border: none; border-top: 1px solid #3b82f6; margin: 30px 0;" />
+      try {
+        const response = await fetch("https://script.google.com/macros/s/AKfycbx9ggKdRXkNTnF9DZcocVtV0rvNKXTfxjT1ZWP3T9cpXLC7QYBYPTnrykHNGVAfxOpY/exec", {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
 
-    <p style="font-size: 0.9rem;">&copy; 2025 Skillexa. All rights reserved.</p>
-  </div>
-</footer>
+        const result = await response.json();
+        if (result.status === "success") {
+          alert("✅ Thank you! Your info was submitted.");
+          form.reset();
+        } else {
+          alert("❌ Something went wrong while saving data.");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("⚠️ Failed to send data. Please try again.");
+      }
+    });
+  </script>
 </body>
 </html>

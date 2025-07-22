@@ -259,3 +259,26 @@ footer {
   color: #2563eb;
   margin: 0;
 }
+.lock-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  border-radius: 1rem;
+  z-index: 2;
+}
+
+.skill-card.locked-skill {
+  position: relative;
+  cursor: not-allowed;
+  filter: grayscale(0.6);
+  pointer-events: auto;
+}

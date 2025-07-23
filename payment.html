@@ -3,161 +3,87 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Select a Plan – Skillexa</title> 
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <title>Choose Your Plan – Skillexa</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      background: #f3f4f6;
-      padding: 2rem;
-      text-align: center;
+    .modal {
+      display: none;
     }
-
-    h2 {
-      color: #1e3a8a;
-      margin-bottom: 2rem;
-    }
-
-    .plan-container {
+    .modal.active {
       display: flex;
-      flex-wrap: wrap;
-      gap: 2rem;
-      justify-content: center;
-      margin-bottom: 3rem;
-    }
-
-    .plan {
-      background: white;
-      border-radius: 12px;
-      padding: 2rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      width: 280px;
-      text-align: left;
-    }
-
-    .plan h3 {
-      color: #2563eb;
-      margin-bottom: 0.5rem;
-    }
-
-    .plan p {
-      font-size: 0.95rem;
-      margin-bottom: 1rem;
-      color: #374151;
-    }
-
-    .plan button {
-      background: #2563eb;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      cursor: pointer;
-    }
-
-    .plan button:hover {
-      background: #1e40af;
-    }
-
-    .qr-section {
-      background: white;
-      border-radius: 12px;
-      padding: 2rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      max-width: 400px;
-      margin: auto;
-      margin-bottom: 3rem;
-    }
-
-    .qr-section img {
-      width: 250px;
-      border-radius: 12px;
-      margin-bottom: 1rem;
-      border: 2px solid #ccc;
-    }
-
-    .upi-id {
-      font-weight: bold;
-      margin-bottom: 0.5rem;
-    }
-
-    .copy-btn {
-      background-color: #4CAF50;
-      color: white;
-      padding: 10px 16px;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      cursor: pointer;
-    }
-
-    .copy-btn:hover {
-      background-color: #388E3C;
     }
   </style>
 </head>
-<body>
+<body class="bg-gradient-to-br from-blue-100 to-purple-100 min-h-screen flex flex-col items-center justify-center p-6">
+  <h1 class="text-4xl font-bold text-center mb-10">Choose Your Plan</h1>
 
-<header>
-  <img src="assets/logo.jpg" class="logo" />
-</header>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-5xl">
 
-<h2>Select Your Learning Plan</h2>
+    <!-- Freemium Plan -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+      <h2 class="text-2xl font-semibold mb-2">Freemium</h2>
+      <p class="text-gray-600 mb-4">Access 5 skills with tutor & test</p>
+      <p class="text-xl font-bold text-green-600 mb-6">Free</p>
+      <button onclick="selectPlan('freemium')" class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full">Select</button>
+    </div>
 
-<div class="plan-container">
-  <div class="plan">
-    <h3>🎓 Freemium</h3>
-    <p>Free access to 1 skill. ₹99 per certificate.</p>
-    <button onclick="selectPlan('freemium')">Select</button>
+    <!-- Premium Plan -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+      <h2 class="text-2xl font-semibold mb-2">Premium</h2>
+      <p class="text-gray-600 mb-4">Unlock AI Tutor & Judge + Certification</p>
+      <p class="text-xl font-bold text-blue-600 mb-6">₹399</p>
+      <button onclick="showQR('premium')" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-full">Select</button>
+    </div>
+
+    <!-- All-in-One Plan -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+      <h2 class="text-2xl font-semibold mb-2">All-in-One</h2>
+      <p class="text-gray-600 mb-4">All Skills + Tutor + Judge + Certification</p>
+      <p class="text-xl font-bold text-purple-600 mb-6">₹599</p>
+      <button onclick="showQR('allinone')" class="bg-purple-500 hover:bg-purple-600 text-white px-6 py-2 rounded-full">Select</button>
+    </div>
+
   </div>
-  <div class="plan">
-    <h3>💼 Premium</h3>
-    <p>₹399/month. All skills unlocked. 10 certificates included.</p>
-    <button onclick="selectPlan('premium')">Select</button>
+
+  <!-- QR Modal -->
+  <div id="qrModal" class="modal fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
+    <div class="bg-white p-6 rounded-xl text-center relative">
+      <h3 class="text-xl font-semibold mb-4">Scan to Pay</h3>
+      <img src="assets/payment-qr.jpg" alt="QR Code" class="w-48 h-48 mx-auto mb-4" />
+      <p class="mb-2 text-gray-600">Scan the QR using any UPI app</p>
+      <button onclick="confirmPayment()" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-full mt-2">Mark as Paid</button>
+      <button onclick="closeQR()" class="absolute top-2 right-4 text-red-500 text-xl font-bold">&times;</button>
+    </div>
   </div>
-  <div class="plan">
-    <h3>🏆 All-in-One</h3>
-    <p>₹599/year. Unlimited skills + certificates.</p>
-    <button onclick="selectPlan('all')">Select</button>
-  </div>
-</div>
 
-<!-- Payment QR Section -->
-<section id="payment" style="text-align: center; padding: 40px;">
-  <h2 style="font-size: 2rem; margin-bottom: 20px;">Upgrade to Premium</h2>
-  <p style="font-size: 1.1rem;">Scan the QR code below to make the payment and unlock all features</p>
-  
-  <img src="assets/payment-qr.jpg" alt="QR Code for Payment" style="width: 250px; margin: 20px auto; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" />
+  <script>
+    let selectedPlan = null;
 
-  <p style="margin-top: 10px; font-size: 1.2rem;"><strong>UPI ID:</strong> <code>khushidhimann69@oksbi</code></p>
-
-  <p style="margin-top: 20px; color: #555;">After payment, please share the screenshot via <a href="mailto:skillexa@gemail.com">email</a> or <a href="https://wa.me/91XXXXXXXXXX" target="_blank">WhatsApp</a> to activate your premium access.</p>
-</section>
-
-
-<script>
-  function selectPlan(plan) {
-    const user = JSON.parse(localStorage.getItem("skillexa-user"));
-    if (user) {
-      user.plan = plan;
-      localStorage.setItem("skillexa-user", JSON.stringify(user));
-      alert("Plan selected: " + plan.toUpperCase());
+    function selectPlan(plan) {
+      localStorage.setItem('userPlan', plan);
+      alert("Freemium Plan Selected. You can access limited features.");
       window.location.href = "dashboard.html";
-    } else {
-      alert("Please login first.");
-      window.location.href = "login.html";
     }
-  }
 
-  function copyUPI() {
-    const upi = document.getElementById("upiText").textContent;
-    navigator.clipboard.writeText(upi);
-    alert("UPI ID copied to clipboard!");
-  }
-</script>
+    function showQR(plan) {
+      selectedPlan = plan;
+      document.getElementById('qrModal').classList.add('active');
+    }
 
+    function closeQR() {
+      document.getElementById('qrModal').classList.remove('active');
+      selectedPlan = null;
+    }
+
+    function confirmPayment() {
+      if (selectedPlan) {
+        localStorage.setItem('userPlan', selectedPlan);
+        alert(`${selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1)} Plan Activated!`);
+        closeQR();
+        window.location.href = "dashboard.html";
+      }
+    }
+  </script>
 <footer style="background-color: #1e3a8a; color: white; padding: 40px 20px; text-align: center;">
   <div style="max-width: 1000px; margin: auto;">
     <h2 style="margin-bottom: 10px; font-size: 1.6rem;">Skillexa</h2>

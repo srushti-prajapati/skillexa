@@ -36,3 +36,15 @@ document.getElementById("signupForm").addEventListener("submit", function (e) {
     alert("Something went wrong. Please try again later.");
   });
 });
+document.addEventListener('DOMContentLoaded', () => {
+  const signupForm = document.getElementById('signupForm');
+  if (signupForm) {
+    signupForm.addEventListener('submit', function (e) {
+      const agree = document.getElementById('agreeTerms');
+      if (!agree.checked) {
+        e.preventDefault();
+        alert("Please agree to the Terms & Conditions before signing up.");
+      }
+    });
+  }
+});

@@ -31,3 +31,15 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
       alert("Error connecting to server. Please try again later.");
     });
 });
+document.addEventListener('DOMContentLoaded', () => {
+  const signupForm = document.getElementById('signupForm');
+  if (signupForm) {
+    signupForm.addEventListener('submit', function (e) {
+      const agree = document.getElementById('agreeTerms');
+      if (!agree.checked) {
+        e.preventDefault();
+        alert("Please agree to the Terms & Conditions before signing up.");
+      }
+    });
+  }
+});

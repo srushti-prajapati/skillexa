@@ -184,7 +184,8 @@
   const user = JSON.parse(localStorage.getItem("skillexa-user"));
   if (!user) {
     alert("Please login first.");
-    window.location.href = "login.html";
+    window.location.href = "signup-login.html";
+
   }
 
   document.getElementById("username-display").textContent = user.name;

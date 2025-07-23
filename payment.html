@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Select a Plan – Skillexa</title>
+  <title>Select a Plan – Skillexa</title> 
   <link rel="stylesheet" href="assets/css/style.css" />
   <style>
     body {
@@ -24,7 +24,7 @@
       flex-wrap: wrap;
       gap: 2rem;
       justify-content: center;
-      margin-bottom: 2rem;
+      margin-bottom: 3rem;
     }
 
     .plan {
@@ -60,50 +60,104 @@
     .plan button:hover {
       background: #1e40af;
     }
+
+    .qr-section {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      max-width: 400px;
+      margin: auto;
+      margin-bottom: 3rem;
+    }
+
+    .qr-section img {
+      width: 250px;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      border: 2px solid #ccc;
+    }
+
+    .upi-id {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .copy-btn {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .copy-btn:hover {
+      background-color: #388E3C;
+    }
   </style>
 </head>
 <body>
+
 <header>
- <img src="assets/logo.jpg" class="logo" />
- <a href="index.html">
-  
-  </a>
+  <img src="assets/logo.jpg" class="logo" />
 </header>
 
-  <h2>Select Your Learning Plan</h2>
+<h2>Select Your Learning Plan</h2>
 
-  <div class="plan-container">
-    <div class="plan">
-      <h3>🎓 Freemium</h3>
-      <p>Free access to 1 skill. ₹99 per certificate.</p>
-      <button onclick="selectPlan('freemium')">Select</button>
-    </div>
-    <div class="plan">
-      <h3>💼 Premium</h3>
-      <p>₹399/month. All skills unlocked. 10 certificates included.</p>
-      <button onclick="selectPlan('premium')">Select</button>
-    </div>
-    <div class="plan">
-      <h3>🏆 All-in-One</h3>
-      <p>₹599/year. Unlimited skills + certificates.</p>
-      <button onclick="selectPlan('all')">Select</button>
-    </div>
+<div class="plan-container">
+  <div class="plan">
+    <h3>🎓 Freemium</h3>
+    <p>Free access to 1 skill. ₹99 per certificate.</p>
+    <button onclick="selectPlan('freemium')">Select</button>
   </div>
+  <div class="plan">
+    <h3>💼 Premium</h3>
+    <p>₹399/month. All skills unlocked. 10 certificates included.</p>
+    <button onclick="selectPlan('premium')">Select</button>
+  </div>
+  <div class="plan">
+    <h3>🏆 All-in-One</h3>
+    <p>₹599/year. Unlimited skills + certificates.</p>
+    <button onclick="selectPlan('all')">Select</button>
+  </div>
+</div>
 
-  <script>
-    function selectPlan(plan) {
-      const user = JSON.parse(localStorage.getItem("skillexa-user"));
-      if (user) {
-        user.plan = plan;
-        localStorage.setItem("skillexa-user", JSON.stringify(user));
-        alert("Plan selected: " + plan.toUpperCase());
-        window.location.href = "dashboard.html"; // or redirect wherever you want
-      } else {
-        alert("Please login first.");
-        window.location.href = "login.html";
-      }
+<!-- Payment QR Section -->
+<section id="payment" style="text-align: center; padding: 40px;">
+  <h2 style="font-size: 2rem; margin-bottom: 20px;">Upgrade to Premium</h2>
+  <p style="font-size: 1.1rem;">Scan the QR code below to make the payment and unlock all features</p>
+  
+  <img src="assets/payment-qr.jpg" alt="QR Code for Payment" style="width: 250px; margin: 20px auto; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" />
+
+  <p style="margin-top: 10px; font-size: 1.2rem;"><strong>UPI ID:</strong> <code>khushidhimann69@oksbi</code></p>
+
+  <p style="margin-top: 20px; color: #555;">After payment, please share the screenshot via <a href="mailto:skillexa@gemail.com">email</a> or <a href="https://wa.me/91XXXXXXXXXX" target="_blank">WhatsApp</a> to activate your premium access.</p>
+</section>
+
+
+<script>
+  function selectPlan(plan) {
+    const user = JSON.parse(localStorage.getItem("skillexa-user"));
+    if (user) {
+      user.plan = plan;
+      localStorage.setItem("skillexa-user", JSON.stringify(user));
+      alert("Plan selected: " + plan.toUpperCase());
+      window.location.href = "dashboard.html";
+    } else {
+      alert("Please login first.");
+      window.location.href = "login.html";
     }
-  </script>
+  }
+
+  function copyUPI() {
+    const upi = document.getElementById("upiText").textContent;
+    navigator.clipboard.writeText(upi);
+    alert("UPI ID copied to clipboard!");
+  }
+</script>
+
 <footer style="background-color: #1e3a8a; color: white; padding: 40px 20px; text-align: center;">
   <div style="max-width: 1000px; margin: auto;">
     <h2 style="margin-bottom: 10px; font-size: 1.6rem;">Skillexa</h2>
@@ -115,13 +169,10 @@
     </div>
 
     <div style="margin: 30px 0;">
-      <a href="https://www.instagram.com/_skillexa_?igsh=MXEzZzZ4N213aTdxNA%3D%3D&utm_source=qr" target="_blank" style="margin: 0 12px; color: #dbeafe; text-decoration: none;">📸 Instagram</a>
-      |
-      <a href="https://www.youtube.com/@Skillexaa" target="_blank" style="margin: 0 12px; color: #dbeafe; text-decoration: none;">▶️ YouTube</a>
-      |
-      <a href="https://www.linkedin.com/in/jagdeep-kaur-i-2b3b632a2" target="_blank" style="margin: 0 12px; color: #dbeafe; text-decoration: none;">💼 LinkedIn</a>
-      |
-      <a href="https://www.linkedin.com/in/jagdeep-kaur-i-2b3b632a2" target="_blank" style="margin: 0 12px; color: #dbeafe; text-decoration: none;">📢 Telegram Channel</a>
+      <a href="https://www.instagram.com/_skillexa_" target="_blank" style="margin: 0 12px; color: #dbeafe;">📸 Instagram</a> |
+      <a href="https://www.youtube.com/@Skillexaa" target="_blank" style="margin: 0 12px; color: #dbeafe;">▶️ YouTube</a> |
+      <a href="https://www.linkedin.com/in/jagdeep-kaur-i-2b3b632a2" target="_blank" style="margin: 0 12px; color: #dbeafe;">💼 LinkedIn</a> |
+      <a href="https://t.me/your_channel_link" target="_blank" style="margin: 0 12px; color: #dbeafe;">📢 Telegram</a>
     </div>
 
     <hr style="border: none; border-top: 1px solid #3b82f6; margin: 30px 0;" />

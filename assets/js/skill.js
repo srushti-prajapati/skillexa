@@ -45,3 +45,20 @@ function logout() {
   localStorage.removeItem("skillexa-user");
   window.location.href = "login.html";
 }
+document.getElementById("assessBtn").onclick = () => {
+  const map = {
+    "Communication Skills": "communication-assessment.html",
+    "Leadership Skills": "leadership-assessment.html",
+    "Public Speaking": "publicspeaking-assessment.html",
+    "Interview Preparation": "interviewpreparation-assessment.html",
+    // Add more if needed
+  };
+
+  const targetPage = map[skill];
+
+  if (targetPage) {
+    window.location.href = targetPage;
+  } else {
+    alert("Assessment not available for this skill yet.");
+  }
+};

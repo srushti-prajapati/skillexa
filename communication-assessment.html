@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Communication Skills Assessment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        .certificate {
+            background-image: url('https://placehold.co/1200x800/ffffff/e7e7e7?text=CERTIFICATE%20BACKGROUND');
+            background-size: cover;
+            background-position: center;
+        }
+        .watermark {
+            opacity: 0.1;
+            pointer-events: none;
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <header class="bg-indigo-700 text-white py-6">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-3xl font-bold">CommSkillPro</h1>
+                    <p class="text-indigo-200">Assess Your Communication Competence</p>
+                </div>
+                <img src="https://placehold.co/80x80/3b3667/ffffff?text=CS" alt="Abstract communication icon with speech bubbles and network connections" class="rounded-full">
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <!-- Assessment Intro -->
+        <div id="intro" class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-semibold mb-3 text-gray-800">Communication Skills Assessment</h2>
+            <div class="flex items-center mb-4">
+                <span class="status-dot bg-green-500"></span>
+                <span class="text-sm text-gray-600">15 questions • 10-15 minutes</span>
+            </div>
+            <p class="text-gray-600 mb-6">
+                This assessment evaluates key communication competencies including verbal, non-verbal, and written communication. 
+                After completion, you'll receive a personalized report and an official certificate.
+            </p>
+            <div class="bg-blue-50 border border-blue-200 rounded-md p-4 mb-6">
+                <h3 class="font-medium text-blue-800 mb-2">Assessment Guidelines</h3>
+                <ul class="text-blue-700 list-disc list-inside space-y-1 text-sm">
+                    <li>Answer all questions honestly</li>
+                    <li>There are no right or wrong answers</li>
+                    <li>Assessment results remain confidential</li>
+                    <li>Certificate costs $9.99 after assessment</li>
+                </ul>
+            </div>
+            <button id="startBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-6 rounded-md transition duration-300">
+                Start Assessment
+            </button>
+        </div>
+
+        <!-- Assessment Questions -->
+        <div id="assessment" class="bg-white rounded-lg shadow-md p-6 hidden">
+            <div class="flex justify-between items-center mb-6">
+                <h2 id="currentQuestion" class="text-xl font-semibold text-gray-800">Question 1 of 15</h2>
+                <span id="progress" class="text-sm font-medium text-indigo-600">0%</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2 mb-6">
+                <div id="progressBar" class="bg-indigo-600 h-2 rounded-full" style="width: 0%"></div>
+            </div>
+            <div id="questionContainer" class="mb-8">
+                <!-- Questions will be injected here -->
+            </div>
+            <div class="flex justify-between">
+                <button id="prevBtn" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-md transition duration-300 hidden">
+                    Previous
+                </button>
+                <button id="nextBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-6 rounded-md transition duration-300">
+                    Next
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results" class="bg-white rounded-lg shadow-md p-6 hidden">
+            <div class="text-center mb-8">
+                <img src="https://placehold.co/150x150/3b3667/ffffff?text=✓" alt="Checkmark icon representing assessment completion" class="mx-auto mb-4">
+                <h2 class="text-2xl font-semibold mb-2 text-gray-800">Assessment Complete!</h2>
+                <p class="text-gray-600 mb-6">Your communication skills assessment results are ready.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <h3 class="font-medium text-lg mb-3 text-gray-800">Your Score</h3>
+                    <div class="flex items-center">
+                        <div class="text-4xl font-bold text-indigo-600" id="scoreDisplay">0</div>
+                        <div class="ml-3">
+                            <div class="text-2xl font-bold" id="scorePercent">0%</div>
+                            <div class="text-sm text-gray-500">Communication Effectiveness</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <h3 class="font-medium text-lg mb-3 text-gray-800">Skill Breakdown</h3>
+                    <div id="skillsChart">
+                        <canvas id="skillsCanvas"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-6" id="feedback"></div>
+
+            <div class="border-t border-gray-200 pt-6">
+                <h3 class="font-medium text-lg mb-3 text-gray-800">Get Your Certificate</h3>
+                <p class="text-gray-600 mb-4">
+                    Receive an official digital certificate that you can share on LinkedIn or print for your records.
+                </p>
+                <div class="flex items-center justify-between bg-blue-50 border border-blue-200 rounded-md p-4 mb-6">
+                    <div>
+                        <h4 class="font-medium text-blue-800">Professional Certificate</h4>
+                        <p class="text-sm text-blue-700">PDF format • Digital signature • Shareable</p>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-2xl font-bold text-indigo-700">$9.99</div>
+                        <span class="text-xs text-gray-500 line-through">$19.99</span>
+                    </div>
+                </div>
+                <button id="paymentBtn" class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 rounded-md transition duration-300 mb-4">
+                    Purchase Certificate
+                </button>
+                <p class="text-center text-sm text-gray-500">
+                    <a href="#" class="text-indigo-600 hover:text-indigo-700" id="skipBtn">Skip for now</a> (you can always purchase later)
+                </p>
+            </div>
+        </div>
+
+        <!-- Payment Section -->
+        <div class="text-center mb-6">
+    <h2 class="text-2xl font-semibold mb-2 text-gray-800">Scan to Pay</h2>
+    <p class="text-gray-600 mb-4">Use your UPI or banking app to complete payment</p>
+    
+    <img src="assets/payment-qr.jpg" alt="QR Code for Payment" class="mx-auto w-64 rounded border border-gray-300 shadow-md">
+    
+    <p class="mt-4 text-sm text-gray-500">Once paid, click the button below to continue</p>
+</div>
+
+<button id="confirmPaymentBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-6 rounded-md transition duration-300 mb-4">
+    I Have Paid – Continue
+</button>
+
+<p class="text-center text-xs text-gray-500">We do not store any payment data.</p>
+
+
+        <!-- Certificate Section -->
+        <div id="certificate" class="bg-white rounded-lg shadow-md p-6 hidden">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-semibold mb-2 text-gray-800">Your Communication Skills Certificate</h2>
+                <p class="text-gray-600 mb-6">Download your official certificate below</p>
+            </div>
+            
+            <div id="certificateContainer" class="certificate border-2 border-gray-200 p-8 mb-8 relative">
+                <div class="watermark absolute inset-0 flex items-center justify-center">
+                    <img src="https://placehold.co/500x500/ffffff/e7e7e7?text=CommSkillPro" alt="Watermark for certificate" class="opacity-20">
+                </div>
+                <div class="relative z-10 text-center">
+                    <img src="https://placehold.co/100x100/3b3667/ffffff?text=CS" alt="Communication Skills Professional Certification logo" class="mx-auto mb-4">
+                    <p class="text-sm text-gray-600 mb-2">Presented to</p>
+                    <h3 class="text-3xl font-bold mb-6" id="certificateName">Your Name</h3>
+                    <p class="text-gray-700 mb-6">has successfully completed the</p>
+                    <h4 class="text-2xl font-semibold text-indigo-700 mb-8">Professional Communication Skills Assessment</h4>
+                    <div class="border-t border-b border-gray-300 py-4 mb-6">
+                        <p class="text-gray-700">Achieving a score of <span class="font-bold" id="certificateScore">85</span> out of 100</p>
+                        <p class="text-gray-500 text-sm mt-1">Assessment Date: <span id="certificateDate">June 15, 2023</span></p>
+                    </div>
+                    <div class="flex justify-center space-x-8 mb-8">
+                        <div class="text-center">
+                            <div class="font-medium" id="certificateId">ID: CS-2023-12345</div>
+                            <div class="text-xs text-gray-500">Certificate ID</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-medium">Level: <span id="certificateLevel">Proficient</span></div>
+                            <div class="text-xs text-gray-500">Performance Tier</div>
+                        </div>
+                    </div>
+                    <div class="flex justify-center space-x-8 mt-6">
+                        <div>
+                            <p class="font-medium">Emily Johnson</p>
+                            <div class="text-xs text-gray-500">Certification Director</div>
+                        </div>
+                        <div>
+                            <img src="https://placehold.co/80x40/3b3667/ffffff?text=Signature" alt="Digital signature of the certification director" class="h-8 mt-2">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <button id="downloadBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-6 rounded-md transition duration-300 mr-3">
+                    Download PDF
+                </button>
+                <button id="shareBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-md transition duration-300">
+                    Share
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto px-4">
+            <div class="text-center text-sm text-gray-400">
+                © 2023 CommSkillPro. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Assessment Data
+        const questions = [
+            {
+                question: "When presenting complex information, I tailor my message to my audience's level of understanding.",
+                category: "Audience Awareness",
+                options: [
+                    { text: "Never", value: 1 },
+                    { text: "Rarely", value: 2 },
+                    { text: "Sometimes", value: 3 },
+                    { text: "Often", value: 4 },
+                    { text: "Always", value: 5 }
+                ]
+            },
+            {
+                question: "I actively seek feedback on my communication from colleagues and adjust accordingly.",
+                category: "Feedback",
+                options: [
+                    { text: "Never", value: 1 },
+                    { text: "Rarely", value: 2 },
+                    { text: "Sometimes", value: 3 },
+                    { text: "Often", value: 4 },
+                    { text: "Always", value: 5 }
+                ]
+            },
+            {
+                question: "When leading meetings, I ensure all participants have opportunities to contribute.",
+                category: "Meeting Facilitation",
+                options: [
+                    { text: "Never", value: 1 },
+                    { text: "Rarely", value: 2 },
+                    { text: "Sometimes", value: 3 },
+                    { text: "Often", value: 4 },
+                    { text: "Always", value: 5 }
+                ]
+            },
+            {
+                question: "I adjust my communication style based on whether I'm speaking with colleagues, managers, or subordinates.",
+                category: "Style Flexibility",
+                options: [
+                    { text: "Never", value: 1 },
+                    { text: "Rarely", value: 2 },
+                    { text: "Sometimes", value: 3 },
+                    { text: "Often", value: 4 },
+                    { text: "Always", value: 5 }
+                ]
+            },
+            {
+                question: "I carefully proofread and edit professional emails before sending them.",
+                category: "Written Communication",
+                options: [
+                    { text: "Never", value: 1 },
+                    { text: "Rarely", value: 2 },
+                    { text: "Sometimes", value: 3 },
+                    { text: "Often", value: 4 },
+                    { text: "Always", value: 5 }
+                ]
+            },
+            {
+                question: "During conflicts, I focus on understanding all perspectives before responding.",
+                category: "Conflict Resolution",
+                options: [
+                    { text: "Never", value: 1 },
+                    { text: "Rarely", value: 2 },
+                    { text: "Sometimes", value: 3 },
+                    { text: "Often", value: 4 },
+                    { text: "Always", value: 5 }
+                ]
+            },
+            {
+                question: "I structure my presentations with clear openings, bodies, and conclusions.",
+                category: "Presentation Skills",
+                options: [
+                    { text: "Never", value: 1 },
+                    { text: "Rarely", value: 2 },
+                    { text: "Sometimes", value: 3 },
+                    { text: "Often", value: 4 },
+                    { text: "Always", value: 5 }
+                ]
+            },
+            {
+                question: "I use non-verbal communication (gestures, facial expressions) to reinforce my verbal messages.",
+                category: "Non-Verbal Skills",
+                options: [
+                    { text: "Never", value: 1 },
+                    { text: "Rarely", value: 2 },
+                    { text: "Sometimes", value: 3 },
+                    { text: "Often", value: 4 },
+                    { text: "Always", value: 5 }
+                ]
+            },
+            {
+                question: "I paraphrase others' statements to confirm understanding during important conversations.",
+                category: "Active Listening",
+                options: [
+                    { text: "Never", value: 1 },
+                    { text: "Rarely", value: 2 },
+                    { text: "Sometimes", value: 3 },
+                    { text: "Often", value: 4 },
+                    { text: "Always", value: 5 }
+                ]
+            },
+            {
+                question: "When explaining processes, I use visuals or examples to improve clarity.",
+                category: "Clarity",
+                options: [
+                    { text: "Never", value: 1 },
+                    { text: "Rarely", value: 2 },
+                    { text: "Sometimes", value: 3 },
+                    { text: "Often", value: 4 },
+                    { text: "Always", value: 5 }
+                ]
+            },
+            {
+                question: "I maintain appropriate eye contact during professional conversations.",
+                category: "Non-Verbal Skills",
+                options: [
+                    { text: "Never", value: 1 },
+                    { text: "Rarely", value: 2 },
+                    { text: "Sometimes", value: 3 },
+                    { text: "Often", value: 4 },
+                    { text: "Always", value: 5 }
+                ]
+            },
+            {
+                question: "I adapt my tone and word choice based on whether I'm delivering good news or bad news.",
+                category: "Emotional Intelligence",
+                options: [
+                    { text: "Never", value: 1 },
+                    { text: "Rarely", value: 2 },
+                    { text: "Sometimes", value: 3 },
+                    { text: "Often", value: 4 },
+                    { text: "Always", value: 5 }
+                ]
+            },
+            {
+                question: "My written communications have clear action items when appropriate.",
+                category: "Written Communication",
+                options: [
+                    { text: "Never", value: 1 },
+                    { text: "Rarely", value: 2 },
+                    { text: "Sometimes", value: 3 },
+                    { text: "Often", value: 4 },
+                    { text: "Always", value: 5 }
+                ]
+            },
+            {
+                question: "I can effectively summarize complex discussions into key takeaways.",
+                category: "Summarization",
+                options: [
+                    { text: "Never", value: 1 },
+                    { text: "Rarely", value: 2 },
+                    { text: "Sometimes", value: 3 },
+                    { text: "Often", value: 4 },
+                    { text: "Always", value: 5 }
+                ]
+            },
+            {
+                question: "In stressful situations, I maintain clear and professional communication.",
+                category: "Stress Management",
+                options: [
+                    { text: "Never", value: 1 },
+                    { text: "Rarely", value: 2 },
+                    { text: "Sometimes", value: 3 },
+                    { text: "Often", value: 4 },
+                    { text: "Always", value: 5 }
+                ]
+            }
+        ];
+
+        // App State
+        let currentQuestionIndex = 0;
+        let answers = [];
+        let userName = "Participant";
+
+        // DOM Elements
+        const introSection = document.getElementById('intro');
+        const assessmentSection = document.getElementById('assessment');
+        const resultsSection = document.getElementById('results');
+        const paymentSection = document.getElementById('payment');
+        const certificateSection = document.getElementById('certificate');
+        const questionContainer = document.getElementById('questionContainer');
+        const currentQuestionDisplay = document.getElementById('currentQuestion');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progress');
+        const nextBtn = document.getElementById('nextBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const startBtn = document.getElementById('startBtn');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const scorePercent = document.getElementById('scorePercent');
+        const feedbackContainer = document.getElementById('feedback');
+        const paymentBtn = document.getElementById('paymentBtn');
+        const skipBtn = document.getElementById('skipBtn');
+        const confirmPaymentBtn = document.getElementById('confirmPaymentBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const shareBtn = document.getElementById('shareBtn');
+        const certificateName = document.getElementById('certificateName');
+        const certificateScore = document.getElementById('certificateScore');
+        const certificateDate = document.getElementById('certificateDate');
+        const certificateId = document.getElementById('certificateId');
+        const certificateLevel = document.getElementById('certificateLevel');
+
+        // Initialize the assessment
+        function initAssessment() {
+            // Initialize answers array with null values
+            answers = new Array(questions.length).fill(null);
+            
+            // Reset question index
+            currentQuestionIndex = 0;
+            
+            // Display first question
+            displayQuestion();
+        }
+
+        // Display current question
+        function displayQuestion() {
+            const question = questions[currentQuestionIndex];
+            
+            // Update progress
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+            progressText.textContent = `${Math.round(progress)}%`;
+            currentQuestionDisplay.textContent = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+            
+            // Show/hide previous button
+            if (currentQuestionIndex === 0) {
+                prevBtn.classList.add('hidden');
+            } else {
+                prevBtn.classList.remove('hidden');
+            }
+            
+            // Change next button text on last question
+            if (currentQuestionIndex === questions.length - 1) {
+                nextBtn.textContent = 'Finish';
+            } else {
+                nextBtn.textContent = 'Next';
+            }
+            
+            // Build question HTML
+            let questionHTML = `
+                <div class="mb-4">
+                    <h3 class="text-lg font-medium text-gray-800 mb-3">${question.question}</h3>
+                    <p class="text-sm text-gray-500 mb-4">Category: ${question.category}</p>
+                    <div class="space-y-3">
+            `;
+            
+            // Add options
+            question.options.forEach((option, index) => {
+                const isChecked = answers[currentQuestionIndex] === option.value ? 'checked' : '';
+                questionHTML += `
+                    <label class="flex items-center space-x-3 p-3 border rounded-lg cursor-pointer hover:bg-gray-50 ${isChecked ? 'border-indigo-500 bg-indigo-50' : 'border-gray-300'}">
+                        <input type="radio" name="answer" value="${option.value}" class="h-4 w-4 text-indigo-600" ${isChecked}>
+                        <span class="text-gray-700">${option.text}</span>
+                    </label>
+                `;
+            });
+            
+            questionHTML += `</div></div>`;
+            questionContainer.innerHTML = questionHTML;
+            
+            // Add event listeners to radio buttons
+            document.querySelectorAll('input[name="answer"]').forEach(radio => {
+                radio.addEventListener('change', () => {
+                    answers[currentQuestionIndex] = parseInt(radio.value);
+                });
+            });
+        }
+
+        // Calculate and display results
+        function showResults() {
+            // Calculate total score (max is 5 * number of questions)
+            const totalScore = answers.reduce((sum, answer) => sum + answer, 0);
+            const maxScore = questions.length * 5;
+            const percentage = Math.round((totalScore / maxScore) * 100);
+            
+            // Display score
+            scoreDisplay.textContent = totalScore;
+            scorePercent.textContent = `${percentage}%`;
+            
+            // Generate feedback
+            let feedback = '';
+            
+            if (percentage >= 80) {
+                feedback = `
+                    <div class="bg-green-50 border border-green-200 rounded-md p-4 mb-4">
+                        <h3 class="font-medium text-green-800 mb-2">Excellent Communication Skills!</h3>
+                        <p class="text-green-700">
+                            Your results indicate exceptional communication abilities across all key areas. 
+                            You likely build strong relationships, convey ideas effectively, and adapt well 
+                            to different audience needs. Keep refining these skills to maintain your edge.
+                        </p>
+                    </div>
+                `;
+            } else if (percentage >= 60) {
+                feedback = `
+                    <div class="bg-blue-50 border border-blue-200 rounded-md p-4 mb-4">
+                        <h3 class="font-medium text-blue-800 mb-2">Strong Communication Skills</h3>
+                        <p class="text-blue-700">
+                            You demonstrate solid communication skills with room for some refinement. 
+                            Focus on areas where you scored moderately to enhance your effectiveness. 
+                            Consider seeking feedback in specific situations to identify targeted improvements.
+                        </p>
+                    </div>
+                `;
+            } else if (percentage >= 40) {
+                feedback = `
+                    <div class="bg-yellow-50 border border-yellow-200 rounded-md p-4 mb-4">
+                        <h3 class="font-medium text-yellow-800 mb-2">Developing Communication Skills</h3>
+                        <p class="text-yellow-700">
+                            Your communication skills are developing but have notable areas for improvement. 
+                            Focus on the specific aspects where you scored lower, and consider training or 
+                            coaching to enhance these skills. Small improvements can significantly impact 
+                            your professional effectiveness.
+                        </p>
+                    </div>
+                `;
+            } else {
+                feedback = `
+                    <div class="bg-red-50 border border-red-200 rounded-md p-4 mb-4">
+                        <h3 class="font-medium text-red-800 mb-2">Needs Significant Improvement</h3>
+                        <p class="text-red-700">
+                            Your results suggest communication is a significant development area. Consider 
+                            targeted training, practice, and mentorship to improve these critical skills. 
+                            Focus on one or two key areas at a time, and don't hesitate to seek feedback 
+                            from trusted colleagues.
+                        </p>
+                    </div>
+                `;
+            }
+            
+            // Add category breakdown
+            const categories = {};
+            questions.forEach((question, index) => {
+                if (!categories[question.category]) {
+                    categories[question.category] = {
+                        count: 0,
+                        total: 0
+                    };
+                }
+                categories[question.category].count++;
+                categories[question.category].total += answers[index];
+            });
+            
+            let breakdown = '<h3 class="font-medium text-lg mb-3 text-gray-800">Detailed Breakdown</h3><div class="space-y-4">';
+            
+            for (const [category, data] of Object.entries(categories)) {
+                const avg = Math.round((data.total / (data.count * 5)) * 100);
+                breakdown += `
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-700">${category}</span>
+                            <span class="text-sm font-medium ${getColorClass(avg)}">${avg}%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="h-2 rounded-full ${getBgColorClass(avg)}" style="width: ${avg}%"></div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            breakdown += '</div>';
+            feedback += breakdown;
+            
+            feedbackContainer.innerHTML = feedback;
+            
+            // Show results section
+            introSection.classList.add('hidden');
+            assessmentSection.classList.add('hidden');
+            resultsSection.classList.remove('hidden');
+            
+            // Initialize chart
+            initChart(categories);
+        }
+
+        // Helper function for color coding
+        function getColorClass(percent) {
+            if (percent >= 80) return 'text-green-600';
+            if (percent >= 60) return 'text-blue-600';
+            if (percent >= 40) return 'text-yellow-600';
+            return 'text-red-600';
+        }
+
+        function getBgColorClass(percent) {
+            if (percent >= 80) return 'bg-green-600';
+            if (percent >= 60) return 'bg-blue-600';
+            if (percent >= 40) return 'bg-yellow-600';
+            return 'bg-red-600';
+        }
+
+        // Initialize results chart
+        function initChart(categories) {
+            const canvas = document.getElementById('skillsCanvas');
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            canvas.width = canvas.parentElement.offsetWidth;
+            canvas.height = 200;
+            
+            const categoryNames = Object.keys(categories);
+            const categoryAverages = categoryNames.map(category => {
+                const data = categories[category];
+                return Math.round((data.total / (data.count * 5)) * 100);
+            });
+            
+            // Simple bar chart implementation
+            const barWidth = canvas.width / categoryNames.length * 0.8;
+            const maxBarHeight = canvas.height - 40;
+            const colors = categoryAverages.map(avg => {
+                if (avg >= 80) return '#10B981';
+                if (avg >= 60) return '#3B82F6';
+                if (avg >= 40) return '#F59E0B';
+                return '#EF4444';
+            });
+            
+            // Draw bars
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw axis
+            ctx.strokeStyle = '#6B7280';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(30, 20);
+            ctx.lineTo(30, canvas.height - 20);
+            ctx.lineTo(canvas.width - 10, canvas.height - 20);
+            ctx.stroke();
+            
+            // Add axis labels
+            ctx.font = '10px Arial';
+            ctx.fillStyle = '#6B7280';
+            ctx.textAlign = 'right';
+            ctx.textBaseline = 'middle';
+            
+            // Y-axis labels
+            for (let i = 0; i <= 100; i += 20) {
+                const y = canvas.height - 20 - (i / 100 * maxBarHeight);
+                ctx.fillText(i.toString(), 25, y);
+            }
+            
+            // Draw bars and category labels
+            ctx.textAlign = 'center';
+            categoryNames.forEach((category, index) => {
+                const x = 40 + index * (barWidth + 10);
+                const height = (categoryAverages[index] / 100) * maxBarHeight;
+                const y = canvas.height - 20 - height;
+                
+                // Draw bar
+                ctx.fillStyle = colors[index];
+                ctx.fillRect(x, y, barWidth, height);
+                
+                // Add value label
+                ctx.fillStyle = '#1F2937';
+                ctx.font = 'bold 10px Arial';
+                ctx.fillText(`${categoryAverages[index]}%`, x + barWidth/2, y - 10);
+                
+                // Add category label (rotated)
+                ctx.save();
+                ctx.font = '10px Arial';
+                ctx.fillStyle = '#6B7280';
+                ctx.translate(x + barWidth/2, canvas.height - 5);
+                ctx.rotate(-Math.PI/4);
+                ctx.fillText(category, 0, 0);
+                ctx.restore();
+            });
+        }
+
+        // Generate certificate
+        function generateCertificate(totalScore) {
+            const maxScore = questions.length * 5;
+            const percentage = Math.round((totalScore / maxScore) * 100);
+            
+            // Set certificate details
+            certificateName.textContent = userName || 'Participant';
+            certificateScore.textContent = percentage;
+            
+            const today = new Date();
+            certificateDate.textContent = today.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            // Generate random certificate ID
+            certificateId.textContent = `CS-${today.getFullYear()}-${Math.floor(10000 + Math.random() * 90000)}`;
+            
+            // Set certificate level
+            if (percentage >= 85) {
+                certificateLevel.textContent = 'Expert';
+            } else if (percentage >= 70) {
+                certificateLevel.textContent = 'Advanced';
+            } else if (percentage >= 50) {
+                certificateLevel.textContent = 'Proficient';
+            } else {
+                certificateLevel.textContent = 'Foundational';
+            }
+            
+            // Show certificate section
+            resultsSection.classList.add('hidden');
+            paymentSection.classList.add('hidden');
+            certificateSection.classList.remove('hidden');
+        }
+
+        // Download certificate as PDF
+        async function downloadCertificate() {
+            const { jsPDF } = window.jspdf;
+            const certificateElement = document.getElementById('certificateContainer');
+            
+            try {
+                // Show loading state
+                downloadBtn.innerHTML = 'Generating... <svg class="animate-spin -mr-1 ml-2 h-4 w-4 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
+                
+                // Generate canvas from certificate
+                const canvas = await html2canvas(certificateElement, {
+                    scale: 2,
+                    logging: false,
+                    useCORS: true,
+                    allowTaint: true
+                });
+                
+                // Create PDF
+                const pdf = new jsPDF('l', 'mm', 'a4');
+                const imgData = canvas.toDataURL('image/png');
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = pdf.internal.pageSize.getHeight();
+                const imgWidth = canvas.width;
+                const imgHeight = canvas.height;
+                const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+                const imgX = (pdfWidth - imgWidth * ratio) / 2;
+                const imgY = (pdfHeight - imgHeight * ratio) / 2;
+                
+                pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
+                pdf.save(`CommunicationSkillsCertificate_${certificateId.textContent}.pdf`);
+                
+                // Restore button
+                downloadBtn.textContent = 'Download PDF';
+            } catch (error) {
+                console.error('Error generating PDF:', error);
+                downloadBtn.textContent = 'Download PDF';
+                alert('Error generating certificate. Please try again.');
+            }
+        }
+
+        // Event Listeners
+        startBtn.addEventListener('click', () => {
+            introSection.classList.add('hidden');
+            assessmentSection.classList.remove('hidden');
+            initAssessment();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            // Validate current question is answered
+            if (answers[currentQuestionIndex] === null) {
+                alert('Please select an answer before continuing.');
+                return;
+            }
+            
+            // Go to next question or show results
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion();
+            } else {
+                showResults();
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion();
+            }
+        });
+
+        paymentBtn.addEventListener('click', () => {
+            resultsSection.classList.add('hidden');
+            paymentSection.classList.remove('hidden');
+        });
+
+        skipBtn.addEventListener('click', () => {
+            // Prompt for name if not already set
+            userName = prompt("Enter your name for the assessment record (optional):") || "Participant";
+            
+            // Generate certificate with 0 score (free version)
+            generateCertificate(0);
+        });
+
+        confirmPaymentBtn.addEventListener('click', () => {
+            // Simple validation
+            const cardNumber = document.getElementById('cardNumber').value;
+            const expiryDate = document.getElementById('expiryDate').value;
+            const cvv = document.getElementById('cvv').value;
+            const name = document.getElementById('nameOnCard').value;
+            
+            if (!cardNumber || !expiryDate || !cvv || !name) {
+                alert('Please fill in all payment details.');
+                return;
+            }
+            
+            // Simulate payment processing
+            confirmPaymentBtn.innerHTML = 'Processing... <svg class="animate-spin -mr-1 ml-2 h-4 w-4 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
+            
+            // Simulate API call
+            setTimeout(() => {
+                confirmPaymentBtn.textContent = 'Pay $9.99 Now';
+                userName = name;
+                
+                // Calculate score for certificate
+                const totalScore = answers.reduce((sum, answer) => sum + answer, 0);
+                generateCertificate(totalScore);
+            }, 1500);
+        });
+
+        downloadBtn.addEventListener('click', downloadCertificate);
+
+        shareBtn.addEventListener('click', () => {
+            alert('Certificate sharing functionality would be implemented here. In a real app, this would allow sharing to LinkedIn, email, etc.');
+        });
+    </script>
+</body>
+</html>

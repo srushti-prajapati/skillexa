@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Solving Skills Assessment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        }
+        .progress-bar {
+            transition: width 0.5s ease-in-out;
+        }
+        .card {
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(2, 132, 199, 0.2);
+        }
+        .certificate {
+            background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+            border: 2px solid #0284c7;
+            position: relative;
+            overflow: hidden;
+        }
+        .certificate::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 100px;
+            height: 100px;
+            background: rgba(2, 132, 199, 0.1);
+            border-radius: 50%;
+        }
+        .certificate::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            right: -50px;
+            width: 100px;
+            height: 100px;
+            background: rgba(2, 132, 199, 0.1);
+            border-radius: 50%;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        .seal {
+            position: absolute;
+            bottom: 30px;
+            right: 40px;
+            width: 100px;
+            height: 100px;
+        }
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0;
+            z-index: 1000;
+        }
+        .problem-icon {
+            transition: all 0.3s ease;
+        }
+        .problem-icon:hover {
+            transform: scale(1.1);
+        }
+        .timer-warning {
+            animation: pulse 1s infinite;
+        }
+        .gear-pulse {
+            animation: pulse 3s infinite;
+        }
+        .problem-bubble {
+            transition: all 0.3s ease;
+        }
+        .problem-bubble:hover {
+            transform: scale(1.1);
+        }
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg"><path fill="%230284c7" fill-opacity="0.1" d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        .rotating-gear {
+            animation: rotate 20s linear infinite;
+        }
+        .rotating-gear-reverse {
+            animation: rotate-reverse 15s linear infinite;
+        }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes rotate-reverse {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
+        }
+        .tick-mark {
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: draw 0.5s forwards;
+        }
+        @keyframes draw {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+        .gear-path {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: draw-gear 3s forwards;
+        }
+        @keyframes draw-gear {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+        .cog {
+            animation: cog-pulse 2s infinite alternate;
+        }
+        @keyframes cog-pulse {
+            from { opacity: 0.5; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1.1); }
+        }
+        .connection {
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: draw-connection 2s forwards;
+        }
+        @keyframes draw-connection {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+        .puzzle-piece {
+            transition: all 0.3s ease;
+        }
+        .puzzle-piece:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div id="app" class="container mx-auto px-4 py-8 max-w-5xl">
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="flex flex-col items-center justify-center py-10">
+            <div class="float mb-6">
+                <svg class="w-32 h-32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Gear illustration -->
+                    <circle cx="50" cy="50" r="48" fill="#0ea5e9" fill-opacity="0.1"/>
+                    <path class="gear-path" d="M50 25C48.5 25 47 25.1 45.6 25.3L44 20H56L54.4 25.3C53 25.1 51.5 25 50 25Z" stroke="#0ea5e9" stroke-width="2" fill="none"/>
+                    <path class="gear-path" d="M36.9 28.1L33 23L43 17L44.6 22.3C42.3 23.8 40.2 25.8 38.7 28.1L36.9 28.1Z" stroke="#0ea5e9" stroke-width="2" fill="none"/>
+                    <path class="gear-path" d="M28.1 36.9L23 33L29 23L34.3 24.6C32.8 26.9 31.8 29.5 31.3 32.2L28.1 36.9Z" stroke="#0ea5e9" stroke-width="2" fill="none"/>
+                    <path class="gear-path" d="M25 50C25 48.5 25.1 47 25.3 45.6L20 44V56L25.3 54.4C25.1 53 25 51.5 25 50Z" stroke="#0ea5e9" stroke-width="2" fill="none"/>
+                    <path class="gear-path" d="M28.1 63.1L23 67L17 57L22.3 55.4C23.8 57.7 25.8 59.8 28.1 61.3L28.1 63.1Z" stroke="#0ea5e9" stroke-width="2" fill="none"/>
+                    <path class="gear-path" d="M36.9 71.9L33 77L23 71L24.6 65.7C26.9 67.2 29.5 68.2 32.2 68.7L36.9 71.9Z" stroke="#0ea5e9" stroke-width="2" fill="none"/>
+                    <path class="gear-path" d="M50 75C48.5 75 47 74.9 45.6 74.7L44 80H56L54.4 74.7C53 74.9 51.5 75 50 75Z" stroke="#0ea5e9" stroke-width="2" fill="none"/>
+                    <path class="gear-path" d="M63.1 71.9L67 77L57 83L55.4 77.7C57.7 76.2 59.8 74.2 61.3 71.9L63.1 71.9Z" stroke="#0ea5e9" stroke-width="2" fill="none"/>
+                    <path class="gear-path" d="M71.9 63.1L77 67L71 77L65.7 75.4C67.2 73.1 68.2 70.5 68.7 67.8L71.9 63.1Z" stroke="#0ea5e9" stroke-width="2" fill="none"/>
+                    <path class="gear-path" d="M75 50C75 48.5 74.9 47 74.7 45.6L80 44V56L74.7 54.4C74.9 53 75 51.5 75 50Z" stroke="#0ea5e9" stroke-width="2" fill="none"/>
+                    <path class="gear-path" d="M71.9 36.9L77 33L83 43L77.7 44.6C76.2 42.3 74.2 40.2 71.9 38.7L71.9 36.9Z" stroke="#0ea5e9" stroke-width="2" fill="none"/>
+                    <path class="gear-path" d="M63.1 28.1L67 23L77 29L75.4 34.3C73.1 32.8 70.5 31.8 67.8 31.3L63.1 28.1Z" stroke="#0ea5e9" stroke-width="2" fill="none"/>
+                    
+                    <!-- Center gear -->
+                    <circle class="cog" cx="50" cy="50" r="15" stroke="#0ea5e9" stroke-width="2" fill="none"/>
+                    <circle class="cog" cx="50" cy="50" r="5" fill="#0ea5e9" style="animation-delay: 0.3s"/>
+                    
+                    <!-- Small gears -->
+                    <circle class="cog" cx="25" cy="30" r="8" stroke="#0ea5e9" stroke-width="1.5" fill="none" style="animation-delay: 0.6s"/>
+                    <circle class="cog" cx="75" cy="30" r="8" stroke="#0ea5e9" stroke-width="1.5" fill="none" style="animation-delay: 0.9s"/>
+                    <circle class="cog" cx="25" cy="70" r="8" stroke="#0ea5e9" stroke-width="1.5" fill="none" style="animation-delay: 1.2s"/>
+                    <circle class="cog" cx="75" cy="70" r="8" stroke="#0ea5e9" stroke-width="1.5" fill="none" style="animation-delay: 1.5s"/>
+                    
+                    <!-- Connections -->
+                    <path class="connection" d="M35 50L42 50" stroke="#0ea5e9" stroke-width="1.5" stroke-dasharray="2 2" style="animation-delay: 0.3s"/>
+                    <path class="connection" d="M58 50L65 50" stroke="#0ea5e9" stroke-width="1.5" stroke-dasharray="2 2" style="animation-delay: 0.6s"/>
+                    <path class="connection" d="M50 35L50 42" stroke="#0ea5e9" stroke-width="1.5" stroke-dasharray="2 2" style="animation-delay: 0.9s"/>
+                    <path class="connection" d="M50 58L50 65" stroke="#0ea5e9" stroke-width="1.5" stroke-dasharray="2 2" style="animation-delay: 1.2s"/>
+                </svg>
+            </div>
+            <h1 class="text-4xl font-bold text-gray-800 mb-4 text-center">Problem Solving Skills Assessment</h1>
+            <p class="text-lg text-gray-600 mb-8 text-center max-w-2xl">Evaluate your problem solving abilities with our comprehensive assessment. Complete 15 questions to receive personalized feedback and a certificate.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl mb-10">
+                <div class="card bg-white p-6 rounded-xl shadow-lg">
+                    <div class="flex items-center justify-center mb-4 text-sky-600">
+                        <svg class="w-12 h-12 problem-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2 text-center">Analytical Thinking</h3>
+                    <p class="text-gray-600 text-center">Break down complex problems into manageable components.</p>
+                </div>
+                
+                <div class="card bg-white p-6 rounded-xl shadow-lg">
+                    <div class="flex items-center justify-center mb-4 text-sky-600">
+                        <svg class="w-12 h-12 problem-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2 text-center">Creative Solutions</h3>
+                    <p class="text-gray-600 text-center">Generate innovative approaches to challenging problems.</p>
+                </div>
+                
+                <div class="card bg-white p-6 rounded-xl shadow-lg">
+                    <div class="flex items-center justify-center mb-4 text-sky-600">
+                        <svg class="w-12 h-12 problem-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 10h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2 text-center">Decision Making</h3>
+                    <p class="text-gray-600 text-center">Make effective decisions based on available information.</p>
+                </div>
+            </div>
+            
+            <div class="relative w-full max-w-4xl mb-10 bg-white rounded-xl shadow-lg p-8 overflow-hidden">
+                <div class="flex flex-wrap md:flex-nowrap items-center">
+                    <div class="w-full md:w-1/2 mb-6 md:mb-0 md:pr-6">
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-3">Why Problem Solving Matters</h3>
+                        <p class="text-gray-600 mb-4">Strong problem solving skills are essential in today's complex world. They help you:</p>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-sky-600 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-gray-700">Tackle complex challenges effectively</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-sky-600 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-gray-700">Adapt to changing circumstances</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-sky-600 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-gray-700">Make better decisions under pressure</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-sky-600 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-gray-700">Innovate and create new opportunities</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="w-full md:w-1/2 flex justify-center">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="puzzle-piece bg-sky-100 rounded-xl w-24 h-24 flex items-center justify-center">
+                                <svg class="w-12 h-12 text-sky-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20.5 11H19V7c0-1.1-.9-2-2-2h-4V3.5C13 2.12 11.88 1 10.5 1S8 2.12 8 3.5V5H4c-1.1 0-1.99.9-1.99 2v3.8H3.5c1.49 0 2.7 1.21 2.7 2.7s-1.21 2.7-2.7 2.7H2V20c0 1.1.9 2 2 2h3.8v-1.5c0-1.49 1.21-2.7 2.7-2.7 1.49 0 2.7 1.21 2.7 2.7V22H17c1.1 0 2-.9 2-2v-4h1.5c1.38 0 2.5-1.12 2.5-2.5S21.88 11 20.5 11z" fill="currentColor"/>
+                                </svg>
+                            </div>
+                            <div class="puzzle-piece bg-sky-100 rounded-xl w-24 h-24 flex items-center justify-center mt-6">
+                                <svg class="w-12 h-12 text-sky-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm4.59-12.42L10 14.17l-2.59-2.58L6 13l4 4 8-8z" fill="currentColor"/>
+                                </svg>
+                            </div>
+                            <div class="puzzle-piece bg-sky-100 rounded-xl w-24 h-24 flex items-center justify-center">
+                                <svg class="w-12 h-12 text-sky-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7zm2.85 11.1l-.85.6V16h-4v-2.3l-.85-.6C7.8 12.16 7 10.63 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1z" fill="currentColor"/>
+                                </svg>
+                            </div>
+                            <div class="puzzle-piece bg-sky-100 rounded-xl w-24 h-24 flex items-center justify-center mt-6">
+                                <svg class="w-12 h-12 text-sky-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" fill="currentColor"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="wave"></div>
+            </div>
+            
+            <button id="start-btn" class="btn-primary text-white font-semibold py-3 px-8 rounded-full text-lg">
+                Start Assessment
+            </button>
+        </div>
+
+        <!-- User Info Form -->
+        <div id="user-info-screen" class="hidden max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Before we begin</h2>
+            <p class="text-gray-600 mb-6">Please provide your information for your problem solving certificate:</p>
+            
+            <form id="user-form" class="space-y-4">
+                <div>
+                    <label for="fullName" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-sky-500 focus:border-sky-500">
+                </div>
+                
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                    <input type="email" id="email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-sky-500 focus:border-sky-500">
+                </div>
+                
+                <div>
+                    <label for="profession" class="block text-sm font-medium text-gray-700 mb-1">Profession (Optional)</label>
+                    <input type="text" id="profession" name="profession" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-sky-500 focus:border-sky-500">
+                </div>
+                
+                <div class="pt-4">
+                    <button type="submit" class="btn-primary text-white font-semibold py-2 px-6 rounded-lg w-full">
+                        Continue to Assessment
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Assessment Screen -->
+        <div id="assessment-screen" class="hidden">
+            <div class="mb-6 flex items-center justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">Problem Solving Assessment</h2>
+                    <p class="text-gray-600">Question <span id="current-question">1</span> of 15</p>
+                </div>
+                <div class="bg-white px-4 py-2 rounded-lg shadow flex items-center">
+                    <svg class="w-5 h-5 text-sky-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span id="timer" class="font-semibold text-gray-800">00:45</span>
+                </div>
+            </div>
+            
+            <div class="w-full bg-gray-200 rounded-full h-2.5 mb-8">
+                <div id="progress-bar" class="progress-bar bg-sky-600 h-2.5 rounded-full" style="width: 0%"></div>
+            </div>
+            
+            <div id="question-container" class="bg-white rounded-xl shadow-lg p-8 mb-6">
+                <h3 id="question-text" class="text-xl font-semibold text-gray-800 mb-6">Loading question...</h3>
+                
+                <div id="options-container" class="space-y-3">
+                    <!-- Options will be inserted here -->
+                </div>
+            </div>
+            
+            <div class="flex justify-between">
+                <button id="prev-btn" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-6 rounded-lg disabled:opacity-50" disabled>
+                    Previous
+                </button>
+                <button id="next-btn" class="btn-primary text-white font-semibold py-2 px-6 rounded-lg">
+                    Next
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="hidden">
+            <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
+                <div class="flex items-center justify-center mb-6">
+                    <div class="relative">
+                        <svg class="w-32 h-32" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="45" fill="#f3f4f6" stroke="#e5e7eb" stroke-width="2"></circle>
+                            <circle id="score-circle" cx="50" cy="50" r="45" fill="none" stroke="#0284c7" stroke-width="8" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="42"></circle>
+                            <text id="score-text" x="50" y="50" font-size="20" text-anchor="middle" alignment-baseline="middle" font-weight="bold" fill="#0284c7">85%</text>
+                        </svg>
+                    </div>
+                </div>
+                
+                <h2 class="text-2xl font-bold text-gray-800 text-center mb-2">Problem Solving Assessment Complete!</h2>
+                <p class="text-gray-600 text-center mb-6">Here's how you performed in your problem solving assessment.</p>
+                
+                <div class="space-y-4 mb-8">
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-700">Analytical Thinking</span>
+                            <span id="analytical-score" class="text-sm font-medium text-sky-600">80%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div id="analytical-bar" class="bg-sky-600 h-2 rounded-full" style="width: 80%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-700">Creative Solutions</span>
+                            <span id="creative-score" class="text-sm font-medium text-sky-600">90%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div id="creative-bar" class="bg-sky-600 h-2 rounded-full" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-700">Decision Making</span>
+                            <span id="decision-score" class="text-sm font-medium text-sky-600">85%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div id="decision-bar" class="bg-sky-600 h-2 rounded-full" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-700">Implementation</span>
+                            <span id="implementation-score" class="text-sm font-medium text-sky-600">75%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div id="implementation-bar" class="bg-sky-600 h-2 rounded-full" style="width: 75%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-sky-50 rounded-lg p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Your Problem Solving Profile</h3>
+                    <p id="problem-style" class="text-gray-700 font-medium mb-3">Creative Problem Solver</p>
+                    <p id="feedback-text" class="text-gray-700">
+                        You demonstrate strong problem solving skills with excellent creative abilities. Your analytical skills are well-developed, and you can effectively generate innovative solutions. Your implementation approach could be enhanced by developing more structured strategies for executing your ideas. Overall, you have a solid foundation in problem solving that serves you well in both personal and professional contexts.
+                    </p>
+                </div>
+                
+                <div class="text-center">
+                    <button id="get-certificate-btn" class="btn-primary text-white font-semibold py-3 px-8 rounded-full">
+                        Get Your Problem Solving Certificate
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Screen -->
+        <div id="payment-screen" class="hidden max-w-2xl mx-auto">
+            <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Get Your Problem Solving Certificate</h2>
+                
+                <div class="flex justify-center mb-8">
+                    <div class="relative w-64 h-40 bg-sky-50 rounded-lg flex items-center justify-center border-2 border-dashed border-sky-200 pulse">
+                        <svg class="w-16 h-16 text-sky-300" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19 21H5C3.89543 21 3 20.1046 3 19V5C3 3.89543 3.89543 3 5 3H19C20.1046 3 21 3.89543 21 5V19C21 20.1046 20.1046 21 19 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M3 9H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M9 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" stroke="currentColor" stroke-width="2"/>
+                            <path d="M12 16C13.1046 16 14 15.1046 14 14C14 12.8954 13.1046 12 12 12C10.8954 12 10 12.8954 10 14C10 15.1046 10.8954 16 12 16Z" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        <div class="absolute top-0 right-0 bg-sky-600 text-white text-xs font-bold px-2 py-1 rounded-bl-lg rounded-tr-lg">
+                            PREVIEW
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 rounded-lg p-6 mb-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-gray-700 font-medium">Problem Solving Certificate</span>
+                        <span class="text-sky-600 font-bold">$9.99</span>
+                    </div>
+                    <ul class="space-y-2 mb-4">
+                        <li class="flex items-center text-sm text-gray-600">
+                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Personalized problem solving certificate
+                        </li>
+                        <li class="flex items-center text-sm text-gray-600">
+                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            High-resolution downloadable PDF
+                        </li>
+                        <li class="flex items-center text-sm text-gray-600">
+                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Detailed problem solving profile
+                        </li>
+                        <li class="flex items-center text-sm text-gray-600">
+                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Share with employers or on your resume
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Demo Payment Form -->
+                <div class="mb-6">
+                    <div class="border border-gray-300 rounded-lg p-4 mb-4">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-sm font-medium text-gray-700">Payment Method</span>
+                            <div class="flex space-x-2">
+                                <div class="w-8 h-5 bg-blue-600 rounded"></div>
+                                <div class="w-8 h-5 bg-red-500 rounded"></div>
+                                <div class="w-8 h-5 bg-yellow-400 rounded"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-medium text-gray-700 mb-1">Card Holder</label>
+                                    <div class="h-10 bg-gray-100 rounded-lg"></div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-gray-700 mb-1">Card Number</label>
+                                    <div class="h-10 bg-gray-100 rounded-lg"></div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-3 gap-4">
+                                <div>
+                                    <label class="block text-xs font-medium text-gray-700 mb-1">Expiry</label>
+                                    <div class="h-10 bg-gray-100 rounded-lg"></div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-gray-700 mb-1">CVC</label>
+                                    <div class="h-10 bg-gray-100 rounded-lg"></div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-gray-700 mb-1">ZIP</label>
+                                    <div class="h-10 bg-gray-100 rounded-lg"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <p class="text-sm text-gray-500 mb-4">This is a demo payment form. In a real application, secure payment processing would be implemented.</p>
+                        <button id="process-payment-btn" class="btn-primary text-white font-semibold py-3 px-8 rounded-full w-full">
+                            Pay $9.99 & Get Certificate
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Certificate Screen -->
+        <div id="certificate-screen" class="hidden">
+            <div class="max-w-4xl mx-auto">
+                <div class="certificate p-10 rounded-xl shadow-lg mb-8 relative">
+                    <div class="absolute top-5 left-5">
+                        <svg class="w-16 h-16" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="48" fill="#0284c7" fill-opacity="0.1"/>
+                            <!-- Gear icon -->
+                            <path d="M50 25C48.5 25 47 25.1 45.6 25.3L44 20H56L54.4 25.3C53 25.1 51.5 25 50 25Z" stroke="#0284c7" stroke-width="2" fill="none"/>
+                            <path d="M36.9 28.1L33 23L43 17L44.6 22.3C42.3 23.8 40.2 25.8 38.7 28.1L36.9 28.1Z" stroke="#0284c7" stroke-width="2" fill="none"/>
+                            <path d="M28.1 36.9L23 33L29 23L34.3 24.6C32.8 26.9 31.8 29.5 31.3 32.2L28.1 36.9Z" stroke="#0284c7" stroke-width="2" fill="none"/>
+                            <path d="M25 50C25 48.5 25.1 47 25.3 45.6L20 44V56L25.3 54.4C25.1 53 25 51.5 25 50Z" stroke="#0284c7" stroke-width="2" fill="none"/>
+                            <path d="M28.1 63.1L23 67L17 57L22.3 55.4C23.8 57.7 25.8 59.8 28.1 61.3L28.1 63.1Z" stroke="#0284c7" stroke-width="2" fill="none"/>
+                            <path d="M36.9 71.9L33 77L23 71L24.6 65.7C26.9 67.2 29.5 68.2 32.2 68.7L36.9 71.9Z" stroke="#0284c7" stroke-width="2" fill="none"/>
+                            <path d="M50 75C48.5 75 47 74.9 45.6 74.7L44 80H56L54.4 74.7C53 74.9 51.5 75 50 75Z" stroke="#0284c7" stroke-width="2" fill="none"/>
+                            <path d="M63.1 71.9L67 77L57 83L55.4 77.7C57.7 76.2 59.8 74.2 61.3 71.9L63.1 71.9Z" stroke="#0284c7" stroke-width="2" fill="none"/>
+                            <path d="M71.9 63.1L77 67L71 77L65.7 75.4C67.2 73.1 68.2 70.5 68.7 67.8L71.9 63.1Z" stroke="#0284c7" stroke-width="2" fill="none"/>
+                            <path d="M75 50C75 48.5 74.9 47 74.7 45.6L80 44V56L74.7 54.4C74.9 53 75 51.5 75 50Z" stroke="#0284c7" stroke-width="2" fill="none"/>
+                            <path d="M71.9 36.9L77 33L83 43L77.7 44.6C76.2 42.3 74.2 40.2 71.9 38.7L71.9 36.9Z" stroke="#0284c7" stroke-width="2" fill="none"/>
+                            <path d="M63.1 28.1L67 23L77 29L75.4 34.3C73.1 32.8 70.5 31.8 67.8 31.3L63.1 28.1Z" stroke="#0284c7" stroke-width="2" fill="none"/>
+                            <circle cx="50" cy="50" r="15" stroke="#0284c7" stroke-width="2" fill="none"/>
+                        </svg>
+                    </div>
+                    
+                    <div class="text-center mb-8 pt-8">
+                        <h2 class="text-3xl font-bold text-sky-800 mb-2">Certificate of Problem Solving</h2>
+                        <div class="h-1 w-32 bg-sky-600 mx-auto mb-2"></div>
+                        <p class="text-gray-600">Problem Solving Skills Assessment</p>
+                    </div>
+                    
+                    <div class="text-center mb-8">
+                        <p class="text-lg text-gray-700 mb-2">This certifies that</p>
+                        <h3 id="cert-name" class="text-2xl font-bold text-gray-800 mb-2">John Doe</h3>
+                        <p class="text-lg text-gray-700">has successfully completed the Problem Solving Skills Assessment</p>
+                        <p class="text-lg text-gray-700 mb-2">with a score of <span id="cert-score" class="font-bold text-sky-700">85%</span></p>
+                        <p class="text-md text-gray-600">Problem Solving Profile: <span id="cert-style" class="font-semibold">Creative Problem Solver</span></p>
+                    </div>
+                    
+                    <div class="flex justify-between items-center mb-4">
+                        <div>
+                            <p id="cert-date" class="text-gray-600">June 15, 2023</p>
+                            <p id="cert-id" class="text-gray-500 text-sm">Certificate ID: PS-2023-78945</p>
+                        </div>
+                        <div>
+                            <svg class="w-32 h-12" viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10,20 Q30,5 50,20 T90,20" stroke="#0284c7" stroke-width="2" fill="none" />
+                                <text x="50" y="25" font-family="cursive" font-size="8" text-anchor="middle" fill="#0284c7">Problem Solver</text>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <div class="seal">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="#0284c7" stroke-width="2" />
+                            <circle cx="50" cy="50" r="40" fill="none" stroke="#0284c7" stroke-width="1" />
+                            <circle cx="50" cy="50" r="30" fill="none" stroke="#0284c7" stroke-width="1" />
+                            <!-- Gear icon simplified -->
+                            <path d="M50 30C45 30 40 33 40 38C40 43 45 45 50 45C55 45 60 43 60 38C60 33 55 30 50 30Z" stroke="#0284c7" stroke-width="1.5" fill="none"/>
+                            <path d="M40 38C40 38 35 40 35 45C35 50 40 52 40 52" stroke="#0284c7" stroke-width="1.5" fill="none"/>
+                            <path d="M60 38C60 38 65 40 65 45C65 50 60 52 60 52" stroke="#0284c7" stroke-width="1.5" fill="none"/>
+                            <path d="M45 45C45 45 40 47 40 52C40 57 45 60 50 60C55 60 60 57 60 52C60 47 55 45 55 45" stroke="#0284c7" stroke-width="1.5" fill="none"/>
+                            <text x="50" y="70" font-size="8" text-anchor="middle" fill="#0284c7">CERTIFIED</text>
+                            <text x="50" y="80" font-size="6" text-anchor="middle" fill="#0284c7">PROBLEM SOLVER</text>
+                        </svg>
+                    </div>
+                    
+                    <div class="absolute bottom-5 left-5 opacity-30">
+                        <svg class="w-24 h-24" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M30,50 L70,50 M50,30 L50,70" stroke="#0284c7" stroke-width="1"/>
+                            <circle cx="50" cy="50" r="20" stroke="#0284c7" stroke-width="1" stroke-dasharray="5 5"/>
+                            <circle cx="50" cy="50" r="40" stroke="#0284c7" stroke-width="1" stroke-dasharray="2 2"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button id="download-btn" class="bg-sky-600 hover:bg-sky-700 text-white font-semibold py-3 px-6 rounded-lg flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                        </svg>
+                        Download Certificate
+                    </button>
+                    <button id="share-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path>
+                        </svg>
+                        Share Certificate
+                    </button>
+                    <button id="restart-btn" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 px-6 rounded-lg flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                        </svg>
+                        Take Another Assessment
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Assessment questions
+            const questions = [
+                {
+                    question: "A team project is behind schedule. What would be your first step to address this issue?",
+                    options: [
+                        "Analyze the causes of the delay and identify bottlenecks",
+                        "Immediately ask everyone to work overtime",
+                        "Blame the team members who seem least productive",
+                        "Reduce the project scope without consulting stakeholders"
+                    ],
+                    category: "analytical"
+                },
+                {
+                    question: "You notice a recurring issue with a process at work. How would you approach solving it?",
+                    options: [
+                        "Gather data about when and why the issue occurs before proposing solutions",
+                        "Implement the first solution that comes to mind to fix it quickly",
+                        "Ignore it since it's a recurring problem that probably can't be fixed",
+                        "Ask someone else to deal with it"
+                    ],
+                    category: "analytical"
+                },
+                {
+                    question: "When faced with a complex problem with multiple possible solutions, what's your approach?",
+                    options: [
+                        "Evaluate each solution against criteria like cost, time, and effectiveness",
+                        "Choose the solution that's easiest to implement regardless of effectiveness",
+                        "Go with the most expensive solution as it's probably the best",
+                        "Randomly select a solution to save time"
+                    ],
+                    category: "decision"
+                },
+                {
+                    question: "A customer is unhappy with a product but hasn't specified why. How do you handle this?",
+                    options: [
+                        "Ask open-ended questions to understand their specific concerns",
+                        "Immediately offer a refund to resolve the situation quickly",
+                        "Defend the product and explain why they should be satisfied",
+                        "Tell them to submit a formal complaint through proper channels"
+                    ],
+                    category: "analytical"
+                },
+                {
+                    question: "Your team needs to reduce costs by 15%. What approach would you take?",
+                    options: [
+                        "Analyze all expenses, identify non-essential items, and involve the team in prioritizing cuts",
+                        "Cut 15% from every department's budget equally",
+                        "Reduce staff since personnel is usually the highest expense",
+                        "Delay all new projects indefinitely"
+                    ],
+                    category: "creative"
+                },
+                {
+                    question: "You're tasked with improving a product that hasn't changed in 10 years. How do you approach this?",
+                    options: [
+                        "Research customer needs, market trends, and new technologies before brainstorming improvements",
+                        "Look at what competitors are doing and copy their best features",
+                        "Focus only on making the product cheaper to produce",
+                        "Add as many new features as possible regardless of customer needs"
+                    ],
+                    category: "creative"
+                },
+                {
+                    question: "Two departments in your organization have conflicting needs. How do you resolve this?",
+                    options: [
+                        "Facilitate a discussion to understand both perspectives and find a compromise or creative solution",
+                        "Side with the department that has more senior leadership",
+                        "Split resources exactly 50/50 between them",
+                        "Tell them to resolve it themselves"
+                    ],
+                    category: "decision"
+                },
+                {
+                    question: "A new technology could improve efficiency but requires significant training. What do you do?",
+                    options: [
+                        "Conduct a cost-benefit analysis comparing training costs with long-term efficiency gains",
+                        "Implement the technology immediately and figure out training later",
+                        "Stick with the current system to avoid disruption",
+                        "Only train a few people to save on training costs"
+                    ],
+                    category: "decision"
+                },
+                {
+                    question: "You need to implement a solution quickly with limited resources. What's your approach?",
+                    options: [
+                        "Identify the minimum viable solution that addresses the core problem",
+                        "Request more resources and delay implementation",
+                        "Implement a partial solution that doesn't address the core issue",
+                        "Find someone else to take responsibility for the implementation"
+                    ],
+                    category: "implementation"
+                },
+                {
+                    question: "A project has multiple stakeholders with different priorities. How do you proceed?",
+                    options: [
+                        "Create a prioritization framework and facilitate consensus on the most important objectives",
+                        "Focus on satisfying the most senior stakeholder",
+                        "Try to include every stakeholder's requests regardless of conflicts",
+                        "Minimize stakeholder involvement to simplify decision-making"
+                    ],
+                    category: "decision"
+                },
+                {
+                    question: "You discover a flaw in a process that no one else has noticed. What do you do?",
+                    options: [
+                        "Document the issue, analyze its impact, and propose a solution to the appropriate person",
+                        "Fix it quietly without telling anyone",
+                        "Point out the flaw publicly to gain recognition for your observation",
+                        "Ignore it since no one else has noticed it"
+                    ],
+                    category: "implementation"
+                },
+                {
+                    question: "Your team needs to generate ideas for a new product. How do you approach this?",
+                    options: [
+                        "Facilitate a structured brainstorming session where all ideas are welcomed before evaluation",
+                        "Ask each person to submit one idea and pick the best one",
+                        "Look at competitor products and make minor improvements",
+                        "Assign the task to the most creative team member"
+                    ],
+                    category: "creative"
+                },
+                {
+                    question: "A solution you implemented isn't working as expected. What's your next step?",
+                    options: [
+                        "Gather feedback, analyze what's not working, and refine the solution",
+                        "Abandon the solution and try something completely different",
+                        "Continue with the current approach hoping it improves over time",
+                        "Find someone else to blame for the failure"
+                    ],
+                    category: "implementation"
+                },
+                {
+                    question: "You need to make a decision with incomplete information. How do you proceed?",
+                    options: [
+                        "Identify what information is critical, gather what you can, assess risks, and make the best decision possible",
+                        "Delay the decision until you have complete information",
+                        "Make a random decision since the information is incomplete anyway",
+                        "Ask someone else to make the decision for you"
+                    ],
+                    category: "decision"
+                },
+                {
+                    question: "A successful solution in one department might benefit others. How do you handle this?",
+                    options: [
+                        "Document the solution, identify other areas that might benefit, and share the approach with appropriate modifications",
+                        "Keep the solution within the original department to maintain their competitive advantage",
+                        "Force all other departments to adopt the solution regardless of their specific needs",
+                        "Take credit for the solution and use it for personal advancement"
+                    ],
+                    category: "implementation"
+                }
+            ];
+
+            // Problem Solving profiles based on answer patterns
+            const problemProfiles = {
+                "analytical": {
+                    high: "Analytical Problem Solver",
+                    medium: "Developing Analyst",
+                    low: "Emerging Analyst"
+                },
+                "creative": {
+                    high: "Creative Problem Solver",
+                    medium: "Innovative Thinker",
+                    low: "Developing Innovator"
+                },
+                "decision": {
+                    high: "Strategic Decision Maker",
+                    medium: "Balanced Decision Maker",
+                    low: "Developing Decision Maker"
+                },
+                "implementation": {
+                    high: "Practical Implementer",
+                    medium: "Action-Oriented Problem Solver",
+                    low: "Developing Implementer"
+                }
+            };
+
+            // DOM elements
+            const welcomeScreen = document.getElementById('welcome-screen');
+            const userInfoScreen = document.getElementById('user-info-screen');
+            const assessmentScreen = document.getElementById('assessment-screen');
+            const resultsScreen = document.getElementById('results-screen');
+            const paymentScreen = document.getElementById('payment-screen');
+            const certificateScreen = document.getElementById('certificate-screen');
+            
+            const startBtn = document.getElementById('start-btn');
+            const userForm = document.getElementById('user-form');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const getCertificateBtn = document.getElementById('get-certificate-btn');
+            const processPaymentBtn = document.getElementById('process-payment-btn');
+            const downloadBtn = document.getElementById('download-btn');
+            const shareBtn = document.getElementById('share-btn');
+            const restartBtn = document.getElementById('restart-btn');
+            
+            const currentQuestionEl = document.getElementById('current-question');
+            const progressBar = document.getElementById('progress-bar');
+            const questionText = document.getElementById('question-text');
+            const optionsContainer = document.getElementById('options-container');
+            const timerEl = document.getElementById('timer');
+
+            // State variables
+            let currentQuestion = 0;
+            let userAnswers = Array(questions.length).fill(null);
+            let timer;
+            let timeLeft = 45;
+            let userData = {
+                name: '',
+                email: '',
+                profession: ''
+            };
+
+            // Event listeners
+            startBtn.addEventListener('click', showUserInfoScreen);
+            userForm.addEventListener('submit', handleUserFormSubmit);
+            prevBtn.addEventListener('click', showPreviousQuestion);
+            nextBtn.addEventListener('click', handleNextQuestion);
+            getCertificateBtn.addEventListener('click', showPaymentScreen);
+            processPaymentBtn.addEventListener('click', showCertificate);
+            downloadBtn.addEventListener('click', downloadCertificate);
+            shareBtn.addEventListener('click', shareCertificate);
+            restartBtn.addEventListener('click', restartAssessment);
+
+            // Functions
+            function showUserInfoScreen(e) {
+                e.preventDefault();
+                welcomeScreen.classList.add('hidden');
+                userInfoScreen.classList.remove('hidden');
+            }
+
+            function handleUserFormSubmit(e) {
+                e.preventDefault();
+                userData.name = document.getElementById('fullName').value;
+                userData.email = document.getElementById('email').value;
+                userData.profession = document.getElementById('profession').value || 'Professional';
+                
+                userInfoScreen.classList.add('hidden');
+                assessmentScreen.classList.remove('hidden');
+                
+                loadQuestion(currentQuestion);
+                startTimer();
+            }
+
+            function loadQuestion(index) {
+                const question = questions[index];
+                questionText.textContent = question.question;
+                
+                // Update progress indicators
+                currentQuestionEl.textContent = index + 1;
+                progressBar.style.width = `${((index + 1) / questions.length) * 100}%`;
+                
+                // Clear previous options
+                optionsContainer.innerHTML = '';
+                
+                // Add new options
+                question.options.forEach((option, i) => {
+                    const isSelected = userAnswers[index] === i;
+                    
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = `option p-4 border rounded-lg cursor-pointer transition-colors ${
+                        isSelected ? 'bg-sky-100 border-sky-500' : 'hover:bg-gray-50'
+                    }`;
+                    optionDiv.dataset.index = i;
+                    
+                    optionDiv.innerHTML = `
+                        <div class="flex items-center">
+                            <div class="w-6 h-6 rounded-full border ${
+                                isSelected ? 'border-sky-500 bg-sky-500' : 'border-gray-300'
+                            } flex items-center justify-center mr-3">
+                                ${isSelected ? '<div class="w-2 h-2 rounded-full bg-white"></div>' : ''}
+                            </div>
+                            <span>${option}</span>
+                        </div>
+                    `;
+                    
+                    optionDiv.addEventListener('click', () => selectOption(i));
+                    optionsContainer.appendChild(optionDiv);
+                });
+                
+                // Update button states
+                prevBtn.disabled = index === 0;
+                nextBtn.textContent = index === questions.length - 1 ? 'Finish' : 'Next';
+                
+                // Reset timer
+                clearInterval(timer);
+                timeLeft = 45;
+                timerEl.textContent = formatTime(timeLeft);
+                timerEl.classList.remove('text-red-600', 'timer-warning');
+                startTimer();
+            }
+
+            function selectOption(optionIndex) {
+                userAnswers[currentQuestion] = optionIndex;
+                
+                // Update UI to show selected option
+                const options = optionsContainer.querySelectorAll('.option');
+                options.forEach((option, i) => {
+                    const circle = option.querySelector('div > div');
+                    if (i === optionIndex) {
+                        option.classList.add('bg-sky-100', 'border-sky-500');
+                        option.classList.remove('hover:bg-gray-50');
+                        circle.classList.add('border-sky-500', 'bg-sky-500');
+                        circle.innerHTML = '<div class="w-2 h-2 rounded-full bg-white"></div>';
+                    } else {
+                        option.classList.remove('bg-sky-100', 'border-sky-500');
+                        option.classList.add('hover:bg-gray-50');
+                        circle.classList.remove('border-sky-500', 'bg-sky-500');
+                        circle.classList.add('border-gray-300');
+                        circle.innerHTML = '';
+                    }
+                });
+            }
+
+            function showPreviousQuestion() {
+                if (currentQuestion > 0) {
+                    currentQuestion--;
+                    loadQuestion(currentQuestion);
+                }
+            }
+
+            function handleNextQuestion() {
+                // If no option selected, prompt user
+                if (userAnswers[currentQuestion] === null) {
+                    alert('Please select an answer before proceeding.');
+                    return;
+                }
+                
+                if (currentQuestion < questions.length - 1) {
+                    currentQuestion++;
+                    loadQuestion(currentQuestion);
+                } else {
+                    showResults();
+                }
+            }
+
+            function startTimer() {
+                timer = setInterval(() => {
+                    timeLeft--;
+                    timerEl.textContent = formatTime(timeLeft);
+                    
+                    if (timeLeft <= 10) {
+                        timerEl.classList.add('text-red-600');
+                        if (timeLeft <= 5) {
+                            timerEl.classList.add('timer-warning');
+                        }
+                    } else {
+                        timerEl.classList.remove('text-red-600', 'timer-warning');
+                    }
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(timer);
+                        // Auto-advance if time runs out
+                        if (userAnswers[currentQuestion] === null) {
+                            // If no answer selected, choose one randomly
+                            selectOption(Math.floor(Math.random() * 4));
+                        }
+                        
+                        if (currentQuestion < questions.length - 1) {
+                            currentQuestion++;
+                            loadQuestion(currentQuestion);
+                        } else {
+                            showResults();
+                        }
+                    }
+                }, 1000);
+            }
+
+            function formatTime(seconds) {
+                return `00:${seconds < 10 ? '0' : ''}${seconds}`;
+            }
+
+            function calculateScores() {
+                // Initialize category scores
+                let categoryScores = {
+                    "analytical": { score: 0, count: 0 },
+                    "creative": { score: 0, count: 0 },
+                    "decision": { score: 0, count: 0 },
+                    "implementation": { score: 0, count: 0 }
+                };
+                
+                // Calculate scores based on answers
+                // For this demo, we'll use a simple scoring system where option 0 is best (3 points)
+                // and option 3 is worst (0 points)
+                questions.forEach((question, index) => {
+                    const category = question.category;
+                    const answerIndex = userAnswers[index];
+                    
+                    if (answerIndex !== null) {
+                        // For this demo, we'll score based on the option selected
+                        // Option 0 = 3 points, Option 1 = 2 points, Option 2 = 1 point, Option 3 = 0 points
+                        // This is just for demonstration - a real assessment would have correct answers
+                        const score = 3 - answerIndex;
+                        categoryScores[category].score += score;
+                        categoryScores[category].count++;
+                    }
+                });
+                
+                // Calculate percentages
+                const analyticalScore = Math.round((categoryScores["analytical"].score / (categoryScores["analytical"].count * 3)) * 100);
+                const creativeScore = Math.round((categoryScores["creative"].score / (categoryScores["creative"].count * 3)) * 100);
+                const decisionScore = Math.round((categoryScores["decision"].score / (categoryScores["decision"].count * 3)) * 100);
+                const implementationScore = Math.round((categoryScores["implementation"].score / (categoryScores["implementation"].count * 3)) * 100);
+                
+                // Calculate overall score
+                const totalScore = categoryScores["analytical"].score + categoryScores["creative"].score + 
+                                  categoryScores["decision"].score + categoryScores["implementation"].score;
+                const totalPossible = (categoryScores["analytical"].count + categoryScores["creative"].count + 
+                                     categoryScores["decision"].count + categoryScores["implementation"].count) * 3;
+                const overallScore = Math.round((totalScore / totalPossible) * 100);
+                
+                return {
+                    overall: overallScore,
+                    "analytical": analyticalScore,
+                    "creative": creativeScore,
+                    "decision": decisionScore,
+                    "implementation": implementationScore
+                };
+            }
+
+            function determineProblemProfile(scores) {
+                // Determine Problem Solving profile based on highest category score
+                const categories = ["analytical", "creative", "decision", "implementation"];
+                const highestCategory = categories.reduce((a, b) => scores[a] > scores[b] ? a : b);
+                
+                // Determine level (high, medium, low)
+                let level;
+                if (scores[highestCategory] >= 80) {
+                    level = 'high';
+                } else if (scores[highestCategory] >= 60) {
+                    level = 'medium';
+                } else {
+                    level = 'low';
+                }
+                
+                return problemProfiles[highestCategory][level];
+            }
+
+            function generateFeedback(scores, problemProfile) {
+                let feedback = '';
+                
+                // Generate feedback based on Problem Solving profile and scores
+                if (problemProfile.includes('Analytical')) {
+                    feedback = 'You excel at breaking down complex problems, identifying root causes, and using data to inform your decisions. ';
+                } else if (problemProfile.includes('Creative')) {
+                    feedback = 'Your strength lies in generating innovative solutions, thinking outside the box, and approaching problems from multiple angles. ';
+                } else if (problemProfile.includes('Decision')) {
+                    feedback = 'You demonstrate skill in evaluating options, making timely decisions, and balancing competing priorities effectively. ';
+                } else if (problemProfile.includes('Implementer') || problemProfile.includes('Action')) {
+                    feedback = 'You show aptitude for executing solutions efficiently, overcoming obstacles, and turning ideas into practical results. ';
+                } else {
+                    feedback = 'You have a balanced problem solving profile with several notable strengths. ';
+                }
+                
+                // Add strengths
+                feedback += 'Your key strengths include ';
+                
+                // Find top two categories
+                const categories = Object.entries(scores)
+                    .filter(([key]) => key !== 'overall')
+                    .sort((a, b) => b[1] - a[1]);
+                
+                const topCategory = categories[0][0];
+                const secondCategory = categories[1][0];
+                
+                switch (topCategory) {
+                    case 'analytical':
+                        feedback += 'analyzing complex situations';
+                        break;
+                    case 'creative':
+                        feedback += 'generating innovative solutions';
+                        break;
+                    case 'decision':
+                        feedback += 'making effective decisions';
+                        break;
+                    case 'implementation':
+                        feedback += 'implementing solutions efficiently';
+                        break;
+                }
+                
+                feedback += ' and ';
+                
+                switch (secondCategory) {
+                    case 'analytical':
+                        feedback += 'identifying root causes of problems';
+                        break;
+                    case 'creative':
+                        feedback += 'thinking outside conventional boundaries';
+                        break;
+                    case 'decision':
+                        feedback += 'evaluating options systematically';
+                        break;
+                    case 'implementation':
+                        feedback += 'turning ideas into practical actions';
+                        break;
+                }
+                
+                feedback += '. ';
+                
+                // Add area for improvement
+                const lowestCategory = categories[3][0];
+                
+                feedback += 'An area for potential growth is ';
+                
+                switch (lowestCategory) {
+                    case 'analytical':
+                        feedback += 'developing your ability to break down complex problems into manageable components.';
+                        break;
+                    case 'creative':
+                        feedback += 'enhancing your capacity to generate innovative and unconventional solutions.';
+                        break;
+                    case 'decision':
+                        feedback += 'strengthening your approach to evaluating options and making timely decisions.';
+                        break;
+                    case 'implementation':
+                        feedback += 'improving your skills in executing solutions and overcoming implementation challenges.';
+                        break;
+                }
+                
+                return feedback;
+            }
+
+            function showResults() {
+                clearInterval(timer);
+                assessmentScreen.classList.add('hidden');
+                resultsScreen.classList.remove('hidden');
+                
+                const scores = calculateScores();
+                const problemProfile = determineProblemProfile(scores);
+                
+                // Update score displays
+                document.getElementById('score-circle').style.strokeDashoffset = 283 - (283 * scores.overall / 100);
+                document.getElementById('score-text').textContent = `${scores.overall}%`;
+                
+                document.getElementById('analytical-score').textContent = `${scores["analytical"]}%`;
+                document.getElementById('analytical-bar').style.width = `${scores["analytical"]}%`;
+                
+                document.getElementById('creative-score').textContent = `${scores["creative"]}%`;
+                document.getElementById('creative-bar').style.width = `${scores["creative"]}%`;
+                
+                document.getElementById('decision-score').textContent = `${scores["decision"]}%`;
+                document.getElementById('decision-bar').style.width = `${scores["decision"]}%`;
+                
+                document.getElementById('implementation-score').textContent = `${scores["implementation"]}%`;
+                document.getElementById('implementation-bar').style.width = `${scores["implementation"]}%`;
+                
+                // Set Problem Solving profile
+                document.getElementById('problem-style').textContent = problemProfile;
+                
+                // Generate and display feedback
+                const feedback = generateFeedback(scores, problemProfile);
+                document.getElementById('feedback-text').textContent = feedback;
+            }
+
+            function showPaymentScreen() {
+                resultsScreen.classList.add('hidden');
+                paymentScreen.classList.remove('hidden');
+            }
+
+            function showCertificate() {
+                paymentScreen.classList.add('hidden');
+                certificateScreen.classList.remove('hidden');
+                
+                // Update certificate with user data
+                document.getElementById('cert-name').textContent = userData.name;
+                
+                const scores = calculateScores();
+                document.getElementById('cert-score').textContent = `${scores.overall}%`;
+                
+                const problemProfile = determineProblemProfile(scores);
+                document.getElementById('cert-style').textContent = problemProfile;
+                
+                // Set current date
+                const today = new Date();
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                document.getElementById('cert-date').textContent = today.toLocaleDateString('en-US', options);
+                
+                // Generate certificate ID
+                const certId = 'PS-' + today.getFullYear() + '-' + Math.floor(10000 + Math.random() * 90000);
+                document.getElementById('cert-id').textContent = 'Certificate ID: ' + certId;
+                
+                // Create confetti effect
+                createConfetti();
+            }
+
+            function createConfetti() {
+                const colors = ['#0ea5e9', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
+                const confettiCount = 100;
+                
+                for (let i = 0; i < confettiCount; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = `${Math.random() * 100}vw`;
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.opacity = '1';
+                    confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    
+                    document.body.appendChild(confetti);
+                    
+                    // Animate confetti
+                    const duration = Math.random() * 3 + 2; // 2-5 seconds
+                    confetti.animate([
+                        { transform: `translate(0, 0) rotate(0deg)`, opacity: 1 },
+                        { transform: `translate(${Math.random() * 100 - 50}px, ${window.innerHeight}px) rotate(${Math.random() * 720}deg)`, opacity: 0 }
+                    ], {
+                        duration: duration * 1000,
+                        easing: 'cubic-bezier(0.1, 0.8, 0.3, 1)'
+                    });
+                    
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, duration * 1000);
+                }
+            }
+
+            function downloadCertificate() {
+                alert('In a real application, this would generate and download a PDF certificate. This is a demo version.');
+            }
+
+            function shareCertificate() {
+                alert('In a real application, this would open sharing options for social media platforms. This is a demo version.');
+            }
+
+            function restartAssessment() {
+                // Reset state
+                currentQuestion = 0;
+                userAnswers = Array(questions.length).fill(null);
+                
+                // Show welcome screen
+                certificateScreen.classList.add('hidden');
+                welcomeScreen.classList.remove('hidden');
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9655a1c2404a8600',t:'MTc1MzU1MTA5OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

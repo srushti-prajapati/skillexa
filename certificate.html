@@ -2,34 +2,63 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Certificate – Skillexa</title>
-  <link rel="stylesheet" href="/assets/css/style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Skillexa Certificate</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #f3f4f6;
+    }
+    .cert-container {
+      position: relative;
+      width: 1000px;
+      height: auto;
+      margin: auto;
+    }
+    .cert-img {
+      width: 100%;
+    }
+    #name {
+      position: absolute;
+      top: 52%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 32px;
+      font-weight: bold;
+      color: #000;
+    }
+  </style>
 </head>
-<body>
-  <div class="container" style="text-align: center; padding: 40px;">
-    <h1>Your Skillexa Certificate</h1>
-    
-    <!-- ✅ Certificate image -->
-    <img src="/assets/image/skillexa_certificate.jpg" 
-         alt="Skillexa Certificate" 
-         style="max-width: 90%; height: auto; border: 2px solid #000; margin-top: 20px;" />
+<body class="flex flex-col items-center justify-center min-h-screen">
 
-    <!-- ✅ Download/Open Button -->
-    <div style="margin-top: 20px;">
-      <a href="/assets/image/skillexa_certificate.jpg" 
-         download="Skillexa_Certificate.jpg" 
-         target="_blank"
-         style="padding: 10px 20px; background-color: #4CAF50; color: white; border-radius: 6px; text-decoration: none;">
-      
-      </a>
-      <!-- Button to view certificate -->
-<a href="public/assets/images/skillex_certificate.jpg" target="_blank">
-  <button>View Certificate</button>
-</a>
-
-    </div>
+  <div class="cert-container" id="certArea">
+    <img src="assets/images/" class="cert-img" alt="Certificate Background">
+    <div id="name">Your Name</div>
   </div>
+
+  <button onclick="downloadCertificate()" class="mt-8 bg-blue-600 text-white px-6 py-2 rounded">
+    Download Certificate
+  </button>
+
+  <script>
+    const name = localStorage.getItem("skillexa_name");
+    document.getElementById("name").innerText = name || "Your Name";
+
+    function downloadCertificate() {
+      html2canvas(document.getElementById("certArea")).then(canvas => {
+        const link = document.createElement("a");
+        link.download = `${name}skillexa_certificate.jpg`;
+        link.href = canvas.toDataURL();
+        link.click();
+      });
+    }
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</body>
+</html>
+
 <footer style="background-color: #1e3a8a; color: white; padding: 40px 20px; text-align: center;">
   <div style="max-width: 1000px; margin: auto;">
     <h2 style="margin-bottom: 10px; font-size: 1.6rem;">Skillexa</h2>

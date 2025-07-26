@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Management Skills Assessment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e6f7ff 100%);
+        }
+        .progress-bar {
+            transition: width 0.5s ease-in-out;
+        }
+        .card {
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(14, 165, 233, 0.2);
+        }
+        .certificate {
+            background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+            border: 2px solid #0ea5e9;
+            position: relative;
+            overflow: hidden;
+        }
+        .certificate::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 100px;
+            height: 100px;
+            background: rgba(14, 165, 233, 0.1);
+            border-radius: 50%;
+        }
+        .certificate::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            right: -50px;
+            width: 100px;
+            height: 100px;
+            background: rgba(14, 165, 233, 0.1);
+            border-radius: 50%;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        .seal {
+            position: absolute;
+            bottom: 30px;
+            right: 40px;
+            width: 100px;
+            height: 100px;
+        }
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0;
+            z-index: 1000;
+        }
+        .time-icon {
+            transition: all 0.3s ease;
+        }
+        .time-icon:hover {
+            transform: scale(1.1);
+        }
+        .timer-warning {
+            animation: pulse 1s infinite;
+        }
+        .clock-hand {
+            transform-origin: bottom center;
+            animation: rotate 10s linear infinite;
+        }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .time-bubble {
+            transition: all 0.3s ease;
+        }
+        .time-bubble:hover {
+            transform: scale(1.1);
+        }
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg"><path fill="%230ea5e9" fill-opacity="0.1" d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        .rotating-gear {
+            animation: rotate 20s linear infinite;
+        }
+        .rotating-gear-reverse {
+            animation: rotate-reverse 15s linear infinite;
+        }
+        @keyframes rotate-reverse {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
+        }
+        .tick-mark {
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: draw 0.5s forwards;
+        }
+        @keyframes draw {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div id="app" class="container mx-auto px-4 py-8 max-w-5xl">
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="flex flex-col items-center justify-center py-10">
+            <div class="float mb-6">
+                <svg class="w-32 h-32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="48" fill="#0ea5e9" fill-opacity="0.1"/>
+                    <circle cx="50" cy="50" r="40" stroke="#0ea5e9" stroke-width="2" fill="none"/>
+                    <line x1="50" y1="50" x2="50" y2="25" stroke="#0ea5e9" stroke-width="2" class="clock-hand"/>
+                    <line x1="50" y1="50" x2="70" y2="50" stroke="#0ea5e9" stroke-width="3" class="clock-hand" style="animation-duration: 60s;"/>
+                    <circle cx="50" cy="50" r="3" fill="#0ea5e9"/>
+                    <path class="rotating-gear" d="M85 50 A35 35 0 0 1 50 85" stroke="#0ea5e9" stroke-width="1" stroke-dasharray="3 3"/>
+                    <path class="rotating-gear-reverse" d="M15 50 A35 35 0 0 1 50 15" stroke="#0ea5e9" stroke-width="1" stroke-dasharray="3 3"/>
+                    <!-- Clock markers -->
+                    <line x1="50" y1="10" x2="50" y2="15" stroke="#0ea5e9" stroke-width="2"/>
+                    <line x1="50" y1="85" x2="50" y2="90" stroke="#0ea5e9" stroke-width="2"/>
+                    <line x1="10" y1="50" x2="15" y2="50" stroke="#0ea5e9" stroke-width="2"/>
+                    <line x1="85" y1="50" x2="90" y2="50" stroke="#0ea5e9" stroke-width="2"/>
+                    <line x1="25" y1="25" x2="29" y2="29" stroke="#0ea5e9" stroke-width="2"/>
+                    <line x1="75" y1="25" x2="71" y2="29" stroke="#0ea5e9" stroke-width="2"/>
+                    <line x1="25" y1="75" x2="29" y2="71" stroke="#0ea5e9" stroke-width="2"/>
+                    <line x1="75" y1="75" x2="71" y2="71" stroke="#0ea5e9" stroke-width="2"/>
+                </svg>
+            </div>
+            <h1 class="text-4xl font-bold text-gray-800 mb-4 text-center">Time Management Skills Assessment</h1>
+            <p class="text-lg text-gray-600 mb-8 text-center max-w-2xl">Evaluate your time management skills with our comprehensive assessment. Complete 15 questions to receive personalized feedback and a certificate.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl mb-10">
+                <div class="card bg-white p-6 rounded-xl shadow-lg">
+                    <div class="flex items-center justify-center mb-4 text-sky-600">
+                        <svg class="w-12 h-12 time-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2 text-center">Time Awareness</h3>
+                    <p class="text-gray-600 text-center">Understand how you perceive and use time in your daily activities.</p>
+                </div>
+                
+                <div class="card bg-white p-6 rounded-xl shadow-lg">
+                    <div class="flex items-center justify-center mb-4 text-sky-600">
+                        <svg class="w-12 h-12 time-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19 4H5C3.89543 4 3 4.89543 3 6V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V6C21 4.89543 20.1046 4 19 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M16 2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8 2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M3 10H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8 14H8.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 14H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M16 14H16.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8 18H8.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 18H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M16 18H16.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2 text-center">Planning & Prioritization</h3>
+                    <p class="text-gray-600 text-center">Organize tasks effectively and focus on what matters most.</p>
+                </div>
+                
+                <div class="card bg-white p-6 rounded-xl shadow-lg">
+                    <div class="flex items-center justify-center mb-4 text-sky-600">
+                        <svg class="w-12 h-12 time-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M19.4 15C19.2669 15.3016 19.2272 15.6362 19.286 15.9606C19.3448 16.285 19.4995 16.5843 19.73 16.82L19.79 16.88C19.976 17.0657 20.1235 17.2863 20.2241 17.5291C20.3248 17.7719 20.3766 18.0322 20.3766 18.295C20.3766 18.5578 20.3248 18.8181 20.2241 19.0609C20.1235 19.3037 19.976 19.5243 19.79 19.71C19.6043 19.896 19.3837 20.0435 19.1409 20.1441C18.8981 20.2448 18.6378 20.2966 18.375 20.2966C18.1122 20.2966 17.8519 20.2448 17.6091 20.1441C17.3663 20.0435 17.1457 19.896 16.96 19.71L16.9 19.65C16.6643 19.4195 16.365 19.2648 16.0406 19.206C15.7162 19.1472 15.3816 19.1869 15.08 19.32C14.7842 19.4468 14.532 19.6572 14.3543 19.9255C14.1766 20.1938 14.0813 20.5082 14.08 20.83V21C14.08 21.5304 13.8693 22.0391 13.4942 22.4142C13.1191 22.7893 12.6104 23 12.08 23C11.5496 23 11.0409 22.7893 10.6658 22.4142C10.2907 22.0391 10.08 21.5304 10.08 21V20.91C10.0723 20.579 9.96512 20.258 9.77251 19.9887C9.5799 19.7194 9.31074 19.5143 9 19.4C8.69838 19.2669 8.36381 19.2272 8.03941 19.286C7.71502 19.3448 7.41568 19.4995 7.18 19.73L7.12 19.79C6.93425 19.976 6.71368 20.1235 6.47088 20.2241C6.22808 20.3248 5.96783 20.3766 5.705 20.3766C5.44217 20.3766 5.18192 20.3248 4.93912 20.2241C4.69632 20.1235 4.47575 19.976 4.29 19.79C4.10405 19.6043 3.95653 19.3837 3.85588 19.1409C3.75523 18.8981 3.70343 18.6378 3.70343 18.375C3.70343 18.1122 3.75523 17.8519 3.85588 17.6091C3.95653 17.3663 4.10405 17.1457 4.29 16.96L4.35 16.9C4.58054 16.6643 4.73519 16.365 4.794 16.0406C4.85282 15.7162 4.81312 15.3816 4.68 15.08C4.55324 14.7842 4.34276 14.532 4.07447 14.3543C3.80618 14.1766 3.49179 14.0813 3.17 14.08H3C2.46957 14.08 1.96086 13.8693 1.58579 13.4942C1.21071 13.1191 1 12.6104 1 12.08C1 11.5496 1.21071 11.0409 1.58579 10.6658C1.96086 10.2907 2.46957 10.08 3 10.08H3.09C3.42099 10.0723 3.742 9.96512 4.0113 9.77251C4.28059 9.5799 4.48572 9.31074 4.6 9C4.73312 8.69838 4.77282 8.36381 4.714 8.03941C4.65519 7.71502 4.50054 7.41568 4.27 7.18L4.21 7.12C4.02405 6.93425 3.87653 6.71368 3.77588 6.47088C3.67523 6.22808 3.62343 5.96783 3.62343 5.705C3.62343 5.44217 3.67523 5.18192 3.77588 4.93912C3.87653 4.69632 4.02405 4.47575 4.21 4.29C4.39575 4.10405 4.61632 3.95653 4.85912 3.85588C5.10192 3.75523 5.36217 3.70343 5.625 3.70343C5.88783 3.70343 6.14808 3.75523 6.39088 3.85588C6.63368 3.95653 6.85425 4.10405 7.04 4.29L7.1 4.35C7.33568 4.58054 7.63502 4.73519 7.95941 4.794C8.28381 4.85282 8.61838 4.81312 8.92 4.68H9C9.29577 4.55324 9.54802 4.34276 9.72569 4.07447C9.90337 3.80618 9.99872 3.49179 10 3.17V3C10 2.46957 10.2107 1.96086 10.5858 1.58579C10.9609 1.21071 11.4696 1 12 1C12.5304 1 13.0391 1.21071 13.4142 1.58579C13.7893 1.96086 14 2.46957 14 3V3.09C14.0013 3.41179 14.0966 3.72618 14.2743 3.99447C14.452 4.26276 14.7042 4.47324 15 4.6C15.3016 4.73312 15.6362 4.77282 15.9606 4.714C16.285 4.65519 16.5843 4.50054 16.82 4.27L16.88 4.21C17.0657 4.02405 17.2863 3.87653 17.5291 3.77588C17.7719 3.67523 18.0322 3.62343 18.295 3.62343C18.5578 3.62343 18.8181 3.67523 19.0609 3.77588C19.3037 3.87653 19.5243 4.02405 19.71 4.21C19.896 4.39575 20.0435 4.61632 20.1441 4.85912C20.2448 5.10192 20.2966 5.36217 20.2966 5.625C20.2966 5.88783 20.2448 6.14808 20.1441 6.39088C20.0435 6.63368 19.896 6.85425 19.71 7.04L19.65 7.1C19.4195 7.33568 19.2648 7.63502 19.206 7.95941C19.1472 8.28381 19.1869 8.61838 19.32 8.92V9C19.4468 9.29577 19.6572 9.54802 19.9255 9.72569C20.1938 9.90337 20.5082 9.99872 20.83 10H21C21.5304 10 22.0391 10.2107 22.4142 10.5858C22.7893 10.9609 23 11.4696 23 12C23 12.5304 22.7893 13.0391 22.4142 13.4142C22.0391 13.7893 21.5304 14 21 14H20.91C20.5882 14.0013 20.2738 14.0966 20.0055 14.2743C19.7372 14.452 19.5268 14.7042 19.4 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2 text-center">Productivity Techniques</h3>
+                    <p class="text-gray-600 text-center">Apply strategies to maximize efficiency and minimize wasted time.</p>
+                </div>
+            </div>
+            
+            <div class="relative w-full max-w-4xl mb-10 bg-white rounded-xl shadow-lg p-8 overflow-hidden">
+                <div class="flex flex-wrap md:flex-nowrap items-center">
+                    <div class="w-full md:w-1/2 mb-6 md:mb-0 md:pr-6">
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-3">Why Time Management Matters</h3>
+                        <p class="text-gray-600 mb-4">Effective time management is crucial for personal and professional success. It helps you:</p>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-sky-600 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-gray-700">Reduce stress and overwhelm</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-sky-600 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-gray-700">Increase productivity and efficiency</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-sky-600 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-gray-700">Achieve goals more consistently</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-sky-600 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-gray-700">Improve work-life balance</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="w-full md:w-1/2 flex justify-center">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="time-bubble bg-sky-100 rounded-full w-24 h-24 flex items-center justify-center">
+                                <svg class="w-12 h-12 text-sky-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 8V12L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </div>
+                            <div class="time-bubble bg-sky-100 rounded-full w-24 h-24 flex items-center justify-center mt-6">
+                                <svg class="w-12 h-12 text-sky-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 11L12 14L22 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M21 12V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="time-bubble bg-sky-100 rounded-full w-24 h-24 flex items-center justify-center">
+                                <svg class="w-12 h-12 text-sky-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 8V12L9 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M3.05 11C3.27151 8.63648 4.40446 6.45195 6.22178 4.90257C8.0391 3.35318 10.3871 2.54393 12.7844 2.6387C15.1818 2.73346 17.4599 3.72607 19.1462 5.41236C20.8325 7.09865 21.8251 9.37681 21.9199 11.7742C22.0146 14.1715 21.2054 16.5195 19.656 18.3368C18.1066 20.1541 15.9221 21.2871 13.5586 21.5086C11.195 21.7301 8.82513 21.0271 6.93593 19.5372C5.04673 18.0473 3.77324 15.8925 3.36 13.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="time-bubble bg-sky-100 rounded-full w-24 h-24 flex items-center justify-center mt-6">
+                                <svg class="w-12 h-12 text-sky-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M19 4H5C3.89543 4 3 4.89543 3 6V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V6C21 4.89543 20.1046 4 19 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M16 2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M8 2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M3 10H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="wave"></div>
+            </div>
+            
+            <button id="start-btn" class="btn-primary text-white font-semibold py-3 px-8 rounded-full text-lg">
+                Start Assessment
+            </button>
+        </div>
+
+        <!-- User Info Form -->
+        <div id="user-info-screen" class="hidden max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Before we begin</h2>
+            <p class="text-gray-600 mb-6">Please provide your information for your time management certificate:</p>
+            
+            <form id="user-form" class="space-y-4">
+                <div>
+                    <label for="fullName" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-sky-500 focus:border-sky-500">
+                </div>
+                
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                    <input type="email" id="email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-sky-500 focus:border-sky-500">
+                </div>
+                
+                <div>
+                    <label for="profession" class="block text-sm font-medium text-gray-700 mb-1">Profession (Optional)</label>
+                    <input type="text" id="profession" name="profession" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-sky-500 focus:border-sky-500">
+                </div>
+                
+                <div class="pt-4">
+                    <button type="submit" class="btn-primary text-white font-semibold py-2 px-6 rounded-lg w-full">
+                        Continue to Assessment
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Assessment Screen -->
+        <div id="assessment-screen" class="hidden">
+            <div class="mb-6 flex items-center justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">Time Management Assessment</h2>
+                    <p class="text-gray-600">Question <span id="current-question">1</span> of 15</p>
+                </div>
+                <div class="bg-white px-4 py-2 rounded-lg shadow flex items-center">
+                    <svg class="w-5 h-5 text-sky-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span id="timer" class="font-semibold text-gray-800">00:45</span>
+                </div>
+            </div>
+            
+            <div class="w-full bg-gray-200 rounded-full h-2.5 mb-8">
+                <div id="progress-bar" class="progress-bar bg-sky-600 h-2.5 rounded-full" style="width: 0%"></div>
+            </div>
+            
+            <div id="question-container" class="bg-white rounded-xl shadow-lg p-8 mb-6">
+                <h3 id="question-text" class="text-xl font-semibold text-gray-800 mb-6">Loading question...</h3>
+                
+                <div id="options-container" class="space-y-3">
+                    <!-- Options will be inserted here -->
+                </div>
+            </div>
+            
+            <div class="flex justify-between">
+                <button id="prev-btn" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-6 rounded-lg disabled:opacity-50" disabled>
+                    Previous
+                </button>
+                <button id="next-btn" class="btn-primary text-white font-semibold py-2 px-6 rounded-lg">
+                    Next
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="hidden">
+            <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
+                <div class="flex items-center justify-center mb-6">
+                    <div class="relative">
+                        <svg class="w-32 h-32" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="45" fill="#f3f4f6" stroke="#e5e7eb" stroke-width="2"></circle>
+                            <circle id="score-circle" cx="50" cy="50" r="45" fill="none" stroke="#0ea5e9" stroke-width="8" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="42"></circle>
+                            <text id="score-text" x="50" y="50" font-size="20" text-anchor="middle" alignment-baseline="middle" font-weight="bold" fill="#0ea5e9">85%</text>
+                        </svg>
+                    </div>
+                </div>
+                
+                <h2 class="text-2xl font-bold text-gray-800 text-center mb-2">Time Management Assessment Complete!</h2>
+                <p class="text-gray-600 text-center mb-6">Here's how you performed in your time management assessment.</p>
+                
+                <div class="space-y-4 mb-8">
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-700">Time Awareness</span>
+                            <span id="time-awareness-score" class="text-sm font-medium text-sky-600">80%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div id="time-awareness-bar" class="bg-sky-600 h-2 rounded-full" style="width: 80%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-700">Planning & Prioritization</span>
+                            <span id="planning-score" class="text-sm font-medium text-sky-600">90%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div id="planning-bar" class="bg-sky-600 h-2 rounded-full" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-700">Delegation & Boundaries</span>
+                            <span id="delegation-score" class="text-sm font-medium text-sky-600">85%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div id="delegation-bar" class="bg-sky-600 h-2 rounded-full" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-700">Focus & Productivity</span>
+                            <span id="focus-score" class="text-sm font-medium text-sky-600">75%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div id="focus-bar" class="bg-sky-600 h-2 rounded-full" style="width: 75%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-sky-50 rounded-lg p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Your Time Management Profile</h3>
+                    <p id="time-style" class="text-gray-700 font-medium mb-3">Strategic Planner</p>
+                    <p id="feedback-text" class="text-gray-700">
+                        You demonstrate strong time management skills with excellent planning and prioritization abilities. Your time awareness is well-developed, and you manage your schedule effectively in most situations. Your focus and productivity could be enhanced by developing more strategies for minimizing distractions. Overall, you have a solid foundation in time management that serves you well in both personal and professional contexts.
+                    </p>
+                </div>
+                
+                <div class="text-center">
+                    <button id="get-certificate-btn" class="btn-primary text-white font-semibold py-3 px-8 rounded-full">
+                        Get Your Time Management Certificate
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Screen -->
+        <div id="payment-screen" class="hidden max-w-2xl mx-auto">
+            <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Get Your Time Management Certificate</h2>
+                
+                <div class="flex justify-center mb-8">
+                    <div class="relative w-64 h-40 bg-sky-50 rounded-lg flex items-center justify-center border-2 border-dashed border-sky-200 pulse">
+                        <svg class="w-16 h-16 text-sky-300" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19 21H5C3.89543 21 3 20.1046 3 19V5C3 3.89543 3.89543 3 5 3H19C20.1046 3 21 3.89543 21 5V19C21 20.1046 20.1046 21 19 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M3 9H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M9 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" stroke="currentColor" stroke-width="2"/>
+                            <path d="M12 16C13.1046 16 14 15.1046 14 14C14 12.8954 13.1046 12 12 12C10.8954 12 10 12.8954 10 14C10 15.1046 10.8954 16 12 16Z" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        <div class="absolute top-0 right-0 bg-sky-600 text-white text-xs font-bold px-2 py-1 rounded-bl-lg rounded-tr-lg">
+                            PREVIEW
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 rounded-lg p-6 mb-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-gray-700 font-medium">Time Management Certificate</span>
+                        <span class="text-sky-600 font-bold">$9.99</span>
+                    </div>
+                    <ul class="space-y-2 mb-4">
+                        <li class="flex items-center text-sm text-gray-600">
+                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Personalized time management certificate
+                        </li>
+                        <li class="flex items-center text-sm text-gray-600">
+                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            High-resolution downloadable PDF
+                        </li>
+                        <li class="flex items-center text-sm text-gray-600">
+                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Detailed time management profile
+                        </li>
+                        <li class="flex items-center text-sm text-gray-600">
+                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Share with employers or on your resume
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Demo Payment Form -->
+                <div class="mb-6">
+                    <div class="border border-gray-300 rounded-lg p-4 mb-4">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-sm font-medium text-gray-700">Payment Method</span>
+                            <div class="flex space-x-2">
+                                <div class="w-8 h-5 bg-blue-600 rounded"></div>
+                                <div class="w-8 h-5 bg-red-500 rounded"></div>
+                                <div class="w-8 h-5 bg-yellow-400 rounded"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-medium text-gray-700 mb-1">Card Holder</label>
+                                    <div class="h-10 bg-gray-100 rounded-lg"></div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-gray-700 mb-1">Card Number</label>
+                                    <div class="h-10 bg-gray-100 rounded-lg"></div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-3 gap-4">
+                                <div>
+                                    <label class="block text-xs font-medium text-gray-700 mb-1">Expiry</label>
+                                    <div class="h-10 bg-gray-100 rounded-lg"></div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-gray-700 mb-1">CVC</label>
+                                    <div class="h-10 bg-gray-100 rounded-lg"></div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-gray-700 mb-1">ZIP</label>
+                                    <div class="h-10 bg-gray-100 rounded-lg"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <p class="text-sm text-gray-500 mb-4">This is a demo payment form. In a real application, secure payment processing would be implemented.</p>
+                        <button id="process-payment-btn" class="btn-primary text-white font-semibold py-3 px-8 rounded-full w-full">
+                            Pay $9.99 & Get Certificate
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Certificate Screen -->
+        <div id="certificate-screen" class="hidden">
+            <div class="max-w-4xl mx-auto">
+                <div class="certificate p-10 rounded-xl shadow-lg mb-8 relative">
+                    <div class="absolute top-5 left-5">
+                        <svg class="w-16 h-16" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="48" fill="#0ea5e9" fill-opacity="0.1"/>
+                            <circle cx="50" cy="50" r="40" stroke="#0ea5e9" stroke-width="2" fill="none"/>
+                            <line x1="50" y1="30" x2="50" y2="50" stroke="#0ea5e9" stroke-width="2"/>
+                            <line x1="50" y1="50" x2="70" y2="50" stroke="#0ea5e9" stroke-width="2"/>
+                            <circle cx="50" cy="50" r="3" fill="#0ea5e9"/>
+                        </svg>
+                    </div>
+                    
+                    <div class="text-center mb-8 pt-8">
+                        <h2 class="text-3xl font-bold text-sky-800 mb-2">Certificate of Time Management</h2>
+                        <div class="h-1 w-32 bg-sky-600 mx-auto mb-2"></div>
+                        <p class="text-gray-600">Time Management Skills Assessment</p>
+                    </div>
+                    
+                    <div class="text-center mb-8">
+                        <p class="text-lg text-gray-700 mb-2">This certifies that</p>
+                        <h3 id="cert-name" class="text-2xl font-bold text-gray-800 mb-2">John Doe</h3>
+                        <p class="text-lg text-gray-700">has successfully completed the Time Management Skills Assessment</p>
+                        <p class="text-lg text-gray-700 mb-2">with a score of <span id="cert-score" class="font-bold text-sky-700">85%</span></p>
+                        <p class="text-md text-gray-600">Time Management Profile: <span id="cert-style" class="font-semibold">Strategic Planner</span></p>
+                    </div>
+                    
+                    <div class="flex justify-between items-center mb-4">
+                        <div>
+                            <p id="cert-date" class="text-gray-600">June 15, 2023</p>
+                            <p id="cert-id" class="text-gray-500 text-sm">Certificate ID: TM-2023-78945</p>
+                        </div>
+                        <div>
+                            <svg class="w-32 h-12" viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10,20 Q30,5 50,20 T90,20" stroke="#0ea5e9" stroke-width="2" fill="none" />
+                                <text x="50" y="25" font-family="cursive" font-size="8" text-anchor="middle" fill="#0ea5e9">Time Master</text>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <div class="seal">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="#0ea5e9" stroke-width="2" />
+                            <circle cx="50" cy="50" r="40" fill="none" stroke="#0ea5e9" stroke-width="1" />
+                            <circle cx="50" cy="50" r="30" fill="none" stroke="#0ea5e9" stroke-width="1" />
+                            <line x1="50" y1="20" x2="50" y2="50" stroke="#0ea5e9" stroke-width="2" />
+                            <line x1="50" y1="50" x2="70" y2="50" stroke="#0ea5e9" stroke-width="2" />
+                            <circle cx="50" cy="50" r="3" fill="#0ea5e9" />
+                            <text x="50" y="65" font-size="8" text-anchor="middle" fill="#0ea5e9">CERTIFIED</text>
+                            <text x="50" y="75" font-size="6" text-anchor="middle" fill="#0ea5e9">TIME MASTER</text>
+                        </svg>
+                    </div>
+                    
+                    <div class="absolute bottom-5 left-5 opacity-30">
+                        <svg class="w-24 h-24" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="40" stroke="#0ea5e9" stroke-width="1" stroke-dasharray="5 5"/>
+                            <path d="M30,50 L70,50 M50,30 L50,70" stroke="#0ea5e9" stroke-width="1"/>
+                            <circle cx="50" cy="50" r="20" stroke="#0ea5e9" stroke-width="1"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button id="download-btn" class="bg-sky-600 hover:bg-sky-700 text-white font-semibold py-3 px-6 rounded-lg flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                        </svg>
+                        Download Certificate
+                    </button>
+                    <button id="share-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path>
+                        </svg>
+                        Share Certificate
+                    </button>
+                    <button id="restart-btn" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 px-6 rounded-lg flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                        </svg>
+                        Take Another Assessment
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Assessment questions
+            const questions = [
+                {
+                    question: "How do you typically plan your day?",
+                    options: [
+                        "I create a detailed schedule with time blocks for specific tasks",
+                        "I make a simple to-do list of what needs to be done",
+                        "I have a general idea of what needs to be done but don't write it down",
+                        "I prefer to handle tasks as they come up throughout the day"
+                    ],
+                    category: "planning"
+                },
+                {
+                    question: "When faced with multiple deadlines, how do you decide what to work on first?",
+                    options: [
+                        "I prioritize based on urgency, importance, and alignment with my goals",
+                        "I work on whatever deadline is coming up soonest",
+                        "I start with the easiest tasks to build momentum",
+                        "I often feel overwhelmed and have trouble deciding where to start"
+                    ],
+                    category: "planning"
+                },
+                {
+                    question: "How accurately can you estimate how long tasks will take you to complete?",
+                    options: [
+                        "Very accurately - my estimates are usually within 10-15% of actual time needed",
+                        "Somewhat accurately - I'm usually in the right ballpark",
+                        "I tend to underestimate how long things will take",
+                        "I rarely think about how long tasks will take before starting them"
+                    ],
+                    category: "time-awareness"
+                },
+                {
+                    question: "How do you handle distractions while working?",
+                    options: [
+                        "I proactively eliminate distractions and use techniques to maintain focus",
+                        "I try to minimize distractions but sometimes get sidetracked",
+                        "I work through distractions but it affects my efficiency",
+                        "I frequently get distracted and have trouble getting back on task"
+                    ],
+                    category: "focus"
+                },
+                {
+                    question: "When you have a large project, how do you approach it?",
+                    options: [
+                        "Break it down into smaller tasks with deadlines and work systematically",
+                        "Create a general plan and adjust as I go",
+                        "Focus on the parts I understand best first",
+                        "Feel overwhelmed initially and procrastinate starting"
+                    ],
+                    category: "planning"
+                },
+                {
+                    question: "How often do you find yourself working on urgent but not important tasks?",
+                    options: [
+                        "Rarely - I prioritize important tasks before they become urgent",
+                        "Sometimes - but I try to balance urgent matters with important ones",
+                        "Often - urgent matters tend to take up most of my time",
+                        "Very frequently - I'm constantly putting out fires"
+                    ],
+                    category: "planning"
+                },
+                {
+                    question: "How do you handle requests from others that interrupt your planned work?",
+                    options: [
+                        "I assess the request against my priorities and schedule it appropriately",
+                        "I try to help but set boundaries around when I can do it",
+                        "I usually stop what I'm doing to help others",
+                        "I find it very difficult to say no to requests"
+                    ],
+                    category: "delegation"
+                },
+                {
+                    question: "How often do you complete your planned tasks for the day?",
+                    options: [
+                        "Almost always - I consistently complete what I plan to do",
+                        "Usually - I complete about 70-80% of my planned tasks",
+                        "Sometimes - I complete about half of what I plan",
+                        "Rarely - I often underestimate what I can accomplish"
+                    ],
+                    category: "time-awareness"
+                },
+                {
+                    question: "How do you handle email and other communications?",
+                    options: [
+                        "I have specific times set aside for checking and responding to messages",
+                        "I check periodically throughout the day between tasks",
+                        "I keep notifications on and respond as messages come in",
+                        "I find myself constantly checking and responding to messages"
+                    ],
+                    category: "focus"
+                },
+                {
+                    question: "When do you typically work on your most important or challenging tasks?",
+                    options: [
+                        "During my peak energy hours when I'm most focused and productive",
+                        "Whenever I have a large block of uninterrupted time",
+                        "When deadlines are approaching and create urgency",
+                        "I don't have a specific strategy for when I work on important tasks"
+                    ],
+                    category: "time-awareness"
+                },
+                {
+                    question: "How comfortable are you delegating tasks to others?",
+                    options: [
+                        "Very comfortable - I regularly delegate tasks that others can do",
+                        "Somewhat comfortable - I delegate when necessary but prefer doing things myself",
+                        "Not very comfortable - I find it difficult to trust others with important tasks",
+                        "I rarely delegate even when I'm overwhelmed"
+                    ],
+                    category: "delegation"
+                },
+                {
+                    question: "How do you handle unexpected tasks or crises that arise?",
+                    options: [
+                        "I build buffer time into my schedule to accommodate unexpected issues",
+                        "I reprioritize my day and adjust my schedule accordingly",
+                        "I extend my working hours to get everything done",
+                        "I often feel derailed and have trouble getting back on track"
+                    ],
+                    category: "time-awareness"
+                },
+                {
+                    question: "How often do you review and adjust your time management system?",
+                    options: [
+                        "Regularly - I reflect on what's working and make improvements",
+                        "Occasionally - I make adjustments when I notice issues",
+                        "Rarely - I stick with the same approach even if it's not optimal",
+                        "I don't have a consistent time management system to review"
+                    ],
+                    category: "planning"
+                },
+                {
+                    question: "How do you maintain focus during long work sessions?",
+                    options: [
+                        "I use techniques like Pomodoro and take strategic breaks to maintain energy",
+                        "I minimize distractions and push through until the task is complete",
+                        "I rely on deadlines and pressure to maintain focus",
+                        "I struggle to maintain focus for extended periods"
+                    ],
+                    category: "focus"
+                },
+                {
+                    question: "How clear are you about your professional and personal priorities?",
+                    options: [
+                        "Very clear - I have well-defined goals that guide my daily decisions",
+                        "Somewhat clear - I have general goals but sometimes lose sight of them",
+                        "Not very clear - My priorities often shift based on immediate demands",
+                        "Unclear - I rarely connect my daily activities to longer-term goals"
+                    ],
+                    category: "delegation"
+                }
+            ];
+
+            // Time Management profiles based on answer patterns
+            const timeProfiles = {
+                "time-awareness": {
+                    high: "Time Conscious",
+                    medium: "Time Aware",
+                    low: "Developing Time Awareness"
+                },
+                "planning": {
+                    high: "Strategic Planner",
+                    medium: "Organized Scheduler",
+                    low: "Developing Planner"
+                },
+                "delegation": {
+                    high: "Effective Delegator",
+                    medium: "Balanced Manager",
+                    low: "Developing Delegator"
+                },
+                "focus": {
+                    high: "Deep Focuser",
+                    medium: "Steady Worker",
+                    low: "Developing Focus"
+                }
+            };
+
+            // DOM elements
+            const welcomeScreen = document.getElementById('welcome-screen');
+            const userInfoScreen = document.getElementById('user-info-screen');
+            const assessmentScreen = document.getElementById('assessment-screen');
+            const resultsScreen = document.getElementById('results-screen');
+            const paymentScreen = document.getElementById('payment-screen');
+            const certificateScreen = document.getElementById('certificate-screen');
+            
+            const startBtn = document.getElementById('start-btn');
+            const userForm = document.getElementById('user-form');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const getCertificateBtn = document.getElementById('get-certificate-btn');
+            const processPaymentBtn = document.getElementById('process-payment-btn');
+            const downloadBtn = document.getElementById('download-btn');
+            const shareBtn = document.getElementById('share-btn');
+            const restartBtn = document.getElementById('restart-btn');
+            
+            const currentQuestionEl = document.getElementById('current-question');
+            const progressBar = document.getElementById('progress-bar');
+            const questionText = document.getElementById('question-text');
+            const optionsContainer = document.getElementById('options-container');
+            const timerEl = document.getElementById('timer');
+
+            // State variables
+            let currentQuestion = 0;
+            let userAnswers = Array(questions.length).fill(null);
+            let timer;
+            let timeLeft = 45;
+            let userData = {
+                name: '',
+                email: '',
+                profession: ''
+            };
+
+            // Event listeners
+            startBtn.addEventListener('click', showUserInfoScreen);
+            userForm.addEventListener('submit', handleUserFormSubmit);
+            prevBtn.addEventListener('click', showPreviousQuestion);
+            nextBtn.addEventListener('click', handleNextQuestion);
+            getCertificateBtn.addEventListener('click', showPaymentScreen);
+            processPaymentBtn.addEventListener('click', showCertificate);
+            downloadBtn.addEventListener('click', downloadCertificate);
+            shareBtn.addEventListener('click', shareCertificate);
+            restartBtn.addEventListener('click', restartAssessment);
+
+            // Functions
+            function showUserInfoScreen(e) {
+                e.preventDefault();
+                welcomeScreen.classList.add('hidden');
+                userInfoScreen.classList.remove('hidden');
+            }
+
+            function handleUserFormSubmit(e) {
+                e.preventDefault();
+                userData.name = document.getElementById('fullName').value;
+                userData.email = document.getElementById('email').value;
+                userData.profession = document.getElementById('profession').value || 'Professional';
+                
+                userInfoScreen.classList.add('hidden');
+                assessmentScreen.classList.remove('hidden');
+                
+                loadQuestion(currentQuestion);
+                startTimer();
+            }
+
+            function loadQuestion(index) {
+                const question = questions[index];
+                questionText.textContent = question.question;
+                
+                // Update progress indicators
+                currentQuestionEl.textContent = index + 1;
+                progressBar.style.width = `${((index + 1) / questions.length) * 100}%`;
+                
+                // Clear previous options
+                optionsContainer.innerHTML = '';
+                
+                // Add new options
+                question.options.forEach((option, i) => {
+                    const isSelected = userAnswers[index] === i;
+                    
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = `option p-4 border rounded-lg cursor-pointer transition-colors ${
+                        isSelected ? 'bg-sky-100 border-sky-500' : 'hover:bg-gray-50'
+                    }`;
+                    optionDiv.dataset.index = i;
+                    
+                    optionDiv.innerHTML = `
+                        <div class="flex items-center">
+                            <div class="w-6 h-6 rounded-full border ${
+                                isSelected ? 'border-sky-500 bg-sky-500' : 'border-gray-300'
+                            } flex items-center justify-center mr-3">
+                                ${isSelected ? '<div class="w-2 h-2 rounded-full bg-white"></div>' : ''}
+                            </div>
+                            <span>${option}</span>
+                        </div>
+                    `;
+                    
+                    optionDiv.addEventListener('click', () => selectOption(i));
+                    optionsContainer.appendChild(optionDiv);
+                });
+                
+                // Update button states
+                prevBtn.disabled = index === 0;
+                nextBtn.textContent = index === questions.length - 1 ? 'Finish' : 'Next';
+                
+                // Reset timer
+                clearInterval(timer);
+                timeLeft = 45;
+                timerEl.textContent = formatTime(timeLeft);
+                timerEl.classList.remove('text-red-600', 'timer-warning');
+                startTimer();
+            }
+
+            function selectOption(optionIndex) {
+                userAnswers[currentQuestion] = optionIndex;
+                
+                // Update UI to show selected option
+                const options = optionsContainer.querySelectorAll('.option');
+                options.forEach((option, i) => {
+                    const circle = option.querySelector('div > div');
+                    if (i === optionIndex) {
+                        option.classList.add('bg-sky-100', 'border-sky-500');
+                        option.classList.remove('hover:bg-gray-50');
+                        circle.classList.add('border-sky-500', 'bg-sky-500');
+                        circle.innerHTML = '<div class="w-2 h-2 rounded-full bg-white"></div>';
+                    } else {
+                        option.classList.remove('bg-sky-100', 'border-sky-500');
+                        option.classList.add('hover:bg-gray-50');
+                        circle.classList.remove('border-sky-500', 'bg-sky-500');
+                        circle.classList.add('border-gray-300');
+                        circle.innerHTML = '';
+                    }
+                });
+            }
+
+            function showPreviousQuestion() {
+                if (currentQuestion > 0) {
+                    currentQuestion--;
+                    loadQuestion(currentQuestion);
+                }
+            }
+
+            function handleNextQuestion() {
+                // If no option selected, prompt user
+                if (userAnswers[currentQuestion] === null) {
+                    alert('Please select an answer before proceeding.');
+                    return;
+                }
+                
+                if (currentQuestion < questions.length - 1) {
+                    currentQuestion++;
+                    loadQuestion(currentQuestion);
+                } else {
+                    showResults();
+                }
+            }
+
+            function startTimer() {
+                timer = setInterval(() => {
+                    timeLeft--;
+                    timerEl.textContent = formatTime(timeLeft);
+                    
+                    if (timeLeft <= 10) {
+                        timerEl.classList.add('text-red-600');
+                        if (timeLeft <= 5) {
+                            timerEl.classList.add('timer-warning');
+                        }
+                    } else {
+                        timerEl.classList.remove('text-red-600', 'timer-warning');
+                    }
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(timer);
+                        // Auto-advance if time runs out
+                        if (userAnswers[currentQuestion] === null) {
+                            // If no answer selected, choose one randomly
+                            selectOption(Math.floor(Math.random() * 4));
+                        }
+                        
+                        if (currentQuestion < questions.length - 1) {
+                            currentQuestion++;
+                            loadQuestion(currentQuestion);
+                        } else {
+                            showResults();
+                        }
+                    }
+                }, 1000);
+            }
+
+            function formatTime(seconds) {
+                return `00:${seconds < 10 ? '0' : ''}${seconds}`;
+            }
+
+            function calculateScores() {
+                // Initialize category scores
+                let categoryScores = {
+                    "time-awareness": { score: 0, count: 0 },
+                    "planning": { score: 0, count: 0 },
+                    "delegation": { score: 0, count: 0 },
+                    "focus": { score: 0, count: 0 }
+                };
+                
+                // Calculate scores based on answers
+                // For this demo, we'll use a simple scoring system where option 0 is best (3 points)
+                // and option 3 is worst (0 points)
+                questions.forEach((question, index) => {
+                    const category = question.category;
+                    const answerIndex = userAnswers[index];
+                    
+                    if (answerIndex !== null) {
+                        // For this demo, we'll score based on the option selected
+                        // Option 0 = 3 points, Option 1 = 2 points, Option 2 = 1 point, Option 3 = 0 points
+                        // This is just for demonstration - a real assessment would have correct answers
+                        const score = 3 - answerIndex;
+                        categoryScores[category].score += score;
+                        categoryScores[category].count++;
+                    }
+                });
+                
+                // Calculate percentages
+                const timeAwarenessScore = Math.round((categoryScores["time-awareness"].score / (categoryScores["time-awareness"].count * 3)) * 100);
+                const planningScore = Math.round((categoryScores["planning"].score / (categoryScores["planning"].count * 3)) * 100);
+                const delegationScore = Math.round((categoryScores["delegation"].score / (categoryScores["delegation"].count * 3)) * 100);
+                const focusScore = Math.round((categoryScores["focus"].score / (categoryScores["focus"].count * 3)) * 100);
+                
+                // Calculate overall score
+                const totalScore = categoryScores["time-awareness"].score + categoryScores["planning"].score + 
+                                  categoryScores["delegation"].score + categoryScores["focus"].score;
+                const totalPossible = (categoryScores["time-awareness"].count + categoryScores["planning"].count + 
+                                     categoryScores["delegation"].count + categoryScores["focus"].count) * 3;
+                const overallScore = Math.round((totalScore / totalPossible) * 100);
+                
+                return {
+                    overall: overallScore,
+                    "time-awareness": timeAwarenessScore,
+                    "planning": planningScore,
+                    "delegation": delegationScore,
+                    "focus": focusScore
+                };
+            }
+
+            function determineTimeProfile(scores) {
+                // Determine Time Management profile based on highest category score
+                const categories = ["time-awareness", "planning", "delegation", "focus"];
+                const highestCategory = categories.reduce((a, b) => scores[a] > scores[b] ? a : b);
+                
+                // Determine level (high, medium, low)
+                let level;
+                if (scores[highestCategory] >= 80) {
+                    level = 'high';
+                } else if (scores[highestCategory] >= 60) {
+                    level = 'medium';
+                } else {
+                    level = 'low';
+                }
+                
+                return timeProfiles[highestCategory][level];
+            }
+
+            function generateFeedback(scores, timeProfile) {
+                let feedback = '';
+                
+                // Generate feedback based on Time Management profile and scores
+                if (timeProfile.includes('Time Conscious')) {
+                    feedback = 'You have an excellent awareness of how you use time, allowing you to make realistic estimates and allocate appropriate time for tasks. ';
+                } else if (timeProfile.includes('Strategic Planner')) {
+                    feedback = 'Your planning and prioritization skills are highly developed, enabling you to focus on what matters most and achieve your goals efficiently. ';
+                } else if (timeProfile.includes('Effective Delegator')) {
+                    feedback = 'You excel at setting boundaries and delegating tasks appropriately, which helps you manage your workload effectively. ';
+                } else if (timeProfile.includes('Deep Focuser')) {
+                    feedback = 'Your ability to maintain focus and minimize distractions allows you to work efficiently and produce high-quality results. ';
+                } else {
+                    feedback = 'You have a balanced time management profile with several notable strengths. ';
+                }
+                
+                // Add strengths
+                feedback += 'Your key strengths include ';
+                
+                // Find top two categories
+                const categories = Object.entries(scores)
+                    .filter(([key]) => key !== 'overall')
+                    .sort((a, b) => b[1] - a[1]);
+                
+                const topCategory = categories[0][0];
+                const secondCategory = categories[1][0];
+                
+                switch (topCategory) {
+                    case 'time-awareness':
+                        feedback += 'understanding how long tasks take';
+                        break;
+                    case 'planning':
+                        feedback += 'organizing and prioritizing your work';
+                        break;
+                    case 'delegation':
+                        feedback += 'setting boundaries and managing workload';
+                        break;
+                    case 'focus':
+                        feedback += 'maintaining concentration and minimizing distractions';
+                        break;
+                }
+                
+                feedback += ' and ';
+                
+                switch (secondCategory) {
+                    case 'time-awareness':
+                        feedback += 'allocating appropriate time for tasks';
+                        break;
+                    case 'planning':
+                        feedback += 'creating effective schedules';
+                        break;
+                    case 'delegation':
+                        feedback += 'knowing when to say no or delegate';
+                        break;
+                    case 'focus':
+                        feedback += 'working efficiently without interruptions';
+                        break;
+                }
+                
+                feedback += '. ';
+                
+                // Add area for improvement
+                const lowestCategory = categories[3][0];
+                
+                feedback += 'An area for potential growth is ';
+                
+                switch (lowestCategory) {
+                    case 'time-awareness':
+                        feedback += 'developing a more accurate sense of how long tasks take to complete.';
+                        break;
+                    case 'planning':
+                        feedback += 'improving your approach to organizing and prioritizing your work.';
+                        break;
+                    case 'delegation':
+                        feedback += 'learning to set better boundaries and delegate more effectively.';
+                        break;
+                    case 'focus':
+                        feedback += 'finding strategies to minimize distractions and maintain concentration.';
+                        break;
+                }
+                
+                return feedback;
+            }
+
+            function showResults() {
+                clearInterval(timer);
+                assessmentScreen.classList.add('hidden');
+                resultsScreen.classList.remove('hidden');
+                
+                const scores = calculateScores();
+                const timeProfile = determineTimeProfile(scores);
+                
+                // Update score displays
+                document.getElementById('score-circle').style.strokeDashoffset = 283 - (283 * scores.overall / 100);
+                document.getElementById('score-text').textContent = `${scores.overall}%`;
+                
+                document.getElementById('time-awareness-score').textContent = `${scores["time-awareness"]}%`;
+                document.getElementById('time-awareness-bar').style.width = `${scores["time-awareness"]}%`;
+                
+                document.getElementById('planning-score').textContent = `${scores["planning"]}%`;
+                document.getElementById('planning-bar').style.width = `${scores["planning"]}%`;
+                
+                document.getElementById('delegation-score').textContent = `${scores["delegation"]}%`;
+                document.getElementById('delegation-bar').style.width = `${scores["delegation"]}%`;
+                
+                document.getElementById('focus-score').textContent = `${scores["focus"]}%`;
+                document.getElementById('focus-bar').style.width = `${scores["focus"]}%`;
+                
+                // Set Time Management profile
+                document.getElementById('time-style').textContent = timeProfile;
+                
+                // Generate and display feedback
+                const feedback = generateFeedback(scores, timeProfile);
+                document.getElementById('feedback-text').textContent = feedback;
+            }
+
+            function showPaymentScreen() {
+                resultsScreen.classList.add('hidden');
+                paymentScreen.classList.remove('hidden');
+            }
+
+            function showCertificate() {
+                paymentScreen.classList.add('hidden');
+                certificateScreen.classList.remove('hidden');
+                
+                // Update certificate with user data
+                document.getElementById('cert-name').textContent = userData.name;
+                
+                const scores = calculateScores();
+                document.getElementById('cert-score').textContent = `${scores.overall}%`;
+                
+                const timeProfile = determineTimeProfile(scores);
+                document.getElementById('cert-style').textContent = timeProfile;
+                
+                // Set current date
+                const today = new Date();
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                document.getElementById('cert-date').textContent = today.toLocaleDateString('en-US', options);
+                
+                // Generate certificate ID
+                const certId = 'TM-' + today.getFullYear() + '-' + Math.floor(10000 + Math.random() * 90000);
+                document.getElementById('cert-id').textContent = 'Certificate ID: ' + certId;
+                
+                // Create confetti effect
+                createConfetti();
+            }
+
+            function createConfetti() {
+                const colors = ['#0ea5e9', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
+                const confettiCount = 100;
+                
+                for (let i = 0; i < confettiCount; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = `${Math.random() * 100}vw`;
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.opacity = '1';
+                    confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    
+                    document.body.appendChild(confetti);
+                    
+                    // Animate confetti
+                    const duration = Math.random() * 3 + 2; // 2-5 seconds
+                    confetti.animate([
+                        { transform: `translate(0, 0) rotate(0deg)`, opacity: 1 },
+                        { transform: `translate(${Math.random() * 100 - 50}px, ${window.innerHeight}px) rotate(${Math.random() * 720}deg)`, opacity: 0 }
+                    ], {
+                        duration: duration * 1000,
+                        easing: 'cubic-bezier(0.1, 0.8, 0.3, 1)'
+                    });
+                    
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, duration * 1000);
+                }
+            }
+
+            function downloadCertificate() {
+                alert('In a real application, this would generate and download a PDF certificate. This is a demo version.');
+            }
+
+            function shareCertificate() {
+                alert('In a real application, this would open sharing options for social media platforms. This is a demo version.');
+            }
+
+            function restartAssessment() {
+                // Reset state
+                currentQuestion = 0;
+                userAnswers = Array(questions.length).fill(null);
+                
+                // Show welcome screen
+                certificateScreen.classList.add('hidden');
+                welcomeScreen.classList.remove('hidden');
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9655914452a185d6',t:'MTc1MzU1MDQyNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

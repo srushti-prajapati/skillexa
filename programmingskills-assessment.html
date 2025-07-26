@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programming Skills Assessment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: #f8fafc;
+        }
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+        .progress-bar {
+            transition: width 0.5s ease-in-out;
+        }
+        .card {
+            transition: all 0.3s ease;
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(148, 163, 184, 0.4);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+        }
+        .certificate {
+            background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+            border: 2px solid #2563eb;
+            position: relative;
+            overflow: hidden;
+            color: #1e293b;
+        }
+        .certificate::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 100px;
+            height: 100px;
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: 50%;
+        }
+        .certificate::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            right: -50px;
+            width: 100px;
+            height: 100px;
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: 50%;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        .seal {
+            position: absolute;
+            bottom: 30px;
+            right: 40px;
+            width: 100px;
+            height: 100px;
+        }
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0;
+            z-index: 1000;
+        }
+        .timer-warning {
+            animation: pulse 1s infinite;
+        }
+        .code-block {
+            background: #0f172a;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            border-left: 4px solid #3b82f6;
+            overflow-x: auto;
+        }
+        .code-line {
+            display: block;
+            line-height: 1.5;
+        }
+        .keyword {
+            color: #93c5fd;
+        }
+        .string {
+            color: #86efac;
+        }
+        .comment {
+            color: #94a3b8;
+        }
+        .number {
+            color: #fca5a5;
+        }
+        .function {
+            color: #c4b5fd;
+        }
+        .option-card {
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+        }
+        .option-card:hover {
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.1);
+        }
+        .option-card.selected {
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.2);
+        }
+        .glow {
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+        }
+        .rotating-icon {
+            animation: rotate 20s linear infinite;
+        }
+        .rotating-icon-reverse {
+            animation: rotate-reverse 15s linear infinite;
+        }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes rotate-reverse {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
+        }
+        .typing-animation::after {
+            content: '|';
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .code-path {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: draw-path 3s forwards;
+        }
+        @keyframes draw-path {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+        .node {
+            animation: node-pulse 2s infinite alternate;
+        }
+        @keyframes node-pulse {
+            from { opacity: 0.7; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1.05); }
+        }
+        .connection {
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: draw-connection 2s forwards;
+        }
+        @keyframes draw-connection {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+        .tech-icon {
+            transition: all 0.3s ease;
+        }
+        .tech-icon:hover {
+            transform: translateY(-5px);
+            filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.5));
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg"><path fill="%232563eb" fill-opacity="0.1" d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        .hexagon {
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div id="app" class="container mx-auto px-4 py-8 max-w-5xl">
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="flex flex-col items-center justify-center py-10">
+            <div class="float mb-6">
+                <svg class="w-32 h-32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Code illustration -->
+                    <circle cx="50" cy="50" r="48" fill="#3b82f6" fill-opacity="0.1"/>
+                    
+                    <!-- Code brackets -->
+                    <path d="M35,30 L25,50 L35,70" stroke="#3b82f6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M65,30 L75,50 L65,70" stroke="#3b82f6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    
+                    <!-- Code lines -->
+                    <path class="code-path" d="M45,40 L55,40" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"/>
+                    <path class="code-path" d="M40,50 L60,50" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" style="animation-delay: 0.5s"/>
+                    <path class="code-path" d="M45,60 L55,60" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" style="animation-delay: 1s"/>
+                    
+                    <!-- Nodes -->
+                    <circle class="node" cx="45" cy="40" r="3" fill="#3b82f6" style="animation-delay: 0s"/>
+                    <circle class="node" cx="55" cy="40" r="3" fill="#3b82f6" style="animation-delay: 0.2s"/>
+                    <circle class="node" cx="40" cy="50" r="3" fill="#3b82f6" style="animation-delay: 0.4s"/>
+                    <circle class="node" cx="60" cy="50" r="3" fill="#3b82f6" style="animation-delay: 0.6s"/>
+                    <circle class="node" cx="45" cy="60" r="3" fill="#3b82f6" style="animation-delay: 0.8s"/>
+                    <circle class="node" cx="55" cy="60" r="3" fill="#3b82f6" style="animation-delay: 1s"/>
+                </svg>
+            </div>
+            <h1 class="text-4xl font-bold mb-4 text-center gradient-text">Programming Skills Assessment</h1>
+            <p class="text-lg text-gray-300 mb-8 text-center max-w-2xl">Evaluate your programming knowledge with our comprehensive assessment. Complete 20 questions to receive personalized feedback and a certificate.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl mb-10">
+                <div class="card p-6 rounded-xl">
+                    <div class="flex items-center justify-center mb-4 text-blue-400">
+                        <svg class="w-12 h-12 tech-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M14 2V8H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8 13H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8 17H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M10 9H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-center">Syntax & Concepts</h3>
+                    <p class="text-gray-400 text-center">Test your understanding of programming fundamentals and syntax.</p>
+                </div>
+                
+                <div class="card p-6 rounded-xl">
+                    <div class="flex items-center justify-center mb-4 text-blue-400">
+                        <svg class="w-12 h-12 tech-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M19.4 15C19.1277 15.6171 19.2583 16.3378 19.73 16.82L19.79 16.88C20.1656 17.2551 20.3766 17.7642 20.3766 18.295C20.3766 18.8258 20.1656 19.3349 19.79 19.71C19.4149 20.0856 18.9058 20.2966 18.375 20.2966C17.8442 20.2966 17.3351 20.0856 16.96 19.71L16.9 19.65C16.4178 19.1783 15.6971 19.0477 15.08 19.32C14.4755 19.5791 14.0826 20.1724 14.08 20.83V21C14.08 22.1046 13.1846 23 12.08 23C10.9754 23 10.08 22.1046 10.08 21V20.91C10.0642 20.2327 9.63587 19.6339 9 19.4C8.38293 19.1277 7.66222 19.2583 7.18 19.73L7.12 19.79C6.74486 20.1656 6.23577 20.3766 5.705 20.3766C5.17423 20.3766 4.66514 20.1656 4.29 19.79C3.91445 19.4149 3.70343 18.9058 3.70343 18.375C3.70343 17.8442 3.91445 17.3351 4.29 16.96L4.35 16.9C4.82167 16.4178 4.95235 15.6971 4.68 15.08C4.42093 14.4755 3.82763 14.0826 3.17 14.08H3C1.89543 14.08 1 13.1846 1 12.08C1 10.9754 1.89543 10.08 3 10.08H3.09C3.76733 10.0642 4.36613 9.63587 4.6 9C4.87235 8.38293 4.74167 7.66222 4.27 7.18L4.21 7.12C3.83445 6.74486 3.62343 6.23577 3.62343 5.705C3.62343 5.17423 3.83445 4.66514 4.21 4.29C4.58514 3.91445 5.09423 3.70343 5.625 3.70343C6.15577 3.70343 6.66486 3.91445 7.04 4.29L7.1 4.35C7.58222 4.82167 8.30293 4.95235 8.92 4.68H9C9.60447 4.42093 9.99738 3.82763 10 3.17V3C10 1.89543 10.8954 1 12 1C13.1046 1 14 1.89543 14 3V3.09C14.0026 3.74737 14.3955 4.34067 15 4.6C15.6171 4.87235 16.3378 4.74167 16.82 4.27L16.88 4.21C17.2551 3.83445 17.7642 3.62343 18.295 3.62343C18.8258 3.62343 19.3349 3.83445 19.71 4.21C20.0856 4.58514 20.2966 5.09423 20.2966 5.625C20.2966 6.15577 20.0856 6.66486 19.71 7.04L19.65 7.1C19.1783 7.58222 19.0477 8.30293 19.32 8.92V9C19.5791 9.60447 20.1724 9.99738 20.83 10H21C22.1046 10 23 10.8954 23 12C23 13.1046 22.1046 14 21 14H20.91C20.2526 14.0026 19.6593 14.3955 19.4 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-center">Problem Solving</h3>
+                    <p class="text-gray-400 text-center">Evaluate your ability to solve coding challenges and algorithms.</p>
+                </div>
+                
+                <div class="card p-6 rounded-xl">
+                    <div class="flex items-center justify-center mb-4 text-blue-400">
+                        <svg class="w-12 h-12 tech-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M9 11C11.2091 11 13 9.20914 13 7C13 4.79086 11.2091 3 9 3C6.79086 3 5 4.79086 5 7C5 9.20914 6.79086 11 9 11Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M23 21V19C22.9993 18.1137 22.7044 17.2528 22.1614 16.5523C21.6184 15.8519 20.8581 15.3516 20 15.13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M16 3.13C16.8604 3.35031 17.623 3.85071 18.1676 4.55232C18.7122 5.25392 19.0078 6.11683 19.0078 7.005C19.0078 7.89318 18.7122 8.75608 18.1676 9.45769C17.623 10.1593 16.8604 10.6597 16 10.88" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-center">Best Practices</h3>
+                    <p class="text-gray-400 text-center">Test your knowledge of coding standards and best practices.</p>
+                </div>
+            </div>
+            
+            <div class="relative w-full max-w-4xl mb-10 card p-8 rounded-xl overflow-hidden">
+                <div class="flex flex-wrap md:flex-nowrap items-center">
+                    <div class="w-full md:w-1/2 mb-6 md:mb-0 md:pr-6">
+                        <h3 class="text-2xl font-semibold mb-3 gradient-text">Why Programming Skills Matter</h3>
+                        <p class="text-gray-300 mb-4">Strong programming skills are essential in today's tech-driven world. They help you:</p>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-blue-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-gray-300">Build robust and efficient applications</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-blue-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-gray-300">Solve complex problems systematically</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-blue-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-gray-300">Collaborate effectively with development teams</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-blue-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-gray-300">Stay current with evolving technologies</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="w-full md:w-1/2 flex justify-center">
+                        <div class="grid grid-cols-3 gap-3">
+                            <div class="hexagon bg-blue-500 w-16 h-16 flex items-center justify-center tech-icon">
+                                <svg class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 18.5C15.5899 18.5 18.5 15.5899 18.5 12C18.5 8.41015 15.5899 5.5 12 5.5C8.41015 5.5 5.5 8.41015 5.5 12C5.5 15.5899 8.41015 18.5 12 18.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M19.14 19.14L19.01 19.01M19.01 4.99L19.14 4.86L19.01 4.99ZM4.86 19.14L4.99 19.01L4.86 19.14ZM12 2.08V2V2.08ZM12 22V21.92V22ZM2.08 12H2H2.08ZM22 12H21.92H22ZM4.99 4.99L4.86 4.86L4.99 4.99Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="hexagon bg-indigo-500 w-16 h-16 flex items-center justify-center tech-icon mt-8">
+                                <svg class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16 18L22 12L16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M8 6L2 12L8 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="hexagon bg-blue-500 w-16 h-16 flex items-center justify-center tech-icon">
+                                <svg class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M12 4C13.0609 4 14.0783 4.42143 14.8284 5.17157C15.5786 5.92172 16 6.93913 16 8C16 9.06087 15.5786 10.0783 14.8284 10.8284C14.0783 11.5786 13.0609 12 12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M12 12C12 13.0609 11.5786 14.0783 10.8284 14.8284C10.0783 15.5786 9.06087 16 8 16C6.93913 16 5.92172 15.5786 5.17157 14.8284C4.42143 14.0783 4 13.0609 4 12C4 10.9391 4.42143 9.92172 5.17157 9.17157C5.92172 8.42143 6.93913 8 8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M12 12C12 10.9391 12.4214 9.92172 13.1716 9.17157C13.9217 8.42143 14.9391 8 16 8C17.0609 8 18.0783 8.42143 18.8284 9.17157C19.5786 9.92172 20 10.9391 20 12C20 13.0609 19.5786 14.0783 18.8284 14.8284C18.0783 15.5786 17.0609 16 16 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M12 20C10.9391 20 9.92172 19.5786 9.17157 18.8284C8.42143 18.0783 8 17.0609 8 16C8 14.9391 8.42143 13.9217 9.17157 13.1716C9.92172 12.4214 10.9391 12 12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="hexagon bg-indigo-500 w-16 h-16 flex items-center justify-center tech-icon">
+                                <svg class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 7H4C2.89543 7 2 7.89543 2 9V19C2 20.1046 2.89543 21 4 21H20C21.1046 21 22 20.1046 22 19V9C22 7.89543 21.1046 7 20 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M16 21V5C16 4.46957 15.7893 3.96086 15.4142 3.58579C15.0391 3.21071 14.5304 3 14 3H10C9.46957 3 8.96086 3.21071 8.58579 3.58579C8.21071 3.96086 8 4.46957 8 5V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="hexagon bg-blue-500 w-16 h-16 flex items-center justify-center tech-icon mt-8">
+                                <svg class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M2 12H22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M12 2C14.5013 4.73835 15.9228 8.29203 16 12C15.9228 15.708 14.5013 19.2616 12 22C9.49872 19.2616 8.07725 15.708 8 12C8.07725 8.29203 9.49872 4.73835 12 2V2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="hexagon bg-indigo-500 w-16 h-16 flex items-center justify-center tech-icon">
+                                <svg class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M22 12H18L15 21L9 3L6 12H2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="wave"></div>
+            </div>
+            
+            <button id="start-btn" class="btn-primary text-white font-semibold py-3 px-8 rounded-full text-lg">
+                Start Assessment
+            </button>
+        </div>
+
+        <!-- User Info Form -->
+        <div id="user-info-screen" class="hidden max-w-2xl mx-auto card rounded-xl p-8">
+            <h2 class="text-2xl font-bold mb-6 gradient-text">Before we begin</h2>
+            <p class="text-gray-300 mb-6">Please provide your information for your programming skills certificate:</p>
+            
+            <form id="user-form" class="space-y-4">
+                <div>
+                    <label for="fullName" class="block text-sm font-medium text-gray-300 mb-1">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" required class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-white">
+                </div>
+                
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-300 mb-1">Email Address</label>
+                    <input type="email" id="email" name="email" required class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-white">
+                </div>
+                
+                <div>
+                    <label for="experience" class="block text-sm font-medium text-gray-300 mb-1">Programming Experience</label>
+                    <select id="experience" name="experience" class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-white">
+                        <option value="beginner">Beginner (0-1 years)</option>
+                        <option value="intermediate">Intermediate (1-3 years)</option>
+                        <option value="advanced">Advanced (3-5 years)</option>
+                        <option value="expert">Expert (5+ years)</option>
+                    </select>
+                </div>
+                
+                <div class="pt-4">
+                    <button type="submit" class="btn-primary text-white font-semibold py-2 px-6 rounded-lg w-full">
+                        Continue to Assessment
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Assessment Screen -->
+        <div id="assessment-screen" class="hidden">
+            <div class="mb-6 flex items-center justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold gradient-text">Programming Skills Assessment</h2>
+                    <p class="text-gray-300">Question <span id="current-question">1</span> of 20</p>
+                </div>
+                <div class="card px-4 py-2 rounded-lg flex items-center">
+                    <svg class="w-5 h-5 text-blue-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span id="timer" class="font-semibold text-gray-200">00:45</span>
+                </div>
+            </div>
+            
+            <div class="w-full bg-gray-700 rounded-full h-2.5 mb-8">
+                <div id="progress-bar" class="progress-bar bg-blue-500 h-2.5 rounded-full" style="width: 0%"></div>
+            </div>
+            
+            <div id="question-container" class="card rounded-xl p-8 mb-6">
+                <h3 id="question-text" class="text-xl font-semibold mb-6">Loading question...</h3>
+                
+                <div id="code-snippet" class="code-block code-font text-sm mb-6 hidden">
+                    <!-- Code snippet will be inserted here when needed -->
+                </div>
+                
+                <div id="options-container" class="space-y-3">
+                    <!-- Options will be inserted here -->
+                </div>
+            </div>
+            
+            <div class="flex justify-between">
+                <button id="prev-btn" class="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-6 rounded-lg disabled:opacity-50" disabled>
+                    Previous
+                </button>
+                <button id="next-btn" class="btn-primary text-white font-semibold py-2 px-6 rounded-lg">
+                    Next
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="hidden">
+            <div class="card rounded-xl p-8 mb-8">
+                <div class="flex items-center justify-center mb-6">
+                    <div class="relative">
+                        <svg class="w-32 h-32" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="45" fill="#1e293b" stroke="#334155" stroke-width="2"></circle>
+                            <circle id="score-circle" cx="50" cy="50" r="45" fill="none" stroke="#3b82f6" stroke-width="8" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="42"></circle>
+                            <text id="score-text" x="50" y="50" font-size="20" text-anchor="middle" alignment-baseline="middle" font-weight="bold" fill="#3b82f6">85%</text>
+                        </svg>
+                    </div>
+                </div>
+                
+                <h2 class="text-2xl font-bold text-center mb-2 gradient-text">Programming Skills Assessment Complete!</h2>
+                <p class="text-gray-300 text-center mb-6">Here's how you performed in your programming assessment.</p>
+                
+                <div class="space-y-4 mb-8">
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-300">Syntax & Language Features</span>
+                            <span id="syntax-score" class="text-sm font-medium text-blue-400">80%</span>
+                        </div>
+                        <div class="w-full bg-gray-700 rounded-full h-2">
+                            <div id="syntax-bar" class="bg-blue-500 h-2 rounded-full" style="width: 80%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-300">Problem Solving & Algorithms</span>
+                            <span id="problem-score" class="text-sm font-medium text-blue-400">90%</span>
+                        </div>
+                        <div class="w-full bg-gray-700 rounded-full h-2">
+                            <div id="problem-bar" class="bg-blue-500 h-2 rounded-full" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-300">Best Practices & Patterns</span>
+                            <span id="practices-score" class="text-sm font-medium text-blue-400">85%</span>
+                        </div>
+                        <div class="w-full bg-gray-700 rounded-full h-2">
+                            <div id="practices-bar" class="bg-blue-500 h-2 rounded-full" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-300">Debugging & Troubleshooting</span>
+                            <span id="debug-score" class="text-sm font-medium text-blue-400">75%</span>
+                        </div>
+                        <div class="w-full bg-gray-700 rounded-full h-2">
+                            <div id="debug-bar" class="bg-blue-500 h-2 rounded-full" style="width: 75%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-800 rounded-lg p-6 mb-6">
+                    <h3 class="text-lg font-semibold mb-2 gradient-text">Your Programming Profile</h3>
+                    <p id="programmer-type" class="text-gray-200 font-medium mb-3">Full-Stack Developer</p>
+                    <p id="feedback-text" class="text-gray-300">
+                        You demonstrate strong programming skills with excellent problem-solving abilities. Your understanding of syntax and language features is well-developed, and you can effectively apply best practices when writing code. Your debugging skills could be enhanced by developing more systematic approaches to troubleshooting. Overall, you have a solid foundation in programming that serves you well in development projects.
+                    </p>
+                </div>
+                
+                <div class="text-center">
+                    <button id="get-certificate-btn" class="btn-primary text-white font-semibold py-3 px-8 rounded-full">
+                        Get Your Programming Certificate
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Screen -->
+        <div id="payment-screen" class="hidden max-w-2xl mx-auto">
+            <div class="card rounded-xl p-8 mb-8">
+                <h2 class="text-2xl font-bold mb-6 text-center gradient-text">Get Your Programming Certificate</h2>
+                
+                <div class="flex justify-center mb-8">
+                    <div class="relative w-64 h-40 bg-gray-800 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-600 pulse">
+                        <svg class="w-16 h-16 text-blue-400" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19 21H5C3.89543 21 3 20.1046 3 19V5C3 3.89543 3.89543 3 5 3H19C20.1046 3 21 3.89543 21 5V19C21 20.1046 20.1046 21 19 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M3 9H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M9 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <div class="absolute top-0 right-0 bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded-bl-lg rounded-tr-lg">
+                            PREVIEW
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-800 rounded-lg p-6 mb-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-gray-200 font-medium">Programming Skills Certificate</span>
+                        <span class="text-blue-400 font-bold">$9.99</span>
+                    </div>
+                    <ul class="space-y-2 mb-4">
+                        <li class="flex items-center text-sm text-gray-300">
+                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Personalized programming skills certificate
+                        </li>
+                        <li class="flex items-center text-sm text-gray-300">
+                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            High-resolution downloadable PDF
+                        </li>
+                        <li class="flex items-center text-sm text-gray-300">
+                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Detailed programming profile analysis
+                        </li>
+                        <li class="flex items-center text-sm text-gray-300">
+                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Share with employers or on your portfolio
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Demo Payment Form -->
+                <div class="mb-6">
+                    <div class="border border-gray-700 rounded-lg p-4 mb-4">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-sm font-medium text-gray-300">Payment Method</span>
+                            <div class="flex space-x-2">
+                                <div class="w-8 h-5 bg-blue-600 rounded"></div>
+                                <div class="w-8 h-5 bg-red-500 rounded"></div>
+                                <div class="w-8 h-5 bg-yellow-400 rounded"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-medium text-gray-400 mb-1">Card Holder</label>
+                                    <div class="h-10 bg-gray-700 rounded-lg"></div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-gray-400 mb-1">Card Number</label>
+                                    <div class="h-10 bg-gray-700 rounded-lg"></div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-3 gap-4">
+                                <div>
+                                    <label class="block text-xs font-medium text-gray-400 mb-1">Expiry</label>
+                                    <div class="h-10 bg-gray-700 rounded-lg"></div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-gray-400 mb-1">CVC</label>
+                                    <div class="h-10 bg-gray-700 rounded-lg"></div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-gray-400 mb-1">ZIP</label>
+                                    <div class="h-10 bg-gray-700 rounded-lg"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <p class="text-sm text-gray-400 mb-4">This is a demo payment form. In a real application, secure payment processing would be implemented.</p>
+                        <button id="process-payment-btn" class="btn-primary text-white font-semibold py-3 px-8 rounded-full w-full">
+                            Pay $9.99 & Get Certificate
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Certificate Screen -->
+        <div id="certificate-screen" class="hidden">
+            <div class="max-w-4xl mx-auto">
+                <div class="certificate p-10 rounded-xl shadow-lg mb-8 relative">
+                    <div class="absolute top-5 left-5">
+                        <svg class="w-16 h-16" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="48" fill="#3b82f6" fill-opacity="0.1"/>
+                            <!-- Code icon -->
+                            <path d="M30 50 L45 65" stroke="#3b82f6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M30 50 L45 35" stroke="#3b82f6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M70 50 L55 65" stroke="#3b82f6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M70 50 L55 35" stroke="#3b82f6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M45 40 L55 60" stroke="#3b82f6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    
+                    <div class="text-center mb-8 pt-8">
+                        <h2 class="text-3xl font-bold text-blue-800 mb-2">Certificate of Programming Excellence</h2>
+                        <div class="h-1 w-32 bg-blue-600 mx-auto mb-2"></div>
+                        <p class="text-gray-600">Programming Skills Assessment</p>
+                    </div>
+                    
+                    <div class="text-center mb-8">
+                        <p class="text-lg text-gray-700 mb-2">This certifies that</p>
+                        <h3 id="cert-name" class="text-2xl font-bold text-gray-800 mb-2">John Doe</h3>
+                        <p class="text-lg text-gray-700">has successfully completed the Programming Skills Assessment</p>
+                        <p class="text-lg text-gray-700 mb-2">with a score of <span id="cert-score" class="font-bold text-blue-700">85%</span></p>
+                        <p class="text-md text-gray-600">Programming Profile: <span id="cert-type" class="font-semibold">Full-Stack Developer</span></p>
+                    </div>
+                    
+                    <div class="flex justify-between items-center mb-4">
+                        <div>
+                            <p id="cert-date" class="text-gray-600">June 15, 2023</p>
+                            <p id="cert-id" class="text-gray-500 text-sm">Certificate ID: PS-2023-78945</p>
+                        </div>
+                        <div>
+                            <svg class="w-32 h-12" viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10,20 Q30,5 50,20 T90,20" stroke="#3b82f6" stroke-width="2" fill="none" />
+                                <text x="50" y="25" font-family="monospace" font-size="8" text-anchor="middle" fill="#3b82f6">Code Master</text>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <div class="seal">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="#3b82f6" stroke-width="2" />
+                            <circle cx="50" cy="50" r="40" fill="none" stroke="#3b82f6" stroke-width="1" />
+                            <circle cx="50" cy="50" r="30" fill="none" stroke="#3b82f6" stroke-width="1" />
+                            <!-- Code symbol -->
+                            <path d="M35,40 L25,50 L35,60" stroke="#3b82f6" stroke-width="2" fill="none"/>
+                            <path d="M65,40 L75,50 L65,60" stroke="#3b82f6" stroke-width="2" fill="none"/>
+                            <path d="M45,35 L55,65" stroke="#3b82f6" stroke-width="2" fill="none"/>
+                            <text x="50" y="70" font-size="8" text-anchor="middle" fill="#3b82f6">CERTIFIED</text>
+                            <text x="50" y="80" font-size="6" text-anchor="middle" fill="#3b82f6">PROGRAMMER</text>
+                        </svg>
+                    </div>
+                    
+                    <div class="absolute bottom-5 left-5 opacity-30">
+                        <svg class="w-24 h-24" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M30,50 L70,50 M50,30 L50,70" stroke="#3b82f6" stroke-width="1"/>
+                            <circle cx="50" cy="50" r="20" stroke="#3b82f6" stroke-width="1" stroke-dasharray="5 5"/>
+                            <circle cx="50" cy="50" r="40" stroke="#3b82f6" stroke-width="1" stroke-dasharray="2 2"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button id="download-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                        </svg>
+                        Download Certificate
+                    </button>
+                    <button id="share-btn" class="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path>
+                        </svg>
+                        Share Certificate
+                    </button>
+                    <button id="restart-btn" class="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-6 rounded-lg flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                        </svg>
+                        Take Another Assessment
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Assessment questions
+            const questions = [
+                {
+                    question: "What will be the output of the following JavaScript code?",
+                    code: `
+<span class="code-line"><span class="keyword">let</span> x = <span class="number">5</span>;</span>
+<span class="code-line"><span class="keyword">let</span> y = <span class="number">10</span>;</span>
+<span class="code-line"><span class="keyword">let</span> z = x++ + ++y;</span>
+<span class="code-line"><span class="function">console.log</span>(z);</span>`,
+                    options: [
+                        "16",
+                        "17",
+                        "15",
+                        "Error"
+                    ],
+                    category: "syntax",
+                    correctAnswer: 0
+                },
+                {
+                    question: "Which of the following is NOT a valid way to declare a variable in JavaScript?",
+                    options: [
+                        "let x = 5;",
+                        "const x = 5;",
+                        "var x = 5;",
+                        "variable x = 5;"
+                    ],
+                    category: "syntax",
+                    correctAnswer: 3
+                },
+                {
+                    question: "What is the time complexity of the following algorithm?",
+                    code: `
+<span class="code-line"><span class="keyword">function</span> <span class="function">findMax</span>(arr) {</span>
+<span class="code-line">  <span class="keyword">let</span> max = arr[<span class="number">0</span>];</span>
+<span class="code-line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i < arr.length; i++) {</span>
+<span class="code-line">    <span class="keyword">if</span> (arr[i] > max) {</span>
+<span class="code-line">      max = arr[i];</span>
+<span class="code-line">    }</span>
+<span class="code-line">  }</span>
+<span class="code-line">  <span class="keyword">return</span> max;</span>
+<span class="code-line">}</span>`,
+                    options: [
+                        "O(1)",
+                        "O(n)",
+                        "O(log n)",
+                        "O(n²)"
+                    ],
+                    category: "problem",
+                    correctAnswer: 1
+                },
+                {
+                    question: "Which of the following is a principle of Object-Oriented Programming?",
+                    options: [
+                        "Fragmentation",
+                        "Dependency",
+                        "Encapsulation",
+                        "Repetition"
+                    ],
+                    category: "practices",
+                    correctAnswer: 2
+                },
+                {
+                    question: "What will the following Python code return?",
+                    code: `
+<span class="code-line"><span class="keyword">def</span> <span class="function">mystery</span>(lst):</span>
+<span class="code-line">    <span class="keyword">if</span> <span class="keyword">not</span> lst:</span>
+<span class="code-line">        <span class="keyword">return</span> <span class="number">0</span></span>
+<span class="code-line">    <span class="keyword">return</span> lst[<span class="number">0</span>] + mystery(lst[<span class="number">1</span>:])</span>
+<span class="code-line"></span>
+<span class="code-line">result = mystery([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span>
+<span class="code-line"><span class="function">print</span>(result)</span>`,
+                    options: [
+                        "15",
+                        "120",
+                        "5",
+                        "Error: maximum recursion depth exceeded"
+                    ],
+                    category: "problem",
+                    correctAnswer: 0
+                },
+                {
+                    question: "What is the main purpose of a constructor in a class?",
+                    options: [
+                        "To destroy objects when they are no longer needed",
+                        "To initialize object properties when an instance is created",
+                        "To define static methods that can be called without creating an instance",
+                        "To override methods from a parent class"
+                    ],
+                    category: "practices",
+                    correctAnswer: 1
+                },
+                {
+                    question: "Which of the following is NOT a common HTTP status code?",
+                    options: [
+                        "200 OK",
+                        "404 Not Found",
+                        "500 Internal Server Error",
+                        "600 Server Timeout"
+                    ],
+                    category: "debug",
+                    correctAnswer: 3
+                },
+                {
+                    question: "What will be the output of the following C# code?",
+                    code: `
+<span class="code-line"><span class="keyword">using</span> System;</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="keyword">class</span> Program {</span>
+<span class="code-line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="function">Main</span>() {</span>
+<span class="code-line">        <span class="keyword">int</span>[] numbers = { <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span> };</span>
+<span class="code-line">        <span class="keyword">int</span> sum = <span class="number">0</span>;</span>
+<span class="code-line">        </span>
+<span class="code-line">        <span class="keyword">foreach</span> (<span class="keyword">var</span> num <span class="keyword">in</span> numbers) {</span>
+<span class="code-line">            <span class="keyword">if</span> (num % <span class="number">2</span> == <span class="number">0</span>) {</span>
+<span class="code-line">                sum += num;</span>
+<span class="code-line">            }</span>
+<span class="code-line">        }</span>
+<span class="code-line">        </span>
+<span class="code-line">        Console.WriteLine(sum);</span>
+<span class="code-line">    }</span>
+<span class="code-line">}</span>`,
+                    options: [
+                        "15",
+                        "6",
+                        "9",
+                        "0"
+                    ],
+                    category: "syntax",
+                    correctAnswer: 1
+                },
+                {
+                    question: "Which data structure would be most efficient for implementing a priority queue?",
+                    options: [
+                        "Array",
+                        "Linked List",
+                        "Heap",
+                        "Hash Table"
+                    ],
+                    category: "problem",
+                    correctAnswer: 2
+                },
+                {
+                    question: "What is the purpose of the 'this' keyword in JavaScript?",
+                    options: [
+                        "It refers to the current function",
+                        "It refers to the current object",
+                        "It refers to the parent object",
+                        "It refers to the global window object only"
+                    ],
+                    category: "syntax",
+                    correctAnswer: 1
+                },
+                {
+                    question: "Which of the following is NOT a valid way to handle errors in modern JavaScript?",
+                    options: [
+                        "try/catch blocks",
+                        "Promise.catch()",
+                        "async/await with try/catch",
+                        "error.prevent()"
+                    ],
+                    category: "debug",
+                    correctAnswer: 3
+                },
+                {
+                    question: "What design pattern is being implemented in the following code?",
+                    code: `
+<span class="code-line"><span class="keyword">class</span> Singleton {</span>
+<span class="code-line">    <span class="keyword">private</span> <span class="keyword">static</span> instance: Singleton;</span>
+<span class="code-line">    </span>
+<span class="code-line">    <span class="keyword">private</span> <span class="function">constructor</span>() { }</span>
+<span class="code-line">    </span>
+<span class="code-line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function">getInstance</span>(): Singleton {</span>
+<span class="code-line">        <span class="keyword">if</span> (!Singleton.instance) {</span>
+<span class="code-line">            Singleton.instance = <span class="keyword">new</span> Singleton();</span>
+<span class="code-line">        }</span>
+<span class="code-line">        </span>
+<span class="code-line">        <span class="keyword">return</span> Singleton.instance;</span>
+<span class="code-line">    }</span>
+<span class="code-line">}</span>`,
+                    options: [
+                        "Factory Pattern",
+                        "Observer Pattern",
+                        "Singleton Pattern",
+                        "Decorator Pattern"
+                    ],
+                    category: "practices",
+                    correctAnswer: 2
+                },
+                {
+                    question: "What is the output of the following SQL query?",
+                    code: `
+<span class="code-line"><span class="keyword">SELECT</span> COUNT(*) </span>
+<span class="code-line"><span class="keyword">FROM</span> Employees </span>
+<span class="code-line"><span class="keyword">WHERE</span> Department = <span class="string">'IT'</span> </span>
+<span class="code-line"><span class="keyword">AND</span> Salary > <span class="number">50000</span>;</span>`,
+                    options: [
+                        "The names of all IT employees with salary over $50,000",
+                        "The number of IT employees with salary over $50,000",
+                        "The average salary of IT employees over $50,000",
+                        "Error: invalid SQL syntax"
+                    ],
+                    category: "syntax",
+                    correctAnswer: 1
+                },
+                {
+                    question: "What is the primary purpose of unit testing?",
+                    options: [
+                        "To test the user interface of an application",
+                        "To verify that individual components work as expected in isolation",
+                        "To test the entire application as a whole",
+                        "To measure the performance of an application"
+                    ],
+                    category: "practices",
+                    correctAnswer: 1
+                },
+                {
+                    question: "What will be the output of the following Java code?",
+                    code: `
+<span class="code-line"><span class="keyword">public</span> <span class="keyword">class</span> Main {</span>
+<span class="code-line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="function">main</span>(String[] args) {</span>
+<span class="code-line">        String str1 = <span class="string">"Hello"</span>;</span>
+<span class="code-line">        String str2 = <span class="string">"Hello"</span>;</span>
+<span class="code-line">        String str3 = <span class="keyword">new</span> String(<span class="string">"Hello"</span>);</span>
+<span class="code-line">        </span>
+<span class="code-line">        System.out.println(str1 == str2);</span>
+<span class="code-line">        System.out.println(str1 == str3);</span>
+<span class="code-line">        System.out.println(str1.equals(str3));</span>
+<span class="code-line">    }</span>
+<span class="code-line">}</span>`,
+                    options: [
+                        "true true true",
+                        "true false true",
+                        "false false true",
+                        "false true false"
+                    ],
+                    category: "syntax",
+                    correctAnswer: 1
+                },
+                {
+                    question: "Which of the following is NOT a common approach to debugging?",
+                    options: [
+                        "Using breakpoints in an IDE",
+                        "Adding console.log or print statements",
+                        "Using a debugger tool",
+                        "Rewriting the entire codebase"
+                    ],
+                    category: "debug",
+                    correctAnswer: 3
+                },
+                {
+                    question: "What is the time complexity of binary search?",
+                    options: [
+                        "O(n)",
+                        "O(n²)",
+                        "O(log n)",
+                        "O(1)"
+                    ],
+                    category: "problem",
+                    correctAnswer: 2
+                },
+                {
+                    question: "What is the output of the following Python code?",
+                    code: `
+<span class="code-line">x = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span>
+<span class="code-line">y = x</span>
+<span class="code-line">y.append(<span class="number">4</span>)</span>
+<span class="code-line"><span class="function">print</span>(x)</span>`,
+                    options: [
+                        "[1, 2, 3]",
+                        "[1, 2, 3, 4]",
+                        "[4, 1, 2, 3]",
+                        "Error"
+                    ],
+                    category: "debug",
+                    correctAnswer: 1
+                },
+                {
+                    question: "Which of the following is a benefit of using version control systems like Git?",
+                    options: [
+                        "It automatically fixes bugs in your code",
+                        "It makes your code run faster",
+                        "It allows multiple developers to work on the same codebase without conflicts",
+                        "It compiles your code for different platforms"
+                    ],
+                    category: "practices",
+                    correctAnswer: 2
+                },
+                {
+                    question: "What will the following code output in JavaScript?",
+                    code: `
+<span class="code-line"><span class="keyword">function</span> <span class="function">outer</span>() {</span>
+<span class="code-line">  <span class="keyword">let</span> count = <span class="number">0</span>;</span>
+<span class="code-line">  </span>
+<span class="code-line">  <span class="keyword">return</span> <span class="keyword">function</span> <span class="function">inner</span>() {</span>
+<span class="code-line">    count++;</span>
+<span class="code-line">    <span class="keyword">return</span> count;</span>
+<span class="code-line">  }</span>
+<span class="code-line">}</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="keyword">const</span> increment = <span class="function">outer</span>();</span>
+<span class="code-line"><span class="function">console.log</span>(<span class="function">increment</span>());</span>
+<span class="code-line"><span class="function">console.log</span>(<span class="function">increment</span>());</span>`,
+                    options: [
+                        "0, 0",
+                        "1, 1",
+                        "1, 2",
+                        "undefined, undefined"
+                    ],
+                    category: "problem",
+                    correctAnswer: 2
+                }
+            ];
+
+            // Programming profiles based on answer patterns
+            const programmerProfiles = {
+                "syntax": {
+                    high: "Language Specialist",
+                    medium: "Syntax Proficient",
+                    low: "Syntax Developing"
+                },
+                "problem": {
+                    high: "Algorithm Expert",
+                    medium: "Problem Solver",
+                    low: "Developing Problem Solver"
+                },
+                "practices": {
+                    high: "Best Practices Advocate",
+                    medium: "Quality-Focused Developer",
+                    low: "Emerging Professional"
+                },
+                "debug": {
+                    high: "Debugging Specialist",
+                    medium: "Effective Troubleshooter",
+                    low: "Developing Debugger"
+                }
+            };
+
+            // DOM elements
+            const welcomeScreen = document.getElementById('welcome-screen');
+            const userInfoScreen = document.getElementById('user-info-screen');
+            const assessmentScreen = document.getElementById('assessment-screen');
+            const resultsScreen = document.getElementById('results-screen');
+            const paymentScreen = document.getElementById('payment-screen');
+            const certificateScreen = document.getElementById('certificate-screen');
+            
+            const startBtn = document.getElementById('start-btn');
+            const userForm = document.getElementById('user-form');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const getCertificateBtn = document.getElementById('get-certificate-btn');
+            const processPaymentBtn = document.getElementById('process-payment-btn');
+            const downloadBtn = document.getElementById('download-btn');
+            const shareBtn = document.getElementById('share-btn');
+            const restartBtn = document.getElementById('restart-btn');
+            
+            const currentQuestionEl = document.getElementById('current-question');
+            const progressBar = document.getElementById('progress-bar');
+            const questionText = document.getElementById('question-text');
+            const codeSnippet = document.getElementById('code-snippet');
+            const optionsContainer = document.getElementById('options-container');
+            const timerEl = document.getElementById('timer');
+
+            // State variables
+            let currentQuestion = 0;
+            let userAnswers = Array(questions.length).fill(null);
+            let timer;
+            let timeLeft = 45;
+            let userData = {
+                name: '',
+                email: '',
+                experience: ''
+            };
+
+            // Event listeners
+            startBtn.addEventListener('click', showUserInfoScreen);
+            userForm.addEventListener('submit', handleUserFormSubmit);
+            prevBtn.addEventListener('click', showPreviousQuestion);
+            nextBtn.addEventListener('click', handleNextQuestion);
+            getCertificateBtn.addEventListener('click', showPaymentScreen);
+            processPaymentBtn.addEventListener('click', showCertificate);
+            downloadBtn.addEventListener('click', downloadCertificate);
+            shareBtn.addEventListener('click', shareCertificate);
+            restartBtn.addEventListener('click', restartAssessment);
+
+            // Functions
+            function showUserInfoScreen(e) {
+                e.preventDefault();
+                welcomeScreen.classList.add('hidden');
+                userInfoScreen.classList.remove('hidden');
+            }
+
+            function handleUserFormSubmit(e) {
+                e.preventDefault();
+                userData.name = document.getElementById('fullName').value;
+                userData.email = document.getElementById('email').value;
+                userData.experience = document.getElementById('experience').value;
+                
+                userInfoScreen.classList.add('hidden');
+                assessmentScreen.classList.remove('hidden');
+                
+                loadQuestion(currentQuestion);
+                startTimer();
+            }
+
+            function loadQuestion(index) {
+                const question = questions[index];
+                questionText.textContent = question.question;
+                
+                // Update progress indicators
+                currentQuestionEl.textContent = index + 1;
+                progressBar.style.width = `${((index + 1) / questions.length) * 100}%`;
+                
+                // Handle code snippet if present
+                if (question.code) {
+                    codeSnippet.innerHTML = question.code;
+                    codeSnippet.classList.remove('hidden');
+                } else {
+                    codeSnippet.classList.add('hidden');
+                }
+                
+                // Clear previous options
+                optionsContainer.innerHTML = '';
+                
+                // Add new options
+                question.options.forEach((option, i) => {
+                    const isSelected = userAnswers[index] === i;
+                    
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = `option-card p-4 rounded-lg ${
+                        isSelected ? 'selected' : ''
+                    }`;
+                    optionDiv.dataset.index = i;
+                    
+                    optionDiv.innerHTML = `
+                        <div class="flex items-center">
+                            <div class="w-6 h-6 rounded-full border ${
+                                isSelected ? 'border-blue-500 bg-blue-500' : 'border-gray-500'
+                            } flex items-center justify-center mr-3">
+                                ${isSelected ? '<div class="w-2 h-2 rounded-full bg-white"></div>' : ''}
+                            </div>
+                            <span>${option}</span>
+                        </div>
+                    `;
+                    
+                    optionDiv.addEventListener('click', () => selectOption(i));
+                    optionsContainer.appendChild(optionDiv);
+                });
+                
+                // Update button states
+                prevBtn.disabled = index === 0;
+                nextBtn.textContent = index === questions.length - 1 ? 'Finish' : 'Next';
+                
+                // Reset timer
+                clearInterval(timer);
+                timeLeft = 45;
+                timerEl.textContent = formatTime(timeLeft);
+                timerEl.classList.remove('text-red-500', 'timer-warning');
+                startTimer();
+            }
+
+            function selectOption(optionIndex) {
+                userAnswers[currentQuestion] = optionIndex;
+                
+                // Update UI to show selected option
+                const options = optionsContainer.querySelectorAll('.option-card');
+                options.forEach((option, i) => {
+                    const circle = option.querySelector('div > div');
+                    if (i === optionIndex) {
+                        option.classList.add('selected');
+                        circle.classList.add('border-blue-500', 'bg-blue-500');
+                        circle.classList.remove('border-gray-500');
+                        circle.innerHTML = '<div class="w-2 h-2 rounded-full bg-white"></div>';
+                    } else {
+                        option.classList.remove('selected');
+                        circle.classList.remove('border-blue-500', 'bg-blue-500');
+                        circle.classList.add('border-gray-500');
+                        circle.innerHTML = '';
+                    }
+                });
+            }
+
+            function showPreviousQuestion() {
+                if (currentQuestion > 0) {
+                    currentQuestion--;
+                    loadQuestion(currentQuestion);
+                }
+            }
+
+            function handleNextQuestion() {
+                // If no option selected, prompt user
+                if (userAnswers[currentQuestion] === null) {
+                    alert('Please select an answer before proceeding.');
+                    return;
+                }
+                
+                if (currentQuestion < questions.length - 1) {
+                    currentQuestion++;
+                    loadQuestion(currentQuestion);
+                } else {
+                    showResults();
+                }
+            }
+
+            function startTimer() {
+                timer = setInterval(() => {
+                    timeLeft--;
+                    timerEl.textContent = formatTime(timeLeft);
+                    
+                    if (timeLeft <= 10) {
+                        timerEl.classList.add('text-red-500');
+                        if (timeLeft <= 5) {
+                            timerEl.classList.add('timer-warning');
+                        }
+                    } else {
+                        timerEl.classList.remove('text-red-500', 'timer-warning');
+                    }
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(timer);
+                        // Auto-advance if time runs out
+                        if (userAnswers[currentQuestion] === null) {
+                            // If no answer selected, choose one randomly
+                            selectOption(Math.floor(Math.random() * 4));
+                        }
+                        
+                        if (currentQuestion < questions.length - 1) {
+                            currentQuestion++;
+                            loadQuestion(currentQuestion);
+                        } else {
+                            showResults();
+                        }
+                    }
+                }, 1000);
+            }
+
+            function formatTime(seconds) {
+                return `00:${seconds < 10 ? '0' : ''}${seconds}`;
+            }
+
+            function calculateScores() {
+                // Initialize category scores
+                let categoryScores = {
+                    "syntax": { score: 0, count: 0 },
+                    "problem": { score: 0, count: 0 },
+                    "practices": { score: 0, count: 0 },
+                    "debug": { score: 0, count: 0 }
+                };
+                
+                // Calculate scores based on correct answers
+                questions.forEach((question, index) => {
+                    const category = question.category;
+                    const userAnswer = userAnswers[index];
+                    const correctAnswer = question.correctAnswer;
+                    
+                    if (userAnswer !== null) {
+                        categoryScores[category].count++;
+                        if (userAnswer === correctAnswer) {
+                            categoryScores[category].score++;
+                        }
+                    }
+                });
+                
+                // Calculate percentages
+                const syntaxScore = Math.round((categoryScores["syntax"].score / (categoryScores["syntax"].count || 1)) * 100);
+                const problemScore = Math.round((categoryScores["problem"].score / (categoryScores["problem"].count || 1)) * 100);
+                const practicesScore = Math.round((categoryScores["practices"].score / (categoryScores["practices"].count || 1)) * 100);
+                const debugScore = Math.round((categoryScores["debug"].score / (categoryScores["debug"].count || 1)) * 100);
+                
+                // Calculate overall score
+                const totalScore = categoryScores["syntax"].score + categoryScores["problem"].score + 
+                                  categoryScores["practices"].score + categoryScores["debug"].score;
+                const totalPossible = categoryScores["syntax"].count + categoryScores["problem"].count + 
+                                     categoryScores["practices"].count + categoryScores["debug"].count;
+                const overallScore = Math.round((totalScore / (totalPossible || 1)) * 100);
+                
+                return {
+                    overall: overallScore,
+                    "syntax": syntaxScore,
+                    "problem": problemScore,
+                    "practices": practicesScore,
+                    "debug": debugScore
+                };
+            }
+
+            function determineProgrammerProfile(scores) {
+                // Determine programmer profile based on highest category score
+                const categories = ["syntax", "problem", "practices", "debug"];
+                const highestCategory = categories.reduce((a, b) => scores[a] > scores[b] ? a : b);
+                
+                // Determine level (high, medium, low)
+                let level;
+                if (scores[highestCategory] >= 80) {
+                    level = 'high';
+                } else if (scores[highestCategory] >= 60) {
+                    level = 'medium';
+                } else {
+                    level = 'low';
+                }
+                
+                // Map to programmer type based on experience and scores
+                let programmerType;
+                
+                if (userData.experience === 'beginner') {
+                    programmerType = "Junior Developer";
+                } else if (userData.experience === 'intermediate') {
+                    programmerType = "Mid-Level Developer";
+                } else if (userData.experience === 'advanced') {
+                    programmerType = "Senior Developer";
+                } else {
+                    programmerType = "Lead Developer";
+                }
+                
+                // Add specialization based on highest score
+                if (highestCategory === 'syntax') {
+                    programmerType += " (Language Specialist)";
+                } else if (highestCategory === 'problem') {
+                    programmerType += " (Algorithm Expert)";
+                } else if (highestCategory === 'practices') {
+                    programmerType += " (Best Practices Advocate)";
+                } else {
+                    programmerType += " (Debugging Specialist)";
+                }
+                
+                return programmerType;
+            }
+
+            function generateFeedback(scores, programmerProfile) {
+                let feedback = '';
+                
+                // Generate feedback based on programmer profile and scores
+                if (scores.overall >= 80) {
+                    feedback = 'You demonstrate excellent programming skills across multiple areas. ';
+                } else if (scores.overall >= 60) {
+                    feedback = 'You show solid programming knowledge with some areas of strength. ';
+                } else {
+                    feedback = 'You have a foundation in programming with opportunities for growth. ';
+                }
+                
+                // Add strengths
+                feedback += 'Your key strengths include ';
+                
+                // Find top two categories
+                const categories = Object.entries(scores)
+                    .filter(([key]) => key !== 'overall')
+                    .sort((a, b) => b[1] - a[1]);
+                
+                const topCategory = categories[0][0];
+                const secondCategory = categories[1][0];
+                
+                switch (topCategory) {
+                    case 'syntax':
+                        feedback += 'language syntax and features';
+                        break;
+                    case 'problem':
+                        feedback += 'algorithmic problem solving';
+                        break;
+                    case 'practices':
+                        feedback += 'coding best practices';
+                        break;
+                    case 'debug':
+                        feedback += 'debugging and troubleshooting';
+                        break;
+                }
+                
+                feedback += ' and ';
+                
+                switch (secondCategory) {
+                    case 'syntax':
+                        feedback += 'understanding of language constructs';
+                        break;
+                    case 'problem':
+                        feedback += 'solving complex programming challenges';
+                        break;
+                    case 'practices':
+                        feedback += 'applying software development principles';
+                        break;
+                    case 'debug':
+                        feedback += 'identifying and fixing code issues';
+                        break;
+                }
+                
+                feedback += '. ';
+                
+                // Add area for improvement
+                const lowestCategory = categories[3][0];
+                
+                feedback += 'An area for potential growth is ';
+                
+                switch (lowestCategory) {
+                    case 'syntax':
+                        feedback += 'deepening your knowledge of language syntax and features.';
+                        break;
+                    case 'problem':
+                        feedback += 'developing stronger algorithmic thinking and problem-solving approaches.';
+                        break;
+                    case 'practices':
+                        feedback += 'learning more about software development best practices and design patterns.';
+                        break;
+                    case 'debug':
+                        feedback += 'enhancing your debugging and troubleshooting skills.';
+                        break;
+                }
+                
+                // Add experience-based recommendation
+                if (userData.experience === 'beginner') {
+                    feedback += ' As you continue your programming journey, focus on building small projects to apply what you\'ve learned.';
+                } else if (userData.experience === 'intermediate') {
+                    feedback += ' Consider exploring more complex projects and contributing to open source to further develop your skills.';
+                } else {
+                    feedback += ' You might benefit from mentoring others and exploring advanced topics in your strongest areas.';
+                }
+                
+                return feedback;
+            }
+
+            function showResults() {
+                clearInterval(timer);
+                assessmentScreen.classList.add('hidden');
+                resultsScreen.classList.remove('hidden');
+                
+                const scores = calculateScores();
+                const programmerProfile = determineProgrammerProfile(scores);
+                
+                // Update score displays
+                document.getElementById('score-circle').style.strokeDashoffset = 283 - (283 * scores.overall / 100);
+                document.getElementById('score-text').textContent = `${scores.overall}%`;
+                
+                document.getElementById('syntax-score').textContent = `${scores["syntax"]}%`;
+                document.getElementById('syntax-bar').style.width = `${scores["syntax"]}%`;
+                
+                document.getElementById('problem-score').textContent = `${scores["problem"]}%`;
+                document.getElementById('problem-bar').style.width = `${scores["problem"]}%`;
+                
+                document.getElementById('practices-score').textContent = `${scores["practices"]}%`;
+                document.getElementById('practices-bar').style.width = `${scores["practices"]}%`;
+                
+                document.getElementById('debug-score').textContent = `${scores["debug"]}%`;
+                document.getElementById('debug-bar').style.width = `${scores["debug"]}%`;
+                
+                // Set programmer profile
+                document.getElementById('programmer-type').textContent = programmerProfile;
+                
+                // Generate and display feedback
+                const feedback = generateFeedback(scores, programmerProfile);
+                document.getElementById('feedback-text').textContent = feedback;
+            }
+
+            function showPaymentScreen() {
+                resultsScreen.classList.add('hidden');
+                paymentScreen.classList.remove('hidden');
+            }
+
+            function showCertificate() {
+                paymentScreen.classList.add('hidden');
+                certificateScreen.classList.remove('hidden');
+                
+                // Update certificate with user data
+                document.getElementById('cert-name').textContent = userData.name;
+                
+                const scores = calculateScores();
+                document.getElementById('cert-score').textContent = `${scores.overall}%`;
+                
+                const programmerProfile = determineProgrammerProfile(scores);
+                document.getElementById('cert-type').textContent = programmerProfile;
+                
+                // Set current date
+                const today = new Date();
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                document.getElementById('cert-date').textContent = today.toLocaleDateString('en-US', options);
+                
+                // Generate certificate ID
+                const certId = 'PS-' + today.getFullYear() + '-' + Math.floor(10000 + Math.random() * 90000);
+                document.getElementById('cert-id').textContent = 'Certificate ID: ' + certId;
+                
+                // Create confetti effect
+                createConfetti();
+            }
+
+            function createConfetti() {
+                const colors = ['#3b82f6', '#8b5cf6', '#ec4899', '#10b981', '#f59e0b'];
+                const confettiCount = 100;
+                
+                for (let i = 0; i < confettiCount; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = `${Math.random() * 100}vw`;
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.opacity = '1';
+                    confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    
+                    document.body.appendChild(confetti);
+                    
+                    // Animate confetti
+                    const duration = Math.random() * 3 + 2; // 2-5 seconds
+                    confetti.animate([
+                        { transform: `translate(0, 0) rotate(0deg)`, opacity: 1 },
+                        { transform: `translate(${Math.random() * 100 - 50}px, ${window.innerHeight}px) rotate(${Math.random() * 720}deg)`, opacity: 0 }
+                    ], {
+                        duration: duration * 1000,
+                        easing: 'cubic-bezier(0.1, 0.8, 0.3, 1)'
+                    });
+                    
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, duration * 1000);
+                }
+            }
+
+            function downloadCertificate() {
+                alert('In a real application, this would generate and download a PDF certificate. This is a demo version.');
+            }
+
+            function shareCertificate() {
+                alert('In a real application, this would open sharing options for social media platforms. This is a demo version.');
+            }
+
+            function restartAssessment() {
+                // Reset state
+                currentQuestion = 0;
+                userAnswers = Array(questions.length).fill(null);
+                
+                // Show welcome screen
+                certificateScreen.classList.add('hidden');
+                welcomeScreen.classList.remove('hidden');
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9655eb63812a8492',t:'MTc1MzU1NDExNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

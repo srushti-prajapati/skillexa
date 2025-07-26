@@ -22,7 +22,8 @@
     <!-- Freemium Plan -->
     <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
       <h2 class="text-2xl font-semibold mb-2">Freemium</h2>
-      <p class="text-gray-600 mb-4">Access 5 skills with tutor & test</p>
+      <p class="text-gray-600 mb-2">Access 5 skills with AI Tutor & Test</p>
+      <p class="text-sm text-yellow-600 mb-4">Certificates cost ₹99 each</p>
       <p class="text-xl font-bold text-green-600 mb-6">Free</p>
       <button onclick="selectPlan('freemium')" class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full">Select</button>
     </div>
@@ -30,17 +31,19 @@
     <!-- Premium Plan -->
     <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
       <h2 class="text-2xl font-semibold mb-2">Premium</h2>
-      <p class="text-gray-600 mb-4">Unlock AI Tutor & Judge + Certification</p>
-      <p class="text-xl font-bold text-blue-600 mb-6">₹399</p>
+      <p class="text-gray-600 mb-2">Unlock All Skills + Tutor + Certificate</p>
+      <p class="text-sm text-gray-500 mb-4">Pay once – ₹799</p>
+      <p class="text-xl font-bold text-blue-600 mb-6">₹799</p>
       <button onclick="showQR('premium')" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-full">Select</button>
     </div>
 
-    <!-- All-in-One Plan -->
-    <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+    <!-- All-in-One Plan (Disabled) -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 text-center opacity-60 cursor-not-allowed">
       <h2 class="text-2xl font-semibold mb-2">All-in-One</h2>
-      <p class="text-gray-600 mb-4">All Skills + Tutor + Judge + Certification</p>
-      <p class="text-xl font-bold text-purple-600 mb-6">₹599</p>
-      <button onclick="showQR('allinone')" class="bg-purple-500 hover:bg-purple-600 text-white px-6 py-2 rounded-full">Select</button>
+      <p class="text-gray-600 mb-2">Everything + Extras + Reports (Coming Soon)</p>
+      <p class="text-sm text-gray-500 mb-4">₹999</p>
+      <p class="text-xl font-bold text-purple-600 mb-6">Coming Soon</p>
+      <button disabled class="bg-gray-400 text-white px-6 py-2 rounded-full">Coming Soon</button>
     </div>
 
   </div>
@@ -60,12 +63,18 @@
     let selectedPlan = null;
 
     function selectPlan(plan) {
-      localStorage.setItem('userPlan', plan);
-      alert("Freemium Plan Selected. You can access limited features.");
-      window.location.href = "dashboard.html";
+      if (plan === "freemium") {
+        localStorage.setItem("skillexa-user", JSON.stringify({ plan: "freemium" }));
+        alert("✅ Freemium Plan Activated! Limited features available.");
+        window.location.href = "dashboard.html";
+      }
     }
 
     function showQR(plan) {
+      if (plan === "allinone") {
+        alert("🚫 All-in-One Plan is Coming Soon!");
+        return;
+      }
       selectedPlan = plan;
       document.getElementById('qrModal').classList.add('active');
     }
@@ -77,8 +86,8 @@
 
     function confirmPayment() {
       if (selectedPlan) {
-        localStorage.setItem('userPlan', selectedPlan);
-        alert(`${selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1)} Plan Activated!`);
+        localStorage.setItem("skillexa-user", JSON.stringify({ plan: selectedPlan }));
+        alert(`✅ ${selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1)} Plan Activated!`);
         closeQR();
         window.location.href = "dashboard.html";
       }

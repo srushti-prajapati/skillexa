@@ -558,98 +558,70 @@
                 </div>
             </div>
         </div>
-<script>
-  // TESTING ONLY — remove in production
-  localStorage.setItem("username", "Jane Doe");
-  localStorage.setItem("coursename", "Conflict Resolution");
-
-  const canvas = document.getElementById("certificateCanvas");
-  const ctx = canvas.getContext("2d");
-  ...
-</script>
 
         <!-- Certificate Screen -->
         <div id="certificate-screen" class="hidden">
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Skillexa Certificate</title>
-  <style>
-    body {
-      text-align: center;
-      background: #f5f5f5;
-      font-family: 'Segoe UI', sans-serif;
-    }
-    canvas {
-      max-width: 100%;
-      border: 1px solid #ccc;
-      margin-top: 20px;
-    }
-    button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 16px;
-      background: #4b2aad;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-  </style>
-</head>
-<body>
-
-  <h2>🎓 Your Skillexa Certificate</h2>
-  <canvas id="certificateCanvas" width="1200" height="848"></canvas>
-  <button onclick="downloadCertificate()">Download as PNG</button>
-
-  <script>
-    // Get user info from localStorage
-    const userName = localStorage.getItem("username") || "Your Full Name";
-    const skillName = localStorage.getItem("coursename") || "Your Skill Name";
-    const certID = "SKX-" + Math.floor(100000 + Math.random() * 900000);
-    const today = new Date().toLocaleDateString();
-
-    const canvas = document.getElementById("certificateCanvas");
-    const ctx = canvas.getContext("2d");
-
-    const image = new Image();
-    image.src = "assets/images/skillex_certificate.jpg"; // ✅ Replace with your actual image path
-
-    image.onload = () => {
-      // Draw certificate background
-      ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-
-      // Draw user name
-      ctx.font = "bold 36px Georgia";
-      ctx.fillStyle = "#000";
-      ctx.textAlign = "center";
-      ctx.fillText(userName, canvas.width / 2, 405); // Adjust Y as needed
-
-      // Draw skill name
-      ctx.font = "italic 28px Georgia";
-      ctx.fillText(skillName, canvas.width / 2, 500);
-
-      // Draw date and certificate ID
-      ctx.font = "20px Arial";
-      ctx.textAlign = "left";
-      ctx.fillText(`Date: ${today}`, 90, 740);
-      ctx.fillText(`Certificate ID: ${certID}`, 90, 770);
-    };
-
-    // Download function
-    function downloadCertificate() {
-      const link = document.createElement('a');
-      link.download = `${userName}-certificate.png`;
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-    }
-  </script>
-
-</body>
-</html>
-
+            <div class="max-w-4xl mx-auto">
+                <div class="certificate p-10 rounded-xl shadow-lg mb-8 relative">
+                    <div class="absolute top-5 left-5">
+                        <svg class="w-16 h-16" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="48" fill="#4f46e5" fill-opacity="0.1"/>
+                            <!-- Conflict resolution icon -->
+                            <path d="M30 40 C30 30 40 30 50 40 C60 30 70 30 70 40 C70 50 60 50 50 40 C40 50 30 50 30 40" stroke="#4f46e5" stroke-width="2" fill="none"/>
+                            <path d="M30 60 C30 50 40 50 50 60 C60 50 70 50 70 60 C70 70 60 70 50 60 C40 70 30 70 30 60" stroke="#4f46e5" stroke-width="2" fill="none"/>
+                            <path d="M50 40 L50 60" stroke="#4f46e5" stroke-width="2" stroke-dasharray="4 2" fill="none"/>
+                        </svg>
+                    </div>
+                    
+                    <div class="text-center mb-8 pt-8">
+                        <h2 class="text-3xl font-bold text-indigo-800 mb-2">Certificate of Conflict Resolution</h2>
+                        <div class="h-1 w-32 bg-indigo-600 mx-auto mb-2"></div>
+                        <p class="text-gray-600">Conflict Resolution Skills Assessment</p>
+                    </div>
+                    
+                    <div class="text-center mb-8">
+                        <p class="text-lg text-gray-700 mb-2">This certifies that</p>
+                        <h3 id="cert-name" class="text-2xl font-bold text-gray-800 mb-2">John Doe</h3>
+                        <p class="text-lg text-gray-700">has successfully completed the Conflict Resolution Skills Assessment</p>
+                        <p class="text-lg text-gray-700 mb-2">with a score of <span id="cert-score" class="font-bold text-indigo-700">85%</span></p>
+                        <p class="text-md text-gray-600">Conflict Resolution Profile: <span id="cert-style" class="font-semibold">Collaborative Mediator</span></p>
+                    </div>
+                    
+                    <div class="flex justify-between items-center mb-4">
+                        <div>
+                            <p id="cert-date" class="text-gray-600">June 15, 2023</p>
+                            <p id="cert-id" class="text-gray-500 text-sm">Certificate ID: CR-2023-78945</p>
+                        </div>
+                        <div>
+                            <svg class="w-32 h-12" viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10,20 Q30,5 50,20 T90,20" stroke="#4f46e5" stroke-width="2" fill="none" />
+                                <text x="50" y="25" font-family="cursive" font-size="8" text-anchor="middle" fill="#4f46e5">Conflict Resolver</text>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <div class="seal">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="#4f46e5" stroke-width="2" />
+                            <circle cx="50" cy="50" r="40" fill="none" stroke="#4f46e5" stroke-width="1" />
+                            <circle cx="50" cy="50" r="30" fill="none" stroke="#4f46e5" stroke-width="1" />
+                            <!-- Handshake icon simplified -->
+                            <path d="M30 50 C35 45 40 45 45 50 C50 55 55 55 60 50 C65 45 70 45 75 50" stroke="#4f46e5" stroke-width="1.5" fill="none"/>
+                            <path d="M30 50 C35 55 40 55 45 50 C50 45 55 45 60 50 C65 55 70 55 75 50" stroke="#4f46e5" stroke-width="1.5" fill="none"/>
+                            <text x="50" y="70" font-size="8" text-anchor="middle" fill="#4f46e5">CERTIFIED</text>
+                            <text x="50" y="80" font-size="6" text-anchor="middle" fill="#4f46e5">CONFLICT RESOLVER</text>
+                        </svg>
+                    </div>
+                    
+                    <div class="absolute bottom-5 left-5 opacity-30">
+                        <svg class="w-24 h-24" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M30,50 L70,50 M50,30 L50,70" stroke="#4f46e5" stroke-width="1"/>
+                            <circle cx="50" cy="50" r="20" stroke="#4f46e5" stroke-width="1" stroke-dasharray="5 5"/>
+                            <circle cx="50" cy="50" r="40" stroke="#4f46e5" stroke-width="1" stroke-dasharray="2 2"/>
+                        </svg>
+                    </div>
+                </div>
+                
                 <div class="flex flex-wrap justify-center gap-4">
                     <button id="download-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg flex items-center">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

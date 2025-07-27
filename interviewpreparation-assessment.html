@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Preparation Skills Assessment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        }
+        .progress-bar {
+            transition: width 0.5s ease-in-out;
+        }
+        .card {
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(14, 165, 233, 0.2);
+        }
+        .certificate {
+            background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+            border: 2px solid #0ea5e9;
+            position: relative;
+            overflow: hidden;
+        }
+        .certificate::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 100px;
+            height: 100px;
+            background: rgba(14, 165, 233, 0.1);
+            border-radius: 50%;
+        }
+        .certificate::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            right: -50px;
+            width: 100px;
+            height: 100px;
+            background: rgba(14, 165, 233, 0.1);
+            border-radius: 50%;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        .seal {
+            position: absolute;
+            bottom: 30px;
+            right: 40px;
+            width: 100px;
+            height: 100px;
+        }
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0;
+            z-index: 1000;
+        }
+        .interview-icon {
+            transition: all 0.3s ease;
+        }
+        .interview-icon:hover {
+            transform: scale(1.1);
+        }
+        .timer-warning {
+            animation: pulse 1s infinite;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div id="app" class="container mx-auto px-4 py-8 max-w-5xl">
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="flex flex-col items-center justify-center py-10">
+            <div class="float mb-6">
+                <svg class="w-32 h-32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="48" fill="#0ea5e9" fill-opacity="0.1"/>
+                    <circle cx="50" cy="50" r="40" stroke="#0ea5e9" stroke-width="2"/>
+                    <path d="M30,35 L70,35 L70,70 L30,70 Z" stroke="#0ea5e9" stroke-width="2" fill="#0ea5e9" fill-opacity="0.1"/>
+                    <path d="M40,25 L40,40" stroke="#0ea5e9" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M60,25 L60,40" stroke="#0ea5e9" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M35,50 L45,60 L65,40" stroke="#0ea5e9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <h1 class="text-4xl font-bold text-gray-800 mb-4 text-center">Interview Preparation Skills Assessment</h1>
+            <p class="text-lg text-gray-600 mb-8 text-center max-w-2xl">Evaluate your interview readiness with our comprehensive assessment. Complete 15 questions to receive personalized feedback and a certificate.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl mb-10">
+                <div class="card bg-white p-6 rounded-xl shadow-lg">
+                    <div class="flex items-center justify-center mb-4 text-sky-600">
+                        <svg class="w-10 h-10 interview-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2 text-center">Timed Assessment</h3>
+                    <p class="text-gray-600 text-center">Complete questions within the allocated time for each section.</p>
+                </div>
+                
+                <div class="card bg-white p-6 rounded-xl shadow-lg">
+                    <div class="flex items-center justify-center mb-4 text-sky-600">
+                        <svg class="w-10 h-10 interview-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2 text-center">Interview Insights</h3>
+                    <p class="text-gray-600 text-center">Discover your interview strengths and areas for improvement.</p>
+                </div>
+                
+                <div class="card bg-white p-6 rounded-xl shadow-lg">
+                    <div class="flex items-center justify-center mb-4 text-sky-600">
+                        <svg class="w-10 h-10 interview-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2 text-center">Verified Certificate</h3>
+                    <p class="text-gray-600 text-center">Receive a personalized certificate upon successful completion.</p>
+                </div>
+            </div>
+            
+            <button id="start-btn" class="btn-primary text-white font-semibold py-3 px-8 rounded-full text-lg">
+                Start Assessment
+            </button>
+        </div>
+
+        <!-- User Info Form -->
+        <div id="user-info-screen" class="hidden max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Before we begin</h2>
+            <p class="text-gray-600 mb-6">Please provide your information for your interview skills certificate:</p>
+            
+            <form id="user-form" class="space-y-4">
+                <div>
+                    <label for="fullName" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-sky-500 focus:border-sky-500">
+                </div>
+                
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                    <input type="email" id="email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-sky-500 focus:border-sky-500">
+                </div>
+                
+                <div>
+                    <label for="jobTitle" class="block text-sm font-medium text-gray-700 mb-1">Target Job Title (Optional)</label>
+                    <input type="text" id="jobTitle" name="jobTitle" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-sky-500 focus:border-sky-500">
+                </div>
+                
+                <div class="pt-4">
+                    <button type="submit" class="btn-primary text-white font-semibold py-2 px-6 rounded-lg w-full">
+                        Continue to Assessment
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Assessment Screen -->
+        <div id="assessment-screen" class="hidden">
+            <div class="mb-6 flex items-center justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">Interview Skills Assessment</h2>
+                    <p class="text-gray-600">Question <span id="current-question">1</span> of 15</p>
+                </div>
+                <div class="bg-white px-4 py-2 rounded-lg shadow flex items-center">
+                    <svg class="w-5 h-5 text-sky-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span id="timer" class="font-semibold text-gray-800">00:45</span>
+                </div>
+            </div>
+            
+            <div class="w-full bg-gray-200 rounded-full h-2.5 mb-8">
+                <div id="progress-bar" class="progress-bar bg-sky-600 h-2.5 rounded-full" style="width: 0%"></div>
+            </div>
+            
+            <div id="question-container" class="bg-white rounded-xl shadow-lg p-8 mb-6">
+                <h3 id="question-text" class="text-xl font-semibold text-gray-800 mb-6">Loading question...</h3>
+                
+                <div id="options-container" class="space-y-3">
+                    <!-- Options will be inserted here -->
+                </div>
+            </div>
+            
+            <div class="flex justify-between">
+                <button id="prev-btn" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-6 rounded-lg disabled:opacity-50" disabled>
+                    Previous
+                </button>
+                <button id="next-btn" class="btn-primary text-white font-semibold py-2 px-6 rounded-lg">
+                    Next
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="hidden">
+            <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
+                <div class="flex items-center justify-center mb-6">
+                    <div class="relative">
+                        <svg class="w-32 h-32" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="45" fill="#f3f4f6" stroke="#e5e7eb" stroke-width="2"></circle>
+                            <circle id="score-circle" cx="50" cy="50" r="45" fill="none" stroke="#0ea5e9" stroke-width="8" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="42"></circle>
+                            <text id="score-text" x="50" y="50" font-size="20" text-anchor="middle" alignment-baseline="middle" font-weight="bold" fill="#0ea5e9">85%</text>
+                        </svg>
+                    </div>
+                </div>
+                
+                <h2 class="text-2xl font-bold text-gray-800 text-center mb-2">Interview Skills Assessment Complete!</h2>
+                <p class="text-gray-600 text-center mb-6">Here's how you performed in your interview preparation assessment.</p>
+                
+                <div class="space-y-4 mb-8">
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-700">Self-Presentation</span>
+                            <span id="presentation-score" class="text-sm font-medium text-sky-600">80%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div id="presentation-bar" class="bg-sky-600 h-2 rounded-full" style="width: 80%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-700">Question Handling</span>
+                            <span id="question-score" class="text-sm font-medium text-sky-600">90%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div id="question-bar" class="bg-sky-600 h-2 rounded-full" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-700">Communication Skills</span>
+                            <span id="communication-score" class="text-sm font-medium text-sky-600">85%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div id="communication-bar" class="bg-sky-600 h-2 rounded-full" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-700">Interview Strategy</span>
+                            <span id="strategy-score" class="text-sm font-medium text-sky-600">75%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div id="strategy-bar" class="bg-sky-600 h-2 rounded-full" style="width: 75%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-sky-50 rounded-lg p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Your Interview Readiness Profile</h3>
+                    <p id="interview-style" class="text-gray-700 font-medium mb-3">Confident Communicator</p>
+                    <p id="feedback-text" class="text-gray-700">
+                        You demonstrate strong interview skills with excellent question handling abilities. Your self-presentation is well-developed, and you communicate effectively with potential employers. Your interview strategy could be enhanced by preparing more targeted examples. Overall, you're well-prepared for interviews and likely to make a positive impression on hiring managers.
+                    </p>
+                </div>
+                
+                <div class="text-center">
+                    <button id="get-certificate-btn" class="btn-primary text-white font-semibold py-3 px-8 rounded-full">
+                        Get Your Interview Skills Certificate
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Screen -->
+        <div id="payment-screen" class="hidden max-w-2xl mx-auto">
+            <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Get Your Interview Skills Certificate</h2>
+                
+                <div class="flex justify-center mb-8">
+                    <div class="relative w-64 h-40 bg-sky-50 rounded-lg flex items-center justify-center border-2 border-dashed border-sky-200 pulse">
+                        <svg class="w-16 h-16 text-sky-300" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19 21H5C3.89543 21 3 20.1046 3 19V5C3 3.89543 3.89543 3 5 3H19C20.1046 3 21 3.89543 21 5V19C21 20.1046 20.1046 21 19 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M3 9H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M9 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="16" cy="15" r="2" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        <div class="absolute top-0 right-0 bg-sky-600 text-white text-xs font-bold px-2 py-1 rounded-bl-lg rounded-tr-lg">
+                            PREVIEW
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 rounded-lg p-6 mb-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-gray-700 font-medium">Interview Skills Certificate</span>
+                        <span class="text-sky-600 font-bold">$9.99</span>
+                    </div>
+                    <ul class="space-y-2 mb-4">
+                        <li class="flex items-center text-sm text-gray-600">
+                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Personalized interview skills certificate
+                        </li>
+                        <li class="flex items-center text-sm text-gray-600">
+                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            High-resolution downloadable PDF
+                        </li>
+                        <li class="flex items-center text-sm text-gray-600">
+                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Detailed interview readiness profile
+                        </li>
+                        <li class="flex items-center text-sm text-gray-600">
+                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Share with potential employers
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Demo Payment Form -->
+                <div class="mb-6">
+                    <div class="border border-gray-300 rounded-lg p-4 mb-4">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-sm font-medium text-gray-700">Payment Method</span>
+                            <div class="flex space-x-2">
+                                <div class="w-8 h-5 bg-blue-600 rounded"></div>
+                                <div class="w-8 h-5 bg-red-500 rounded"></div>
+                                <div class="w-8 h-5 bg-yellow-400 rounded"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-medium text-gray-700 mb-1">Card Holder</label>
+                                    <div class="h-10 bg-gray-100 rounded-lg"></div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-gray-700 mb-1">Card Number</label>
+                                    <div class="h-10 bg-gray-100 rounded-lg"></div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-3 gap-4">
+                                <div>
+                                    <label class="block text-xs font-medium text-gray-700 mb-1">Expiry</label>
+                                    <div class="h-10 bg-gray-100 rounded-lg"></div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-gray-700 mb-1">CVC</label>
+                                    <div class="h-10 bg-gray-100 rounded-lg"></div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-gray-700 mb-1">ZIP</label>
+                                    <div class="h-10 bg-gray-100 rounded-lg"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <p class="text-sm text-gray-500 mb-4">This is a demo payment form. In a real application, secure payment processing would be implemented.</p>
+                        <button id="process-payment-btn" class="btn-primary text-white font-semibold py-3 px-8 rounded-full w-full">
+                            Pay $9.99 & Get Certificate
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Certificate Screen -->
+        <div id="certificate-screen" class="hidden">
+            <div class="max-w-4xl mx-auto">
+                <div class="certificate p-10 rounded-xl shadow-lg mb-8 relative">
+                    <div class="absolute top-5 left-5">
+                        <svg class="w-16 h-16" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="48" fill="#0ea5e9" fill-opacity="0.1"/>
+                            <path d="M30 50L45 65L70 35" stroke="#0ea5e9" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    
+                    <div class="text-center mb-8 pt-8">
+                        <h2 class="text-3xl font-bold text-sky-800 mb-2">Certificate of Interview Excellence</h2>
+                        <div class="h-1 w-32 bg-sky-600 mx-auto mb-2"></div>
+                        <p class="text-gray-600">Interview Skills Assessment</p>
+                    </div>
+                    
+                    <div class="text-center mb-8">
+                        <p class="text-lg text-gray-700 mb-2">This certifies that</p>
+                        <h3 id="cert-name" class="text-2xl font-bold text-gray-800 mb-2">John Doe</h3>
+                        <p class="text-lg text-gray-700">has successfully completed the Interview Skills Assessment</p>
+                        <p class="text-lg text-gray-700 mb-2">with a score of <span id="cert-score" class="font-bold text-sky-700">85%</span></p>
+                        <p class="text-md text-gray-600">Interview Style: <span id="cert-style" class="font-semibold">Confident Communicator</span></p>
+                    </div>
+                    
+                    <div class="flex justify-between items-center mb-4">
+                        <div>
+                            <p id="cert-date" class="text-gray-600">June 15, 2023</p>
+                            <p id="cert-id" class="text-gray-500 text-sm">Certificate ID: IS-2023-78945</p>
+                        </div>
+                        <div>
+                            <svg class="w-32 h-12" viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10,20 Q30,5 50,20 T90,20" stroke="#0ea5e9" stroke-width="2" fill="none" />
+                                <text x="50" y="25" font-family="cursive" font-size="8" text-anchor="middle" fill="#0ea5e9">Interview Academy</text>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <div class="seal">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="#0ea5e9" stroke-width="2" />
+                            <circle cx="50" cy="50" r="40" fill="none" stroke="#0ea5e9" stroke-width="1" />
+                            <path d="M50,10 L53,20 L63,20 L55,27 L58,37 L50,31 L42,37 L45,27 L37,20 L47,20 Z" fill="#0ea5e9" />
+                            <text x="50" y="60" font-size="8" text-anchor="middle" fill="#0ea5e9">CERTIFIED</text>
+                            <text x="50" y="70" font-size="6" text-anchor="middle" fill="#0ea5e9">INTERVIEWER</text>
+                        </svg>
+                    </div>
+                    
+                    <div class="absolute bottom-5 left-5 opacity-30">
+                        <svg class="w-24 h-24" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="40" stroke="#0ea5e9" stroke-width="1" stroke-dasharray="5 5"/>
+                            <path d="M30,50 L70,50 M50,30 L50,70" stroke="#0ea5e9" stroke-width="1"/>
+                            <circle cx="50" cy="50" r="20" stroke="#0ea5e9" stroke-width="1"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button id="download-btn" class="bg-sky-600 hover:bg-sky-700 text-white font-semibold py-3 px-6 rounded-lg flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                        </svg>
+                        Download Certificate
+                    </button>
+                    <button id="share-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path>
+                        </svg>
+                        Share Certificate
+                    </button>
+                    <button id="restart-btn" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 px-6 rounded-lg flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                        </svg>
+                        Take Another Assessment
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Assessment questions
+            const questions = [
+                {
+                    question: "How would you prepare for an interview the day before?",
+                    options: [
+                        "Research the company thoroughly and prepare questions to ask",
+                        "Practice answering common interview questions with a friend",
+                        "Get a good night's sleep and review your resume",
+                        "All of the above"
+                    ],
+                    category: "preparation"
+                },
+                {
+                    question: "When asked 'Tell me about yourself', what should you focus on?",
+                    options: [
+                        "Your entire life story and personal details",
+                        "Your professional background, relevant skills, and career goals",
+                        "Your educational qualifications only",
+                        "Your hobbies and interests outside of work"
+                    ],
+                    category: "presentation"
+                },
+                {
+                    question: "How should you handle a question about a gap in your employment history?",
+                    options: [
+                        "Avoid mentioning it and change the subject",
+                        "Make up a story to cover the gap",
+                        "Be honest but focus on what you learned or accomplished during that time",
+                        "Blame your previous employer for the situation"
+                    ],
+                    category: "question"
+                },
+                {
+                    question: "What is the STAR method used for in interviews?",
+                    options: [
+                        "Structuring answers to behavioral questions (Situation, Task, Action, Result)",
+                        "Rating the interviewer's performance",
+                        "Determining your salary expectations",
+                        "Evaluating company culture"
+                    ],
+                    category: "strategy"
+                },
+                {
+                    question: "How should you respond to the question 'What is your greatest weakness?'",
+                    options: [
+                        "Say you have no weaknesses",
+                        "Mention a genuine weakness but focus on steps you're taking to improve",
+                        "List several major weaknesses to appear humble",
+                        "Turn a strength into a weakness (e.g., 'I work too hard')"
+                    ],
+                    category: "question"
+                },
+                {
+                    question: "What is appropriate body language during an interview?",
+                    options: [
+                        "Maintain good posture, appropriate eye contact, and a confident handshake",
+                        "Cross your arms to show confidence",
+                        "Avoid eye contact to appear respectful",
+                        "Slouch to appear relaxed and casual"
+                    ],
+                    category: "presentation"
+                },
+                {
+                    question: "When is the best time to ask about salary and benefits?",
+                    options: [
+                        "At the very beginning of the interview",
+                        "When the interviewer brings it up or during later interview stages",
+                        "Immediately after answering the first question",
+                        "In your initial application"
+                    ],
+                    category: "strategy"
+                },
+                {
+                    question: "How should you explain being fired from a previous position?",
+                    options: [
+                        "Speak negatively about your former employer",
+                        "Lie and say you quit voluntarily",
+                        "Be honest but brief, focus on what you learned and how you've grown",
+                        "Avoid answering the question completely"
+                    ],
+                    category: "question"
+                },
+                {
+                    question: "What should you do if you don't know the answer to a technical question?",
+                    options: [
+                        "Make up an answer to avoid looking uninformed",
+                        "Say 'I don't know' and end your response there",
+                        "Admit you don't know but explain your approach to finding the answer",
+                        "Redirect to a completely different topic"
+                    ],
+                    category: "question"
+                },
+                {
+                    question: "How should you follow up after an interview?",
+                    options: [
+                        "Send a thank-you email within 24 hours expressing appreciation and reiterating interest",
+                        "Call the interviewer repeatedly until you get an answer",
+                        "Don't follow up at all; wait for them to contact you",
+                        "Send a gift to the interviewer"
+                    ],
+                    category: "strategy"
+                },
+                {
+                    question: "What should you bring to an interview?",
+                    options: [
+                        "Extra copies of your resume, a notepad, and prepared questions",
+                        "Just yourself; bringing materials looks unprepared",
+                        "Gifts for the interviewer",
+                        "Your entire portfolio in physical form"
+                    ],
+                    category: "preparation"
+                },
+                {
+                    question: "How should you answer the question 'Where do you see yourself in 5 years?'",
+                    options: [
+                        "Say you plan to have the interviewer's job",
+                        "Discuss realistic career goals that align with the company's growth opportunities",
+                        "Say you have no specific plans",
+                        "Tell them you plan to start your own competing business"
+                    ],
+                    category: "question"
+                },
+                {
+                    question: "What is the best way to address a question about salary expectations?",
+                    options: [
+                        "Provide an exact number immediately",
+                        "Research industry standards and give a reasonable range based on your experience",
+                        "Say you'll accept any offer",
+                        "Ask for the highest possible amount"
+                    ],
+                    category: "strategy"
+                },
+                {
+                    question: "How should you dress for an interview?",
+                    options: [
+                        "Always in casual clothes to be comfortable",
+                        "In formal business attire regardless of the company culture",
+                        "One step above the company's typical dress code",
+                        "In bright, attention-grabbing outfits"
+                    ],
+                    category: "presentation"
+                },
+                {
+                    question: "What should you do if you're running late for an interview?",
+                    options: [
+                        "Cancel the interview and reschedule",
+                        "Show up late without explanation",
+                        "Contact the interviewer or recruiter as soon as possible, apologize, and provide an ETA",
+                        "Pretend you had the wrong time when you arrive"
+                    ],
+                    category: "preparation"
+                }
+            ];
+
+            // Interview styles based on answer patterns
+            const interviewStyles = {
+                preparation: {
+                    high: "Well-Prepared Candidate",
+                    medium: "Adequately Prepared",
+                    low: "Needs More Preparation"
+                },
+                presentation: {
+                    high: "Polished Presenter",
+                    medium: "Confident Communicator",
+                    low: "Developing Presenter"
+                },
+                question: {
+                    high: "Expert Question Handler",
+                    medium: "Competent Responder",
+                    low: "Basic Responder"
+                },
+                strategy: {
+                    high: "Strategic Interviewer",
+                    medium: "Tactical Approach",
+                    low: "Reactive Interviewer"
+                }
+            };
+
+            // DOM elements
+            const welcomeScreen = document.getElementById('welcome-screen');
+            const userInfoScreen = document.getElementById('user-info-screen');
+            const assessmentScreen = document.getElementById('assessment-screen');
+            const resultsScreen = document.getElementById('results-screen');
+            const paymentScreen = document.getElementById('payment-screen');
+            const certificateScreen = document.getElementById('certificate-screen');
+            
+            const startBtn = document.getElementById('start-btn');
+            const userForm = document.getElementById('user-form');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const getCertificateBtn = document.getElementById('get-certificate-btn');
+            const processPaymentBtn = document.getElementById('process-payment-btn');
+            const downloadBtn = document.getElementById('download-btn');
+            const shareBtn = document.getElementById('share-btn');
+            const restartBtn = document.getElementById('restart-btn');
+            
+            const currentQuestionEl = document.getElementById('current-question');
+            const progressBar = document.getElementById('progress-bar');
+            const questionText = document.getElementById('question-text');
+            const optionsContainer = document.getElementById('options-container');
+            const timerEl = document.getElementById('timer');
+
+            // State variables
+            let currentQuestion = 0;
+            let userAnswers = Array(questions.length).fill(null);
+            let timer;
+            let timeLeft = 45;
+            let userData = {
+                name: '',
+                email: '',
+                jobTitle: ''
+            };
+
+            // Event listeners
+            startBtn.addEventListener('click', showUserInfoScreen);
+            userForm.addEventListener('submit', handleUserFormSubmit);
+            prevBtn.addEventListener('click', showPreviousQuestion);
+            nextBtn.addEventListener('click', handleNextQuestion);
+            getCertificateBtn.addEventListener('click', showPaymentScreen);
+            processPaymentBtn.addEventListener('click', showCertificate);
+            downloadBtn.addEventListener('click', downloadCertificate);
+            shareBtn.addEventListener('click', shareCertificate);
+            restartBtn.addEventListener('click', restartAssessment);
+
+            // Functions
+            function showUserInfoScreen(e) {
+                e.preventDefault();
+                welcomeScreen.classList.add('hidden');
+                userInfoScreen.classList.remove('hidden');
+            }
+
+            function handleUserFormSubmit(e) {
+                e.preventDefault();
+                userData.name = document.getElementById('fullName').value;
+                userData.email = document.getElementById('email').value;
+                userData.jobTitle = document.getElementById('jobTitle').value || 'Professional Position';
+                
+                userInfoScreen.classList.add('hidden');
+                assessmentScreen.classList.remove('hidden');
+                
+                loadQuestion(currentQuestion);
+                startTimer();
+            }
+
+            function loadQuestion(index) {
+                const question = questions[index];
+                questionText.textContent = question.question;
+                
+                // Update progress indicators
+                currentQuestionEl.textContent = index + 1;
+                progressBar.style.width = `${((index + 1) / questions.length) * 100}%`;
+                
+                // Clear previous options
+                optionsContainer.innerHTML = '';
+                
+                // Add new options
+                question.options.forEach((option, i) => {
+                    const isSelected = userAnswers[index] === i;
+                    
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = `option p-4 border rounded-lg cursor-pointer transition-colors ${
+                        isSelected ? 'bg-sky-100 border-sky-500' : 'hover:bg-gray-50'
+                    }`;
+                    optionDiv.dataset.index = i;
+                    
+                    optionDiv.innerHTML = `
+                        <div class="flex items-center">
+                            <div class="w-6 h-6 rounded-full border ${
+                                isSelected ? 'border-sky-500 bg-sky-500' : 'border-gray-300'
+                            } flex items-center justify-center mr-3">
+                                ${isSelected ? '<div class="w-2 h-2 rounded-full bg-white"></div>' : ''}
+                            </div>
+                            <span>${option}</span>
+                        </div>
+                    `;
+                    
+                    optionDiv.addEventListener('click', () => selectOption(i));
+                    optionsContainer.appendChild(optionDiv);
+                });
+                
+                // Update button states
+                prevBtn.disabled = index === 0;
+                nextBtn.textContent = index === questions.length - 1 ? 'Finish' : 'Next';
+                
+                // Reset timer
+                clearInterval(timer);
+                timeLeft = 45;
+                timerEl.textContent = formatTime(timeLeft);
+                timerEl.classList.remove('text-red-600', 'timer-warning');
+                startTimer();
+            }
+
+            function selectOption(optionIndex) {
+                userAnswers[currentQuestion] = optionIndex;
+                
+                // Update UI to show selected option
+                const options = optionsContainer.querySelectorAll('.option');
+                options.forEach((option, i) => {
+                    const circle = option.querySelector('div > div');
+                    if (i === optionIndex) {
+                        option.classList.add('bg-sky-100', 'border-sky-500');
+                        option.classList.remove('hover:bg-gray-50');
+                        circle.classList.add('border-sky-500', 'bg-sky-500');
+                        circle.innerHTML = '<div class="w-2 h-2 rounded-full bg-white"></div>';
+                    } else {
+                        option.classList.remove('bg-sky-100', 'border-sky-500');
+                        option.classList.add('hover:bg-gray-50');
+                        circle.classList.remove('border-sky-500', 'bg-sky-500');
+                        circle.classList.add('border-gray-300');
+                        circle.innerHTML = '';
+                    }
+                });
+            }
+
+            function showPreviousQuestion() {
+                if (currentQuestion > 0) {
+                    currentQuestion--;
+                    loadQuestion(currentQuestion);
+                }
+            }
+
+            function handleNextQuestion() {
+                // If no option selected, prompt user
+                if (userAnswers[currentQuestion] === null) {
+                    alert('Please select an answer before proceeding.');
+                    return;
+                }
+                
+                if (currentQuestion < questions.length - 1) {
+                    currentQuestion++;
+                    loadQuestion(currentQuestion);
+                } else {
+                    showResults();
+                }
+            }
+
+            function startTimer() {
+                timer = setInterval(() => {
+                    timeLeft--;
+                    timerEl.textContent = formatTime(timeLeft);
+                    
+                    if (timeLeft <= 10) {
+                        timerEl.classList.add('text-red-600');
+                        if (timeLeft <= 5) {
+                            timerEl.classList.add('timer-warning');
+                        }
+                    } else {
+                        timerEl.classList.remove('text-red-600', 'timer-warning');
+                    }
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(timer);
+                        // Auto-advance if time runs out
+                        if (userAnswers[currentQuestion] === null) {
+                            // If no answer selected, choose one randomly
+                            selectOption(Math.floor(Math.random() * 4));
+                        }
+                        
+                        if (currentQuestion < questions.length - 1) {
+                            currentQuestion++;
+                            loadQuestion(currentQuestion);
+                        } else {
+                            showResults();
+                        }
+                    }
+                }, 1000);
+            }
+
+            function formatTime(seconds) {
+                return `00:${seconds < 10 ? '0' : ''}${seconds}`;
+            }
+
+            function calculateScores() {
+                // Initialize category scores
+                let categoryScores = {
+                    preparation: { score: 0, count: 0 },
+                    presentation: { score: 0, count: 0 },
+                    question: { score: 0, count: 0 },
+                    strategy: { score: 0, count: 0 }
+                };
+                
+                // Calculate scores based on answers
+                // For this demo, we'll use a simple scoring system where option 0 is best (3 points)
+                // and option 3 is worst (0 points)
+                questions.forEach((question, index) => {
+                    const category = question.category;
+                    const answerIndex = userAnswers[index];
+                    
+                    if (answerIndex !== null) {
+                        // For this demo, we'll score based on the option selected
+                        // Option 0 = 3 points, Option 1 = 2 points, Option 2 = 1 point, Option 3 = 0 points
+                        // This is just for demonstration - a real assessment would have correct answers
+                        const score = 3 - answerIndex;
+                        categoryScores[category].score += score;
+                        categoryScores[category].count++;
+                    }
+                });
+                
+                // Calculate percentages
+                const preparationScore = Math.round((categoryScores.preparation.score / (categoryScores.preparation.count * 3)) * 100);
+                const presentationScore = Math.round((categoryScores.presentation.score / (categoryScores.presentation.count * 3)) * 100);
+                const questionScore = Math.round((categoryScores.question.score / (categoryScores.question.count * 3)) * 100);
+                const strategyScore = Math.round((categoryScores.strategy.score / (categoryScores.strategy.count * 3)) * 100);
+                
+                // Calculate overall score
+                const totalScore = categoryScores.preparation.score + categoryScores.presentation.score + 
+                                  categoryScores.question.score + categoryScores.strategy.score;
+                const totalPossible = (categoryScores.preparation.count + categoryScores.presentation.count + 
+                                     categoryScores.question.count + categoryScores.strategy.count) * 3;
+                const overallScore = Math.round((totalScore / totalPossible) * 100);
+                
+                return {
+                    overall: overallScore,
+                    preparation: preparationScore,
+                    presentation: presentationScore,
+                    question: questionScore,
+                    strategy: strategyScore
+                };
+            }
+
+            function determineInterviewStyle(scores) {
+                // Determine interview style based on highest category score
+                const categories = ['preparation', 'presentation', 'question', 'strategy'];
+                const highestCategory = categories.reduce((a, b) => scores[a] > scores[b] ? a : b);
+                
+                // Determine level (high, medium, low)
+                let level;
+                if (scores[highestCategory] >= 80) {
+                    level = 'high';
+                } else if (scores[highestCategory] >= 60) {
+                    level = 'medium';
+                } else {
+                    level = 'low';
+                }
+                
+                return interviewStyles[highestCategory][level];
+            }
+
+            function generateFeedback(scores, interviewStyle) {
+                let feedback = '';
+                
+                // Generate feedback based on interview style and scores
+                if (interviewStyle.includes('Well-Prepared')) {
+                    feedback = 'You demonstrate excellent interview preparation, showing that you understand the importance of research and planning. ';
+                } else if (interviewStyle.includes('Polished')) {
+                    feedback = 'Your self-presentation skills are outstanding, making a strong first impression on potential employers. ';
+                } else if (interviewStyle.includes('Expert')) {
+                    feedback = 'You excel at handling interview questions, providing thoughtful and structured responses. ';
+                } else if (interviewStyle.includes('Strategic')) {
+                    feedback = 'Your strategic approach to interviews shows advanced understanding of the interview process. ';
+                } else {
+                    feedback = 'You have a balanced interview approach with several notable strengths. ';
+                }
+                
+                // Add strengths
+                feedback += 'Your key strengths include ';
+                
+                // Find top two categories
+                const categories = Object.entries(scores)
+                    .filter(([key]) => key !== 'overall')
+                    .sort((a, b) => b[1] - a[1]);
+                
+                const topCategory = categories[0][0];
+                const secondCategory = categories[1][0];
+                
+                switch (topCategory) {
+                    case 'preparation':
+                        feedback += 'thorough preparation and research';
+                        break;
+                    case 'presentation':
+                        feedback += 'professional self-presentation';
+                        break;
+                    case 'question':
+                        feedback += 'effective question handling';
+                        break;
+                    case 'strategy':
+                        feedback += 'strategic interview approach';
+                        break;
+                }
+                
+                feedback += ' and ';
+                
+                switch (secondCategory) {
+                    case 'preparation':
+                        feedback += 'interview readiness';
+                        break;
+                    case 'presentation':
+                        feedback += 'confident communication';
+                        break;
+                    case 'question':
+                        feedback += 'articulate responses';
+                        break;
+                    case 'strategy':
+                        feedback += 'tactical interview skills';
+                        break;
+                }
+                
+                feedback += '. ';
+                
+                // Add area for improvement
+                const lowestCategory = categories[3][0];
+                
+                feedback += 'An area for potential growth is ';
+                
+                switch (lowestCategory) {
+                    case 'preparation':
+                        feedback += 'investing more time in pre-interview research and preparation.';
+                        break;
+                    case 'presentation':
+                        feedback += 'refining your professional image and communication style.';
+                        break;
+                    case 'question':
+                        feedback += 'practicing structured responses to common interview questions.';
+                        break;
+                    case 'strategy':
+                        feedback += 'developing a more strategic approach to the overall interview process.';
+                        break;
+                }
+                
+                return feedback;
+            }
+
+            function showResults() {
+                clearInterval(timer);
+                assessmentScreen.classList.add('hidden');
+                resultsScreen.classList.remove('hidden');
+                
+                const scores = calculateScores();
+                const interviewStyle = determineInterviewStyle(scores);
+                
+                // Update score displays
+                document.getElementById('score-circle').style.strokeDashoffset = 283 - (283 * scores.overall / 100);
+                document.getElementById('score-text').textContent = `${scores.overall}%`;
+                
+                document.getElementById('presentation-score').textContent = `${scores.presentation}%`;
+                document.getElementById('presentation-bar').style.width = `${scores.presentation}%`;
+                
+                document.getElementById('question-score').textContent = `${scores.question}%`;
+                document.getElementById('question-bar').style.width = `${scores.question}%`;
+                
+                document.getElementById('communication-score').textContent = `${scores.presentation}%`;
+                document.getElementById('communication-bar').style.width = `${scores.presentation}%`;
+                
+                document.getElementById('strategy-score').textContent = `${scores.strategy}%`;
+                document.getElementById('strategy-bar').style.width = `${scores.strategy}%`;
+                
+                // Set interview style
+                document.getElementById('interview-style').textContent = interviewStyle;
+                
+                // Generate and display feedback
+                const feedback = generateFeedback(scores, interviewStyle);
+                document.getElementById('feedback-text').textContent = feedback;
+            }
+
+            function showPaymentScreen() {
+                resultsScreen.classList.add('hidden');
+                paymentScreen.classList.remove('hidden');
+            }
+
+            function showCertificate() {
+                paymentScreen.classList.add('hidden');
+                certificateScreen.classList.remove('hidden');
+                
+                // Update certificate with user data
+                document.getElementById('cert-name').textContent = userData.name;
+                
+                const scores = calculateScores();
+                document.getElementById('cert-score').textContent = `${scores.overall}%`;
+                
+                const interviewStyle = determineInterviewStyle(scores);
+                document.getElementById('cert-style').textContent = interviewStyle;
+                
+                // Set current date
+                const today = new Date();
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                document.getElementById('cert-date').textContent = today.toLocaleDateString('en-US', options);
+                
+                // Generate certificate ID
+                const certId = 'IS-' + today.getFullYear() + '-' + Math.floor(10000 + Math.random() * 90000);
+                document.getElementById('cert-id').textContent = 'Certificate ID: ' + certId;
+                
+                // Create confetti effect
+                createConfetti();
+            }
+
+            function createConfetti() {
+                const colors = ['#0ea5e9', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
+                const confettiCount = 100;
+                
+                for (let i = 0; i < confettiCount; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = `${Math.random() * 100}vw`;
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.opacity = '1';
+                    confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    
+                    document.body.appendChild(confetti);
+                    
+                    // Animate confetti
+                    const duration = Math.random() * 3 + 2; // 2-5 seconds
+                    confetti.animate([
+                        { transform: `translate(0, 0) rotate(0deg)`, opacity: 1 },
+                        { transform: `translate(${Math.random() * 100 - 50}px, ${window.innerHeight}px) rotate(${Math.random() * 720}deg)`, opacity: 0 }
+                    ], {
+                        duration: duration * 1000,
+                        easing: 'cubic-bezier(0.1, 0.8, 0.3, 1)'
+                    });
+                    
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, duration * 1000);
+                }
+            }
+
+            function downloadCertificate() {
+                alert('In a real application, this would generate and download a PDF certificate. This is a demo version.');
+            }
+
+            function shareCertificate() {
+                alert('In a real application, this would open sharing options for social media platforms. This is a demo version.');
+            }
+
+            function restartAssessment() {
+                // Reset state
+                currentQuestion = 0;
+                userAnswers = Array(questions.length).fill(null);
+                
+                // Show welcome screen
+                certificateScreen.classList.add('hidden');
+                welcomeScreen.classList.remove('hidden');
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9653aadf4435cbcd',t:'MTc1MzUzMDUwMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

@@ -1,0 +1,1690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photography Skills Assessment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+        .assessment-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #0ea5e9, #6366f1);
+            transition: width 0.3s ease;
+        }
+        .btn {
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2);
+        }
+        .option-btn {
+            transition: all 0.2s ease;
+            border: 2px solid #e5e7eb;
+        }
+        .option-btn:hover {
+            border-color: #0ea5e9;
+            background-color: #f0f9ff;
+        }
+        .option-btn.selected {
+            border-color: #0ea5e9;
+            background-color: #f0f9ff;
+        }
+        .option-btn.correct {
+            border-color: #10b981;
+            background-color: #d1fae5;
+        }
+        .option-btn.incorrect {
+            border-color: #ef4444;
+            background-color: #fee2e2;
+        }
+        .certificate {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border: 2px solid #0ea5e9;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+        .certificate::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.1) 0%, rgba(99, 102, 241, 0.1) 100%);
+            border-radius: 50%;
+        }
+        .certificate::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.1) 0%, rgba(99, 102, 241, 0.1) 100%);
+            border-radius: 50%;
+        }
+        .badge {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #0ea5e9;
+            opacity: 0;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(1000px) rotate(360deg); opacity: 0; }
+        }
+        .timer-warning {
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .scale-in {
+            animation: scaleIn 0.5s ease-out forwards;
+            transform-origin: center;
+        }
+        @keyframes scaleIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .slide-in {
+            animation: slideIn 0.5s ease-out forwards;
+        }
+        @keyframes slideIn {
+            0% { transform: translateX(-20px); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        .rotate-in {
+            animation: rotateIn 0.5s ease-out forwards;
+        }
+        @keyframes rotateIn {
+            0% { transform: rotate(-10deg) scale(0.9); opacity: 0; }
+            100% { transform: rotate(0deg) scale(1); opacity: 1; }
+        }
+        .category-icon {
+            transition: all 0.3s ease;
+        }
+        .category-card:hover .category-icon {
+            transform: translateY(-5px);
+        }
+        .skill-bar {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .skill-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #0ea5e9, #6366f1);
+            transition: width 1s ease;
+        }
+        .border-pattern {
+            background-image: repeating-linear-gradient(45deg, #0ea5e9 0, #0ea5e9 1px, transparent 0, transparent 50%);
+            background-size: 10px 10px;
+        }
+        .design-icon {
+            filter: drop-shadow(0 4px 3px rgba(0, 0, 0, 0.07));
+        }
+        .chart-bar {
+            transition: height 1s ease;
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #0ea5e9, #6366f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .color-swatch {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        .design-pattern {
+            position: absolute;
+            opacity: 0.05;
+            z-index: 0;
+        }
+        .welcome-pattern-1 {
+            top: 10%;
+            left: 5%;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, #0ea5e9 10%, transparent 11%),
+                        radial-gradient(circle at bottom left, #6366f1 10%, transparent 11%),
+                        radial-gradient(circle at bottom right, #0ea5e9 10%, transparent 11%),
+                        radial-gradient(circle at top left, #6366f1 10%, transparent 11%);
+            background-size: 30px 30px;
+            transform: rotate(15deg);
+        }
+        .welcome-pattern-2 {
+            bottom: 10%;
+            right: 5%;
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(45deg, #0ea5e9 25%, transparent 25%),
+                        linear-gradient(-45deg, #6366f1 25%, transparent 25%),
+                        linear-gradient(45deg, transparent 75%, #0ea5e9 75%),
+                        linear-gradient(-45deg, transparent 75%, #6366f1 75%);
+            background-size: 20px 20px;
+            transform: rotate(-10deg);
+        }
+        .certificate-seal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 100px;
+            height: 100px;
+        }
+        .certificate-seal-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            animation: rotate 20s linear infinite;
+        }
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .certificate-ribbon {
+            position: absolute;
+            bottom: -10px;
+            right: 30px;
+            width: 40px;
+            height: 60px;
+            background: linear-gradient(90deg, #0ea5e9, #6366f1);
+            clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%);
+        }
+        .certificate-ribbon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            clip-path: polygon(0 0, 50% 50%, 100% 0, 100% 20%, 50% 70%, 0 20%);
+        }
+        .aperture {
+            position: relative;
+            width: 100px;
+            height: 100px;
+        }
+        .aperture-blade {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: #0ea5e9;
+            top: 50%;
+            left: 50%;
+            transform-origin: 0 0;
+        }
+        .aperture-animation {
+            animation: aperture-breathe 4s infinite ease-in-out;
+        }
+        @keyframes aperture-breathe {
+            0% { transform: scale(0.8); }
+            50% { transform: scale(1); }
+            100% { transform: scale(0.8); }
+        }
+        .camera-shutter {
+            position: relative;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #0f172a;
+            overflow: hidden;
+        }
+        .shutter-blade {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: white;
+            transform-origin: 100% 100%;
+        }
+        .shutter-animation {
+            animation: shutter 3s infinite;
+        }
+        @keyframes shutter {
+            0%, 100% { transform: rotate(0deg); }
+            10%, 90% { transform: rotate(90deg); }
+        }
+        .focus-ring {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid #0ea5e9;
+        }
+        .focus-point {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #0ea5e9;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .focus-animation {
+            animation: focus 3s infinite ease-in-out;
+        }
+        @keyframes focus {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 1; }
+        }
+        .histogram {
+            display: flex;
+            align-items: flex-end;
+            height: 40px;
+            width: 100%;
+            background: #f1f5f9;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .histogram-bar {
+            flex: 1;
+            background: #0ea5e9;
+            margin: 0 1px;
+            transition: height 0.5s ease;
+        }
+        .exposure-slider {
+            width: 100%;
+            height: 4px;
+            background: #e5e7eb;
+            border-radius: 2px;
+            position: relative;
+            margin: 20px 0;
+        }
+        .exposure-handle {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #0ea5e9;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+        }
+        .rule-of-thirds {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 100%;
+            background: #f1f5f9;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .rule-line {
+            position: absolute;
+            background: rgba(14, 165, 233, 0.5);
+        }
+        .rule-horizontal {
+            height: 1px;
+            width: 100%;
+        }
+        .rule-vertical {
+            width: 1px;
+            height: 100%;
+        }
+        .photo-frame {
+            border: 10px solid white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+    </style>
+</head>
+<body class="min-h-screen py-8 px-4">
+    <div id="app">
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="assessment-container p-8 relative">
+            <div class="design-pattern welcome-pattern-1"></div>
+            <div class="design-pattern welcome-pattern-2"></div>
+            
+            <div class="text-center mb-8 relative z-10">
+                <div class="inline-block p-4 bg-gradient-to-br from-sky-100 to-indigo-100 rounded-full mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 design-icon" viewBox="0 0 24 24" fill="none" stroke="url(#gradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <defs>
+                            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#0ea5e9" />
+                                <stop offset="100%" stop-color="#6366f1" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                        <circle cx="12" cy="13" r="4"></circle>
+                    </svg>
+                </div>
+                <h1 class="text-3xl font-bold mb-2">Photography Skills Assessment</h1>
+                <p class="text-gray-600 mb-6">Test your photography abilities with 25 questions and earn a professional certificate</p>
+                
+                <div class="flex flex-wrap justify-center gap-6 mb-8">
+                    <div class="flex items-center">
+                        <div class="bg-sky-100 p-2 rounded-full mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <span class="text-gray-700">30 minutes</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="bg-sky-100 p-2 rounded-full mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <span class="text-gray-700">25 questions</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="bg-sky-100 p-2 rounded-full mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                        </div>
+                        <span class="text-gray-700">Certificate on completion</span>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
+                    <div class="category-card bg-white p-5 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
+                        <div class="category-icon bg-gradient-to-br from-sky-100 to-indigo-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Camera Settings</h3>
+                        <p class="text-gray-600 text-sm text-center">Exposure, aperture & ISO</p>
+                    </div>
+                    <div class="category-card bg-white p-5 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
+                        <div class="category-icon bg-gradient-to-br from-sky-100 to-indigo-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Composition</h3>
+                        <p class="text-gray-600 text-sm text-center">Framing & visual balance</p>
+                    </div>
+                    <div class="category-card bg-white p-5 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
+                        <div class="category-icon bg-gradient-to-br from-sky-100 to-indigo-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Lighting</h3>
+                        <p class="text-gray-600 text-sm text-center">Natural & artificial light</p>
+                    </div>
+                    <div class="category-card bg-white p-5 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
+                        <div class="category-icon bg-gradient-to-br from-sky-100 to-indigo-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Post-Processing</h3>
+                        <p class="text-gray-600 text-sm text-center">Editing & enhancement</p>
+                    </div>
+                    <div class="category-card bg-white p-5 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
+                        <div class="category-icon bg-gradient-to-br from-sky-100 to-indigo-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Specialized</h3>
+                        <p class="text-gray-600 text-sm text-center">Genres & techniques</p>
+                    </div>
+                </div>
+                
+                <div class="bg-gradient-to-r from-sky-50 to-indigo-50 p-6 rounded-lg mb-8 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 -mt-10 -mr-10 bg-sky-100 rounded-full opacity-50"></div>
+                    <div class="absolute bottom-0 left-0 w-24 h-24 -mb-8 -ml-8 bg-indigo-100 rounded-full opacity-50"></div>
+                    <h3 class="font-semibold text-sky-800 mb-3 relative z-10">Why Take This Assessment?</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 relative z-10">
+                        <div class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span class="text-gray-700 text-sm">Identify your photography strengths</span>
+                        </div>
+                        <div class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span class="text-gray-700 text-sm">Discover areas for improvement</span>
+                        </div>
+                        <div class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span class="text-gray-700 text-sm">Earn a professional certificate</span>
+                        </div>
+                        <div class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span class="text-gray-700 text-sm">Enhance your photography career profile</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 mb-8">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-amber-100 p-2 rounded-full mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold text-gray-800">How It Works</h3>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="flex flex-col items-center text-center">
+                            <div class="bg-gradient-to-br from-sky-100 to-indigo-100 w-10 h-10 rounded-full flex items-center justify-center mb-3">
+                                <span class="font-bold text-sky-600">1</span>
+                            </div>
+                            <h4 class="font-medium text-gray-800 mb-1">Complete Assessment</h4>
+                            <p class="text-gray-600 text-sm">Answer 25 questions about photography</p>
+                        </div>
+                        <div class="flex flex-col items-center text-center">
+                            <div class="bg-gradient-to-br from-sky-100 to-indigo-100 w-10 h-10 rounded-full flex items-center justify-center mb-3">
+                                <span class="font-bold text-sky-600">2</span>
+                            </div>
+                            <h4 class="font-medium text-gray-800 mb-1">Get Results</h4>
+                            <p class="text-gray-600 text-sm">Receive detailed feedback on your photography abilities</p>
+                        </div>
+                        <div class="flex flex-col items-center text-center">
+                            <div class="bg-gradient-to-br from-sky-100 to-indigo-100 w-10 h-10 rounded-full flex items-center justify-center mb-3">
+                                <span class="font-bold text-sky-600">3</span>
+                            </div>
+                            <h4 class="font-medium text-gray-800 mb-1">Earn Certificate</h4>
+                            <p class="text-gray-600 text-sm">Get your professional certificate to showcase your skills</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relative mb-8 p-6 bg-white rounded-lg shadow-sm border border-gray-100">
+                    <h3 class="font-semibold text-gray-800 mb-4">Photography Concepts</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <div class="mb-4">
+                                <h4 class="text-sm font-medium text-gray-700 mb-2">Aperture Control</h4>
+                                <div class="aperture mx-auto">
+                                    <div class="aperture-animation w-16 h-16 bg-sky-600 rounded-full mx-auto relative overflow-hidden">
+                                        <div class="absolute inset-0 bg-white" style="clip-path: polygon(50% 50%, 0 0, 100% 0)"></div>
+                                        <div class="absolute inset-0 bg-white" style="clip-path: polygon(50% 50%, 100% 0, 100% 100%)"></div>
+                                        <div class="absolute inset-0 bg-white" style="clip-path: polygon(50% 50%, 100% 100%, 0 100%)"></div>
+                                        <div class="absolute inset-0 bg-white" style="clip-path: polygon(50% 50%, 0 100%, 0 0)"></div>
+                                        <div class="absolute inset-0 flex items-center justify-center">
+                                            <div class="w-4 h-4 bg-white rounded-full"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between text-xs text-gray-500 mt-2">
+                                    <span>f/1.4</span>
+                                    <span>f/16</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-medium text-gray-700 mb-2">Rule of Thirds</h4>
+                            <div class="rule-of-thirds">
+                                <div class="rule-line rule-horizontal" style="top: 33.33%"></div>
+                                <div class="rule-line rule-horizontal" style="top: 66.66%"></div>
+                                <div class="rule-line rule-vertical" style="left: 33.33%"></div>
+                                <div class="rule-line rule-vertical" style="left: 66.66%"></div>
+                                <div class="absolute w-4 h-4 bg-sky-500 rounded-full" style="top: 33.33%; left: 66.66%; transform: translate(-50%, -50%)"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <h4 class="text-sm font-medium text-gray-700 mb-2">Exposure Triangle</h4>
+                        <div class="flex justify-center">
+                            <svg width="200" height="180" viewBox="0 0 200 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M100 10L10 160H190L100 10Z" stroke="#0ea5e9" stroke-width="2" fill="none" />
+                                <text x="100" y="60" text-anchor="middle" fill="#0f172a" font-size="12">ISO</text>
+                                <text x="50" y="140" text-anchor="middle" fill="#0f172a" font-size="12">Aperture</text>
+                                <text x="150" y="140" text-anchor="middle" fill="#0f172a" font-size="12">Shutter Speed</text>
+                                <text x="100" y="100" text-anchor="middle" fill="#0ea5e9" font-size="14" font-weight="bold">Exposure</text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-center">
+                    <button id="start-btn" class="btn bg-gradient-to-r from-sky-600 to-indigo-600 hover:from-sky-700 hover:to-indigo-700 text-white font-medium py-3 px-8 rounded-lg flex items-center">
+                        Start Assessment
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="assessment-container hidden">
+            <div class="p-6 bg-gradient-to-r from-sky-50 to-indigo-50 border-b border-sky-100">
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <h2 class="text-xl font-semibold text-gray-800">Photography Assessment</h2>
+                        <p class="text-gray-600 text-sm">Question <span id="current-question">1</span> of 25</p>
+                    </div>
+                    <div class="bg-white px-4 py-2 rounded-lg shadow-sm flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span id="timer" class="font-medium">30:00</span>
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div id="progress-fill" class="progress-fill" style="width: 4%"></div>
+                </div>
+            </div>
+            
+            <div class="p-8">
+                <h3 id="question-text" class="text-xl font-medium text-gray-800 mb-6">Loading question...</h3>
+                
+                <div id="options-container" class="space-y-4 mb-8">
+                    <!-- Options will be inserted here -->
+                </div>
+                
+                <div class="flex justify-between">
+                    <button id="prev-btn" class="btn bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-2 px-6 rounded-lg flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                        Previous
+                    </button>
+                    <div class="flex space-x-2">
+                        <button id="skip-btn" class="btn bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-4 rounded-lg">
+                            Skip
+                        </button>
+                        <button id="next-btn" class="btn bg-gradient-to-r from-sky-600 to-indigo-600 hover:from-sky-700 hover:to-indigo-700 text-white font-medium py-2 px-6 rounded-lg flex items-center">
+                            Next
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="p-4 bg-gray-50 border-t border-gray-100">
+                <div class="flex flex-wrap gap-2 justify-center" id="question-nav">
+                    <!-- Question navigation buttons will be inserted here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="assessment-container hidden">
+            <div class="p-8 text-center">
+                <div id="score-badge" class="badge w-32 h-32 rounded-full bg-gradient-to-r from-sky-100 to-indigo-100 flex items-center justify-center mx-auto mb-6">
+                    <div class="text-center">
+                        <span id="score-percentage" class="block text-3xl font-bold gradient-text">85%</span>
+                        <span class="text-sm text-gray-600">Score</span>
+                    </div>
+                </div>
+                
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Assessment Complete!</h2>
+                <p id="result-message" class="text-gray-600 mb-6">Great job! You've completed the assessment.</p>
+                
+                <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
+                    <h3 class="font-semibold text-gray-800 mb-4">Performance Summary</h3>
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div class="bg-gradient-to-r from-sky-50 to-indigo-50 p-4 rounded-lg">
+                            <div class="text-2xl font-bold gradient-text mb-1"><span id="correct-answers">21</span>/25</div>
+                            <div class="text-sm text-gray-600">Correct Answers</div>
+                        </div>
+                        <div class="bg-gradient-to-r from-sky-50 to-indigo-50 p-4 rounded-lg">
+                            <div class="text-2xl font-bold gradient-text mb-1"><span id="time-taken">15:45</span></div>
+                            <div class="text-sm text-gray-600">Time Taken</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <div class="flex items-center mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                            <h4 class="font-medium text-gray-700">Your Photography Strengths</h4>
+                        </div>
+                        <div id="strengths" class="text-sm text-gray-600 bg-gray-50 p-4 rounded-lg">
+                            <!-- Strengths will be inserted here -->
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <div class="flex items-center mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                            <h4 class="font-medium text-gray-700">Areas for Growth</h4>
+                        </div>
+                        <div id="improvements" class="text-sm text-gray-600 bg-gray-50 p-4 rounded-lg">
+                            <!-- Areas for improvement will be inserted here -->
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-medium text-gray-700 mb-3">Knowledge Area Breakdown</h4>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-sm text-gray-600">Camera Settings</span>
+                                    <span id="camera-score" class="text-sm font-medium text-sky-600">85%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div id="camera-bar" class="skill-fill" style="width: 85%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-sm text-gray-600">Composition</span>
+                                    <span id="composition-score" class="text-sm font-medium text-sky-600">70%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div id="composition-bar" class="skill-fill" style="width: 70%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-sm text-gray-600">Lighting</span>
+                                    <span id="lighting-score" class="text-sm font-medium text-sky-600">90%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div id="lighting-bar" class="skill-fill" style="width: 90%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-sm text-gray-600">Post-Processing</span>
+                                    <span id="post-score" class="text-sm font-medium text-sky-600">75%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div id="post-bar" class="skill-fill" style="width: 75%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-sm text-gray-600">Specialized Techniques</span>
+                                    <span id="specialized-score" class="text-sm font-medium text-sky-600">80%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div id="specialized-bar" class="skill-fill" style="width: 80%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gradient-to-r from-sky-50 to-indigo-50 p-6 rounded-lg mb-8 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 -mt-10 -mr-10 bg-sky-100 rounded-full opacity-30"></div>
+                    <div class="relative z-10">
+                        <h3 class="font-semibold text-gray-800 mb-3">Next Steps</h3>
+                        <p class="text-gray-600 text-sm mb-4">Get your professional certificate to showcase your photography skills!</p>
+                        <ul class="text-sm text-gray-600 space-y-2">
+                            <li class="flex items-start">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                </svg>
+                                <span>Verifiable digital certificate</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                                <span>Add to your LinkedIn profile</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                                <span>Download as PDF</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="flex justify-center">
+                    <button id="payment-btn" class="btn bg-gradient-to-r from-sky-600 to-indigo-600 hover:from-sky-700 hover:to-indigo-700 text-white font-medium py-3 px-8 rounded-lg flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                        </svg>
+                        Get Your Certificate ($24.99)
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Modal -->
+        <div id="payment-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full mx-4 scale-in">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold text-gray-800">Payment Details</h3>
+                    <button id="close-payment" class="text-gray-400 hover:text-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="mb-6">
+                    <div class="flex justify-between items-center p-4 bg-gradient-to-r from-sky-50 to-indigo-50 rounded-lg mb-4">
+                        <div class="flex items-center">
+                            <div class="bg-sky-100 p-2 rounded-full mr-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Photography Certificate</h4>
+                                <p class="text-sm text-gray-600">Verifiable digital certificate</p>
+                            </div>
+                        </div>
+                        <span class="font-bold text-sky-600">$24.99</span>
+                    </div>
+                    
+                    <!-- This is a demo payment form -->
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Card Number</label>
+                            <input type="text" placeholder="1234 5678 9012 3456" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Expiry Date</label>
+                                <input type="text" placeholder="MM/YY" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">CVC</label>
+                                <input type="text" placeholder="123" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Name on Card</label>
+                            <input type="text" placeholder="John Doe" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                            <input type="email" placeholder="your@email.com" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <button id="process-payment" class="btn w-full bg-gradient-to-r from-sky-600 to-indigo-600 hover:from-sky-700 hover:to-indigo-700 text-white font-medium py-3 px-8 rounded-lg">
+                        Pay $24.99 and Get Certificate
+                    </button>
+                    <p class="text-xs text-gray-500 mt-4">This is a demo payment form. No actual payment will be processed.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Certificate Screen -->
+        <div id="certificate-screen" class="hidden">
+            <div class="max-w-4xl mx-auto">
+                <div id="confetti-container" class="fixed inset-0 pointer-events-none"></div>
+                
+                <div class="certificate p-8 md:p-12 rounded-xl mb-8">
+                    <div class="border-pattern absolute inset-4 rounded-lg opacity-10 pointer-events-none"></div>
+                    
+                    <div class="certificate-seal">
+                        <div class="certificate-seal-inner">
+                            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="50" cy="50" r="45" fill="none" stroke="#0ea5e9" stroke-width="2" />
+                                <circle cx="50" cy="50" r="35" fill="none" stroke="#6366f1" stroke-width="2" stroke-dasharray="4 2" />
+                                <path d="M50 20 L53 35 L68 35 L56 45 L60 60 L50 50 L40 60 L44 45 L32 35 L47 35 Z" fill="#f0f9ff" stroke="#0ea5e9" stroke-width="1" />
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mb-8 relative">
+                        <div class="inline-block">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto" viewBox="0 0 24 24" fill="none" stroke="url(#cert-gradient)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                                <defs>
+                                    <linearGradient id="cert-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#0ea5e9" />
+                                        <stop offset="100%" stop-color="#6366f1" />
+                                    </linearGradient>
+                                </defs>
+                                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                                <circle cx="12" cy="13" r="4"></circle>
+                            </svg>
+                        </div>
+                        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-4">Certificate of Achievement</h2>
+                        <p class="text-gray-600 mt-2">in Photography</p>
+                    </div>
+                    
+                    <div class="text-center mb-8">
+                        <p class="text-gray-600 mb-2">This certifies that</p>
+                        <h3 id="certificate-name" class="text-2xl font-bold gradient-text mb-2">John Doe</h3>
+                        <p class="text-gray-600">has successfully completed the</p>
+                        <h4 class="text-xl font-semibold text-gray-800 my-2">Photography Skills Assessment</h4>
+                        <p class="text-gray-600 mb-2">with a score of</p>
+                        <div class="inline-block bg-gradient-to-r from-sky-100 to-indigo-100 px-4 py-2 rounded-full">
+                            <span id="certificate-score" class="text-xl font-bold gradient-text">85%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-8">
+                        <div class="grid grid-cols-5 gap-4 text-center">
+                            <div>
+                                <div class="bg-sky-100 p-2 rounded-full w-12 h-12 mx-auto mb-2 flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                </div>
+                                <p class="text-xs text-gray-600">Camera Settings</p>
+                                <p id="cert-camera" class="text-sm font-medium text-sky-600">85%</p>
+                            </div>
+                            <div>
+                                <div class="bg-sky-100 p-2 rounded-full w-12 h-12 mx-auto mb-2 flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                                    </svg>
+                                </div>
+                                <p class="text-xs text-gray-600">Composition</p>
+                                <p id="cert-composition" class="text-sm font-medium text-sky-600">70%</p>
+                            </div>
+                            <div>
+                                <div class="bg-sky-100 p-2 rounded-full w-12 h-12 mx-auto mb-2 flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                                    </svg>
+                                </div>
+                                <p class="text-xs text-gray-600">Lighting</p>
+                                <p id="cert-lighting" class="text-sm font-medium text-sky-600">90%</p>
+                            </div>
+                            <div>
+                                <div class="bg-sky-100 p-2 rounded-full w-12 h-12 mx-auto mb-2 flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                                    </svg>
+                                </div>
+                                <p class="text-xs text-gray-600">Post-Processing</p>
+                                <p id="cert-post" class="text-sm font-medium text-sky-600">75%</p>
+                            </div>
+                            <div>
+                                <div class="bg-sky-100 p-2 rounded-full w-12 h-12 mx-auto mb-2 flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                                    </svg>
+                                </div>
+                                <p class="text-xs text-gray-600">Specialized</p>
+                                <p id="cert-specialized" class="text-sm font-medium text-sky-600">80%</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between items-end">
+                        <div>
+                            <svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10 25C15 15 25 30 30 20C35 10 45 25 50 15C55 5 65 20 70 10C75 0 85 15 90 5C95 -5 105 10 110 0" stroke="url(#signature-gradient)" stroke-width="2"/>
+                                <defs>
+                                    <linearGradient id="signature-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stop-color="#0ea5e9" />
+                                        <stop offset="100%" stop-color="#6366f1" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <div class="h-px w-40 bg-gray-300 mb-2"></div>
+                            <p class="text-sm text-gray-600">Authorized Signature</p>
+                        </div>
+                        <div class="text-right">
+                            <p id="certificate-date" class="text-sm text-gray-600">June 15, 2023</p>
+                            <p class="text-sm text-gray-600">Date Issued</p>
+                        </div>
+                    </div>
+                    
+                    <div class="absolute bottom-4 right-4">
+                        <div class="flex items-center text-xs text-gray-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span id="certificate-id">ID: PHOTO-2023-12345</span>
+                        </div>
+                    </div>
+                    
+                    <div class="certificate-ribbon"></div>
+                </div>
+                
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button id="download-btn" class="btn bg-gradient-to-r from-sky-600 to-indigo-600 hover:from-sky-700 hover:to-indigo-700 text-white font-medium py-3 px-6 rounded-lg flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                        Download Certificate
+                    </button>
+                    <button id="share-btn" class="btn bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-3 px-6 rounded-lg flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                        </svg>
+                        Share Certificate
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Quiz data
+            const quizData = [
+                {
+                    question: "What does the 'f-stop' or 'f-number' control on a camera?",
+                    options: [
+                        "Shutter speed",
+                        "ISO sensitivity",
+                        "Aperture size",
+                        "White balance"
+                    ],
+                    answer: 2,
+                    category: "Camera"
+                },
+                {
+                    question: "Which of the following is NOT part of the exposure triangle?",
+                    options: [
+                        "Aperture",
+                        "Shutter speed",
+                        "ISO",
+                        "White balance"
+                    ],
+                    answer: 3,
+                    category: "Camera"
+                },
+                {
+                    question: "What does a lower ISO number indicate?",
+                    options: [
+                        "Higher sensitivity to light",
+                        "Lower sensitivity to light",
+                        "Faster shutter speed",
+                        "Wider aperture"
+                    ],
+                    answer: 1,
+                    category: "Camera"
+                },
+                {
+                    question: "What is the 'rule of thirds' in photography?",
+                    options: [
+                        "Using only three colors in a photo",
+                        "Dividing the frame into thirds and placing key elements along these lines or at their intersections",
+                        "Taking three photos of the same subject",
+                        "Using three different light sources"
+                    ],
+                    answer: 1,
+                    category: "Composition"
+                },
+                {
+                    question: "What is 'leading lines' in photographic composition?",
+                    options: [
+                        "Lines that lead the viewer's eye toward the main subject",
+                        "The first lines of text in a photo caption",
+                        "Lines that separate the foreground from the background",
+                        "The outline of the main subject"
+                    ],
+                    answer: 0,
+                    category: "Composition"
+                },
+                {
+                    question: "What is 'negative space' in composition?",
+                    options: [
+                        "Areas of a photo that are underexposed",
+                        "Empty or open space around the main subject",
+                        "Parts of the image that contain dark tones",
+                        "Areas that need to be cropped out"
+                    ],
+                    answer: 1,
+                    category: "Composition"
+                },
+                {
+                    question: "What is the 'golden hour' in photography?",
+                    options: [
+                        "Midday when the sun is directly overhead",
+                        "The period shortly after sunrise or before sunset when light is softer",
+                        "The time when artificial lighting is most effective",
+                        "The hour when most professional photographers prefer to work"
+                    ],
+                    answer: 1,
+                    category: "Lighting"
+                },
+                {
+                    question: "What is 'hard light' in photography?",
+                    options: [
+                        "Light that creates soft, diffused shadows",
+                        "Light that creates strong, defined shadows",
+                        "Light that is difficult to work with",
+                        "Light that requires high ISO settings"
+                    ],
+                    answer: 1,
+                    category: "Lighting"
+                },
+                {
+                    question: "What is a key light in studio photography?",
+                    options: [
+                        "The light that illuminates the background",
+                        "The main light source that creates the primary illumination on the subject",
+                        "A light used to highlight specific details",
+                        "The light that creates rim lighting"
+                    ],
+                    answer: 1,
+                    category: "Lighting"
+                },
+                {
+                    question: "What does 'RAW' refer to in digital photography?",
+                    options: [
+                        "Unprocessed image files that contain all the data captured by the sensor",
+                        "A file format only used for black and white photography",
+                        "A camera setting that produces highly saturated colors",
+                        "Images that haven't been edited yet"
+                    ],
+                    answer: 0,
+                    category: "Post"
+                },
+                {
+                    question: "What is 'dodging' in photo editing?",
+                    options: [
+                        "Removing unwanted elements from a photo",
+                        "Making specific areas of a photo darker",
+                        "Making specific areas of a photo lighter",
+                        "Adjusting the white balance"
+                    ],
+                    answer: 2,
+                    category: "Post"
+                },
+                {
+                    question: "What is 'chromatic aberration' in photography?",
+                    options: [
+                        "A color fringing effect often seen along high-contrast edges",
+                        "A technique for enhancing color saturation",
+                        "The process of converting a color photo to black and white",
+                        "A filter that creates rainbow effects"
+                    ],
+                    answer: 0,
+                    category: "Post"
+                },
+                {
+                    question: "What is 'bokeh' in photography?",
+                    options: [
+                        "A type of camera lens",
+                        "The aesthetic quality of the blur in out-of-focus areas",
+                        "A Japanese photography technique",
+                        "A type of tripod"
+                    ],
+                    answer: 1,
+                    category: "Specialized"
+                },
+                {
+                    question: "What is 'HDR' photography?",
+                    options: [
+                        "High Definition Resolution - a camera setting for maximum sharpness",
+                        "High Dynamic Range - combining multiple exposures to capture a greater range of tones",
+                        "Horizontal Digital Rendering - a panoramic photo technique",
+                        "Heightened Detail Reproduction - a post-processing filter"
+                    ],
+                    answer: 1,
+                    category: "Specialized"
+                },
+                {
+                    question: "What is 'macro photography'?",
+                    options: [
+                        "Taking photos of large landscapes",
+                        "Close-up photography of small subjects",
+                        "Using a wide-angle lens",
+                        "Taking photos from a high vantage point"
+                    ],
+                    answer: 1,
+                    category: "Specialized"
+                },
+                {
+                    question: "What does 'depth of field' refer to in photography?",
+                    options: [
+                        "The distance between the camera and the subject",
+                        "The range of distance in a photo that appears acceptably sharp",
+                        "The maximum focusing distance of a lens",
+                        "The number of planes in a composition"
+                    ],
+                    answer: 1,
+                    category: "Camera"
+                },
+                {
+                    question: "What is the purpose of a polarizing filter in photography?",
+                    options: [
+                        "To increase the exposure time",
+                        "To reduce reflections and increase color saturation",
+                        "To create a soft focus effect",
+                        "To protect the lens from damage"
+                    ],
+                    answer: 1,
+                    category: "Camera"
+                },
+                {
+                    question: "What is 'framing' as a compositional technique?",
+                    options: [
+                        "Selecting the right size print for a photograph",
+                        "Using elements within the scene to create a frame around the subject",
+                        "Cropping an image after it's taken",
+                        "Choosing the right aspect ratio"
+                    ],
+                    answer: 1,
+                    category: "Composition"
+                },
+                {
+                    question: "What is 'fill light' in a three-point lighting setup?",
+                    options: [
+                        "The main light source",
+                        "A light used to illuminate the background",
+                        "A light that fills in shadows created by the key light",
+                        "A light placed behind the subject"
+                    ],
+                    answer: 2,
+                    category: "Lighting"
+                },
+                {
+                    question: "What is 'color temperature' in photography?",
+                    options: [
+                        "How hot a light source gets when used for long periods",
+                        "A measure of how warm or cool the color of light appears",
+                        "The temperature at which colors appear most vibrant",
+                        "How quickly colors fade in printed photographs"
+                    ],
+                    answer: 1,
+                    category: "Lighting"
+                },
+                {
+                    question: "What is 'frequency separation' in photo retouching?",
+                    options: [
+                        "A technique for separating a subject from its background",
+                        "A method that divides an image into color and detail layers for precise editing",
+                        "Adjusting the frequency of light waves in a photo",
+                        "A filter that separates high and low contrast areas"
+                    ],
+                    answer: 1,
+                    category: "Post"
+                },
+                {
+                    question: "What is 'bracketing' in photography?",
+                    options: [
+                        "A technique for mounting multiple cameras together",
+                        "Taking multiple shots of the same scene with different exposure settings",
+                        "Adding brackets to stabilize a camera on uneven surfaces",
+                        "A method for organizing photos in post-processing"
+                    ],
+                    answer: 1,
+                    category: "Camera"
+                },
+                {
+                    question: "What is 'panning' in photography?",
+                    options: [
+                        "Moving the camera horizontally while taking a photo of a moving subject",
+                        "Using a panoramic camera setting",
+                        "Tilting the camera up and down",
+                        "Zooming in and out rapidly"
+                    ],
+                    answer: 0,
+                    category: "Specialized"
+                },
+                {
+                    question: "What is the 'inverse square law' in relation to photography lighting?",
+                    options: [
+                        "The rule that states aperture settings should be the inverse of shutter speed",
+                        "A mathematical formula for calculating depth of field",
+                        "The principle that light intensity decreases proportionally to the square of the distance",
+                        "A law stating that flash power must be inversely proportional to ISO"
+                    ],
+                    answer: 2,
+                    category: "Lighting"
+                },
+                {
+                    question: "What is 'lens compression' in photography?",
+                    options: [
+                        "A technique to reduce the physical size of camera lenses",
+                        "The visual effect where telephoto lenses appear to compress distance between objects",
+                        "A method for compressing image files to save storage space",
+                        "The process of physically compressing a lens to change its focal length"
+                    ],
+                    answer: 1,
+                    category: "Specialized"
+                }
+            ];
+
+            // DOM elements
+            const welcomeScreen = document.getElementById('welcome-screen');
+            const quizScreen = document.getElementById('quiz-screen');
+            const resultsScreen = document.getElementById('results-screen');
+            const paymentModal = document.getElementById('payment-modal');
+            const certificateScreen = document.getElementById('certificate-screen');
+            
+            const startBtn = document.getElementById('start-btn');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const skipBtn = document.getElementById('skip-btn');
+            const paymentBtn = document.getElementById('payment-btn');
+            const closePaymentBtn = document.getElementById('close-payment');
+            const processPaymentBtn = document.getElementById('process-payment');
+            const downloadBtn = document.getElementById('download-btn');
+            const shareBtn = document.getElementById('share-btn');
+            
+            const currentQuestionEl = document.getElementById('current-question');
+            const questionTextEl = document.getElementById('question-text');
+            const optionsContainerEl = document.getElementById('options-container');
+            const progressFillEl = document.getElementById('progress-fill');
+            const timerEl = document.getElementById('timer');
+            const questionNavEl = document.getElementById('question-nav');
+            
+            // Quiz state
+            let currentQuestion = 0;
+            let score = 0;
+            let userAnswers = Array(quizData.length).fill(null);
+            let timerInterval;
+            let timeLeft = 30 * 60; // 30 minutes in seconds
+            
+            // Start quiz
+            startBtn.addEventListener('click', function() {
+                welcomeScreen.classList.add('hidden');
+                quizScreen.classList.remove('hidden');
+                loadQuestion(currentQuestion);
+                createQuestionNav();
+                startTimer();
+            });
+            
+            // Create question navigation
+            function createQuestionNav() {
+                questionNavEl.innerHTML = '';
+                
+                for (let i = 0; i < quizData.length; i++) {
+                    const navBtn = document.createElement('button');
+                    navBtn.className = `w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${i === currentQuestion ? 'bg-gradient-to-r from-sky-600 to-indigo-600 text-white' : userAnswers[i] !== null ? 'bg-sky-100 text-sky-800' : 'bg-gray-200 text-gray-600'}`;
+                    navBtn.textContent = i + 1;
+                    
+                    navBtn.addEventListener('click', function() {
+                        currentQuestion = i;
+                        loadQuestion(currentQuestion);
+                        updateQuestionNav();
+                    });
+                    
+                    questionNavEl.appendChild(navBtn);
+                }
+            }
+            
+            // Update question navigation
+            function updateQuestionNav() {
+                const navBtns = questionNavEl.querySelectorAll('button');
+                
+                navBtns.forEach((btn, i) => {
+                    btn.className = `w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${i === currentQuestion ? 'bg-gradient-to-r from-sky-600 to-indigo-600 text-white' : userAnswers[i] !== null ? 'bg-sky-100 text-sky-800' : 'bg-gray-200 text-gray-600'}`;
+                });
+            }
+            
+            // Load question
+            function loadQuestion(index) {
+                const question = quizData[index];
+                questionTextEl.textContent = question.question;
+                currentQuestionEl.textContent = index + 1;
+                
+                // Update progress bar
+                const progress = ((index + 1) / quizData.length) * 100;
+                progressFillEl.style.width = `${progress}%`;
+                
+                // Clear previous options
+                optionsContainerEl.innerHTML = '';
+                
+                // Add options with animation
+                question.options.forEach((option, i) => {
+                    const optionBtn = document.createElement('button');
+                    optionBtn.className = `option-btn w-full text-left p-4 rounded-lg slide-in ${userAnswers[index] === i ? 'selected' : ''}`;
+                    optionBtn.style.animationDelay = `${i * 0.1}s`;
+                    optionBtn.innerHTML = `
+                        <div class="flex items-center">
+                            <div class="w-6 h-6 rounded-full border-2 border-gray-300 flex items-center justify-center mr-3 ${userAnswers[index] === i ? 'bg-sky-600 border-sky-600' : ''}">
+                                ${userAnswers[index] === i ? '<div class="w-2 h-2 rounded-full bg-white"></div>' : ''}
+                            </div>
+                            <span>${option}</span>
+                        </div>
+                    `;
+                    
+                    optionBtn.addEventListener('click', function() {
+                        selectOption(index, i);
+                    });
+                    
+                    optionsContainerEl.appendChild(optionBtn);
+                });
+                
+                // Update button states
+                prevBtn.disabled = index === 0;
+                prevBtn.classList.toggle('opacity-50', index === 0);
+                
+                if (index === quizData.length - 1) {
+                    nextBtn.textContent = 'Finish';
+                    nextBtn.innerHTML = 'Finish <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>';
+                } else {
+                    nextBtn.textContent = 'Next';
+                    nextBtn.innerHTML = 'Next <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>';
+                }
+            }
+            
+            // Select option
+            function selectOption(questionIndex, optionIndex) {
+                userAnswers[questionIndex] = optionIndex;
+                loadQuestion(questionIndex);
+                updateQuestionNav();
+            }
+            
+            // Navigation
+            prevBtn.addEventListener('click', function() {
+                if (currentQuestion > 0) {
+                    currentQuestion--;
+                    loadQuestion(currentQuestion);
+                    updateQuestionNav();
+                }
+            });
+            
+            nextBtn.addEventListener('click', function() {
+                if (currentQuestion < quizData.length - 1) {
+                    currentQuestion++;
+                    loadQuestion(currentQuestion);
+                    updateQuestionNav();
+                } else {
+                    finishQuiz();
+                }
+            });
+            
+            skipBtn.addEventListener('click', function() {
+                if (currentQuestion < quizData.length - 1) {
+                    currentQuestion++;
+                    loadQuestion(currentQuestion);
+                    updateQuestionNav();
+                } else {
+                    finishQuiz();
+                }
+            });
+            
+            // Timer
+            function startTimer() {
+                timerInterval = setInterval(function() {
+                    timeLeft--;
+                    
+                    const minutes = Math.floor(timeLeft / 60);
+                    const seconds = timeLeft % 60;
+                    
+                    timerEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                    
+                    if (timeLeft <= 300) { // 5 minutes left
+                        timerEl.classList.add('text-red-600', 'timer-warning');
+                    }
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        finishQuiz();
+                    }
+                }, 1000);
+            }
+            
+            // Finish quiz
+            function finishQuiz() {
+                clearInterval(timerInterval);
+                
+                // Calculate score
+                score = 0;
+                userAnswers.forEach((answer, index) => {
+                    if (answer === quizData[index].answer) {
+                        score++;
+                    }
+                });
+                
+                const scorePercentage = Math.round((score / quizData.length) * 100);
+                
+                // Calculate category scores
+                const categories = {
+                    "Camera": { correct: 0, total: 0 },
+                    "Composition": { correct: 0, total: 0 },
+                    "Lighting": { correct: 0, total: 0 },
+                    "Post": { correct: 0, total: 0 },
+                    "Specialized": { correct: 0, total: 0 }
+                };
+                
+                quizData.forEach((question, index) => {
+                    const category = question.category;
+                    if (categories[category]) {
+                        categories[category].total++;
+                        if (userAnswers[index] === question.answer) {
+                            categories[category].correct++;
+                        }
+                    }
+                });
+                
+                // Calculate category percentages
+                const categoryScores = {};
+                for (const [category, data] of Object.entries(categories)) {
+                    if (data.total > 0) {
+                        categoryScores[category] = Math.round((data.correct / data.total) * 100);
+                    } else {
+                        categoryScores[category] = 0;
+                    }
+                }
+                
+                // Find strengths and areas for improvement
+                const strengths = [];
+                const improvements = [];
+                
+                for (const [category, percentage] of Object.entries(categoryScores)) {
+                    if (percentage >= 80) {
+                        strengths.push(`${category} (${percentage}% correct)`);
+                    } else if (percentage < 70) {
+                        improvements.push(`${category} (${percentage}% correct)`);
+                    }
+                }
+                
+                // Update results screen
+                document.getElementById('score-percentage').textContent = `${scorePercentage}%`;
+                document.getElementById('correct-answers').textContent = score;
+                
+                const minutes = Math.floor((30 * 60 - timeLeft) / 60);
+                const seconds = (30 * 60 - timeLeft) % 60;
+                document.getElementById('time-taken').textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                // Set result message based on score
+                const resultMessage = document.getElementById('result-message');
+                if (scorePercentage >= 80) {
+                    resultMessage.textContent = 'Excellent! You have strong photography skills.';
+                } else if (scorePercentage >= 60) {
+                    resultMessage.textContent = 'Good job! You have solid photography skills.';
+                } else {
+                    resultMessage.textContent = 'You have completed the assessment. There\'s room for improvement in your photography skills.';
+                }
+                
+                // Update strengths and improvements
+                const strengthsEl = document.getElementById('strengths');
+                strengthsEl.innerHTML = '';
+                
+                if (strengths.length > 0) {
+                    strengths.forEach(strength => {
+                        const div = document.createElement('div');
+                        div.className = 'flex items-start mb-2';
+                        div.innerHTML = `
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span>${strength}</span>
+                        `;
+                        strengthsEl.appendChild(div);
+                    });
+                } else {
+                    strengthsEl.innerHTML = '<p class="text-gray-500">Keep practicing to develop your photography strengths!</p>';
+                }
+                
+                const improvementsEl = document.getElementById('improvements');
+                improvementsEl.innerHTML = '';
+                
+                if (improvements.length > 0) {
+                    improvements.forEach(improvement => {
+                        const div = document.createElement('div');
+                        div.className = 'flex items-start mb-2';
+                        div.innerHTML = `
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                            <span>${improvement}</span>
+                        `;
+                        improvementsEl.appendChild(div);
+                    });
+                } else {
+                    improvementsEl.innerHTML = '<p class="text-gray-500">Great job! No significant areas for improvement.</p>';
+                }
+                
+                // Update skill bars
+                document.getElementById('camera-score').textContent = `${categoryScores.Camera}%`;
+                document.getElementById('camera-bar').style.width = `${categoryScores.Camera}%`;
+                
+                document.getElementById('composition-score').textContent = `${categoryScores.Composition}%`;
+                document.getElementById('composition-bar').style.width = `${categoryScores.Composition}%`;
+                
+                document.getElementById('lighting-score').textContent = `${categoryScores.Lighting}%`;
+                document.getElementById('lighting-bar').style.width = `${categoryScores.Lighting}%`;
+                
+                document.getElementById('post-score').textContent = `${categoryScores.Post}%`;
+                document.getElementById('post-bar').style.width = `${categoryScores.Post}%`;
+                
+                document.getElementById('specialized-score').textContent = `${categoryScores.Specialized}%`;
+                document.getElementById('specialized-bar').style.width = `${categoryScores.Specialized}%`;
+                
+                // Show results screen
+                quizScreen.classList.add('hidden');
+                resultsScreen.classList.remove('hidden');
+            }
+            
+            // Payment modal
+            paymentBtn.addEventListener('click', function() {
+                paymentModal.classList.remove('hidden');
+            });
+            
+            closePaymentBtn.addEventListener('click', function() {
+                paymentModal.classList.add('hidden');
+            });
+            
+            processPaymentBtn.addEventListener('click', function() {
+                paymentModal.classList.add('hidden');
+                resultsScreen.classList.add('hidden');
+                certificateScreen.classList.remove('hidden');
+                
+                // Set certificate details
+                const scorePercentage = Math.round((score / quizData.length) * 100);
+                document.getElementById('certificate-score').textContent = `${scorePercentage}%`;
+                
+                // Calculate category scores for certificate
+                const categories = {
+                    "Camera": { correct: 0, total: 0 },
+                    "Composition": { correct: 0, total: 0 },
+                    "Lighting": { correct: 0, total: 0 },
+                    "Post": { correct: 0, total: 0 },
+                    "Specialized": { correct: 0, total: 0 }
+                };
+                
+                quizData.forEach((question, index) => {
+                    const category = question.category;
+                    if (categories[category]) {
+                        categories[category].total++;
+                        if (userAnswers[index] === question.answer) {
+                            categories[category].correct++;
+                        }
+                    }
+                });
+                
+                // Calculate category percentages for certificate
+                for (const [category, data] of Object.entries(categories)) {
+                    if (data.total > 0) {
+                        const percentage = Math.round((data.correct / data.total) * 100);
+                        const categoryId = category.toLowerCase();
+                        document.getElementById(`cert-${categoryId}`).textContent = `${percentage}%`;
+                    } else {
+                        const categoryId = category.toLowerCase();
+                        document.getElementById(`cert-${categoryId}`).textContent = '0%';
+                    }
+                }
+                
+                const today = new Date();
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                document.getElementById('certificate-date').textContent = today.toLocaleDateString('en-US', options);
+                
+                document.getElementById('certificate-id').textContent = `ID: PHOTO-${today.getFullYear()}-${Math.floor(10000 + Math.random() * 90000)}`;
+                
+                // Create confetti effect
+                createConfetti();
+            });
+            
+            // Create confetti effect
+            function createConfetti() {
+                const confettiContainer = document.getElementById('confetti-container');
+                const colors = ['#0ea5e9', '#6366f1', '#38bdf8', '#818cf8', '#ffffff'];
+                
+                for (let i = 0; i < 150; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = `${Math.random() * 100}%`;
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.width = `${Math.random() * 10 + 5}px`;
+                    confetti.style.height = `${Math.random() * 10 + 5}px`;
+                    confetti.style.opacity = '1';
+                    confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
+                    confetti.style.animationDelay = `${Math.random() * 2}s`;
+                    
+                    confettiContainer.appendChild(confetti);
+                }
+            }
+            
+            // Certificate actions
+            downloadBtn.addEventListener('click', function() {
+                alert('Certificate download started! (This is a demo feature)');
+            });
+            
+            shareBtn.addEventListener('click', function() {
+                alert('Share options opened! (This is a demo feature)');
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'965d4a5fb07e85ae',t:'MTc1MzYzMTQwNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

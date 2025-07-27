@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Skills Assessment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #0ea5e9, #38bdf8);
+            transition: width 0.3s ease;
+        }
+        .btn {
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2);
+        }
+        .option-btn {
+            transition: all 0.2s ease;
+            border: 2px solid #e5e7eb;
+        }
+        .option-btn:hover {
+            border-color: #0ea5e9;
+            background-color: #f0f9ff;
+        }
+        .option-btn.selected {
+            border-color: #0ea5e9;
+            background-color: #e0f2fe;
+        }
+        .option-btn.correct {
+            border-color: #10b981;
+            background-color: #d1fae5;
+        }
+        .option-btn.incorrect {
+            border-color: #ef4444;
+            background-color: #fee2e2;
+        }
+        .certificate {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border: 2px solid #0ea5e9;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+        .certificate::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.1) 0%, rgba(56, 189, 248, 0.1) 100%);
+            border-radius: 50%;
+        }
+        .certificate::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.1) 0%, rgba(56, 189, 248, 0.1) 100%);
+            border-radius: 50%;
+        }
+        .badge {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #0ea5e9;
+            opacity: 0;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(1000px) rotate(360deg); opacity: 0; }
+        }
+        .timer-warning {
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .scale-in {
+            animation: scaleIn 0.5s ease-out forwards;
+            transform-origin: center;
+        }
+        @keyframes scaleIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .slide-in {
+            animation: slideIn 0.5s ease-out forwards;
+        }
+        @keyframes slideIn {
+            0% { transform: translateX(-20px); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        .rotate-in {
+            animation: rotateIn 0.5s ease-out forwards;
+        }
+        @keyframes rotateIn {
+            0% { transform: rotate(-10deg) scale(0.9); opacity: 0; }
+            100% { transform: rotate(0deg) scale(1); opacity: 1; }
+        }
+        .category-icon {
+            transition: all 0.3s ease;
+        }
+        .category-card:hover .category-icon {
+            transform: translateY(-5px);
+        }
+        .skill-bar {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .skill-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #0ea5e9, #38bdf8);
+            transition: width 1s ease;
+        }
+        .border-pattern {
+            background-image: repeating-linear-gradient(45deg, #0ea5e9 0, #0ea5e9 1px, transparent 0, transparent 50%);
+            background-size: 10px 10px;
+        }
+        .sales-icon {
+            filter: drop-shadow(0 4px 3px rgba(0, 0, 0, 0.07));
+        }
+    </style>
+</head>
+<body class="min-h-screen py-8 px-4">
+    <div id="app">
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="quiz-container p-8">
+            <div class="text-center mb-8">
+                <div class="inline-block p-4 bg-sky-100 rounded-full mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-sky-600 sales-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">Sales Skills Assessment</h1>
+                <p class="text-gray-600 mb-6">Test your sales abilities with 25 questions and earn a professional certificate</p>
+                
+                <div class="flex flex-wrap justify-center gap-6 mb-8">
+                    <div class="flex items-center">
+                        <div class="bg-sky-100 p-2 rounded-full mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <span class="text-gray-700">25 minutes</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="bg-sky-100 p-2 rounded-full mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <span class="text-gray-700">25 questions</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="bg-sky-100 p-2 rounded-full mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                        </div>
+                        <span class="text-gray-700">Certificate on completion</span>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
+                    <div class="category-card bg-white p-5 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
+                        <div class="category-icon bg-sky-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Prospecting</h3>
+                        <p class="text-gray-600 text-sm text-center">Finding new leads</p>
+                    </div>
+                    <div class="category-card bg-white p-5 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
+                        <div class="category-icon bg-sky-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Closing</h3>
+                        <p class="text-gray-600 text-sm text-center">Sealing the deal</p>
+                    </div>
+                    <div class="category-card bg-white p-5 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
+                        <div class="category-icon bg-sky-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Negotiation</h3>
+                        <p class="text-gray-600 text-sm text-center">Win-win outcomes</p>
+                    </div>
+                    <div class="category-card bg-white p-5 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
+                        <div class="category-icon bg-sky-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Communication</h3>
+                        <p class="text-gray-600 text-sm text-center">Effective dialogue</p>
+                    </div>
+                    <div class="category-card bg-white p-5 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
+                        <div class="category-icon bg-sky-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Follow-up</h3>
+                        <p class="text-gray-600 text-sm text-center">Relationship building</p>
+                    </div>
+                </div>
+                
+                <div class="bg-gradient-to-r from-sky-50 to-blue-50 p-6 rounded-lg mb-8 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 -mt-10 -mr-10 bg-sky-100 rounded-full opacity-50"></div>
+                    <div class="absolute bottom-0 left-0 w-24 h-24 -mb-8 -ml-8 bg-blue-100 rounded-full opacity-50"></div>
+                    <h3 class="font-semibold text-sky-800 mb-3 relative z-10">Why Take This Assessment?</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 relative z-10">
+                        <div class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span class="text-gray-700 text-sm">Identify your sales strengths</span>
+                        </div>
+                        <div class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span class="text-gray-700 text-sm">Discover areas for improvement</span>
+                        </div>
+                        <div class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span class="text-gray-700 text-sm">Earn a professional certificate</span>
+                        </div>
+                        <div class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span class="text-gray-700 text-sm">Enhance your sales career profile</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 mb-8">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-amber-100 p-2 rounded-full mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold text-gray-800">How It Works</h3>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="flex flex-col items-center text-center">
+                            <div class="bg-sky-100 w-10 h-10 rounded-full flex items-center justify-center mb-3">
+                                <span class="font-bold text-sky-600">1</span>
+                            </div>
+                            <h4 class="font-medium text-gray-800 mb-1">Complete Assessment</h4>
+                            <p class="text-gray-600 text-sm">Answer 25 questions about sales skills</p>
+                        </div>
+                        <div class="flex flex-col items-center text-center">
+                            <div class="bg-sky-100 w-10 h-10 rounded-full flex items-center justify-center mb-3">
+                                <span class="font-bold text-sky-600">2</span>
+                            </div>
+                            <h4 class="font-medium text-gray-800 mb-1">Get Results</h4>
+                            <p class="text-gray-600 text-sm">Receive detailed feedback on your sales abilities</p>
+                        </div>
+                        <div class="flex flex-col items-center text-center">
+                            <div class="bg-sky-100 w-10 h-10 rounded-full flex items-center justify-center mb-3">
+                                <span class="font-bold text-sky-600">3</span>
+                            </div>
+                            <h4 class="font-medium text-gray-800 mb-1">Earn Certificate</h4>
+                            <p class="text-gray-600 text-sm">Get your professional certificate to showcase your skills</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex justify-center">
+                <button id="start-btn" class="btn bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-700 hover:to-blue-700 text-white font-medium py-3 px-8 rounded-lg flex items-center">
+                    Start Assessment
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="quiz-container hidden">
+            <div class="p-6 bg-gradient-to-r from-sky-50 to-blue-50 border-b border-sky-100">
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <h2 class="text-xl font-semibold text-gray-800">Sales Skills Assessment</h2>
+                        <p class="text-gray-600 text-sm">Question <span id="current-question">1</span> of 25</p>
+                    </div>
+                    <div class="bg-white px-4 py-2 rounded-lg shadow-sm flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span id="timer" class="font-medium">25:00</span>
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div id="progress-fill" class="progress-fill" style="width: 4%"></div>
+                </div>
+            </div>
+            
+            <div class="p-8">
+                <h3 id="question-text" class="text-xl font-medium text-gray-800 mb-6">Loading question...</h3>
+                
+                <div id="options-container" class="space-y-4 mb-8">
+                    <!-- Options will be inserted here -->
+                </div>
+                
+                <div class="flex justify-between">
+                    <button id="prev-btn" class="btn bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-2 px-6 rounded-lg flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                        Previous
+                    </button>
+                    <div class="flex space-x-2">
+                        <button id="skip-btn" class="btn bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-4 rounded-lg">
+                            Skip
+                        </button>
+                        <button id="next-btn" class="btn bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-700 hover:to-blue-700 text-white font-medium py-2 px-6 rounded-lg flex items-center">
+                            Next
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="p-4 bg-gray-50 border-t border-gray-100">
+                <div class="flex flex-wrap gap-2 justify-center" id="question-nav">
+                    <!-- Question navigation buttons will be inserted here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="quiz-container hidden">
+            <div class="p-8 text-center">
+                <div id="score-badge" class="badge w-32 h-32 rounded-full bg-gradient-to-r from-sky-100 to-blue-100 flex items-center justify-center mx-auto mb-6">
+                    <div class="text-center">
+                        <span id="score-percentage" class="block text-3xl font-bold text-sky-600">85%</span>
+                        <span class="text-sm text-sky-800">Score</span>
+                    </div>
+                </div>
+                
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Assessment Complete!</h2>
+                <p id="result-message" class="text-gray-600 mb-6">Great job! You've completed the assessment.</p>
+                
+                <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
+                    <h3 class="font-semibold text-gray-800 mb-4">Performance Summary</h3>
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div class="bg-gradient-to-r from-sky-50 to-blue-50 p-4 rounded-lg">
+                            <div class="text-2xl font-bold text-sky-600 mb-1"><span id="correct-answers">21</span>/25</div>
+                            <div class="text-sm text-gray-600">Correct Answers</div>
+                        </div>
+                        <div class="bg-gradient-to-r from-sky-50 to-blue-50 p-4 rounded-lg">
+                            <div class="text-2xl font-bold text-sky-600 mb-1"><span id="time-taken">15:45</span></div>
+                            <div class="text-sm text-gray-600">Time Taken</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <div class="flex items-center mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                            <h4 class="font-medium text-gray-700">Your Sales Strengths</h4>
+                        </div>
+                        <div id="strengths" class="text-sm text-gray-600 bg-gray-50 p-4 rounded-lg">
+                            <!-- Strengths will be inserted here -->
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <div class="flex items-center mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                            <h4 class="font-medium text-gray-700">Areas for Growth</h4>
+                        </div>
+                        <div id="improvements" class="text-sm text-gray-600 bg-gray-50 p-4 rounded-lg">
+                            <!-- Areas for improvement will be inserted here -->
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-medium text-gray-700 mb-3">Skill Breakdown</h4>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-sm text-gray-600">Prospecting</span>
+                                    <span id="prospecting-score" class="text-sm font-medium text-sky-600">85%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div id="prospecting-bar" class="skill-fill" style="width: 85%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-sm text-gray-600">Closing Techniques</span>
+                                    <span id="closing-score" class="text-sm font-medium text-sky-600">70%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div id="closing-bar" class="skill-fill" style="width: 70%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-sm text-gray-600">Negotiation Skills</span>
+                                    <span id="negotiation-score" class="text-sm font-medium text-sky-600">90%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div id="negotiation-bar" class="skill-fill" style="width: 90%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-sm text-gray-600">Communication</span>
+                                    <span id="communication-score" class="text-sm font-medium text-sky-600">75%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div id="communication-bar" class="skill-fill" style="width: 75%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-sm text-gray-600">Follow-up & Relationship Building</span>
+                                    <span id="followup-score" class="text-sm font-medium text-sky-600">80%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div id="followup-bar" class="skill-fill" style="width: 80%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gradient-to-r from-sky-50 to-blue-50 p-6 rounded-lg mb-8 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 -mt-10 -mr-10 bg-sky-100 rounded-full opacity-30"></div>
+                    <div class="relative z-10">
+                        <h3 class="font-semibold text-gray-800 mb-3">Next Steps</h3>
+                        <p class="text-gray-600 text-sm mb-4">Get your professional certificate to showcase your sales skills!</p>
+                        <ul class="text-sm text-gray-600 space-y-2">
+                            <li class="flex items-start">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                </svg>
+                                <span>Verifiable digital certificate</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                                <span>Add to your LinkedIn profile</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                                <span>Download as PDF</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="flex justify-center">
+                    <button id="payment-btn" class="btn bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-700 hover:to-blue-700 text-white font-medium py-3 px-8 rounded-lg flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                        </svg>
+                        Get Your Certificate ($24.99)
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Modal -->
+        <div id="payment-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full mx-4 scale-in">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold text-gray-800">Payment Details</h3>
+                    <button id="close-payment" class="text-gray-400 hover:text-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="mb-6">
+                    <div class="flex justify-between items-center p-4 bg-gradient-to-r from-sky-50 to-blue-50 rounded-lg mb-4">
+                        <div class="flex items-center">
+                            <div class="bg-sky-100 p-2 rounded-full mr-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Sales Skills Certificate</h4>
+                                <p class="text-sm text-gray-600">Verifiable digital certificate</p>
+                            </div>
+                        </div>
+                        <span class="font-bold text-sky-600">$24.99</span>
+                    </div>
+                    
+                    <!-- This is a demo payment form -->
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Card Number</label>
+                            <input type="text" placeholder="1234 5678 9012 3456" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Expiry Date</label>
+                                <input type="text" placeholder="MM/YY" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">CVC</label>
+                                <input type="text" placeholder="123" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Name on Card</label>
+                            <input type="text" placeholder="John Doe" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                            <input type="email" placeholder="your@email.com" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <button id="process-payment" class="btn w-full bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-700 hover:to-blue-700 text-white font-medium py-3 px-8 rounded-lg">
+                        Pay $24.99 and Get Certificate
+                    </button>
+                    <p class="text-xs text-gray-500 mt-4">This is a demo payment form. No actual payment will be processed.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Certificate Screen -->
+        <div id="certificate-screen" class="hidden">
+            <div class="max-w-4xl mx-auto">
+                <div id="confetti-container" class="fixed inset-0 pointer-events-none"></div>
+                
+                <div class="certificate p-8 md:p-12 rounded-xl mb-8">
+                    <div class="border-pattern absolute inset-4 rounded-lg opacity-10 pointer-events-none"></div>
+                    
+                    <div class="text-center mb-8 relative">
+                        <div class="inline-block">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-sky-600 mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-4">Certificate of Achievement</h2>
+                        <p class="text-gray-600 mt-2">in Sales Skills</p>
+                    </div>
+                    
+                    <div class="text-center mb-8">
+                        <p class="text-gray-600 mb-2">This certifies that</p>
+                        <h3 id="certificate-name" class="text-2xl font-bold text-sky-600 mb-2">John Doe</h3>
+                        <p class="text-gray-600">has successfully completed the</p>
+                        <h4 class="text-xl font-semibold text-gray-800 my-2">Sales Skills Assessment</h4>
+                        <p class="text-gray-600 mb-2">with a score of</p>
+                        <div class="inline-block bg-gradient-to-r from-sky-100 to-blue-100 px-4 py-2 rounded-full">
+                            <span id="certificate-score" class="text-xl font-bold text-sky-600">85%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-8">
+                        <div class="grid grid-cols-5 gap-4 text-center">
+                            <div>
+                                <div class="bg-sky-100 p-2 rounded-full w-12 h-12 mx-auto mb-2 flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                    </svg>
+                                </div>
+                                <p class="text-xs text-gray-600">Prospecting</p>
+                                <p id="cert-prospecting" class="text-sm font-medium text-sky-600">85%</p>
+                            </div>
+                            <div>
+                                <div class="bg-sky-100 p-2 rounded-full w-12 h-12 mx-auto mb-2 flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <p class="text-xs text-gray-600">Closing</p>
+                                <p id="cert-closing" class="text-sm font-medium text-sky-600">70%</p>
+                            </div>
+                            <div>
+                                <div class="bg-sky-100 p-2 rounded-full w-12 h-12 mx-auto mb-2 flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                                    </svg>
+                                </div>
+                                <p class="text-xs text-gray-600">Negotiation</p>
+                                <p id="cert-negotiation" class="text-sm font-medium text-sky-600">90%</p>
+                            </div>
+                            <div>
+                                <div class="bg-sky-100 p-2 rounded-full w-12 h-12 mx-auto mb-2 flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
+                                    </svg>
+                                </div>
+                                <p class="text-xs text-gray-600">Communication</p>
+                                <p id="cert-communication" class="text-sm font-medium text-sky-600">75%</p>
+                            </div>
+                            <div>
+                                <div class="bg-sky-100 p-2 rounded-full w-12 h-12 mx-auto mb-2 flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                    </svg>
+                                </div>
+                                <p class="text-xs text-gray-600">Follow-up</p>
+                                <p id="cert-followup" class="text-sm font-medium text-sky-600">80%</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between items-end">
+                        <div>
+                            <svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10 25C15 15 25 30 30 20C35 10 45 25 50 15C55 5 65 20 70 10C75 0 85 15 90 5C95 -5 105 10 110 0" stroke="#0ea5e9" stroke-width="2"/>
+                            </svg>
+                            <div class="h-px w-40 bg-gray-300 mb-2"></div>
+                            <p class="text-sm text-gray-600">Authorized Signature</p>
+                        </div>
+                        <div class="text-right">
+                            <p id="certificate-date" class="text-sm text-gray-600">June 15, 2023</p>
+                            <p class="text-sm text-gray-600">Date Issued</p>
+                        </div>
+                    </div>
+                    
+                    <div class="absolute bottom-4 right-4">
+                        <div class="flex items-center text-xs text-gray-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span id="certificate-id">ID: SALES-2023-12345</span>
+                        </div>
+                    </div>
+                    
+                    <div class="absolute top-8 right-8">
+                        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="40" cy="40" r="38" stroke="#0ea5e9" stroke-width="2" stroke-dasharray="4 4"/>
+                            <circle cx="40" cy="40" r="30" fill="#e0f2fe" fill-opacity="0.5"/>
+                            <path d="M30 40L36 46L50 32" stroke="#0ea5e9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button id="download-btn" class="btn bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-700 hover:to-blue-700 text-white font-medium py-3 px-6 rounded-lg flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                        Download Certificate
+                    </button>
+                    <button id="share-btn" class="btn bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-3 px-6 rounded-lg flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                        </svg>
+                        Share Certificate
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Quiz data
+            const quizData = [
+                {
+                    question: "What is the primary purpose of a sales discovery call?",
+                    options: [
+                        "To close the sale immediately",
+                        "To understand the prospect's needs, pain points, and buying process",
+                        "To present all product features and benefits",
+                        "To negotiate the final price"
+                    ],
+                    answer: 1,
+                    category: "Prospecting"
+                },
+                {
+                    question: "Which of the following is NOT typically considered a good prospecting technique?",
+                    options: [
+                        "Researching potential clients before contacting them",
+                        "Using referrals from existing customers",
+                        "Sending the same generic email to hundreds of potential clients",
+                        "Engaging with potential clients on social media platforms"
+                    ],
+                    answer: 2,
+                    category: "Prospecting"
+                },
+                {
+                    question: "What is a 'value proposition' in sales?",
+                    options: [
+                        "The lowest price a salesperson can offer",
+                        "A clear statement about how your product or service solves customer problems or improves their situation",
+                        "The commission a salesperson earns from a sale",
+                        "The total value of all products sold to a customer"
+                    ],
+                    answer: 1,
+                    category: "Communication"
+                },
+                {
+                    question: "Which closing technique involves asking a question that assumes the prospect has already decided to buy?",
+                    options: [
+                        "The alternative close",
+                        "The assumptive close",
+                        "The urgency close",
+                        "The summary close"
+                    ],
+                    answer: 1,
+                    category: "Closing"
+                },
+                {
+                    question: "What is 'BANT' in sales qualification?",
+                    options: [
+                        "A sales CRM system",
+                        "A framework for qualifying prospects based on Budget, Authority, Need, and Timeline",
+                        "A type of sales presentation",
+                        "A method for calculating sales commissions"
+                    ],
+                    answer: 1,
+                    category: "Prospecting"
+                },
+                {
+                    question: "Which of the following is an example of active listening in sales?",
+                    options: [
+                        "Interrupting the customer to correct misconceptions",
+                        "Thinking about your next point while the customer is speaking",
+                        "Paraphrasing what the customer said to confirm understanding",
+                        "Immediately offering solutions before the customer finishes explaining their problem"
+                    ],
+                    answer: 2,
+                    category: "Communication"
+                },
+                {
+                    question: "What is the purpose of a follow-up email after a sales meeting?",
+                    options: [
+                        "To pressure the prospect into making a decision",
+                        "To summarize key points discussed, address any questions, and outline next steps",
+                        "To introduce new product features not discussed in the meeting",
+                        "To check if the prospect has received other competitive offers"
+                    ],
+                    answer: 1,
+                    category: "Follow-up"
+                },
+                {
+                    question: "Which negotiation approach focuses on finding solutions that satisfy both parties' interests?",
+                    options: [
+                        "Win-lose negotiation",
+                        "Competitive negotiation",
+                        "Win-win negotiation",
+                        "Positional bargaining"
+                    ],
+                    answer: 2,
+                    category: "Negotiation"
+                },
+                {
+                    question: "What is a 'buying signal' in sales?",
+                    options: [
+                        "A formal request for proposal (RFP)",
+                        "An indication from the prospect that they are interested in purchasing",
+                        "A prospect's budget allocation for the year",
+                        "A signed contract"
+                    ],
+                    answer: 1,
+                    category: "Closing"
+                },
+                {
+                    question: "Which of the following is NOT a common objection handling technique?",
+                    options: [
+                        "Feel, Felt, Found method",
+                        "Ignoring the objection and continuing with the pitch",
+                        "Asking clarifying questions to understand the objection better",
+                        "Addressing the objection with relevant information"
+                    ],
+                    answer: 1,
+                    category: "Communication"
+                },
+                {
+                    question: "What is the 'SPIN' selling methodology?",
+                    options: [
+                        "A technique for manipulating customers",
+                        "A questioning framework focusing on Situation, Problem, Implication, and Need-payoff",
+                        "A method for spinning negative product features into positives",
+                        "A sales closing technique"
+                    ],
+                    answer: 1,
+                    category: "Communication"
+                },
+                {
+                    question: "What is the primary purpose of a CRM (Customer Relationship Management) system?",
+                    options: [
+                        "To automate all sales processes without human intervention",
+                        "To track and manage customer interactions and data throughout the customer lifecycle",
+                        "To replace salespeople with digital solutions",
+                        "To monitor employees' work hours"
+                    ],
+                    answer: 1,
+                    category: "Follow-up"
+                },
+                {
+                    question: "Which of the following is a key component of a successful sales pitch?",
+                    options: [
+                        "Focusing exclusively on product features",
+                        "Speaking as much as possible to demonstrate knowledge",
+                        "Tailoring the presentation to address the specific needs of the prospect",
+                        "Using technical jargon to impress the prospect"
+                    ],
+                    answer: 2,
+                    category: "Communication"
+                },
+                {
+                    question: "What is 'social selling'?",
+                    options: [
+                        "Selling products at social events",
+                        "Using social media platforms to connect with prospects, build relationships, and ultimately achieve sales goals",
+                        "Offering special discounts to social groups",
+                        "Selling products that promote social causes"
+                    ],
+                    answer: 1,
+                    category: "Prospecting"
+                },
+                {
+                    question: "Which of the following is a benefit of using open-ended questions in sales conversations?",
+                    options: [
+                        "They can be answered with a simple 'yes' or 'no'",
+                        "They save time in the sales process",
+                        "They encourage prospects to share more information and insights",
+                        "They limit the conversation to specific topics"
+                    ],
+                    answer: 2,
+                    category: "Communication"
+                },
+                {
+                    question: "What is the 'puppy dog close' in sales?",
+                    options: [
+                        "A technique where the salesperson acts cute and friendly",
+                        "Allowing the prospect to try the product before buying, like taking a puppy home for the weekend",
+                        "A closing technique specifically for selling pets",
+                        "Using emotional appeals to make the sale"
+                    ],
+                    answer: 1,
+                    category: "Closing"
+                },
+                {
+                    question: "What is the purpose of a sales funnel?",
+                    options: [
+                        "To filter out unqualified leads",
+                        "To visualize and manage the customer journey from prospect to customer",
+                        "To collect customer payments",
+                        "To organize the sales team hierarchy"
+                    ],
+                    answer: 1,
+                    category: "Prospecting"
+                },
+                {
+                    question: "Which of the following is NOT typically considered a key account management strategy?",
+                    options: [
+                        "Developing deep relationships with multiple stakeholders",
+                        "Creating customized solutions for the client's specific needs",
+                        "Treating all accounts with the same level of service regardless of size",
+                        "Regular strategic planning meetings with the client"
+                    ],
+                    answer: 2,
+                    category: "Follow-up"
+                },
+                {
+                    question: "What is 'upselling' in sales?",
+                    options: [
+                        "Selling products at a higher price than market value",
+                        "Encouraging customers to purchase a higher-end product than initially considered",
+                        "Selling products that are not yet available",
+                        "Increasing the sales team's targets"
+                    ],
+                    answer: 1,
+                    category: "Closing"
+                },
+                {
+                    question: "Which negotiation tactic involves creating the impression that you have other options if this deal doesn't work out?",
+                    options: [
+                        "BATNA (Best Alternative To a Negotiated Agreement)",
+                        "Lowballing",
+                        "Good cop/bad cop",
+                        "Nibbling"
+                    ],
+                    answer: 0,
+                    category: "Negotiation"
+                },
+                {
+                    question: "What is the primary benefit of using a consultative selling approach?",
+                    options: [
+                        "It allows for quicker sales cycles",
+                        "It positions the salesperson as a trusted advisor who understands and addresses the customer's specific needs",
+                        "It eliminates the need for product demonstrations",
+                        "It works well with all types of customers regardless of their buying style"
+                    ],
+                    answer: 1,
+                    category: "Communication"
+                },
+                {
+                    question: "Which of the following is a key component of building rapport with prospects?",
+                    options: [
+                        "Talking primarily about yourself to establish credibility",
+                        "Finding common ground and showing genuine interest in the prospect",
+                        "Maintaining a strictly professional relationship with no personal connection",
+                        "Demonstrating your superiority in knowledge"
+                    ],
+                    answer: 1,
+                    category: "Communication"
+                },
+                {
+                    question: "What is a 'cold call' in sales?",
+                    options: [
+                        "A follow-up call to an existing customer",
+                        "A sales call made during winter months",
+                        "An unsolicited call to a potential customer who has had no prior contact with the salesperson",
+                        "A call to a prospect who has requested information"
+                    ],
+                    answer: 2,
+                    category: "Prospecting"
+                },
+                {
+                    question: "Which of the following is NOT a common sales performance metric?",
+                    options: [
+                        "Conversion rate",
+                        "Average deal size",
+                        "Employee satisfaction score",
+                        "Sales cycle length"
+                    ],
+                    answer: 2,
+                    category: "Follow-up"
+                },
+                {
+                    question: "What is the 'anchoring effect' in sales negotiations?",
+                    options: [
+                        "The practice of securing a sale with a down payment",
+                        "The tendency for people to rely heavily on the first piece of information offered (the 'anchor') when making decisions",
+                        "A technique for keeping customers loyal to your brand",
+                        "A method for establishing fixed prices that don't change during negotiation"
+                    ],
+                    answer: 1,
+                    category: "Negotiation"
+                }
+            ];
+
+            // DOM elements
+            const welcomeScreen = document.getElementById('welcome-screen');
+            const quizScreen = document.getElementById('quiz-screen');
+            const resultsScreen = document.getElementById('results-screen');
+            const paymentModal = document.getElementById('payment-modal');
+            const certificateScreen = document.getElementById('certificate-screen');
+            
+            const startBtn = document.getElementById('start-btn');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const skipBtn = document.getElementById('skip-btn');
+            const paymentBtn = document.getElementById('payment-btn');
+            const closePaymentBtn = document.getElementById('close-payment');
+            const processPaymentBtn = document.getElementById('process-payment');
+            const downloadBtn = document.getElementById('download-btn');
+            const shareBtn = document.getElementById('share-btn');
+            
+            const currentQuestionEl = document.getElementById('current-question');
+            const questionTextEl = document.getElementById('question-text');
+            const optionsContainerEl = document.getElementById('options-container');
+            const progressFillEl = document.getElementById('progress-fill');
+            const timerEl = document.getElementById('timer');
+            const questionNavEl = document.getElementById('question-nav');
+            
+            // Quiz state
+            let currentQuestion = 0;
+            let score = 0;
+            let userAnswers = Array(quizData.length).fill(null);
+            let timerInterval;
+            let timeLeft = 25 * 60; // 25 minutes in seconds
+            
+            // Start quiz
+            startBtn.addEventListener('click', function() {
+                welcomeScreen.classList.add('hidden');
+                quizScreen.classList.remove('hidden');
+                loadQuestion(currentQuestion);
+                createQuestionNav();
+                startTimer();
+            });
+            
+            // Create question navigation
+            function createQuestionNav() {
+                questionNavEl.innerHTML = '';
+                
+                for (let i = 0; i < quizData.length; i++) {
+                    const navBtn = document.createElement('button');
+                    navBtn.className = `w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${i === currentQuestion ? 'bg-sky-600 text-white' : userAnswers[i] !== null ? 'bg-sky-100 text-sky-800' : 'bg-gray-200 text-gray-600'}`;
+                    navBtn.textContent = i + 1;
+                    
+                    navBtn.addEventListener('click', function() {
+                        currentQuestion = i;
+                        loadQuestion(currentQuestion);
+                        updateQuestionNav();
+                    });
+                    
+                    questionNavEl.appendChild(navBtn);
+                }
+            }
+            
+            // Update question navigation
+            function updateQuestionNav() {
+                const navBtns = questionNavEl.querySelectorAll('button');
+                
+                navBtns.forEach((btn, i) => {
+                    btn.className = `w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${i === currentQuestion ? 'bg-sky-600 text-white' : userAnswers[i] !== null ? 'bg-sky-100 text-sky-800' : 'bg-gray-200 text-gray-600'}`;
+                });
+            }
+            
+            // Load question
+            function loadQuestion(index) {
+                const question = quizData[index];
+                questionTextEl.textContent = question.question;
+                currentQuestionEl.textContent = index + 1;
+                
+                // Update progress bar
+                const progress = ((index + 1) / quizData.length) * 100;
+                progressFillEl.style.width = `${progress}%`;
+                
+                // Clear previous options
+                optionsContainerEl.innerHTML = '';
+                
+                // Add options with animation
+                question.options.forEach((option, i) => {
+                    const optionBtn = document.createElement('button');
+                    optionBtn.className = `option-btn w-full text-left p-4 rounded-lg slide-in ${userAnswers[index] === i ? 'selected' : ''}`;
+                    optionBtn.style.animationDelay = `${i * 0.1}s`;
+                    optionBtn.innerHTML = `
+                        <div class="flex items-center">
+                            <div class="w-6 h-6 rounded-full border-2 border-gray-300 flex items-center justify-center mr-3 ${userAnswers[index] === i ? 'bg-sky-600 border-sky-600' : ''}">
+                                ${userAnswers[index] === i ? '<div class="w-2 h-2 rounded-full bg-white"></div>' : ''}
+                            </div>
+                            <span>${option}</span>
+                        </div>
+                    `;
+                    
+                    optionBtn.addEventListener('click', function() {
+                        selectOption(index, i);
+                    });
+                    
+                    optionsContainerEl.appendChild(optionBtn);
+                });
+                
+                // Update button states
+                prevBtn.disabled = index === 0;
+                prevBtn.classList.toggle('opacity-50', index === 0);
+                
+                if (index === quizData.length - 1) {
+                    nextBtn.textContent = 'Finish';
+                    nextBtn.innerHTML = 'Finish <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>';
+                } else {
+                    nextBtn.textContent = 'Next';
+                    nextBtn.innerHTML = 'Next <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>';
+                }
+            }
+            
+            // Select option
+            function selectOption(questionIndex, optionIndex) {
+                userAnswers[questionIndex] = optionIndex;
+                loadQuestion(questionIndex);
+                updateQuestionNav();
+            }
+            
+            // Navigation
+            prevBtn.addEventListener('click', function() {
+                if (currentQuestion > 0) {
+                    currentQuestion--;
+                    loadQuestion(currentQuestion);
+                    updateQuestionNav();
+                }
+            });
+            
+            nextBtn.addEventListener('click', function() {
+                if (currentQuestion < quizData.length - 1) {
+                    currentQuestion++;
+                    loadQuestion(currentQuestion);
+                    updateQuestionNav();
+                } else {
+                    finishQuiz();
+                }
+            });
+            
+            skipBtn.addEventListener('click', function() {
+                if (currentQuestion < quizData.length - 1) {
+                    currentQuestion++;
+                    loadQuestion(currentQuestion);
+                    updateQuestionNav();
+                } else {
+                    finishQuiz();
+                }
+            });
+            
+            // Timer
+            function startTimer() {
+                timerInterval = setInterval(function() {
+                    timeLeft--;
+                    
+                    const minutes = Math.floor(timeLeft / 60);
+                    const seconds = timeLeft % 60;
+                    
+                    timerEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                    
+                    if (timeLeft <= 300) { // 5 minutes left
+                        timerEl.classList.add('text-red-600', 'timer-warning');
+                    }
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        finishQuiz();
+                    }
+                }, 1000);
+            }
+            
+            // Finish quiz
+            function finishQuiz() {
+                clearInterval(timerInterval);
+                
+                // Calculate score
+                score = 0;
+                userAnswers.forEach((answer, index) => {
+                    if (answer === quizData[index].answer) {
+                        score++;
+                    }
+                });
+                
+                const scorePercentage = Math.round((score / quizData.length) * 100);
+                
+                // Calculate category scores
+                const categories = {
+                    "Prospecting": { correct: 0, total: 0 },
+                    "Closing": { correct: 0, total: 0 },
+                    "Negotiation": { correct: 0, total: 0 },
+                    "Communication": { correct: 0, total: 0 },
+                    "Follow-up": { correct: 0, total: 0 }
+                };
+                
+                quizData.forEach((question, index) => {
+                    const category = question.category;
+                    if (categories[category]) {
+                        categories[category].total++;
+                        if (userAnswers[index] === question.answer) {
+                            categories[category].correct++;
+                        }
+                    }
+                });
+                
+                // Calculate category percentages
+                const categoryScores = {};
+                for (const [category, data] of Object.entries(categories)) {
+                    if (data.total > 0) {
+                        categoryScores[category] = Math.round((data.correct / data.total) * 100);
+                    } else {
+                        categoryScores[category] = 0;
+                    }
+                }
+                
+                // Find strengths and areas for improvement
+                const strengths = [];
+                const improvements = [];
+                
+                for (const [category, percentage] of Object.entries(categoryScores)) {
+                    if (percentage >= 80) {
+                        strengths.push(`${category} (${percentage}% correct)`);
+                    } else if (percentage < 70) {
+                        improvements.push(`${category} (${percentage}% correct)`);
+                    }
+                }
+                
+                // Update results screen
+                document.getElementById('score-percentage').textContent = `${scorePercentage}%`;
+                document.getElementById('correct-answers').textContent = score;
+                
+                const minutes = Math.floor((25 * 60 - timeLeft) / 60);
+                const seconds = (25 * 60 - timeLeft) % 60;
+                document.getElementById('time-taken').textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                // Set result message based on score
+                const resultMessage = document.getElementById('result-message');
+                if (scorePercentage >= 80) {
+                    resultMessage.textContent = 'Excellent! You have strong sales skills.';
+                } else if (scorePercentage >= 60) {
+                    resultMessage.textContent = 'Good job! You have solid sales skills.';
+                } else {
+                    resultMessage.textContent = 'You have completed the assessment. There\'s room for improvement in your sales skills.';
+                }
+                
+                // Update strengths and improvements
+                const strengthsEl = document.getElementById('strengths');
+                strengthsEl.innerHTML = '';
+                
+                if (strengths.length > 0) {
+                    strengths.forEach(strength => {
+                        const div = document.createElement('div');
+                        div.className = 'flex items-start mb-2';
+                        div.innerHTML = `
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span>${strength}</span>
+                        `;
+                        strengthsEl.appendChild(div);
+                    });
+                } else {
+                    strengthsEl.innerHTML = '<p class="text-gray-500">Keep practicing to develop your sales strengths!</p>';
+                }
+                
+                const improvementsEl = document.getElementById('improvements');
+                improvementsEl.innerHTML = '';
+                
+                if (improvements.length > 0) {
+                    improvements.forEach(improvement => {
+                        const div = document.createElement('div');
+                        div.className = 'flex items-start mb-2';
+                        div.innerHTML = `
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                            <span>${improvement}</span>
+                        `;
+                        improvementsEl.appendChild(div);
+                    });
+                } else {
+                    improvementsEl.innerHTML = '<p class="text-gray-500">Great job! No significant areas for improvement.</p>';
+                }
+                
+                // Update skill bars
+                document.getElementById('prospecting-score').textContent = `${categoryScores.Prospecting}%`;
+                document.getElementById('prospecting-bar').style.width = `${categoryScores.Prospecting}%`;
+                
+                document.getElementById('closing-score').textContent = `${categoryScores.Closing}%`;
+                document.getElementById('closing-bar').style.width = `${categoryScores.Closing}%`;
+                
+                document.getElementById('negotiation-score').textContent = `${categoryScores.Negotiation}%`;
+                document.getElementById('negotiation-bar').style.width = `${categoryScores.Negotiation}%`;
+                
+                document.getElementById('communication-score').textContent = `${categoryScores.Communication}%`;
+                document.getElementById('communication-bar').style.width = `${categoryScores.Communication}%`;
+                
+                document.getElementById('followup-score').textContent = `${categoryScores["Follow-up"]}%`;
+                document.getElementById('followup-bar').style.width = `${categoryScores["Follow-up"]}%`;
+                
+                // Show results screen
+                quizScreen.classList.add('hidden');
+                resultsScreen.classList.remove('hidden');
+            }
+            
+            // Payment modal
+            paymentBtn.addEventListener('click', function() {
+                paymentModal.classList.remove('hidden');
+            });
+            
+            closePaymentBtn.addEventListener('click', function() {
+                paymentModal.classList.add('hidden');
+            });
+            
+            processPaymentBtn.addEventListener('click', function() {
+                paymentModal.classList.add('hidden');
+                resultsScreen.classList.add('hidden');
+                certificateScreen.classList.remove('hidden');
+                
+                // Set certificate details
+                const scorePercentage = Math.round((score / quizData.length) * 100);
+                document.getElementById('certificate-score').textContent = `${scorePercentage}%`;
+                
+                // Calculate category scores for certificate
+                const categories = {
+                    "Prospecting": { correct: 0, total: 0 },
+                    "Closing": { correct: 0, total: 0 },
+                    "Negotiation": { correct: 0, total: 0 },
+                    "Communication": { correct: 0, total: 0 },
+                    "Follow-up": { correct: 0, total: 0 }
+                };
+                
+                quizData.forEach((question, index) => {
+                    const category = question.category;
+                    if (categories[category]) {
+                        categories[category].total++;
+                        if (userAnswers[index] === question.answer) {
+                            categories[category].correct++;
+                        }
+                    }
+                });
+                
+                // Calculate category percentages for certificate
+                for (const [category, data] of Object.entries(categories)) {
+                    if (data.total > 0) {
+                        const percentage = Math.round((data.correct / data.total) * 100);
+                        const categoryId = category.toLowerCase().replace('-', '');
+                        document.getElementById(`cert-${categoryId}`).textContent = `${percentage}%`;
+                    } else {
+                        const categoryId = category.toLowerCase().replace('-', '');
+                        document.getElementById(`cert-${categoryId}`).textContent = '0%';
+                    }
+                }
+                
+                const today = new Date();
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                document.getElementById('certificate-date').textContent = today.toLocaleDateString('en-US', options);
+                
+                document.getElementById('certificate-id').textContent = `ID: SALES-${today.getFullYear()}-${Math.floor(10000 + Math.random() * 90000)}`;
+                
+                // Create confetti effect
+                createConfetti();
+            });
+            
+            // Create confetti effect
+            function createConfetti() {
+                const confettiContainer = document.getElementById('confetti-container');
+                const colors = ['#0ea5e9', '#38bdf8', '#7dd3fc', '#bae6fd', '#ffffff'];
+                
+                for (let i = 0; i < 150; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = `${Math.random() * 100}%`;
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.width = `${Math.random() * 10 + 5}px`;
+                    confetti.style.height = `${Math.random() * 10 + 5}px`;
+                    confetti.style.opacity = '1';
+                    confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
+                    confetti.style.animationDelay = `${Math.random() * 2}s`;
+                    
+                    confettiContainer.appendChild(confetti);
+                }
+            }
+            
+            // Certificate actions
+            downloadBtn.addEventListener('click', function() {
+                alert('Certificate download started! (This is a demo feature)');
+            });
+            
+            shareBtn.addEventListener('click', function() {
+                alert('Share options opened! (This is a demo feature)');
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'965d3fe640c285fa',t:'MTc1MzYzMDk3Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

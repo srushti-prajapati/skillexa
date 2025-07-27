@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conflict Resolution Skills Assessment</title>
+    <title>Emotional Intelligence Skills Assessment</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
+            background: linear-gradient(135deg, #f5f7ff 0%, #e6f0ff 100%);
         }
         .progress-bar {
             transition: width 0.5s ease-in-out;
@@ -27,11 +27,11 @@
         }
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.2);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
         }
         .certificate {
             background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
-            border: 2px solid #4f46e5;
+            border: 2px solid #6366f1;
             position: relative;
             overflow: hidden;
         }
@@ -42,7 +42,7 @@
             left: -50px;
             width: 100px;
             height: 100px;
-            background: rgba(79, 70, 229, 0.1);
+            background: rgba(99, 102, 241, 0.1);
             border-radius: 50%;
         }
         .certificate::after {
@@ -52,7 +52,7 @@
             right: -50px;
             width: 100px;
             height: 100px;
-            background: rgba(79, 70, 229, 0.1);
+            background: rgba(99, 102, 241, 0.1);
             border-radius: 50%;
         }
         @keyframes float {
@@ -86,22 +86,29 @@
             opacity: 0;
             z-index: 1000;
         }
-        .conflict-icon {
+        .eq-icon {
             transition: all 0.3s ease;
         }
-        .conflict-icon:hover {
+        .eq-icon:hover {
             transform: scale(1.1);
         }
         .timer-warning {
             animation: pulse 1s infinite;
         }
-        .conflict-pulse {
-            animation: pulse 3s infinite;
+        .brain-waves path {
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: dash 3s linear infinite;
         }
-        .conflict-bubble {
+        @keyframes dash {
+            to {
+                stroke-dashoffset: -100;
+            }
+        }
+        .emotion-bubble {
             transition: all 0.3s ease;
         }
-        .conflict-bubble:hover {
+        .emotion-bubble:hover {
             transform: scale(1.1);
         }
         .wave {
@@ -110,76 +117,9 @@
             left: 0;
             width: 100%;
             height: 100px;
-            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg"><path fill="%234f46e5" fill-opacity="0.1" d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg"><path fill="%236366f1" fill-opacity="0.1" d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
             background-size: cover;
             background-repeat: no-repeat;
-        }
-        .rotating-icon {
-            animation: rotate 20s linear infinite;
-        }
-        .rotating-icon-reverse {
-            animation: rotate-reverse 15s linear infinite;
-        }
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        @keyframes rotate-reverse {
-            from { transform: rotate(360deg); }
-            to { transform: rotate(0deg); }
-        }
-        .tick-mark {
-            stroke-dasharray: 100;
-            stroke-dashoffset: 100;
-            animation: draw 0.5s forwards;
-        }
-        @keyframes draw {
-            to {
-                stroke-dashoffset: 0;
-            }
-        }
-        .conflict-path {
-            stroke-dasharray: 1000;
-            stroke-dashoffset: 1000;
-            animation: draw-conflict 3s forwards;
-        }
-        @keyframes draw-conflict {
-            to {
-                stroke-dashoffset: 0;
-            }
-        }
-        .person {
-            animation: person-pulse 2s infinite alternate;
-        }
-        @keyframes person-pulse {
-            from { opacity: 0.7; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1.05); }
-        }
-        .connection {
-            stroke-dasharray: 100;
-            stroke-dashoffset: 100;
-            animation: draw-connection 2s forwards;
-        }
-        @keyframes draw-connection {
-            to {
-                stroke-dashoffset: 0;
-            }
-        }
-        .strategy-piece {
-            transition: all 0.3s ease;
-        }
-        .strategy-piece:hover {
-            transform: translateY(-5px);
-        }
-        .handshake-animation {
-            animation: handshake 2s infinite;
-        }
-        @keyframes handshake {
-            0% { transform: rotate(0deg); }
-            25% { transform: rotate(5deg); }
-            50% { transform: rotate(0deg); }
-            75% { transform: rotate(-5deg); }
-            100% { transform: rotate(0deg); }
         }
     </style>
 </head>
@@ -189,73 +129,61 @@
         <div id="welcome-screen" class="flex flex-col items-center justify-center py-10">
             <div class="float mb-6">
                 <svg class="w-32 h-32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Conflict resolution illustration -->
                     <circle cx="50" cy="50" r="48" fill="#6366f1" fill-opacity="0.1"/>
-                    
-                    <!-- Person 1 -->
-                    <circle class="person" cx="30" cy="40" r="10" fill="#6366f1" fill-opacity="0.2" stroke="#6366f1" stroke-width="1.5" style="animation-delay: 0s"/>
-                    <circle cx="30" cy="40" r="3" fill="#6366f1"/>
-                    <path d="M25 48 L30 45 L35 48" stroke="#6366f1" stroke-width="1.5" fill="none"/>
-                    
-                    <!-- Person 2 -->
-                    <circle class="person" cx="70" cy="40" r="10" fill="#6366f1" fill-opacity="0.2" stroke="#6366f1" stroke-width="1.5" style="animation-delay: 0.5s"/>
-                    <circle cx="70" cy="40" r="3" fill="#6366f1"/>
-                    <path d="M65 48 L70 45 L75 48" stroke="#6366f1" stroke-width="1.5" fill="none"/>
-                    
-                    <!-- Conflict symbols -->
-                    <path class="conflict-path" d="M40 35 L60 45" stroke="#ef4444" stroke-width="2" stroke-dasharray="4 2" fill="none"/>
-                    <path class="conflict-path" d="M40 45 L60 35" stroke="#ef4444" stroke-width="2" stroke-dasharray="4 2" fill="none" style="animation-delay: 0.3s"/>
-                    
-                    <!-- Resolution symbol -->
-                    <circle class="conflict-pulse" cx="50" cy="65" r="15" fill="#10b981" fill-opacity="0.2" stroke="#10b981" stroke-width="1.5"/>
-                    <path class="handshake-animation" d="M40 65 L45 60 L50 65 L55 60 L60 65" stroke="#10b981" stroke-width="2" fill="none"/>
-                    
-                    <!-- Connections -->
-                    <path class="connection" d="M30 50 L50 65" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="2 2" style="animation-delay: 0.6s"/>
-                    <path class="connection" d="M70 50 L50 65" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="2 2" style="animation-delay: 0.9s"/>
+                    <path d="M50 20C35 20 25 35 25 50C25 65 35 80 50 80C65 80 75 65 75 50C75 35 65 20 50 20Z" stroke="#6366f1" stroke-width="2" fill="none"/>
+                    <path class="brain-waves" d="M30 50C35 45 40 55 45 50C50 45 55 55 60 50C65 45 70 55 75 50" stroke="#6366f1" stroke-width="2" fill="none" stroke-linecap="round"/>
+                    <circle cx="40" cy="40" r="5" fill="#6366f1" fill-opacity="0.5"/>
+                    <circle cx="60" cy="40" r="5" fill="#6366f1" fill-opacity="0.5"/>
+                    <path d="M40 60 Q50 70 60 60" stroke="#6366f1" stroke-width="2" fill="none" stroke-linecap="round"/>
                 </svg>
             </div>
-            <h1 class="text-4xl font-bold text-gray-800 mb-4 text-center">Conflict Resolution Skills Assessment</h1>
-            <p class="text-lg text-gray-600 mb-8 text-center max-w-2xl">Evaluate your conflict resolution abilities with our comprehensive assessment. Complete 15 questions to receive personalized feedback and a certificate.</p>
+            <h1 class="text-4xl font-bold text-gray-800 mb-4 text-center">Emotional Intelligence Skills Assessment</h1>
+            <p class="text-lg text-gray-600 mb-8 text-center max-w-2xl">Evaluate your emotional intelligence with our comprehensive assessment. Complete 15 questions to receive personalized feedback and a certificate.</p>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl mb-10">
                 <div class="card bg-white p-6 rounded-xl shadow-lg">
                     <div class="flex items-center justify-center mb-4 text-indigo-600">
-                        <svg class="w-12 h-12 conflict-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 8V16M8 12H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                        <svg class="w-12 h-12 eq-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8 14C8 14 9.5 16 12 16C14.5 16 16 14 16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M9 9H9.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M15 9H15.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2 text-center">Communication</h3>
-                    <p class="text-gray-600 text-center">Express ideas clearly and listen actively to others.</p>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2 text-center">Self-Awareness</h3>
+                    <p class="text-gray-600 text-center">Understand your emotions and their impact on your thoughts and behavior.</p>
                 </div>
                 
                 <div class="card bg-white p-6 rounded-xl shadow-lg">
                     <div class="flex items-center justify-center mb-4 text-indigo-600">
-                        <svg class="w-12 h-12 conflict-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 4v16m-8-8h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <svg class="w-12 h-12 eq-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 4H3C1.89543 4 1 4.89543 1 6V18C1 19.1046 1.89543 20 3 20H21C22.1046 20 23 19.1046 23 18V6C23 4.89543 22.1046 4 21 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M7 12C8.10457 12 9 11.1046 9 10C9 8.89543 8.10457 8 7 8C5.89543 8 5 8.89543 5 10C5 11.1046 5.89543 12 7 12Z" stroke="currentColor" stroke-width="2"/>
+                            <path d="M17 12C18.1046 12 19 11.1046 19 10C19 8.89543 18.1046 8 17 8C15.8954 8 15 8.89543 15 10C15 11.1046 15.8954 12 17 12Z" stroke="currentColor" stroke-width="2"/>
+                            <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="2"/>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2 text-center">Negotiation</h3>
-                    <p class="text-gray-600 text-center">Find mutually beneficial solutions through compromise.</p>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2 text-center">Social Skills</h3>
+                    <p class="text-gray-600 text-center">Navigate social complexities and build strong relationships with others.</p>
                 </div>
                 
                 <div class="card bg-white p-6 rounded-xl shadow-lg">
                     <div class="flex items-center justify-center mb-4 text-indigo-600">
-                        <svg class="w-12 h-12 conflict-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3.34 11a10.07 10.07 0 0 0 0 2h1.53c.14 1.37.43 2.2.82 2.76.19.29.44.58.75.84.31.26.72.49 1.19.7.94.38 2.1.73 3.37.98v1.57c0 .36.97.82 2 .82s2-.46 2-.82v-1.57c1.27-.25 2.43-.6 3.37-.98.47-.21.88-.44 1.19-.7.31-.26.56-.55.75-.84.39-.56.68-1.39.82-2.76h1.53c.16-.64.21-1.32.14-2h-1.67c-.14-1.37-.43-2.2-.82-2.76-.19-.29-.44-.58-.75-.84-.31-.26-.72-.49-1.19-.7C16.43 6.32 15.27 6 14 5.76V4.19c0-.36-.97-.82-2-.82s-2 .46-2 .82v1.57c-1.27.25-2.43.6-3.37.98-.47.21-.88.44-1.19.7-.31.26-.56.55-.75.84-.39.56-.68 1.39-.82 2.76H2.21c-.07.68-.02 1.36.14 2h.99zm1.62 0h3.34c.17 1.37.53 2.55 1.06 3.4.22.35.47.66.73.92.25.26.5.46.73.6.71.42 1.63.76 2.79.98.11.02.23.04.34.05.34.05.68.08 1.03.08.35 0 .69-.03 1.03-.08.11-.01.23-.03.34-.05 1.16-.22 2.08-.56 2.79-.98.23-.14.48-.34.73-.6.26-.26.51-.57.73-.92.53-.85.89-2.03 1.06-3.4h3.34c.08-.66.08-1.33 0-2H18.6c-.17-1.37-.53-2.55-1.06-3.4-.22-.35-.47-.66-.73-.92-.25-.26-.5-.46-.73-.6-.71-.42-1.63-.76-2.79-.98-.11-.02-.23-.04-.34-.05-.34-.05-.68-.08-1.03-.08-.35 0-.69.03-1.03.08-.11.01-.23.03-.34.05-1.16.22-2.08.56-2.79.98-.23.14-.48.34-.73.6-.26.26-.51.57-.73.92-.53.85-.89 2.03-1.06 3.4H3.36c-.08.66-.08 1.33 0 2z" fill="currentColor"/>
+                        <svg class="w-12 h-12 eq-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M19.4 15C19.2669 15.3016 19.2272 15.6362 19.286 15.9606C19.3448 16.285 19.4995 16.5843 19.73 16.82L19.79 16.88C19.976 17.0657 20.1235 17.2863 20.2241 17.5291C20.3248 17.7719 20.3766 18.0322 20.3766 18.295C20.3766 18.5578 20.3248 18.8181 20.2241 19.0609C20.1235 19.3037 19.976 19.5243 19.79 19.71C19.6043 19.896 19.3837 20.0435 19.1409 20.1441C18.8981 20.2448 18.6378 20.2966 18.375 20.2966C18.1122 20.2966 17.8519 20.2448 17.6091 20.1441C17.3663 20.0435 17.1457 19.896 16.96 19.71L16.9 19.65C16.6643 19.4195 16.365 19.2648 16.0406 19.206C15.7162 19.1472 15.3816 19.1869 15.08 19.32C14.7842 19.4468 14.532 19.6572 14.3543 19.9255C14.1766 20.1938 14.0813 20.5082 14.08 20.83V21C14.08 21.5304 13.8693 22.0391 13.4942 22.4142C13.1191 22.7893 12.6104 23 12.08 23C11.5496 23 11.0409 22.7893 10.6658 22.4142C10.2907 22.0391 10.08 21.5304 10.08 21V20.91C10.0723 20.579 9.96512 20.258 9.77251 19.9887C9.5799 19.7194 9.31074 19.5143 9 19.4C8.69838 19.2669 8.36381 19.2272 8.03941 19.286C7.71502 19.3448 7.41568 19.4995 7.18 19.73L7.12 19.79C6.93425 19.976 6.71368 20.1235 6.47088 20.2241C6.22808 20.3248 5.96783 20.3766 5.705 20.3766C5.44217 20.3766 5.18192 20.3248 4.93912 20.2241C4.69632 20.1235 4.47575 19.976 4.29 19.79C4.10405 19.6043 3.95653 19.3837 3.85588 19.1409C3.75523 18.8981 3.70343 18.6378 3.70343 18.375C3.70343 18.1122 3.75523 17.8519 3.85588 17.6091C3.95653 17.3663 4.10405 17.1457 4.29 16.96L4.35 16.9C4.58054 16.6643 4.73519 16.365 4.794 16.0406C4.85282 15.7162 4.81312 15.3816 4.68 15.08C4.55324 14.7842 4.34276 14.532 4.07447 14.3543C3.80618 14.1766 3.49179 14.0813 3.17 14.08H3C2.46957 14.08 1.96086 13.8693 1.58579 13.4942C1.21071 13.1191 1 12.6104 1 12.08C1 11.5496 1.21071 11.0409 1.58579 10.6658C1.96086 10.2907 2.46957 10.08 3 10.08H3.09C3.42099 10.0723 3.742 9.96512 4.0113 9.77251C4.28059 9.5799 4.48572 9.31074 4.6 9C4.73312 8.69838 4.77282 8.36381 4.714 8.03941C4.65519 7.71502 4.50054 7.41568 4.27 7.18L4.21 7.12C4.02405 6.93425 3.87653 6.71368 3.77588 6.47088C3.67523 6.22808 3.62343 5.96783 3.62343 5.705C3.62343 5.44217 3.67523 5.18192 3.77588 4.93912C3.87653 4.69632 4.02405 4.47575 4.21 4.29C4.39575 4.10405 4.61632 3.95653 4.85912 3.85588C5.10192 3.75523 5.36217 3.70343 5.625 3.70343C5.88783 3.70343 6.14808 3.75523 6.39088 3.85588C6.63368 3.95653 6.85425 4.10405 7.04 4.29L7.1 4.35C7.33568 4.58054 7.63502 4.73519 7.95941 4.794C8.28381 4.85282 8.61838 4.81312 8.92 4.68H9C9.29577 4.55324 9.54802 4.34276 9.72569 4.07447C9.90337 3.80618 9.99872 3.49179 10 3.17V3C10 2.46957 10.2107 1.96086 10.5858 1.58579C10.9609 1.21071 11.4696 1 12 1C12.5304 1 13.0391 1.21071 13.4142 1.58579C13.7893 1.96086 14 2.46957 14 3V3.09C14.0013 3.41179 14.0966 3.72618 14.2743 3.99447C14.452 4.26276 14.7042 4.47324 15 4.6C15.3016 4.73312 15.6362 4.77282 15.9606 4.714C16.285 4.65519 16.5843 4.50054 16.82 4.27L16.88 4.21C17.0657 4.02405 17.2863 3.87653 17.5291 3.77588C17.7719 3.67523 18.0322 3.62343 18.295 3.62343C18.5578 3.62343 18.8181 3.67523 19.0609 3.77588C19.3037 3.87653 19.5243 4.02405 19.71 4.21C19.896 4.39575 20.0435 4.61632 20.1441 4.85912C20.2448 5.10192 20.2966 5.36217 20.2966 5.625C20.2966 5.88783 20.2448 6.14808 20.1441 6.39088C20.0435 6.63368 19.896 6.85425 19.71 7.04L19.65 7.1C19.4195 7.33568 19.2648 7.63502 19.206 7.95941C19.1472 8.28381 19.1869 8.61838 19.32 8.92V9C19.4468 9.29577 19.6572 9.54802 19.9255 9.72569C20.1938 9.90337 20.5082 9.99872 20.83 10H21C21.5304 10 22.0391 10.2107 22.4142 10.5858C22.7893 10.9609 23 11.4696 23 12C23 12.5304 22.7893 13.0391 22.4142 13.4142C22.0391 13.7893 21.5304 14 21 14H20.91C20.5882 14.0013 20.2738 14.0966 20.0055 14.2743C19.7372 14.452 19.5268 14.7042 19.4 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2 text-center">Emotional Intelligence</h3>
-                    <p class="text-gray-600 text-center">Recognize and manage emotions in yourself and others.</p>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2 text-center">Emotional Regulation</h3>
+                    <p class="text-gray-600 text-center">Manage your emotions effectively in challenging situations.</p>
                 </div>
             </div>
             
             <div class="relative w-full max-w-4xl mb-10 bg-white rounded-xl shadow-lg p-8 overflow-hidden">
                 <div class="flex flex-wrap md:flex-nowrap items-center">
                     <div class="w-full md:w-1/2 mb-6 md:mb-0 md:pr-6">
-                        <h3 class="text-2xl font-semibold text-gray-800 mb-3">Why Conflict Resolution Matters</h3>
-                        <p class="text-gray-600 mb-4">Effective conflict resolution skills are essential in both personal and professional settings. They help you:</p>
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-3">Why Emotional Intelligence Matters</h3>
+                        <p class="text-gray-600 mb-4">Emotional intelligence is crucial for personal and professional success. It helps you:</p>
                         <ul class="space-y-2">
                             <li class="flex items-start">
                                 <svg class="w-5 h-5 text-indigo-600 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -267,43 +195,35 @@
                                 <svg class="w-5 h-5 text-indigo-600 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                 </svg>
-                                <span class="text-gray-700">Create more productive work environments</span>
+                                <span class="text-gray-700">Make better decisions under pressure</span>
                             </li>
                             <li class="flex items-start">
                                 <svg class="w-5 h-5 text-indigo-600 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                 </svg>
-                                <span class="text-gray-700">Reduce stress and anxiety</span>
+                                <span class="text-gray-700">Navigate conflicts effectively</span>
                             </li>
                             <li class="flex items-start">
                                 <svg class="w-5 h-5 text-indigo-600 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                 </svg>
-                                <span class="text-gray-700">Transform challenges into opportunities for growth</span>
+                                <span class="text-gray-700">Enhance leadership capabilities</span>
                             </li>
                         </ul>
                     </div>
                     <div class="w-full md:w-1/2 flex justify-center">
                         <div class="grid grid-cols-2 gap-4">
-                            <div class="strategy-piece bg-indigo-100 rounded-xl w-24 h-24 flex items-center justify-center">
-                                <svg class="w-12 h-12 text-indigo-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
+                            <div class="emotion-bubble bg-indigo-100 rounded-full w-24 h-24 flex items-center justify-center">
+                                <span class="text-4xl">😊</span>
                             </div>
-                            <div class="strategy-piece bg-indigo-100 rounded-xl w-24 h-24 flex items-center justify-center mt-6">
-                                <svg class="w-12 h-12 text-indigo-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 012-2h10a2 2 0 012 2v14a2 2 0 01-2 2H7a2 2 0 01-2-2V5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
+                            <div class="emotion-bubble bg-indigo-100 rounded-full w-24 h-24 flex items-center justify-center mt-6">
+                                <span class="text-4xl">🤔</span>
                             </div>
-                            <div class="strategy-piece bg-indigo-100 rounded-xl w-24 h-24 flex items-center justify-center">
-                                <svg class="w-12 h-12 text-indigo-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
+                            <div class="emotion-bubble bg-indigo-100 rounded-full w-24 h-24 flex items-center justify-center">
+                                <span class="text-4xl">😌</span>
                             </div>
-                            <div class="strategy-piece bg-indigo-100 rounded-xl w-24 h-24 flex items-center justify-center mt-6">
-                                <svg class="w-12 h-12 text-indigo-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
+                            <div class="emotion-bubble bg-indigo-100 rounded-full w-24 h-24 flex items-center justify-center mt-6">
+                                <span class="text-4xl">🧠</span>
                             </div>
                         </div>
                     </div>
@@ -319,7 +239,7 @@
         <!-- User Info Form -->
         <div id="user-info-screen" class="hidden max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-8">
             <h2 class="text-2xl font-bold text-gray-800 mb-6">Before we begin</h2>
-            <p class="text-gray-600 mb-6">Please provide your information for your conflict resolution certificate:</p>
+            <p class="text-gray-600 mb-6">Please provide your information for your emotional intelligence certificate:</p>
             
             <form id="user-form" class="space-y-4">
                 <div>
@@ -349,7 +269,7 @@
         <div id="assessment-screen" class="hidden">
             <div class="mb-6 flex items-center justify-between">
                 <div>
-                    <h2 class="text-2xl font-bold text-gray-800">Conflict Resolution Assessment</h2>
+                    <h2 class="text-2xl font-bold text-gray-800">Emotional Intelligence Assessment</h2>
                     <p class="text-gray-600">Question <span id="current-question">1</span> of 15</p>
                 </div>
                 <div class="bg-white px-4 py-2 rounded-lg shadow flex items-center">
@@ -389,68 +309,68 @@
                     <div class="relative">
                         <svg class="w-32 h-32" viewBox="0 0 100 100">
                             <circle cx="50" cy="50" r="45" fill="#f3f4f6" stroke="#e5e7eb" stroke-width="2"></circle>
-                            <circle id="score-circle" cx="50" cy="50" r="45" fill="none" stroke="#4f46e5" stroke-width="8" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="42"></circle>
-                            <text id="score-text" x="50" y="50" font-size="20" text-anchor="middle" alignment-baseline="middle" font-weight="bold" fill="#4f46e5">85%</text>
+                            <circle id="score-circle" cx="50" cy="50" r="45" fill="none" stroke="#6366f1" stroke-width="8" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="42"></circle>
+                            <text id="score-text" x="50" y="50" font-size="20" text-anchor="middle" alignment-baseline="middle" font-weight="bold" fill="#6366f1">85%</text>
                         </svg>
                     </div>
                 </div>
                 
-                <h2 class="text-2xl font-bold text-gray-800 text-center mb-2">Conflict Resolution Assessment Complete!</h2>
-                <p class="text-gray-600 text-center mb-6">Here's how you performed in your conflict resolution assessment.</p>
+                <h2 class="text-2xl font-bold text-gray-800 text-center mb-2">Emotional Intelligence Assessment Complete!</h2>
+                <p class="text-gray-600 text-center mb-6">Here's how you performed in your emotional intelligence assessment.</p>
                 
                 <div class="space-y-4 mb-8">
                     <div>
                         <div class="flex justify-between mb-1">
-                            <span class="text-sm font-medium text-gray-700">Communication</span>
-                            <span id="communication-score" class="text-sm font-medium text-indigo-600">80%</span>
+                            <span class="text-sm font-medium text-gray-700">Self-Awareness</span>
+                            <span id="self-awareness-score" class="text-sm font-medium text-indigo-600">80%</span>
                         </div>
                         <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div id="communication-bar" class="bg-indigo-600 h-2 rounded-full" style="width: 80%"></div>
+                            <div id="self-awareness-bar" class="bg-indigo-600 h-2 rounded-full" style="width: 80%"></div>
                         </div>
                     </div>
                     
                     <div>
                         <div class="flex justify-between mb-1">
-                            <span class="text-sm font-medium text-gray-700">Negotiation</span>
-                            <span id="negotiation-score" class="text-sm font-medium text-indigo-600">90%</span>
+                            <span class="text-sm font-medium text-gray-700">Social Awareness</span>
+                            <span id="social-awareness-score" class="text-sm font-medium text-indigo-600">90%</span>
                         </div>
                         <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div id="negotiation-bar" class="bg-indigo-600 h-2 rounded-full" style="width: 90%"></div>
+                            <div id="social-awareness-bar" class="bg-indigo-600 h-2 rounded-full" style="width: 90%"></div>
                         </div>
                     </div>
                     
                     <div>
                         <div class="flex justify-between mb-1">
-                            <span class="text-sm font-medium text-gray-700">Emotional Intelligence</span>
-                            <span id="emotional-score" class="text-sm font-medium text-indigo-600">85%</span>
+                            <span class="text-sm font-medium text-gray-700">Self-Management</span>
+                            <span id="self-management-score" class="text-sm font-medium text-indigo-600">85%</span>
                         </div>
                         <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div id="emotional-bar" class="bg-indigo-600 h-2 rounded-full" style="width: 85%"></div>
+                            <div id="self-management-bar" class="bg-indigo-600 h-2 rounded-full" style="width: 85%"></div>
                         </div>
                     </div>
                     
                     <div>
                         <div class="flex justify-between mb-1">
-                            <span class="text-sm font-medium text-gray-700">Problem Solving</span>
-                            <span id="problem-score" class="text-sm font-medium text-indigo-600">75%</span>
+                            <span class="text-sm font-medium text-gray-700">Relationship Management</span>
+                            <span id="relationship-score" class="text-sm font-medium text-indigo-600">75%</span>
                         </div>
                         <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div id="problem-bar" class="bg-indigo-600 h-2 rounded-full" style="width: 75%"></div>
+                            <div id="relationship-bar" class="bg-indigo-600 h-2 rounded-full" style="width: 75%"></div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="bg-indigo-50 rounded-lg p-6 mb-6">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Your Conflict Resolution Profile</h3>
-                    <p id="conflict-style" class="text-gray-700 font-medium mb-3">Collaborative Mediator</p>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Your Emotional Intelligence Profile</h3>
+                    <p id="eq-style" class="text-gray-700 font-medium mb-3">Empathetic Communicator</p>
                     <p id="feedback-text" class="text-gray-700">
-                        You demonstrate strong conflict resolution skills with excellent communication abilities. Your negotiation skills are well-developed, and you can effectively manage emotions during difficult conversations. Your problem-solving approach could be enhanced by developing more structured strategies for addressing complex conflicts. Overall, you have a solid foundation in conflict resolution that serves you well in both personal and professional contexts.
+                        You demonstrate strong emotional intelligence with excellent social awareness abilities. Your self-awareness is well-developed, and you manage your emotions effectively in most situations. Your relationship management skills could be enhanced by developing more strategies for navigating complex interpersonal dynamics. Overall, you have a solid foundation in emotional intelligence that serves you well in both personal and professional contexts.
                     </p>
                 </div>
                 
                 <div class="text-center">
                     <button id="get-certificate-btn" class="btn-primary text-white font-semibold py-3 px-8 rounded-full">
-                        Get Your Conflict Resolution Certificate
+                        Get Your Emotional Intelligence Certificate
                     </button>
                 </div>
             </div>
@@ -459,7 +379,7 @@
         <!-- Payment Screen -->
         <div id="payment-screen" class="hidden max-w-2xl mx-auto">
             <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Get Your Conflict Resolution Certificate</h2>
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Get Your Emotional Intelligence Certificate</h2>
                 
                 <div class="flex justify-center mb-8">
                     <div class="relative w-64 h-40 bg-indigo-50 rounded-lg flex items-center justify-center border-2 border-dashed border-indigo-200 pulse">
@@ -478,7 +398,7 @@
                 
                 <div class="bg-gray-50 rounded-lg p-6 mb-6">
                     <div class="flex justify-between items-center mb-4">
-                        <span class="text-gray-700 font-medium">Conflict Resolution Certificate</span>
+                        <span class="text-gray-700 font-medium">Emotional Intelligence Certificate</span>
                         <span class="text-indigo-600 font-bold">$9.99</span>
                     </div>
                     <ul class="space-y-2 mb-4">
@@ -486,7 +406,7 @@
                             <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                             </svg>
-                            Personalized conflict resolution certificate
+                            Personalized emotional intelligence certificate
                         </li>
                         <li class="flex items-center text-sm text-gray-600">
                             <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -498,7 +418,7 @@
                             <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                             </svg>
-                            Detailed conflict resolution profile
+                            Detailed emotional intelligence profile
                         </li>
                         <li class="flex items-center text-sm text-gray-600">
                             <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -558,98 +478,68 @@
                 </div>
             </div>
         </div>
-<script>
-  // TESTING ONLY — remove in production
-  localStorage.setItem("username", "Jane Doe");
-  localStorage.setItem("coursename", "Conflict Resolution");
-
-  const canvas = document.getElementById("certificateCanvas");
-  const ctx = canvas.getContext("2d");
-  ...
-</script>
 
         <!-- Certificate Screen -->
         <div id="certificate-screen" class="hidden">
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Skillexa Certificate</title>
-  <style>
-    body {
-      text-align: center;
-      background: #f5f5f5;
-      font-family: 'Segoe UI', sans-serif;
-    }
-    canvas {
-      max-width: 100%;
-      border: 1px solid #ccc;
-      margin-top: 20px;
-    }
-    button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 16px;
-      background: #4b2aad;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-  </style>
-</head>
-<body>
-
-  <h2>🎓 Your Skillexa Certificate</h2>
-  <canvas id="certificateCanvas" width="1200" height="848"></canvas>
-  <button onclick="downloadCertificate()">Download as PNG</button>
-
-  <script>
-    // Get user info from localStorage
-    const userName = localStorage.getItem("username") || "Your Full Name";
-    const skillName = localStorage.getItem("coursename") || "Your Skill Name";
-    const certID = "SKX-" + Math.floor(100000 + Math.random() * 900000);
-    const today = new Date().toLocaleDateString();
-
-    const canvas = document.getElementById("certificateCanvas");
-    const ctx = canvas.getContext("2d");
-
-    const image = new Image();
-    image.src = "assets/images/skillex_certificate.jpg"; // ✅ Replace with your actual image path
-
-    image.onload = () => {
-      // Draw certificate background
-      ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-
-      // Draw user name
-      ctx.font = "bold 36px Georgia";
-      ctx.fillStyle = "#000";
-      ctx.textAlign = "center";
-      ctx.fillText(userName, canvas.width / 2, 405); // Adjust Y as needed
-
-      // Draw skill name
-      ctx.font = "italic 28px Georgia";
-      ctx.fillText(skillName, canvas.width / 2, 500);
-
-      // Draw date and certificate ID
-      ctx.font = "20px Arial";
-      ctx.textAlign = "left";
-      ctx.fillText(`Date: ${today}`, 90, 740);
-      ctx.fillText(`Certificate ID: ${certID}`, 90, 770);
-    };
-
-    // Download function
-    function downloadCertificate() {
-      const link = document.createElement('a');
-      link.download = `${userName}-certificate.png`;
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-    }
-  </script>
-
-</body>
-</html>
-
+            <div class="max-w-4xl mx-auto">
+                <div class="certificate p-10 rounded-xl shadow-lg mb-8 relative">
+                    <div class="absolute top-5 left-5">
+                        <svg class="w-16 h-16" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="48" fill="#6366f1" fill-opacity="0.1"/>
+                            <path d="M50 20C35 20 25 35 25 50C25 65 35 80 50 80C65 80 75 65 75 50C75 35 65 20 50 20Z" stroke="#6366f1" stroke-width="2" fill="none"/>
+                            <path d="M30 50C35 45 40 55 45 50C50 45 55 55 60 50C65 45 70 55 75 50" stroke="#6366f1" stroke-width="2" fill="none" stroke-linecap="round"/>
+                            <circle cx="40" cy="40" r="5" fill="#6366f1" fill-opacity="0.5"/>
+                            <circle cx="60" cy="40" r="5" fill="#6366f1" fill-opacity="0.5"/>
+                            <path d="M40 60 Q50 70 60 60" stroke="#6366f1" stroke-width="2" fill="none" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    
+                    <div class="text-center mb-8 pt-8">
+                        <h2 class="text-3xl font-bold text-indigo-800 mb-2">Certificate of Emotional Intelligence</h2>
+                        <div class="h-1 w-32 bg-indigo-600 mx-auto mb-2"></div>
+                        <p class="text-gray-600">Emotional Intelligence Skills Assessment</p>
+                    </div>
+                    
+                    <div class="text-center mb-8">
+                        <p class="text-lg text-gray-700 mb-2">This certifies that</p>
+                        <h3 id="cert-name" class="text-2xl font-bold text-gray-800 mb-2">John Doe</h3>
+                        <p class="text-lg text-gray-700">has successfully completed the Emotional Intelligence Skills Assessment</p>
+                        <p class="text-lg text-gray-700 mb-2">with a score of <span id="cert-score" class="font-bold text-indigo-700">85%</span></p>
+                        <p class="text-md text-gray-600">EQ Profile: <span id="cert-style" class="font-semibold">Empathetic Communicator</span></p>
+                    </div>
+                    
+                    <div class="flex justify-between items-center mb-4">
+                        <div>
+                            <p id="cert-date" class="text-gray-600">June 15, 2023</p>
+                            <p id="cert-id" class="text-gray-500 text-sm">Certificate ID: EQ-2023-78945</p>
+                        </div>
+                        <div>
+                            <svg class="w-32 h-12" viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10,20 Q30,5 50,20 T90,20" stroke="#6366f1" stroke-width="2" fill="none" />
+                                <text x="50" y="25" font-family="cursive" font-size="8" text-anchor="middle" fill="#6366f1">EQ Academy</text>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <div class="seal">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="#6366f1" stroke-width="2" />
+                            <circle cx="50" cy="50" r="40" fill="none" stroke="#6366f1" stroke-width="1" />
+                            <path d="M50,10 L53,20 L63,20 L55,27 L58,37 L50,31 L42,37 L45,27 L37,20 L47,20 Z" fill="#6366f1" />
+                            <text x="50" y="60" font-size="8" text-anchor="middle" fill="#6366f1">CERTIFIED</text>
+                            <text x="50" y="70" font-size="6" text-anchor="middle" fill="#6366f1">EQ MASTER</text>
+                        </svg>
+                    </div>
+                    
+                    <div class="absolute bottom-5 left-5 opacity-30">
+                        <svg class="w-24 h-24" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="40" stroke="#6366f1" stroke-width="1" stroke-dasharray="5 5"/>
+                            <path d="M30,50 L70,50 M50,30 L50,70" stroke="#6366f1" stroke-width="1"/>
+                            <circle cx="50" cy="50" r="20" stroke="#6366f1" stroke-width="1"/>
+                        </svg>
+                    </div>
+                </div>
+                
                 <div class="flex flex-wrap justify-center gap-4">
                     <button id="download-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg flex items-center">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -679,178 +569,178 @@
             // Assessment questions
             const questions = [
                 {
-                    question: "A colleague consistently interrupts you during team meetings. How would you address this issue?",
+                    question: "When you're feeling stressed or overwhelmed, what do you typically do?",
                     options: [
-                        "Speak with them privately about how their interruptions affect you and ask for their perspective",
-                        "Interrupt them back during the next meeting to show them how it feels",
-                        "Complain to your manager about their behavior",
-                        "Avoid sharing ideas in meetings to prevent being interrupted"
+                        "Take a moment to identify what's causing these feelings and address it directly",
+                        "Push through and ignore the feelings until the task is complete",
+                        "Vent to others about the situation",
+                        "Distract yourself with other activities"
                     ],
-                    category: "communication"
+                    category: "self-management"
                 },
                 {
-                    question: "You and a team member have different approaches to completing a project. What's your first step?",
+                    question: "How do you typically respond when someone shares difficult personal news with you?",
                     options: [
-                        "Schedule time to discuss both approaches and identify the strengths of each",
-                        "Insist on using your approach since you're confident it's better",
-                        "Let them use their approach to avoid conflict, even if you disagree",
-                        "Ask your manager to decide which approach to use"
+                        "Listen attentively and validate their feelings before offering support",
+                        "Immediately offer advice on how to fix the situation",
+                        "Share a similar experience you've had to show you understand",
+                        "Change the subject to something more positive"
                     ],
-                    category: "negotiation"
+                    category: "social-awareness"
                 },
                 {
-                    question: "During a heated discussion, you notice you're becoming angry. What do you do?",
+                    question: "When you receive critical feedback, what is your first reaction?",
                     options: [
-                        "Acknowledge your emotions, take a brief pause, and return to the conversation when calmer",
-                        "Continue the discussion but try to hide your anger",
-                        "Express your anger fully so the other person understands how serious you are",
-                        "End the conversation abruptly and avoid the person"
+                        "Consider it thoughtfully and ask clarifying questions",
+                        "Defend your actions and explain your reasoning",
+                        "Feel hurt or angry but keep it to yourself",
+                        "Dismiss it if you disagree with the assessment"
                     ],
-                    category: "emotional"
+                    category: "self-awareness"
                 },
                 {
-                    question: "A client is unhappy with your team's work but hasn't provided specific feedback. How do you respond?",
+                    question: "How do you handle conflicts with colleagues or friends?",
                     options: [
-                        "Ask open-ended questions to understand their specific concerns and expectations",
-                        "Defend your team's work and explain why the client should be satisfied",
-                        "Offer a discount or free service to appease them",
-                        "Tell them to submit a formal complaint through proper channels"
+                        "Address the issue directly while considering both perspectives",
+                        "Avoid confrontation and hope the issue resolves itself",
+                        "Stand firm on your position until the other person concedes",
+                        "Involve others to help mediate the situation"
                     ],
-                    category: "communication"
+                    category: "relationship"
                 },
                 {
-                    question: "Two team members come to you with conflicting needs for limited resources. How do you handle this?",
+                    question: "When you notice a team member is struggling with a task, what do you do?",
                     options: [
-                        "Facilitate a discussion where both can express their needs and work toward a compromise",
-                        "Split the resources exactly 50/50 between them",
-                        "Give resources to whoever asked first",
-                        "Allocate resources to whoever has more seniority"
+                        "Ask how you can help and offer support in a way that respects their autonomy",
+                        "Take over the task to ensure it gets done correctly",
+                        "Let them figure it out on their own – that's how people learn",
+                        "Tell your supervisor that the person needs additional training"
                     ],
-                    category: "problem"
+                    category: "social-awareness"
                 },
                 {
-                    question: "You receive harsh criticism in a public setting. What's your response?",
+                    question: "How aware are you of how your emotions affect your behavior?",
                     options: [
-                        "Thank them for the feedback, suggest continuing the discussion privately, and consider valid points",
-                        "Immediately defend yourself and point out flaws in their criticism",
-                        "Ignore the criticism completely",
-                        "Criticize them back to establish dominance"
+                        "Very aware – I can usually identify the connection between my feelings and actions",
+                        "Somewhat aware – I notice the connection in retrospect",
+                        "Minimally aware – I don't often think about how my emotions influence me",
+                        "Not aware – I believe my actions are based purely on rational thought"
                     ],
-                    category: "emotional"
+                    category: "self-awareness"
                 },
                 {
-                    question: "A colleague takes credit for your idea. How do you address this situation?",
+                    question: "When you're in a bad mood, how does it impact your interactions with others?",
                     options: [
-                        "Speak with them privately, express how you felt, and discuss how to handle similar situations in the future",
-                        "Publicly call them out in the next meeting",
-                        "Go to their manager and complain about their behavior",
-                        "Start taking credit for their ideas as retaliation"
+                        "I recognize my mood and take steps to ensure it doesn't negatively affect others",
+                        "I try to hide my mood but sometimes it comes through in my tone or words",
+                        "I warn people I'm in a bad mood so they give me space",
+                        "I don't filter my interactions – people should accept me as I am"
                     ],
-                    category: "communication"
+                    category: "self-management"
                 },
                 {
-                    question: "You need to negotiate a deadline extension with a client. What approach do you take?",
+                    question: "How do you respond when plans change unexpectedly?",
                     options: [
-                        "Explain the situation honestly, propose a new timeline with clear benefits, and be open to compromise",
-                        "Demand more time without explanation",
-                        "Make excuses and blame external factors for the delay",
-                        "Continue working toward the original deadline even if quality will suffer"
+                        "Adapt quickly and look for the opportunities in the new situation",
+                        "Feel frustrated but eventually adjust to the new circumstances",
+                        "Express disappointment and take time to accept the changes",
+                        "Resist the changes and try to maintain the original plan"
                     ],
-                    category: "negotiation"
+                    category: "self-management"
                 },
                 {
-                    question: "A team member consistently submits work late. How do you handle this?",
+                    question: "How accurately can you identify emotions in others based on their facial expressions and body language?",
                     options: [
-                        "Have a private conversation to understand any challenges they're facing and work on solutions together",
-                        "Send them a strongly worded email about meeting deadlines",
-                        "Complete their work yourself to ensure it's done on time",
-                        "Report them to management immediately"
+                        "Very accurately – I can usually tell how someone is feeling even if they don't say it",
+                        "Somewhat accurately – I notice obvious emotional cues",
+                        "It depends on how well I know the person",
+                        "I focus more on what people say than their non-verbal cues"
                     ],
-                    category: "problem"
+                    category: "social-awareness"
                 },
                 {
-                    question: "During a negotiation, the other party makes an unreasonable demand. What do you do?",
+                    question: "When building relationships with new people, what approach do you take?",
                     options: [
-                        "Ask questions to understand their underlying interests and propose alternative solutions that address their core needs",
-                        "Immediately reject their demand and walk away",
-                        "Accept their demand to maintain the relationship, even if it's detrimental to you",
-                        "Make an equally unreasonable counter-demand"
+                        "Show genuine interest in getting to know them and find common ground",
+                        "Wait for them to initiate conversation and engagement",
+                        "Share information about yourself to establish a connection",
+                        "Focus on professional or practical aspects of the relationship"
                     ],
-                    category: "negotiation"
+                    category: "relationship"
                 },
                 {
-                    question: "You notice a colleague seems upset after a meeting. What's your approach?",
+                    question: "How do you handle situations where your values conflict with what's being asked of you?",
                     options: [
-                        "Find an appropriate time to check in with them privately and offer support if needed",
-                        "Ignore it since it's not your problem",
-                        "Tell other colleagues that the person seems emotionally unstable",
-                        "Send them a motivational quote via email"
+                        "Acknowledge the conflict and seek a solution that honors both my values and the requirements",
+                        "Compromise my values temporarily to meet immediate needs",
+                        "Refuse to act against my values regardless of consequences",
+                        "Reevaluate whether my values are practical in the real world"
                     ],
-                    category: "emotional"
+                    category: "self-awareness"
                 },
                 {
-                    question: "You strongly disagree with a decision made by your team. What do you do?",
+                    question: "When someone is speaking to you about something important, how do you typically listen?",
                     options: [
-                        "Express your concerns constructively, listen to others' perspectives, and work toward understanding",
-                        "Silently go along with the decision while looking for ways to undermine it",
-                        "Refuse to implement the decision and do things your way",
-                        "Immediately escalate to higher management"
+                        "Give them my full attention, maintain eye contact, and ask clarifying questions",
+                        "Listen while also thinking about how I'll respond",
+                        "Listen while multitasking if I'm busy",
+                        "Summarize their main points to show I was listening"
                     ],
-                    category: "communication"
+                    category: "social-awareness"
                 },
                 {
-                    question: "A project has multiple stakeholders with competing priorities. How do you proceed?",
+                    question: "How do you celebrate others' successes?",
                     options: [
-                        "Facilitate a discussion to identify shared goals and develop a solution that addresses core needs",
-                        "Focus on satisfying the most senior stakeholder",
-                        "Try to include every stakeholder's requests regardless of conflicts",
-                        "Make decisions independently based on what you think is best"
+                        "Express genuine happiness for them and acknowledge their achievement",
+                        "Congratulate them briefly and move on",
+                        "Compare their success to your own achievements",
+                        "Use their success as motivation for your own goals"
                     ],
-                    category: "problem"
+                    category: "relationship"
                 },
                 {
-                    question: "During a conflict, the other person becomes emotional. How do you respond?",
+                    question: "When you make a mistake that affects others, what do you typically do?",
                     options: [
-                        "Listen actively, acknowledge their feelings without judgment, and suggest a short break if needed",
-                        "Tell them to calm down and be more rational",
-                        "Become emotional yourself to match their energy",
-                        "End the conversation immediately and walk away"
+                        "Take responsibility, apologize sincerely, and work to make it right",
+                        "Explain the circumstances that led to the mistake",
+                        "Wait to see if anyone notices before addressing it",
+                        "Focus on fixing the problem without discussing who was at fault"
                     ],
-                    category: "emotional"
+                    category: "relationship"
                 },
                 {
-                    question: "You need to deliver negative feedback to a colleague. How do you approach this?",
+                    question: "How do you respond to your own failures or setbacks?",
                     options: [
-                        "Have a private conversation, focus on specific behaviors rather than personality, and offer constructive suggestions",
-                        "Send detailed criticism via email to avoid confrontation",
-                        "Provide the feedback in front of others to ensure they take it seriously",
-                        "Soften the message so much that the core issues are obscured"
+                        "Reflect on what happened, learn from it, and adjust my approach",
+                        "Feel disappointed but try again with the same approach",
+                        "Avoid similar situations in the future to prevent further failure",
+                        "Attribute the failure to external factors beyond my control"
                     ],
-                    category: "communication"
+                    category: "self-management"
                 }
             ];
 
-            // Conflict Resolution profiles based on answer patterns
-            const conflictProfiles = {
-                "communication": {
-                    high: "Effective Communicator",
-                    medium: "Developing Communicator",
-                    low: "Emerging Communicator"
+            // EQ profiles based on answer patterns
+            const eqProfiles = {
+                "self-awareness": {
+                    high: "Self-Aware Leader",
+                    medium: "Emotionally Conscious",
+                    low: "Developing Self-Awareness"
                 },
-                "negotiation": {
-                    high: "Skilled Negotiator",
-                    medium: "Balanced Negotiator",
-                    low: "Developing Negotiator"
+                "social-awareness": {
+                    high: "Empathetic Observer",
+                    medium: "Socially Perceptive",
+                    low: "Developing Social Awareness"
                 },
-                "emotional": {
-                    high: "Emotionally Intelligent Mediator",
-                    medium: "Emotionally Aware Mediator",
-                    low: "Developing Emotional Awareness"
+                "self-management": {
+                    high: "Emotion Regulator",
+                    medium: "Self-Composed",
+                    low: "Developing Self-Regulation"
                 },
-                "problem": {
-                    high: "Collaborative Problem Solver",
-                    medium: "Practical Problem Solver",
-                    low: "Developing Problem Solver"
+                "relationship": {
+                    high: "Relationship Builder",
+                    medium: "Interpersonally Skilled",
+                    low: "Developing Relationship Skills"
                 }
             };
 
@@ -979,7 +869,6 @@
                         option.classList.add('bg-indigo-100', 'border-indigo-500');
                         option.classList.remove('hover:bg-gray-50');
                         circle.classList.add('border-indigo-500', 'bg-indigo-500');
-                        circle.classList.remove('border-gray-300');
                         circle.innerHTML = '<div class="w-2 h-2 rounded-full bg-white"></div>';
                     } else {
                         option.classList.remove('bg-indigo-100', 'border-indigo-500');
@@ -1052,10 +941,10 @@
             function calculateScores() {
                 // Initialize category scores
                 let categoryScores = {
-                    "communication": { score: 0, count: 0 },
-                    "negotiation": { score: 0, count: 0 },
-                    "emotional": { score: 0, count: 0 },
-                    "problem": { score: 0, count: 0 }
+                    "self-awareness": { score: 0, count: 0 },
+                    "social-awareness": { score: 0, count: 0 },
+                    "self-management": { score: 0, count: 0 },
+                    "relationship": { score: 0, count: 0 }
                 };
                 
                 // Calculate scores based on answers
@@ -1076,30 +965,30 @@
                 });
                 
                 // Calculate percentages
-                const communicationScore = Math.round((categoryScores["communication"].score / (categoryScores["communication"].count * 3)) * 100);
-                const negotiationScore = Math.round((categoryScores["negotiation"].score / (categoryScores["negotiation"].count * 3)) * 100);
-                const emotionalScore = Math.round((categoryScores["emotional"].score / (categoryScores["emotional"].count * 3)) * 100);
-                const problemScore = Math.round((categoryScores["problem"].score / (categoryScores["problem"].count * 3)) * 100);
+                const selfAwarenessScore = Math.round((categoryScores["self-awareness"].score / (categoryScores["self-awareness"].count * 3)) * 100);
+                const socialAwarenessScore = Math.round((categoryScores["social-awareness"].score / (categoryScores["social-awareness"].count * 3)) * 100);
+                const selfManagementScore = Math.round((categoryScores["self-management"].score / (categoryScores["self-management"].count * 3)) * 100);
+                const relationshipScore = Math.round((categoryScores["relationship"].score / (categoryScores["relationship"].count * 3)) * 100);
                 
                 // Calculate overall score
-                const totalScore = categoryScores["communication"].score + categoryScores["negotiation"].score + 
-                                  categoryScores["emotional"].score + categoryScores["problem"].score;
-                const totalPossible = (categoryScores["communication"].count + categoryScores["negotiation"].count + 
-                                     categoryScores["emotional"].count + categoryScores["problem"].count) * 3;
+                const totalScore = categoryScores["self-awareness"].score + categoryScores["social-awareness"].score + 
+                                  categoryScores["self-management"].score + categoryScores["relationship"].score;
+                const totalPossible = (categoryScores["self-awareness"].count + categoryScores["social-awareness"].count + 
+                                     categoryScores["self-management"].count + categoryScores["relationship"].count) * 3;
                 const overallScore = Math.round((totalScore / totalPossible) * 100);
                 
                 return {
                     overall: overallScore,
-                    "communication": communicationScore,
-                    "negotiation": negotiationScore,
-                    "emotional": emotionalScore,
-                    "problem": problemScore
+                    "self-awareness": selfAwarenessScore,
+                    "social-awareness": socialAwarenessScore,
+                    "self-management": selfManagementScore,
+                    "relationship": relationshipScore
                 };
             }
 
-            function determineConflictProfile(scores) {
-                // Determine Conflict Resolution profile based on highest category score
-                const categories = ["communication", "negotiation", "emotional", "problem"];
+            function determineEQProfile(scores) {
+                // Determine EQ profile based on highest category score
+                const categories = ["self-awareness", "social-awareness", "self-management", "relationship"];
                 const highestCategory = categories.reduce((a, b) => scores[a] > scores[b] ? a : b);
                 
                 // Determine level (high, medium, low)
@@ -1112,23 +1001,23 @@
                     level = 'low';
                 }
                 
-                return conflictProfiles[highestCategory][level];
+                return eqProfiles[highestCategory][level];
             }
 
-            function generateFeedback(scores, conflictProfile) {
+            function generateFeedback(scores, eqProfile) {
                 let feedback = '';
                 
-                // Generate feedback based on Conflict Resolution profile and scores
-                if (conflictProfile.includes('Communicator')) {
-                    feedback = 'You excel at expressing ideas clearly and listening actively to others during conflicts. ';
-                } else if (conflictProfile.includes('Negotiator')) {
-                    feedback = 'Your strength lies in finding mutually beneficial solutions and reaching effective compromises. ';
-                } else if (conflictProfile.includes('Emotional')) {
-                    feedback = 'You demonstrate skill in recognizing and managing emotions during conflicts, creating a positive environment for resolution. ';
-                } else if (conflictProfile.includes('Problem Solver')) {
-                    feedback = 'You show aptitude for analyzing conflicts objectively and developing practical solutions. ';
+                // Generate feedback based on EQ profile and scores
+                if (eqProfile.includes('Self-Aware')) {
+                    feedback = 'You demonstrate excellent self-awareness, showing a deep understanding of your own emotions and their impact on your behavior. ';
+                } else if (eqProfile.includes('Empathetic')) {
+                    feedback = 'Your social awareness is highly developed, allowing you to accurately perceive and respond to others\' emotions and needs. ';
+                } else if (eqProfile.includes('Regulator')) {
+                    feedback = 'You excel at managing your emotions, maintaining composure even in challenging situations. ';
+                } else if (eqProfile.includes('Relationship')) {
+                    feedback = 'Your relationship management skills are outstanding, enabling you to build and maintain strong connections with others. ';
                 } else {
-                    feedback = 'You have a balanced conflict resolution profile with several notable strengths. ';
+                    feedback = 'You have a balanced emotional intelligence profile with several notable strengths. ';
                 }
                 
                 // Add strengths
@@ -1143,34 +1032,34 @@
                 const secondCategory = categories[1][0];
                 
                 switch (topCategory) {
-                    case 'communication':
-                        feedback += 'clear and effective communication';
+                    case 'self-awareness':
+                        feedback += 'understanding your own emotions';
                         break;
-                    case 'negotiation':
-                        feedback += 'finding win-win solutions';
+                    case 'social-awareness':
+                        feedback += 'perceiving others\' feelings and perspectives';
                         break;
-                    case 'emotional':
-                        feedback += 'managing emotions during conflicts';
+                    case 'self-management':
+                        feedback += 'regulating your emotional responses';
                         break;
-                    case 'problem':
-                        feedback += 'analyzing and solving complex conflicts';
+                    case 'relationship':
+                        feedback += 'building and maintaining relationships';
                         break;
                 }
                 
                 feedback += ' and ';
                 
                 switch (secondCategory) {
-                    case 'communication':
-                        feedback += 'active listening skills';
+                    case 'self-awareness':
+                        feedback += 'recognizing how your emotions affect your behavior';
                         break;
-                    case 'negotiation':
-                        feedback += 'effective compromise strategies';
+                    case 'social-awareness':
+                        feedback += 'empathizing with others';
                         break;
-                    case 'emotional':
-                        feedback += 'empathy toward others\' perspectives';
+                    case 'self-management':
+                        feedback += 'adapting to changing circumstances';
                         break;
-                    case 'problem':
-                        feedback += 'developing practical solutions';
+                    case 'relationship':
+                        feedback += 'navigating social interactions effectively';
                         break;
                 }
                 
@@ -1182,17 +1071,17 @@
                 feedback += 'An area for potential growth is ';
                 
                 switch (lowestCategory) {
-                    case 'communication':
-                        feedback += 'developing your ability to express ideas clearly and listen actively during conflicts.';
+                    case 'self-awareness':
+                        feedback += 'developing a deeper understanding of your emotional patterns and triggers.';
                         break;
-                    case 'negotiation':
-                        feedback += 'enhancing your skills in finding mutually beneficial solutions through compromise.';
+                    case 'social-awareness':
+                        feedback += 'becoming more attuned to others\' emotional states and needs.';
                         break;
-                    case 'emotional':
-                        feedback += 'strengthening your approach to recognizing and managing emotions during difficult conversations.';
+                    case 'self-management':
+                        feedback += 'enhancing your ability to regulate emotions in challenging situations.';
                         break;
-                    case 'problem':
-                        feedback += 'improving your ability to analyze conflicts objectively and develop practical solutions.';
+                    case 'relationship':
+                        feedback += 'strengthening your approach to building and maintaining relationships.';
                         break;
                 }
                 
@@ -1205,29 +1094,29 @@
                 resultsScreen.classList.remove('hidden');
                 
                 const scores = calculateScores();
-                const conflictProfile = determineConflictProfile(scores);
+                const eqProfile = determineEQProfile(scores);
                 
                 // Update score displays
                 document.getElementById('score-circle').style.strokeDashoffset = 283 - (283 * scores.overall / 100);
                 document.getElementById('score-text').textContent = `${scores.overall}%`;
                 
-                document.getElementById('communication-score').textContent = `${scores["communication"]}%`;
-                document.getElementById('communication-bar').style.width = `${scores["communication"]}%`;
+                document.getElementById('self-awareness-score').textContent = `${scores["self-awareness"]}%`;
+                document.getElementById('self-awareness-bar').style.width = `${scores["self-awareness"]}%`;
                 
-                document.getElementById('negotiation-score').textContent = `${scores["negotiation"]}%`;
-                document.getElementById('negotiation-bar').style.width = `${scores["negotiation"]}%`;
+                document.getElementById('social-awareness-score').textContent = `${scores["social-awareness"]}%`;
+                document.getElementById('social-awareness-bar').style.width = `${scores["social-awareness"]}%`;
                 
-                document.getElementById('emotional-score').textContent = `${scores["emotional"]}%`;
-                document.getElementById('emotional-bar').style.width = `${scores["emotional"]}%`;
+                document.getElementById('self-management-score').textContent = `${scores["self-management"]}%`;
+                document.getElementById('self-management-bar').style.width = `${scores["self-management"]}%`;
                 
-                document.getElementById('problem-score').textContent = `${scores["problem"]}%`;
-                document.getElementById('problem-bar').style.width = `${scores["problem"]}%`;
+                document.getElementById('relationship-score').textContent = `${scores["relationship"]}%`;
+                document.getElementById('relationship-bar').style.width = `${scores["relationship"]}%`;
                 
-                // Set Conflict Resolution profile
-                document.getElementById('conflict-style').textContent = conflictProfile;
+                // Set EQ profile
+                document.getElementById('eq-style').textContent = eqProfile;
                 
                 // Generate and display feedback
-                const feedback = generateFeedback(scores, conflictProfile);
+                const feedback = generateFeedback(scores, eqProfile);
                 document.getElementById('feedback-text').textContent = feedback;
             }
 
@@ -1246,8 +1135,8 @@
                 const scores = calculateScores();
                 document.getElementById('cert-score').textContent = `${scores.overall}%`;
                 
-                const conflictProfile = determineConflictProfile(scores);
-                document.getElementById('cert-style').textContent = conflictProfile;
+                const eqProfile = determineEQProfile(scores);
+                document.getElementById('cert-style').textContent = eqProfile;
                 
                 // Set current date
                 const today = new Date();
@@ -1255,7 +1144,7 @@
                 document.getElementById('cert-date').textContent = today.toLocaleDateString('en-US', options);
                 
                 // Generate certificate ID
-                const certId = 'CR-' + today.getFullYear() + '-' + Math.floor(10000 + Math.random() * 90000);
+                const certId = 'EQ-' + today.getFullYear() + '-' + Math.floor(10000 + Math.random() * 90000);
                 document.getElementById('cert-id').textContent = 'Certificate ID: ' + certId;
                 
                 // Create confetti effect
@@ -1311,5 +1200,5 @@
             }
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9655a22cf4518eef',t:'MTc1MzU1MTExNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'965580eba7d4ceda',t:'MTc1MzU0OTc1NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>

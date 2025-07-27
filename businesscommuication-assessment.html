@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Communication Skills Assessment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 8px;
+            background: #e0e7ff;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #6366f1, #4f46e5);
+            transition: width 0.3s ease;
+        }
+        .btn {
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+        }
+        .option-btn {
+            transition: all 0.2s ease;
+            border: 2px solid #e5e7eb;
+        }
+        .option-btn:hover {
+            border-color: #6366f1;
+            background-color: #f5f3ff;
+        }
+        .option-btn.selected {
+            border-color: #6366f1;
+            background-color: #ede9fe;
+        }
+        .option-btn.correct {
+            border-color: #10b981;
+            background-color: #d1fae5;
+        }
+        .option-btn.incorrect {
+            border-color: #ef4444;
+            background-color: #fee2e2;
+        }
+        .certificate {
+            background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+            border: 2px solid #6366f1;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+        .certificate::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(79, 70, 229, 0.1) 100%);
+            border-radius: 50%;
+        }
+        .certificate::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(79, 70, 229, 0.1) 100%);
+            border-radius: 50%;
+        }
+        .badge {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #6366f1;
+            opacity: 0;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(1000px) rotate(360deg); opacity: 0; }
+        }
+        .timer-warning {
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .scale-in {
+            animation: scaleIn 0.5s ease-out forwards;
+            transform-origin: center;
+        }
+        @keyframes scaleIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .slide-in {
+            animation: slideIn 0.5s ease-out forwards;
+        }
+        @keyframes slideIn {
+            0% { transform: translateX(-20px); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="min-h-screen py-8 px-4">
+    <div id="app">
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="quiz-container p-8">
+            <div class="text-center mb-8">
+                <div class="inline-block p-4 bg-indigo-100 rounded-full mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                    </svg>
+                </div>
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">Business Communication Skills Assessment</h1>
+                <p class="text-gray-600 mb-6">Test your professional communication abilities with 20 questions and earn a certificate</p>
+                
+                <div class="flex flex-wrap justify-center gap-6 mb-8">
+                    <div class="flex items-center">
+                        <div class="bg-indigo-100 p-2 rounded-full mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <span class="text-gray-700">20 minutes</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="bg-indigo-100 p-2 rounded-full mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <span class="text-gray-700">20 questions</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="bg-indigo-100 p-2 rounded-full mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                        </div>
+                        <span class="text-gray-700">Certificate on completion</span>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                    <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+                        <div class="bg-indigo-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Verbal Communication</h3>
+                        <p class="text-gray-600 text-sm text-center">Speaking clearly and effectively</p>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+                        <div class="bg-indigo-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Written Communication</h3>
+                        <p class="text-gray-600 text-sm text-center">Emails, reports, and documents</p>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+                        <div class="bg-indigo-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Interpersonal Skills</h3>
+                        <p class="text-gray-600 text-sm text-center">Building professional relationships</p>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+                        <div class="bg-indigo-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Problem Solving</h3>
+                        <p class="text-gray-600 text-sm text-center">Resolving conflicts effectively</p>
+                    </div>
+                </div>
+                
+                <div class="bg-gradient-to-r from-indigo-50 to-purple-50 p-6 rounded-lg mb-8 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 -mt-10 -mr-10 bg-indigo-100 rounded-full opacity-50"></div>
+                    <div class="absolute bottom-0 left-0 w-24 h-24 -mb-8 -ml-8 bg-purple-100 rounded-full opacity-50"></div>
+                    <h3 class="font-semibold text-indigo-800 mb-3 relative z-10">Why Take This Assessment?</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 relative z-10">
+                        <div class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span class="text-gray-700 text-sm">Identify your communication strengths</span>
+                        </div>
+                        <div class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span class="text-gray-700 text-sm">Discover areas for improvement</span>
+                        </div>
+                        <div class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span class="text-gray-700 text-sm">Earn a professional certificate</span>
+                        </div>
+                        <div class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span class="text-gray-700 text-sm">Enhance your professional profile</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex justify-center">
+                <button id="start-btn" class="btn bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white font-medium py-3 px-8 rounded-lg flex items-center">
+                    Start Assessment
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="quiz-container hidden">
+            <div class="p-6 bg-gradient-to-r from-indigo-50 to-purple-50 border-b border-indigo-100">
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <h2 class="text-xl font-semibold text-gray-800">Business Communication Assessment</h2>
+                        <p class="text-gray-600 text-sm">Question <span id="current-question">1</span> of 20</p>
+                    </div>
+                    <div class="bg-white px-4 py-2 rounded-lg shadow-sm flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span id="timer" class="font-medium">20:00</span>
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div id="progress-fill" class="progress-fill" style="width: 5%"></div>
+                </div>
+            </div>
+            
+            <div class="p-8">
+                <h3 id="question-text" class="text-xl font-medium text-gray-800 mb-6">Loading question...</h3>
+                
+                <div id="options-container" class="space-y-4 mb-8">
+                    <!-- Options will be inserted here -->
+                </div>
+                
+                <div class="flex justify-between">
+                    <button id="prev-btn" class="btn bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-2 px-6 rounded-lg flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                        Previous
+                    </button>
+                    <div class="flex space-x-2">
+                        <button id="skip-btn" class="btn bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-4 rounded-lg">
+                            Skip
+                        </button>
+                        <button id="next-btn" class="btn bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white font-medium py-2 px-6 rounded-lg flex items-center">
+                            Next
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="p-4 bg-gray-50 border-t border-gray-100">
+                <div class="flex flex-wrap gap-2 justify-center" id="question-nav">
+                    <!-- Question navigation buttons will be inserted here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="quiz-container hidden">
+            <div class="p-8 text-center">
+                <div id="score-badge" class="badge w-32 h-32 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 flex items-center justify-center mx-auto mb-6">
+                    <div class="text-center">
+                        <span id="score-percentage" class="block text-3xl font-bold text-indigo-600">85%</span>
+                        <span class="text-sm text-indigo-800">Score</span>
+                    </div>
+                </div>
+                
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Assessment Complete!</h2>
+                <p id="result-message" class="text-gray-600 mb-6">Great job! You've completed the assessment.</p>
+                
+                <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
+                    <h3 class="font-semibold text-gray-800 mb-4">Performance Summary</h3>
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div class="bg-gradient-to-r from-indigo-50 to-purple-50 p-4 rounded-lg">
+                            <div class="text-2xl font-bold text-indigo-600 mb-1"><span id="correct-answers">17</span>/20</div>
+                            <div class="text-sm text-gray-600">Correct Answers</div>
+                        </div>
+                        <div class="bg-gradient-to-r from-indigo-50 to-purple-50 p-4 rounded-lg">
+                            <div class="text-2xl font-bold text-indigo-600 mb-1"><span id="time-taken">12:45</span></div>
+                            <div class="text-sm text-gray-600">Time Taken</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <div class="flex items-center mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                            <h4 class="font-medium text-gray-700">Your Strengths</h4>
+                        </div>
+                        <div id="strengths" class="text-sm text-gray-600 bg-gray-50 p-4 rounded-lg">
+                            <div class="flex items-start mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                <span>Written Communication (100% correct)</span>
+                            </div>
+                            <div class="flex items-start">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                <span>Interpersonal Skills (90% correct)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex items-center mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                            <h4 class="font-medium text-gray-700">Areas for Improvement</h4>
+                        </div>
+                        <div id="improvements" class="text-sm text-gray-600 bg-gray-50 p-4 rounded-lg">
+                            <div class="flex items-start mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                </svg>
+                                <span>Conflict Resolution (60% correct)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gradient-to-r from-indigo-50 to-purple-50 p-6 rounded-lg mb-8 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 -mt-10 -mr-10 bg-indigo-100 rounded-full opacity-30"></div>
+                    <div class="relative z-10">
+                        <h3 class="font-semibold text-gray-800 mb-3">Next Steps</h3>
+                        <p class="text-gray-600 text-sm mb-4">Get your professional certificate to showcase your business communication skills!</p>
+                        <ul class="text-sm text-gray-600 space-y-2">
+                            <li class="flex items-start">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                </svg>
+                                <span>Verifiable digital certificate</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                                <span>Add to your LinkedIn profile</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                                <span>Download as PDF</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="flex justify-center">
+                    <button id="payment-btn" class="btn bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white font-medium py-3 px-8 rounded-lg flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                        </svg>
+                        Get Your Certificate ($19.99)
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Modal -->
+        <div id="payment-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full mx-4 scale-in">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold text-gray-800">Payment Details</h3>
+                    <button id="close-payment" class="text-gray-400 hover:text-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="mb-6">
+                    <div class="flex justify-between items-center p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg mb-4">
+                        <div class="flex items-center">
+                            <div class="bg-indigo-100 p-2 rounded-full mr-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Business Communication Certificate</h4>
+                                <p class="text-sm text-gray-600">Verifiable digital certificate</p>
+                            </div>
+                        </div>
+                        <span class="font-bold text-indigo-600">$19.99</span>
+                    </div>
+                    
+                    <!-- This is a demo payment form -->
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Card Number</label>
+                            <input type="text" placeholder="1234 5678 9012 3456" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Expiry Date</label>
+                                <input type="text" placeholder="MM/YY" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">CVC</label>
+                                <input type="text" placeholder="123" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Name on Card</label>
+                            <input type="text" placeholder="John Doe" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                            <input type="email" placeholder="your@email.com" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <button id="process-payment" class="btn w-full bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white font-medium py-3 px-8 rounded-lg">
+                        Pay $19.99 and Get Certificate
+                    </button>
+                    <p class="text-xs text-gray-500 mt-4">This is a demo payment form. No actual payment will be processed.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Certificate Screen -->
+        <div id="certificate-screen" class="hidden">
+            <div class="max-w-4xl mx-auto">
+                <div id="confetti-container" class="fixed inset-0 pointer-events-none"></div>
+                
+                <div class="certificate p-8 md:p-12 rounded-xl mb-8">
+                    <div class="text-center mb-8">
+                        <div class="inline-block">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-indigo-600 mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="8" r="7"></circle>
+                                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                            </svg>
+                        </div>
+                        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-4">Certificate of Achievement</h2>
+                    </div>
+                    
+                    <div class="text-center mb-8">
+                        <p class="text-gray-600 mb-2">This certifies that</p>
+                        <h3 id="certificate-name" class="text-2xl font-bold text-indigo-600 mb-2">John Doe</h3>
+                        <p class="text-gray-600">has successfully completed the</p>
+                        <h4 class="text-xl font-semibold text-gray-800 my-2">Business Communication Skills Assessment</h4>
+                        <p class="text-gray-600 mb-2">with a score of</p>
+                        <div class="inline-block bg-gradient-to-r from-indigo-100 to-purple-100 px-4 py-2 rounded-full">
+                            <span id="certificate-score" class="text-xl font-bold text-indigo-600">85%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between items-end">
+                        <div>
+                            <svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10 25C15 15 25 30 30 20C35 10 45 25 50 15C55 5 65 20 70 10C75 0 85 15 90 5C95 -5 105 10 110 0" stroke="#6366f1" stroke-width="2"/>
+                            </svg>
+                            <div class="h-px w-40 bg-gray-300 mb-2"></div>
+                            <p class="text-sm text-gray-600">Authorized Signature</p>
+                        </div>
+                        <div class="text-right">
+                            <p id="certificate-date" class="text-sm text-gray-600">June 15, 2023</p>
+                            <p class="text-sm text-gray-600">Date Issued</p>
+                        </div>
+                    </div>
+                    
+                    <div class="absolute bottom-4 right-4">
+                        <div class="flex items-center text-xs text-gray-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span id="certificate-id">ID: BC-2023-12345</span>
+                        </div>
+                    </div>
+                    
+                    <div class="absolute top-8 right-8">
+                        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="40" cy="40" r="38" stroke="#6366f1" stroke-width="2" stroke-dasharray="4 4"/>
+                            <circle cx="40" cy="40" r="30" fill="#e0e7ff" fill-opacity="0.5"/>
+                            <path d="M30 40L36 46L50 32" stroke="#6366f1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button id="download-btn" class="btn bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white font-medium py-3 px-6 rounded-lg flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                        Download Certificate
+                    </button>
+                    <button id="share-btn" class="btn bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-3 px-6 rounded-lg flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                        </svg>
+                        Share Certificate
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Quiz data
+            const quizData = [
+                {
+                    question: "Which of the following is NOT an effective way to start a business email?",
+                    options: [
+                        "Dear [Name],",
+                        "Hello [Name],",
+                        "Hey there!",
+                        "Good morning/afternoon,"
+                    ],
+                    answer: 2,
+                    category: "Written"
+                },
+                {
+                    question: "What is the primary purpose of active listening in business communication?",
+                    options: [
+                        "To prepare your response while the other person is speaking",
+                        "To fully understand the speaker's message before responding",
+                        "To identify flaws in the speaker's argument",
+                        "To demonstrate your superior knowledge of the topic"
+                    ],
+                    answer: 1,
+                    category: "Verbal"
+                },
+                {
+                    question: "Which communication channel is most appropriate for delivering sensitive feedback to a team member?",
+                    options: [
+                        "Company-wide email",
+                        "Team messaging platform",
+                        "Private face-to-face or video meeting",
+                        "Public team meeting"
+                    ],
+                    answer: 2,
+                    category: "Interpersonal"
+                },
+                {
+                    question: "What is the STAR method commonly used for in business communication?",
+                    options: [
+                        "Structuring presentations",
+                        "Answering interview questions with specific examples",
+                        "Rating employee performance",
+                        "Organizing email content"
+                    ],
+                    answer: 1,
+                    category: "Verbal"
+                },
+                {
+                    question: "Which of the following is an example of non-verbal communication?",
+                    options: [
+                        "Sending an email",
+                        "Making eye contact during a conversation",
+                        "Giving a presentation",
+                        "Writing a report"
+                    ],
+                    answer: 1,
+                    category: "Nonverbal"
+                },
+                {
+                    question: "What is the best approach when dealing with a conflict between team members?",
+                    options: [
+                        "Ignore the conflict and hope it resolves itself",
+                        "Take sides with the person who has the stronger argument",
+                        "Address the conflict privately with each person and facilitate a resolution",
+                        "Bring up the conflict in a team meeting to get everyone's opinion"
+                    ],
+                    answer: 2,
+                    category: "Conflict"
+                },
+                {
+                    question: "Which of the following is NOT a characteristic of effective business writing?",
+                    options: [
+                        "Clarity and conciseness",
+                        "Use of complex vocabulary to sound professional",
+                        "Proper grammar and punctuation",
+                        "Organized structure with clear sections"
+                    ],
+                    answer: 1,
+                    category: "Written"
+                },
+                {
+                    question: "What is the purpose of an executive summary in a business report?",
+                    options: [
+                        "To list all the technical details of the report",
+                        "To provide a brief overview of the main points and findings",
+                        "To acknowledge everyone who contributed to the report",
+                        "To explain the methodology used in the research"
+                    ],
+                    answer: 1,
+                    category: "Written"
+                },
+                {
+                    question: "Which communication style focuses on being direct while still considering others' feelings?",
+                    options: [
+                        "Passive communication",
+                        "Aggressive communication",
+                        "Assertive communication",
+                        "Passive-aggressive communication"
+                    ],
+                    answer: 2,
+                    category: "Interpersonal"
+                },
+                {
+                    question: "What is the best way to handle receiving criticism in a professional setting?",
+                    options: [
+                        "Defend yourself immediately and explain why the criticism is wrong",
+                        "Ignore the criticism if you disagree with it",
+                        "Listen carefully, thank the person, and consider the feedback objectively",
+                        "Report the criticism to a manager or HR representative"
+                    ],
+                    answer: 2,
+                    category: "Conflict"
+                },
+                {
+                    question: "Which of the following is a key component of emotional intelligence in business communication?",
+                    options: [
+                        "The ability to hide all emotions in the workplace",
+                        "Self-awareness of your own emotions and their impact on others",
+                        "Using emotional appeals to win arguments",
+                        "Avoiding discussions about feelings or personal matters"
+                    ],
+                    answer: 1,
+                    category: "Interpersonal"
+                },
+                {
+                    question: "What is the primary purpose of a follow-up email after a business meeting?",
+                    options: [
+                        "To schedule the next meeting",
+                        "To summarize key points and confirm action items",
+                        "To evaluate the performance of meeting participants",
+                        "To share the meeting agenda retroactively"
+                    ],
+                    answer: 1,
+                    category: "Written"
+                },
+                {
+                    question: "Which of the following is NOT an effective strategy for delivering a business presentation?",
+                    options: [
+                        "Using visual aids to support key points",
+                        "Reading directly from dense text slides",
+                        "Practicing the presentation beforehand",
+                        "Engaging the audience with questions or interactive elements"
+                    ],
+                    answer: 1,
+                    category: "Verbal"
+                },
+                {
+                    question: "What is the best approach when you don't know the answer to a question during a business meeting?",
+                    options: [
+                        "Make up an answer to avoid looking uninformed",
+                        "Deflect by asking the questioner what they think",
+                        "Acknowledge you don't know and commit to finding the answer",
+                        "Ignore the question and move on to another topic"
+                    ],
+                    answer: 2,
+                    category: "Verbal"
+                },
+                {
+                    question: "Which of the following is an example of a closed-ended question?",
+                    options: [
+                        "What do you think about the new marketing strategy?",
+                        "How could we improve our customer service?",
+                        "Did you complete the quarterly report?",
+                        "Why did sales decrease last month?"
+                    ],
+                    answer: 2,
+                    category: "Verbal"
+                },
+                {
+                    question: "What is the most appropriate way to address cultural differences in business communication?",
+                    options: [
+                        "Ignore cultural differences to avoid awkwardness",
+                        "Expect others to adapt to your cultural norms",
+                        "Research and respect different cultural communication styles",
+                        "Point out cultural differences to show your awareness"
+                    ],
+                    answer: 2,
+                    category: "Interpersonal"
+                },
+                {
+                    question: "Which of the following is NOT a recommended practice for effective email communication?",
+                    options: [
+                        "Using a clear and specific subject line",
+                        "Proofreading before sending",
+                        "Including all recipients in the CC field for transparency",
+                        "Keeping messages concise and to the point"
+                    ],
+                    answer: 2,
+                    category: "Written"
+                },
+                {
+                    question: "What is the best way to handle interruptions during a business conversation?",
+                    options: [
+                        "Raise your voice to talk over the interrupter",
+                        "Stop talking immediately and let them take over",
+                        "Politely acknowledge them and ask to finish your point first",
+                        "Ignore them and continue speaking as if nothing happened"
+                    ],
+                    answer: 2,
+                    category: "Conflict"
+                },
+                {
+                    question: "Which communication approach is most effective when delivering bad news to a client?",
+                    options: [
+                        "Being direct and blunt to avoid confusion",
+                        "Using a buffer statement before delivering the news, then offering solutions",
+                        "Sending the news via email to avoid confrontation",
+                        "Delegating the task to someone else in your organization"
+                    ],
+                    answer: 1,
+                    category: "Conflict"
+                },
+                {
+                    question: "What is the primary purpose of asking clarifying questions in business communication?",
+                    options: [
+                        "To demonstrate your intelligence",
+                        "To challenge the speaker's authority",
+                        "To ensure you correctly understand the information",
+                        "To fill awkward silences in conversation"
+                    ],
+                    answer: 2,
+                    category: "Verbal"
+                }
+            ];
+
+            // DOM elements
+            const welcomeScreen = document.getElementById('welcome-screen');
+            const quizScreen = document.getElementById('quiz-screen');
+            const resultsScreen = document.getElementById('results-screen');
+            const paymentModal = document.getElementById('payment-modal');
+            const certificateScreen = document.getElementById('certificate-screen');
+            
+            const startBtn = document.getElementById('start-btn');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const skipBtn = document.getElementById('skip-btn');
+            const paymentBtn = document.getElementById('payment-btn');
+            const closePaymentBtn = document.getElementById('close-payment');
+            const processPaymentBtn = document.getElementById('process-payment');
+            const downloadBtn = document.getElementById('download-btn');
+            const shareBtn = document.getElementById('share-btn');
+            
+            const currentQuestionEl = document.getElementById('current-question');
+            const questionTextEl = document.getElementById('question-text');
+            const optionsContainerEl = document.getElementById('options-container');
+            const progressFillEl = document.getElementById('progress-fill');
+            const timerEl = document.getElementById('timer');
+            const questionNavEl = document.getElementById('question-nav');
+            
+            // Quiz state
+            let currentQuestion = 0;
+            let score = 0;
+            let userAnswers = Array(quizData.length).fill(null);
+            let timerInterval;
+            let timeLeft = 20 * 60; // 20 minutes in seconds
+            
+            // Start quiz
+            startBtn.addEventListener('click', function() {
+                welcomeScreen.classList.add('hidden');
+                quizScreen.classList.remove('hidden');
+                loadQuestion(currentQuestion);
+                createQuestionNav();
+                startTimer();
+            });
+            
+            // Create question navigation
+            function createQuestionNav() {
+                questionNavEl.innerHTML = '';
+                
+                for (let i = 0; i < quizData.length; i++) {
+                    const navBtn = document.createElement('button');
+                    navBtn.className = `w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${i === currentQuestion ? 'bg-indigo-600 text-white' : userAnswers[i] !== null ? 'bg-indigo-100 text-indigo-800' : 'bg-gray-200 text-gray-600'}`;
+                    navBtn.textContent = i + 1;
+                    
+                    navBtn.addEventListener('click', function() {
+                        currentQuestion = i;
+                        loadQuestion(currentQuestion);
+                        updateQuestionNav();
+                    });
+                    
+                    questionNavEl.appendChild(navBtn);
+                }
+            }
+            
+            // Update question navigation
+            function updateQuestionNav() {
+                const navBtns = questionNavEl.querySelectorAll('button');
+                
+                navBtns.forEach((btn, i) => {
+                    btn.className = `w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${i === currentQuestion ? 'bg-indigo-600 text-white' : userAnswers[i] !== null ? 'bg-indigo-100 text-indigo-800' : 'bg-gray-200 text-gray-600'}`;
+                });
+            }
+            
+            // Load question
+            function loadQuestion(index) {
+                const question = quizData[index];
+                questionTextEl.textContent = question.question;
+                currentQuestionEl.textContent = index + 1;
+                
+                // Update progress bar
+                const progress = ((index + 1) / quizData.length) * 100;
+                progressFillEl.style.width = `${progress}%`;
+                
+                // Clear previous options
+                optionsContainerEl.innerHTML = '';
+                
+                // Add options with animation
+                question.options.forEach((option, i) => {
+                    const optionBtn = document.createElement('button');
+                    optionBtn.className = `option-btn w-full text-left p-4 rounded-lg slide-in ${userAnswers[index] === i ? 'selected' : ''}`;
+                    optionBtn.style.animationDelay = `${i * 0.1}s`;
+                    optionBtn.innerHTML = `
+                        <div class="flex items-center">
+                            <div class="w-6 h-6 rounded-full border-2 border-gray-300 flex items-center justify-center mr-3 ${userAnswers[index] === i ? 'bg-indigo-600 border-indigo-600' : ''}">
+                                ${userAnswers[index] === i ? '<div class="w-2 h-2 rounded-full bg-white"></div>' : ''}
+                            </div>
+                            <span>${option}</span>
+                        </div>
+                    `;
+                    
+                    optionBtn.addEventListener('click', function() {
+                        selectOption(index, i);
+                    });
+                    
+                    optionsContainerEl.appendChild(optionBtn);
+                });
+                
+                // Update button states
+                prevBtn.disabled = index === 0;
+                prevBtn.classList.toggle('opacity-50', index === 0);
+                
+                if (index === quizData.length - 1) {
+                    nextBtn.textContent = 'Finish';
+                    nextBtn.innerHTML = 'Finish <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>';
+                } else {
+                    nextBtn.textContent = 'Next';
+                    nextBtn.innerHTML = 'Next <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>';
+                }
+            }
+            
+            // Select option
+            function selectOption(questionIndex, optionIndex) {
+                userAnswers[questionIndex] = optionIndex;
+                loadQuestion(questionIndex);
+                updateQuestionNav();
+            }
+            
+            // Navigation
+            prevBtn.addEventListener('click', function() {
+                if (currentQuestion > 0) {
+                    currentQuestion--;
+                    loadQuestion(currentQuestion);
+                    updateQuestionNav();
+                }
+            });
+            
+            nextBtn.addEventListener('click', function() {
+                if (currentQuestion < quizData.length - 1) {
+                    currentQuestion++;
+                    loadQuestion(currentQuestion);
+                    updateQuestionNav();
+                } else {
+                    finishQuiz();
+                }
+            });
+            
+            skipBtn.addEventListener('click', function() {
+                if (currentQuestion < quizData.length - 1) {
+                    currentQuestion++;
+                    loadQuestion(currentQuestion);
+                    updateQuestionNav();
+                } else {
+                    finishQuiz();
+                }
+            });
+            
+            // Timer
+            function startTimer() {
+                timerInterval = setInterval(function() {
+                    timeLeft--;
+                    
+                    const minutes = Math.floor(timeLeft / 60);
+                    const seconds = timeLeft % 60;
+                    
+                    timerEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                    
+                    if (timeLeft <= 300) { // 5 minutes left
+                        timerEl.classList.add('text-red-600', 'timer-warning');
+                    }
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        finishQuiz();
+                    }
+                }, 1000);
+            }
+            
+            // Finish quiz
+            function finishQuiz() {
+                clearInterval(timerInterval);
+                
+                // Calculate score
+                score = 0;
+                userAnswers.forEach((answer, index) => {
+                    if (answer === quizData[index].answer) {
+                        score++;
+                    }
+                });
+                
+                const scorePercentage = Math.round((score / quizData.length) * 100);
+                
+                // Calculate category scores
+                const categories = {
+                    "Written": { correct: 0, total: 0 },
+                    "Verbal": { correct: 0, total: 0 },
+                    "Interpersonal": { correct: 0, total: 0 },
+                    "Nonverbal": { correct: 0, total: 0 },
+                    "Conflict": { correct: 0, total: 0 }
+                };
+                
+                quizData.forEach((question, index) => {
+                    const category = question.category;
+                    if (categories[category]) {
+                        categories[category].total++;
+                        if (userAnswers[index] === question.answer) {
+                            categories[category].correct++;
+                        }
+                    }
+                });
+                
+                // Find strengths and areas for improvement
+                const strengths = [];
+                const improvements = [];
+                
+                for (const [category, data] of Object.entries(categories)) {
+                    if (data.total > 0) {
+                        const percentage = Math.round((data.correct / data.total) * 100);
+                        if (percentage >= 80) {
+                            strengths.push(`${category} Communication (${percentage}% correct)`);
+                        } else if (data.total >= 2) { // Only include as improvement if we have enough questions
+                            improvements.push(`${category} Communication (${percentage}% correct)`);
+                        }
+                    }
+                }
+                
+                // Update results screen
+                document.getElementById('score-percentage').textContent = `${scorePercentage}%`;
+                document.getElementById('correct-answers').textContent = score;
+                
+                const minutes = Math.floor((20 * 60 - timeLeft) / 60);
+                const seconds = (20 * 60 - timeLeft) % 60;
+                document.getElementById('time-taken').textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                // Set result message based on score
+                const resultMessage = document.getElementById('result-message');
+                if (scorePercentage >= 80) {
+                    resultMessage.textContent = 'Excellent! You have strong business communication skills.';
+                } else if (scorePercentage >= 60) {
+                    resultMessage.textContent = 'Good job! You have solid business communication skills.';
+                } else {
+                    resultMessage.textContent = 'You have completed the assessment. There\'s room for improvement in your business communication skills.';
+                }
+                
+                // Update strengths and improvements
+                const strengthsEl = document.getElementById('strengths');
+                strengthsEl.innerHTML = '';
+                
+                if (strengths.length > 0) {
+                    strengths.slice(0, 3).forEach(strength => {
+                        const div = document.createElement('div');
+                        div.className = 'flex items-start mb-2';
+                        div.innerHTML = `
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span>${strength}</span>
+                        `;
+                        strengthsEl.appendChild(div);
+                    });
+                } else {
+                    strengthsEl.innerHTML = '<p class="text-gray-500">Keep practicing to develop your strengths!</p>';
+                }
+                
+                const improvementsEl = document.getElementById('improvements');
+                improvementsEl.innerHTML = '';
+                
+                if (improvements.length > 0) {
+                    improvements.slice(0, 3).forEach(improvement => {
+                        const div = document.createElement('div');
+                        div.className = 'flex items-start mb-2';
+                        div.innerHTML = `
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                            <span>${improvement}</span>
+                        `;
+                        improvementsEl.appendChild(div);
+                    });
+                } else {
+                    improvementsEl.innerHTML = '<p class="text-gray-500">Great job! No significant areas for improvement.</p>';
+                }
+                
+                // Show results screen
+                quizScreen.classList.add('hidden');
+                resultsScreen.classList.remove('hidden');
+            }
+            
+            // Payment modal
+            paymentBtn.addEventListener('click', function() {
+                paymentModal.classList.remove('hidden');
+            });
+            
+            closePaymentBtn.addEventListener('click', function() {
+                paymentModal.classList.add('hidden');
+            });
+            
+            processPaymentBtn.addEventListener('click', function() {
+                paymentModal.classList.add('hidden');
+                resultsScreen.classList.add('hidden');
+                certificateScreen.classList.remove('hidden');
+                
+                // Set certificate details
+                const scorePercentage = Math.round((score / quizData.length) * 100);
+                document.getElementById('certificate-score').textContent = `${scorePercentage}%`;
+                
+                const today = new Date();
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                document.getElementById('certificate-date').textContent = today.toLocaleDateString('en-US', options);
+                
+                document.getElementById('certificate-id').textContent = `ID: BC-${today.getFullYear()}-${Math.floor(10000 + Math.random() * 90000)}`;
+                
+                // Create confetti effect
+                createConfetti();
+            });
+            
+            // Create confetti effect
+            function createConfetti() {
+                const confettiContainer = document.getElementById('confetti-container');
+                const colors = ['#6366f1', '#8b5cf6', '#a78bfa', '#c4b5fd', '#ffffff'];
+                
+                for (let i = 0; i < 100; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = `${Math.random() * 100}%`;
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.width = `${Math.random() * 10 + 5}px`;
+                    confetti.style.height = `${Math.random() * 10 + 5}px`;
+                    confetti.style.opacity = '1';
+                    confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
+                    confetti.style.animationDelay = `${Math.random() * 2}s`;
+                    
+                    confettiContainer.appendChild(confetti);
+                }
+            }
+            
+            // Certificate actions
+            downloadBtn.addEventListener('click', function() {
+                alert('Certificate download started! (This is a demo feature)');
+            });
+            
+            shareBtn.addEventListener('click', function() {
+                alert('Share options opened! (This is a demo feature)');
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'965d3e83d49a8eee',t:'MTc1MzYzMDkyMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

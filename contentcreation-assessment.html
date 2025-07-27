@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Creation Skills Assessment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+        }
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 8px;
+            background: #e0e7ff;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #06b6d4, #0ea5e9);
+            transition: width 0.3s ease;
+        }
+        .btn {
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2);
+        }
+        .option-btn {
+            transition: all 0.2s ease;
+            border: 2px solid #e5e7eb;
+        }
+        .option-btn:hover {
+            border-color: #0ea5e9;
+            background-color: #f0f9ff;
+        }
+        .option-btn.selected {
+            border-color: #0ea5e9;
+            background-color: #e0f2fe;
+        }
+        .option-btn.correct {
+            border-color: #10b981;
+            background-color: #d1fae5;
+        }
+        .option-btn.incorrect {
+            border-color: #ef4444;
+            background-color: #fee2e2;
+        }
+        .certificate {
+            background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+            border: 2px solid #0ea5e9;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+        .certificate::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.1) 0%, rgba(56, 189, 248, 0.1) 100%);
+            border-radius: 50%;
+        }
+        .certificate::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.1) 0%, rgba(56, 189, 248, 0.1) 100%);
+            border-radius: 50%;
+        }
+        .badge {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #0ea5e9;
+            opacity: 0;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(1000px) rotate(360deg); opacity: 0; }
+        }
+        .timer-warning {
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .scale-in {
+            animation: scaleIn 0.5s ease-out forwards;
+            transform-origin: center;
+        }
+        @keyframes scaleIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .slide-in {
+            animation: slideIn 0.5s ease-out forwards;
+        }
+        @keyframes slideIn {
+            0% { transform: translateX(-20px); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="min-h-screen py-8 px-4">
+    <div id="app">
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="quiz-container p-8">
+            <div class="text-center mb-8">
+                <div class="inline-block p-4 bg-cyan-100 rounded-full mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-cyan-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                </div>
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">Content Creation Skills Assessment</h1>
+                <p class="text-gray-600 mb-6">Test your knowledge with 20 questions and earn a certificate</p>
+                
+                <div class="flex flex-wrap justify-center gap-6 mb-8">
+                    <div class="flex items-center">
+                        <div class="bg-cyan-100 p-2 rounded-full mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-cyan-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <span class="text-gray-700">20 minutes</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="bg-cyan-100 p-2 rounded-full mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-cyan-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <span class="text-gray-700">20 questions</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="bg-cyan-100 p-2 rounded-full mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-cyan-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                        </div>
+                        <span class="text-gray-700">Certificate on completion</span>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                    <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+                        <div class="bg-cyan-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-cyan-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Writing & Editing</h3>
+                        <p class="text-gray-600 text-sm text-center">Master content writing, editing, and proofreading skills</p>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+                        <div class="bg-cyan-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-cyan-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Visual Content</h3>
+                        <p class="text-gray-600 text-sm text-center">Learn about graphics, video, and multimedia content</p>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+                        <div class="bg-cyan-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-cyan-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Strategy & Analytics</h3>
+                        <p class="text-gray-600 text-sm text-center">Understand content planning and performance analysis</p>
+                    </div>
+                </div>
+                
+                <div class="bg-gradient-to-r from-cyan-50 to-sky-50 p-6 rounded-lg mb-8 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 -mt-10 -mr-10 bg-cyan-100 rounded-full opacity-50"></div>
+                    <div class="absolute bottom-0 left-0 w-24 h-24 -mb-8 -ml-8 bg-sky-100 rounded-full opacity-50"></div>
+                    <h3 class="font-semibold text-cyan-800 mb-3 relative z-10">Why Take This Assessment?</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 relative z-10">
+                        <div class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-cyan-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span class="text-gray-700 text-sm">Validate your content creation skills</span>
+                        </div>
+                        <div class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-cyan-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span class="text-gray-700 text-sm">Identify areas for improvement</span>
+                        </div>
+                        <div class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-cyan-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span class="text-gray-700 text-sm">Earn a professional certificate</span>
+                        </div>
+                        <div class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-cyan-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span class="text-gray-700 text-sm">Showcase your expertise to employers</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex justify-center">
+                <button id="start-btn" class="btn bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-600 hover:to-sky-600 text-white font-medium py-3 px-8 rounded-lg flex items-center">
+                    Start Assessment
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="quiz-container hidden">
+            <div class="p-6 bg-gradient-to-r from-cyan-50 to-sky-50 border-b border-cyan-100">
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <h2 class="text-xl font-semibold text-gray-800">Content Creation Assessment</h2>
+                        <p class="text-gray-600 text-sm">Question <span id="current-question">1</span> of 20</p>
+                    </div>
+                    <div class="bg-white px-4 py-2 rounded-lg shadow-sm flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-cyan-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span id="timer" class="font-medium">20:00</span>
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div id="progress-fill" class="progress-fill" style="width: 5%"></div>
+                </div>
+            </div>
+            
+            <div class="p-8">
+                <h3 id="question-text" class="text-xl font-medium text-gray-800 mb-6">Loading question...</h3>
+                
+                <div id="options-container" class="space-y-4 mb-8">
+                    <!-- Options will be inserted here -->
+                </div>
+                
+                <div class="flex justify-between">
+                    <button id="prev-btn" class="btn bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-2 px-6 rounded-lg flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                        Previous
+                    </button>
+                    <div class="flex space-x-2">
+                        <button id="skip-btn" class="btn bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-4 rounded-lg">
+                            Skip
+                        </button>
+                        <button id="next-btn" class="btn bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-600 hover:to-sky-600 text-white font-medium py-2 px-6 rounded-lg flex items-center">
+                            Next
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="p-4 bg-gray-50 border-t border-gray-100">
+                <div class="flex flex-wrap gap-2 justify-center" id="question-nav">
+                    <!-- Question navigation buttons will be inserted here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="quiz-container hidden">
+            <div class="p-8 text-center">
+                <div id="score-badge" class="badge w-32 h-32 rounded-full bg-gradient-to-r from-cyan-100 to-sky-100 flex items-center justify-center mx-auto mb-6">
+                    <div class="text-center">
+                        <span id="score-percentage" class="block text-3xl font-bold text-cyan-600">85%</span>
+                        <span class="text-sm text-cyan-800">Score</span>
+                    </div>
+                </div>
+                
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Assessment Complete!</h2>
+                <p id="result-message" class="text-gray-600 mb-6">Great job! You've completed the assessment.</p>
+                
+                <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
+                    <h3 class="font-semibold text-gray-800 mb-4">Performance Summary</h3>
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div class="bg-gradient-to-r from-cyan-50 to-sky-50 p-4 rounded-lg">
+                            <div class="text-2xl font-bold text-cyan-600 mb-1"><span id="correct-answers">17</span>/20</div>
+                            <div class="text-sm text-gray-600">Correct Answers</div>
+                        </div>
+                        <div class="bg-gradient-to-r from-cyan-50 to-sky-50 p-4 rounded-lg">
+                            <div class="text-2xl font-bold text-cyan-600 mb-1"><span id="time-taken">12:45</span></div>
+                            <div class="text-sm text-gray-600">Time Taken</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <div class="flex items-center mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-cyan-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                            <h4 class="font-medium text-gray-700">Your Strengths</h4>
+                        </div>
+                        <div id="strengths" class="text-sm text-gray-600 bg-gray-50 p-4 rounded-lg">
+                            <div class="flex items-start mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                <span>Content Strategy (100% correct)</span>
+                            </div>
+                            <div class="flex items-start">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                <span>Writing & Editing (90% correct)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex items-center mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                            <h4 class="font-medium text-gray-700">Areas for Improvement</h4>
+                        </div>
+                        <div id="improvements" class="text-sm text-gray-600 bg-gray-50 p-4 rounded-lg">
+                            <div class="flex items-start mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                </svg>
+                                <span>Visual Content Creation (60% correct)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gradient-to-r from-cyan-50 to-sky-50 p-6 rounded-lg mb-8 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 -mt-10 -mr-10 bg-cyan-100 rounded-full opacity-30"></div>
+                    <div class="relative z-10">
+                        <h3 class="font-semibold text-gray-800 mb-3">Next Steps</h3>
+                        <p class="text-gray-600 text-sm mb-4">Get your professional certificate to showcase your content creation skills!</p>
+                        <ul class="text-sm text-gray-600 space-y-2">
+                            <li class="flex items-start">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-cyan-600 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                </svg>
+                                <span>Verifiable digital certificate</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-cyan-600 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                                <span>Add to your LinkedIn profile</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-cyan-600 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                                <span>Download as PDF</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="flex justify-center">
+                    <button id="payment-btn" class="btn bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-600 hover:to-sky-600 text-white font-medium py-3 px-8 rounded-lg flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                        </svg>
+                        Get Your Certificate ($19.99)
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Modal -->
+        <div id="payment-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full mx-4 scale-in">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold text-gray-800">Payment Details</h3>
+                    <button id="close-payment" class="text-gray-400 hover:text-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="mb-6">
+                    <div class="flex justify-between items-center p-4 bg-gradient-to-r from-cyan-50 to-sky-50 rounded-lg mb-4">
+                        <div class="flex items-center">
+                            <div class="bg-cyan-100 p-2 rounded-full mr-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-cyan-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Content Creation Certificate</h4>
+                                <p class="text-sm text-gray-600">Verifiable digital certificate</p>
+                            </div>
+                        </div>
+                        <span class="font-bold text-cyan-600">$19.99</span>
+                    </div>
+                    
+                    <!-- This is a demo payment form -->
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Card Number</label>
+                            <input type="text" placeholder="1234 5678 9012 3456" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500">
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Expiry Date</label>
+                                <input type="text" placeholder="MM/YY" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">CVC</label>
+                                <input type="text" placeholder="123" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Name on Card</label>
+                            <input type="text" placeholder="John Doe" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                            <input type="email" placeholder="your@email.com" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <button id="process-payment" class="btn w-full bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-600 hover:to-sky-600 text-white font-medium py-3 px-8 rounded-lg">
+                        Pay $19.99 and Get Certificate
+                    </button>
+                    <p class="text-xs text-gray-500 mt-4">This is a demo payment form. No actual payment will be processed.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Certificate Screen -->
+        <div id="certificate-screen" class="hidden">
+            <div class="max-w-4xl mx-auto">
+                <div id="confetti-container" class="fixed inset-0 pointer-events-none"></div>
+                
+                <div class="certificate p-8 md:p-12 rounded-xl mb-8">
+                    <div class="text-center mb-8">
+                        <div class="inline-block">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-cyan-600 mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="8" r="7"></circle>
+                                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                            </svg>
+                        </div>
+                        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-4">Certificate of Achievement</h2>
+                    </div>
+                    
+                    <div class="text-center mb-8">
+                        <p class="text-gray-600 mb-2">This certifies that</p>
+                        <h3 id="certificate-name" class="text-2xl font-bold text-cyan-600 mb-2">John Doe</h3>
+                        <p class="text-gray-600">has successfully completed the</p>
+                        <h4 class="text-xl font-semibold text-gray-800 my-2">Content Creation Skills Assessment</h4>
+                        <p class="text-gray-600 mb-2">with a score of</p>
+                        <div class="inline-block bg-gradient-to-r from-cyan-100 to-sky-100 px-4 py-2 rounded-full">
+                            <span id="certificate-score" class="text-xl font-bold text-cyan-600">85%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between items-end">
+                        <div>
+                            <svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10 25C15 15 25 30 30 20C35 10 45 25 50 15C55 5 65 20 70 10C75 0 85 15 90 5C95 -5 105 10 110 0" stroke="#0ea5e9" stroke-width="2"/>
+                            </svg>
+                            <div class="h-px w-40 bg-gray-300 mb-2"></div>
+                            <p class="text-sm text-gray-600">Authorized Signature</p>
+                        </div>
+                        <div class="text-right">
+                            <p id="certificate-date" class="text-sm text-gray-600">June 15, 2023</p>
+                            <p class="text-sm text-gray-600">Date Issued</p>
+                        </div>
+                    </div>
+                    
+                    <div class="absolute bottom-4 right-4">
+                        <div class="flex items-center text-xs text-gray-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span id="certificate-id">ID: CC-2023-12345</span>
+                        </div>
+                    </div>
+                    
+                    <div class="absolute top-8 right-8">
+                        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="40" cy="40" r="38" stroke="#0ea5e9" stroke-width="2" stroke-dasharray="4 4"/>
+                            <circle cx="40" cy="40" r="30" fill="#e0f2fe" fill-opacity="0.5"/>
+                            <path d="M30 40L36 46L50 32" stroke="#0ea5e9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button id="download-btn" class="btn bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-600 hover:to-sky-600 text-white font-medium py-3 px-6 rounded-lg flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                        Download Certificate
+                    </button>
+                    <button id="share-btn" class="btn bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-3 px-6 rounded-lg flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                        </svg>
+                        Share Certificate
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Quiz data
+            const quizData = [
+                {
+                    question: "What is the primary purpose of a content brief?",
+                    options: [
+                        "To provide a summary of published content",
+                        "To outline the goals, requirements, and specifications for content creation",
+                        "To brief the team on content performance",
+                        "To create a short version of longer content"
+                    ],
+                    answer: 1,
+                    category: "Strategy"
+                },
+                {
+                    question: "Which of the following is NOT typically included in a content style guide?",
+                    options: [
+                        "Brand voice and tone guidelines",
+                        "Grammar and punctuation preferences",
+                        "Employee vacation schedules",
+                        "Formatting standards"
+                    ],
+                    answer: 2,
+                    category: "Writing"
+                },
+                {
+                    question: "What is the inverted pyramid writing structure commonly used for?",
+                    options: [
+                        "Academic research papers",
+                        "News articles and press releases",
+                        "Creative fiction writing",
+                        "Technical documentation"
+                    ],
+                    answer: 1,
+                    category: "Writing"
+                },
+                {
+                    question: "Which file format is best for maintaining image quality while keeping file size reasonable for web use?",
+                    options: [
+                        "BMP",
+                        "GIF",
+                        "PNG",
+                        "TIFF"
+                    ],
+                    answer: 2,
+                    category: "Visual"
+                },
+                {
+                    question: "What does the term 'evergreen content' refer to?",
+                    options: [
+                        "Content about environmental topics",
+                        "Content that remains relevant and valuable over a long period",
+                        "Content published during the winter holidays",
+                        "Content that generates recurring revenue"
+                    ],
+                    answer: 1,
+                    category: "Strategy"
+                },
+                {
+                    question: "Which of the following is an example of a call-to-action (CTA)?",
+                    options: [
+                        "A company's mission statement",
+                        "A blog post introduction",
+                        "A 'Subscribe Now' button",
+                        "A product description"
+                    ],
+                    answer: 2,
+                    category: "Writing"
+                },
+                {
+                    question: "What is the rule of thirds in visual composition?",
+                    options: [
+                        "Dividing content into three equal sections",
+                        "Using three different colors in design",
+                        "A guideline that places the subject at the intersection of dividing lines",
+                        "Creating content for three different platforms"
+                    ],
+                    answer: 2,
+                    category: "Visual"
+                },
+                {
+                    question: "What is A/B testing in content marketing?",
+                    options: [
+                        "Testing content with audiences in different age brackets",
+                        "Comparing two versions of content to see which performs better",
+                        "Testing content on platforms A and B",
+                        "Grading content quality on a scale from A to B"
+                    ],
+                    answer: 1,
+                    category: "Analytics"
+                },
+                {
+                    question: "Which of the following is NOT a common content format?",
+                    options: [
+                        "Blog posts",
+                        "Infographics",
+                        "Webinars",
+                        "Hyperlinks"
+                    ],
+                    answer: 3,
+                    category: "Strategy"
+                },
+                {
+                    question: "What is the purpose of alt text for images?",
+                    options: [
+                        "To provide alternative text for search engines and screen readers",
+                        "To create an alternative version of the image",
+                        "To add copyright information",
+                        "To make images load faster"
+                    ],
+                    answer: 0,
+                    category: "Visual"
+                },
+                {
+                    question: "What is the ideal length for a meta description?",
+                    options: [
+                        "50-100 characters",
+                        "120-160 characters",
+                        "200-250 characters",
+                        "300-350 characters"
+                    ],
+                    answer: 1,
+                    category: "SEO"
+                },
+                {
+                    question: "Which of the following is a key principle of UX writing?",
+                    options: [
+                        "Using complex terminology to sound professional",
+                        "Being concise and clear",
+                        "Writing long, detailed explanations",
+                        "Using passive voice for all instructions"
+                    ],
+                    answer: 1,
+                    category: "Writing"
+                },
+                {
+                    question: "What is the primary difference between copywriting and content writing?",
+                    options: [
+                        "Copywriting focuses on selling, while content writing focuses on informing or entertaining",
+                        "Copywriting is for digital platforms, content writing is for print",
+                        "Copywriting is free, content writing is paid",
+                        "Copywriting is short-form, content writing is always long-form"
+                    ],
+                    answer: 0,
+                    category: "Writing"
+                },
+                {
+                    question: "Which content format typically has the highest engagement rate?",
+                    options: [
+                        "Text-only blog posts",
+                        "Video content",
+                        "PDF documents",
+                        "Audio podcasts"
+                    ],
+                    answer: 1,
+                    category: "Strategy"
+                },
+                {
+                    question: "What is the purpose of a content calendar?",
+                    options: [
+                        "To track content performance metrics",
+                        "To plan and organize content creation and publication schedules",
+                        "To calculate content marketing ROI",
+                        "To store published content"
+                    ],
+                    answer: 1,
+                    category: "Strategy"
+                },
+                {
+                    question: "Which of the following is NOT a common content KPI (Key Performance Indicator)?",
+                    options: [
+                        "Page views",
+                        "Time on page",
+                        "Employee satisfaction",
+                        "Conversion rate"
+                    ],
+                    answer: 2,
+                    category: "Analytics"
+                },
+                {
+                    question: "What is the recommended aspect ratio for YouTube videos?",
+                    options: [
+                        "1:1 (square)",
+                        "4:3 (standard)",
+                        "16:9 (widescreen)",
+                        "9:16 (vertical)"
+                    ],
+                    answer: 2,
+                    category: "Visual"
+                },
+                {
+                    question: "What is the primary purpose of a content audit?",
+                    options: [
+                        "To check for plagiarism",
+                        "To evaluate existing content and identify gaps or opportunities",
+                        "To count the total number of content pieces",
+                        "To verify content ownership"
+                    ],
+                    answer: 1,
+                    category: "Strategy"
+                },
+                {
+                    question: "Which of the following is a best practice for writing effective headlines?",
+                    options: [
+                        "Always use all capital letters",
+                        "Make them as long as possible to include keywords",
+                        "Be clear, specific, and create interest",
+                        "Always use question marks"
+                    ],
+                    answer: 2,
+                    category: "Writing"
+                },
+                {
+                    question: "What does the acronym AIDA stand for in content marketing?",
+                    options: [
+                        "Analysis, Information, Decision, Action",
+                        "Attention, Interest, Desire, Action",
+                        "Audience, Interaction, Distribution, Analytics",
+                        "Authority, Influence, Direction, Advantage"
+                    ],
+                    answer: 1,
+                    category: "Strategy"
+                }
+            ];
+
+            // DOM elements
+            const welcomeScreen = document.getElementById('welcome-screen');
+            const quizScreen = document.getElementById('quiz-screen');
+            const resultsScreen = document.getElementById('results-screen');
+            const paymentModal = document.getElementById('payment-modal');
+            const certificateScreen = document.getElementById('certificate-screen');
+            
+            const startBtn = document.getElementById('start-btn');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const skipBtn = document.getElementById('skip-btn');
+            const paymentBtn = document.getElementById('payment-btn');
+            const closePaymentBtn = document.getElementById('close-payment');
+            const processPaymentBtn = document.getElementById('process-payment');
+            const downloadBtn = document.getElementById('download-btn');
+            const shareBtn = document.getElementById('share-btn');
+            
+            const currentQuestionEl = document.getElementById('current-question');
+            const questionTextEl = document.getElementById('question-text');
+            const optionsContainerEl = document.getElementById('options-container');
+            const progressFillEl = document.getElementById('progress-fill');
+            const timerEl = document.getElementById('timer');
+            const questionNavEl = document.getElementById('question-nav');
+            
+            // Quiz state
+            let currentQuestion = 0;
+            let score = 0;
+            let userAnswers = Array(quizData.length).fill(null);
+            let timerInterval;
+            let timeLeft = 20 * 60; // 20 minutes in seconds
+            
+            // Start quiz
+            startBtn.addEventListener('click', function() {
+                welcomeScreen.classList.add('hidden');
+                quizScreen.classList.remove('hidden');
+                loadQuestion(currentQuestion);
+                createQuestionNav();
+                startTimer();
+            });
+            
+            // Create question navigation
+            function createQuestionNav() {
+                questionNavEl.innerHTML = '';
+                
+                for (let i = 0; i < quizData.length; i++) {
+                    const navBtn = document.createElement('button');
+                    navBtn.className = `w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${i === currentQuestion ? 'bg-cyan-600 text-white' : userAnswers[i] !== null ? 'bg-cyan-100 text-cyan-800' : 'bg-gray-200 text-gray-600'}`;
+                    navBtn.textContent = i + 1;
+                    
+                    navBtn.addEventListener('click', function() {
+                        currentQuestion = i;
+                        loadQuestion(currentQuestion);
+                        updateQuestionNav();
+                    });
+                    
+                    questionNavEl.appendChild(navBtn);
+                }
+            }
+            
+            // Update question navigation
+            function updateQuestionNav() {
+                const navBtns = questionNavEl.querySelectorAll('button');
+                
+                navBtns.forEach((btn, i) => {
+                    btn.className = `w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${i === currentQuestion ? 'bg-cyan-600 text-white' : userAnswers[i] !== null ? 'bg-cyan-100 text-cyan-800' : 'bg-gray-200 text-gray-600'}`;
+                });
+            }
+            
+            // Load question
+            function loadQuestion(index) {
+                const question = quizData[index];
+                questionTextEl.textContent = question.question;
+                currentQuestionEl.textContent = index + 1;
+                
+                // Update progress bar
+                const progress = ((index + 1) / quizData.length) * 100;
+                progressFillEl.style.width = `${progress}%`;
+                
+                // Clear previous options
+                optionsContainerEl.innerHTML = '';
+                
+                // Add options with animation
+                question.options.forEach((option, i) => {
+                    const optionBtn = document.createElement('button');
+                    optionBtn.className = `option-btn w-full text-left p-4 rounded-lg slide-in ${userAnswers[index] === i ? 'selected' : ''}`;
+                    optionBtn.style.animationDelay = `${i * 0.1}s`;
+                    optionBtn.innerHTML = `
+                        <div class="flex items-center">
+                            <div class="w-6 h-6 rounded-full border-2 border-gray-300 flex items-center justify-center mr-3 ${userAnswers[index] === i ? 'bg-cyan-600 border-cyan-600' : ''}">
+                                ${userAnswers[index] === i ? '<div class="w-2 h-2 rounded-full bg-white"></div>' : ''}
+                            </div>
+                            <span>${option}</span>
+                        </div>
+                    `;
+                    
+                    optionBtn.addEventListener('click', function() {
+                        selectOption(index, i);
+                    });
+                    
+                    optionsContainerEl.appendChild(optionBtn);
+                });
+                
+                // Update button states
+                prevBtn.disabled = index === 0;
+                prevBtn.classList.toggle('opacity-50', index === 0);
+                
+                if (index === quizData.length - 1) {
+                    nextBtn.textContent = 'Finish';
+                    nextBtn.innerHTML = 'Finish <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>';
+                } else {
+                    nextBtn.textContent = 'Next';
+                    nextBtn.innerHTML = 'Next <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>';
+                }
+            }
+            
+            // Select option
+            function selectOption(questionIndex, optionIndex) {
+                userAnswers[questionIndex] = optionIndex;
+                loadQuestion(questionIndex);
+                updateQuestionNav();
+            }
+            
+            // Navigation
+            prevBtn.addEventListener('click', function() {
+                if (currentQuestion > 0) {
+                    currentQuestion--;
+                    loadQuestion(currentQuestion);
+                    updateQuestionNav();
+                }
+            });
+            
+            nextBtn.addEventListener('click', function() {
+                if (currentQuestion < quizData.length - 1) {
+                    currentQuestion++;
+                    loadQuestion(currentQuestion);
+                    updateQuestionNav();
+                } else {
+                    finishQuiz();
+                }
+            });
+            
+            skipBtn.addEventListener('click', function() {
+                if (currentQuestion < quizData.length - 1) {
+                    currentQuestion++;
+                    loadQuestion(currentQuestion);
+                    updateQuestionNav();
+                } else {
+                    finishQuiz();
+                }
+            });
+            
+            // Timer
+            function startTimer() {
+                timerInterval = setInterval(function() {
+                    timeLeft--;
+                    
+                    const minutes = Math.floor(timeLeft / 60);
+                    const seconds = timeLeft % 60;
+                    
+                    timerEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                    
+                    if (timeLeft <= 300) { // 5 minutes left
+                        timerEl.classList.add('text-red-600', 'timer-warning');
+                    }
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        finishQuiz();
+                    }
+                }, 1000);
+            }
+            
+            // Finish quiz
+            function finishQuiz() {
+                clearInterval(timerInterval);
+                
+                // Calculate score
+                score = 0;
+                userAnswers.forEach((answer, index) => {
+                    if (answer === quizData[index].answer) {
+                        score++;
+                    }
+                });
+                
+                const scorePercentage = Math.round((score / quizData.length) * 100);
+                
+                // Calculate category scores
+                const categories = {
+                    "Writing": { correct: 0, total: 0 },
+                    "Visual": { correct: 0, total: 0 },
+                    "Strategy": { correct: 0, total: 0 },
+                    "Analytics": { correct: 0, total: 0 },
+                    "SEO": { correct: 0, total: 0 }
+                };
+                
+                quizData.forEach((question, index) => {
+                    const category = question.category;
+                    if (categories[category]) {
+                        categories[category].total++;
+                        if (userAnswers[index] === question.answer) {
+                            categories[category].correct++;
+                        }
+                    }
+                });
+                
+                // Find strengths and areas for improvement
+                const strengths = [];
+                const improvements = [];
+                
+                for (const [category, data] of Object.entries(categories)) {
+                    if (data.total > 0) {
+                        const percentage = Math.round((data.correct / data.total) * 100);
+                        if (percentage >= 80) {
+                            strengths.push(`${category} (${percentage}% correct)`);
+                        } else if (data.total >= 2) { // Only include as improvement if we have enough questions
+                            improvements.push(`${category} (${percentage}% correct)`);
+                        }
+                    }
+                }
+                
+                // Update results screen
+                document.getElementById('score-percentage').textContent = `${scorePercentage}%`;
+                document.getElementById('correct-answers').textContent = score;
+                
+                const minutes = Math.floor((20 * 60 - timeLeft) / 60);
+                const seconds = (20 * 60 - timeLeft) % 60;
+                document.getElementById('time-taken').textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                // Set result message based on score
+                const resultMessage = document.getElementById('result-message');
+                if (scorePercentage >= 80) {
+                    resultMessage.textContent = 'Excellent! You have a strong understanding of content creation.';
+                } else if (scorePercentage >= 60) {
+                    resultMessage.textContent = 'Good job! You have a solid foundation in content creation.';
+                } else {
+                    resultMessage.textContent = 'You have completed the assessment. There\'s room for improvement in your content creation knowledge.';
+                }
+                
+                // Update strengths and improvements
+                const strengthsEl = document.getElementById('strengths');
+                strengthsEl.innerHTML = '';
+                
+                if (strengths.length > 0) {
+                    strengths.slice(0, 3).forEach(strength => {
+                        const div = document.createElement('div');
+                        div.className = 'flex items-start mb-2';
+                        div.innerHTML = `
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span>${strength}</span>
+                        `;
+                        strengthsEl.appendChild(div);
+                    });
+                } else {
+                    strengthsEl.innerHTML = '<p class="text-gray-500">Keep practicing to develop your strengths!</p>';
+                }
+                
+                const improvementsEl = document.getElementById('improvements');
+                improvementsEl.innerHTML = '';
+                
+                if (improvements.length > 0) {
+                    improvements.slice(0, 3).forEach(improvement => {
+                        const div = document.createElement('div');
+                        div.className = 'flex items-start mb-2';
+                        div.innerHTML = `
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                            <span>${improvement}</span>
+                        `;
+                        improvementsEl.appendChild(div);
+                    });
+                } else {
+                    improvementsEl.innerHTML = '<p class="text-gray-500">Great job! No significant areas for improvement.</p>';
+                }
+                
+                // Show results screen
+                quizScreen.classList.add('hidden');
+                resultsScreen.classList.remove('hidden');
+            }
+            
+            // Payment modal
+            paymentBtn.addEventListener('click', function() {
+                paymentModal.classList.remove('hidden');
+            });
+            
+            closePaymentBtn.addEventListener('click', function() {
+                paymentModal.classList.add('hidden');
+            });
+            
+            processPaymentBtn.addEventListener('click', function() {
+                paymentModal.classList.add('hidden');
+                resultsScreen.classList.add('hidden');
+                certificateScreen.classList.remove('hidden');
+                
+                // Set certificate details
+                const scorePercentage = Math.round((score / quizData.length) * 100);
+                document.getElementById('certificate-score').textContent = `${scorePercentage}%`;
+                
+                const today = new Date();
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                document.getElementById('certificate-date').textContent = today.toLocaleDateString('en-US', options);
+                
+                document.getElementById('certificate-id').textContent = `ID: CC-${today.getFullYear()}-${Math.floor(10000 + Math.random() * 90000)}`;
+                
+                // Create confetti effect
+                createConfetti();
+            });
+            
+            // Create confetti effect
+            function createConfetti() {
+                const confettiContainer = document.getElementById('confetti-container');
+                const colors = ['#0ea5e9', '#38bdf8', '#7dd3fc', '#bae6fd', '#ffffff'];
+                
+                for (let i = 0; i < 100; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = `${Math.random() * 100}%`;
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.width = `${Math.random() * 10 + 5}px`;
+                    confetti.style.height = `${Math.random() * 10 + 5}px`;
+                    confetti.style.opacity = '1';
+                    confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
+                    confetti.style.animationDelay = `${Math.random() * 2}s`;
+                    
+                    confettiContainer.appendChild(confetti);
+                }
+            }
+            
+            // Certificate actions
+            downloadBtn.addEventListener('click', function() {
+                alert('Certificate download started! (This is a demo feature)');
+            });
+            
+            shareBtn.addEventListener('click', function() {
+                alert('Share options opened! (This is a demo feature)');
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'965d3dcf06be0ff2',t:'MTc1MzYzMDg5MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

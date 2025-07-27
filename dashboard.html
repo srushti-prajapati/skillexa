@@ -144,7 +144,6 @@
   </div>
   
   <div class="user-stats">
-    <div>🎯 Points: <strong>980</strong></div>
     <div>📅 Days Trained: <strong>6</strong></div>
   </div>
 </div>
@@ -170,17 +169,6 @@
     </div>
   </div>
 
-  <!-- Right Column: Leaderboard -->
-  <div class="right-panel leaderboard">
-    <h3>🏆 Top Learners</h3>
-    <ul>
-      <li>1. Sru - 980 pts</li>
-      <li>2. Riya - 940 pts</li>
-      <li>3. Aarav - 900 pts</li>
-    </ul>
-  </div>
-</div>
-
 <script>
   const user = JSON.parse(localStorage.getItem("skillexa-user"));
   if (!user) {
@@ -195,10 +183,10 @@
   let planText = "";
   switch (user.plan) {
     case "premium":
-      planText = "You're a Premium Member (₹399/month)";
+      planText = "You're a Premium Member (₹799/month)";
       break;
     case "all":
-      planText = "You're on the All-in-One Plan (₹599/year)";
+      planText = "You're on the All-in-One Plan (₹999/year)";
       break;
     default:
       planText = "You're on the Free Plan";

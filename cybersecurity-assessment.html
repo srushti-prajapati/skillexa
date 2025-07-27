@@ -1,0 +1,1808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cybersecurity Skills Assessment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #f8fafc;
+            min-height: 100vh;
+        }
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+        .progress-bar {
+            transition: width 0.5s ease-in-out;
+        }
+        .card {
+            transition: all 0.3s ease;
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(148, 163, 184, 0.4);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%);
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(6, 182, 212, 0.3);
+        }
+        .certificate {
+            background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+            border: 2px solid #06b6d4;
+            position: relative;
+            overflow: hidden;
+            color: #1e293b;
+        }
+        .certificate::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 100px;
+            height: 100px;
+            background: rgba(6, 182, 212, 0.1);
+            border-radius: 50%;
+        }
+        .certificate::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            right: -50px;
+            width: 100px;
+            height: 100px;
+            background: rgba(6, 182, 212, 0.1);
+            border-radius: 50%;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        .seal {
+            position: absolute;
+            bottom: 30px;
+            right: 40px;
+            width: 100px;
+            height: 100px;
+        }
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0;
+            z-index: 1000;
+        }
+        .timer-warning {
+            animation: pulse 1s infinite;
+        }
+        .code-block {
+            background: #0f172a;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            border-left: 4px solid #06b6d4;
+            overflow-x: auto;
+        }
+        .code-line {
+            display: block;
+            line-height: 1.5;
+        }
+        .keyword {
+            color: #93c5fd;
+        }
+        .string {
+            color: #86efac;
+        }
+        .comment {
+            color: #94a3b8;
+        }
+        .number {
+            color: #fca5a5;
+        }
+        .function {
+            color: #c4b5fd;
+        }
+        .option-card {
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+        }
+        .option-card:hover {
+            border-color: #06b6d4;
+            background: rgba(6, 182, 212, 0.1);
+        }
+        .option-card.selected {
+            border-color: #06b6d4;
+            background: rgba(6, 182, 212, 0.2);
+        }
+        .glow {
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.5);
+        }
+        .rotating-icon {
+            animation: rotate 20s linear infinite;
+        }
+        .rotating-icon-reverse {
+            animation: rotate-reverse 15s linear infinite;
+        }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes rotate-reverse {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
+        }
+        .typing-animation::after {
+            content: '|';
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .data-point {
+            transition: all 0.3s ease;
+        }
+        .data-point:hover {
+            transform: scale(1.5);
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #06b6d4, #0284c7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg"><path fill="%2306b6d4" fill-opacity="0.1" d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        .hexagon {
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        }
+        .shield {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        .shield-node {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #06b6d4;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .shield-node:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.5);
+        }
+        .shield-node.active {
+            background: #f472b6;
+            box-shadow: 0 0 10px #f472b6;
+        }
+        .shield-connection {
+            position: absolute;
+            height: 2px;
+            background: rgba(6, 182, 212, 0.3);
+            transform-origin: 0 0;
+            z-index: -1;
+        }
+        .shield-connection.active {
+            background: rgba(244, 114, 182, 0.7);
+            box-shadow: 0 0 5px rgba(244, 114, 182, 0.5);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        .bar {
+            transition: height 1s ease-in-out;
+        }
+        .scatter-point {
+            transition: all 0.3s ease;
+        }
+        .scatter-point:hover {
+            r: 8;
+        }
+        .grid-bg {
+            background-image: radial-gradient(circle, #06b6d4 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .typing-effect {
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 2px solid #06b6d4;
+            animation: typing 3s steps(30) infinite alternate, blink-caret 0.75s step-end infinite;
+        }
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #06b6d4 }
+        }
+        .graph-node {
+            transition: all 0.3s ease;
+        }
+        .graph-node:hover {
+            filter: drop-shadow(0 0 8px rgba(6, 182, 212, 0.7));
+            transform: scale(1.1);
+        }
+        .graph-edge {
+            transition: all 0.3s ease;
+        }
+        .graph-edge:hover {
+            stroke-width: 3;
+        }
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+        }
+        .data-cell {
+            width: 100%;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #06b6d4;
+            background: rgba(6, 182, 212, 0.1);
+            transition: all 0.3s ease;
+        }
+        .data-cell:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(6, 182, 212, 0.3);
+        }
+        .data-cell.header {
+            background: rgba(6, 182, 212, 0.3);
+            font-weight: bold;
+        }
+        .data-bar {
+            height: 20px;
+            background: linear-gradient(90deg, #06b6d4, #0284c7);
+            border-radius: 4px;
+            transition: width 1s ease-in-out;
+        }
+        .tech-icon {
+            transition: all 0.3s ease;
+        }
+        .tech-icon:hover {
+            transform: translateY(-5px);
+            filter: drop-shadow(0 0 8px rgba(6, 182, 212, 0.5));
+        }
+        .lock-path {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: draw-lock 3s forwards;
+        }
+        @keyframes draw-lock {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+        .lock-pulse {
+            animation: lock-pulse 2s infinite alternate;
+        }
+        @keyframes lock-pulse {
+            from { opacity: 0.7; }
+            to { opacity: 1; }
+        }
+        .scatter-plot {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        .scatter-dot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #06b6d4;
+            transition: all 0.3s ease;
+        }
+        .scatter-dot:hover {
+            transform: scale(1.5);
+            box-shadow: 0 0 10px rgba(6, 182, 212, 0.7);
+        }
+        .trend-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: rgba(244, 114, 182, 0.7);
+            transform-origin: center;
+            transition: all 0.5s ease;
+        }
+        .trend-line:hover {
+            height: 3px;
+            box-shadow: 0 0 10px rgba(244, 114, 182, 0.5);
+        }
+        .pie-segment {
+            transition: all 0.3s ease;
+        }
+        .pie-segment:hover {
+            transform: translateX(10px) translateY(-10px);
+            filter: drop-shadow(0 0 8px rgba(6, 182, 212, 0.7));
+        }
+        .binary {
+            position: absolute;
+            font-family: 'Fira Code', monospace;
+            color: rgba(6, 182, 212, 0.3);
+            font-size: 12px;
+            user-select: none;
+            pointer-events: none;
+        }
+        .shield-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+        }
+        .shield-pulse {
+            animation: shield-pulse 3s infinite alternate;
+        }
+        @keyframes shield-pulse {
+            from { transform: scale(0.95); opacity: 0.7; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .network-line {
+            stroke-dasharray: 10;
+            animation: dash 30s linear infinite;
+        }
+        @keyframes dash {
+            to { stroke-dashoffset: 1000; }
+        }
+        .padlock {
+            transition: all 0.3s ease;
+        }
+        .padlock:hover {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 10px rgba(6, 182, 212, 0.7));
+        }
+        .firewall {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        .firewall-line {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(6, 182, 212, 0), rgba(6, 182, 212, 0.7), rgba(6, 182, 212, 0));
+            animation: firewall-scan 3s infinite;
+        }
+        @keyframes firewall-scan {
+            0% { transform: translateY(0); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(100px); opacity: 0; }
+        }
+        .cyber-grid {
+            background-size: 20px 20px;
+            background-image: 
+                linear-gradient(to right, rgba(6, 182, 212, 0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(6, 182, 212, 0.1) 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body>
+    <div id="app" class="container mx-auto px-4 py-8 max-w-5xl">
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="flex flex-col items-center justify-center py-10">
+            <div class="float mb-6 relative">
+                <svg class="w-32 h-32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Shield background -->
+                    <path d="M50 5L85 20V50C85 70 70 85 50 95C30 85 15 70 15 50V20L50 5Z" fill="#0f172a" stroke="#06b6d4" stroke-width="2"/>
+                    
+                    <!-- Lock icon -->
+                    <rect x="40" y="45" width="20" height="25" rx="2" fill="#06b6d4" opacity="0.8"/>
+                    <rect x="35" y="45" width="30" height="15" rx="7.5" fill="#06b6d4" opacity="0.8"/>
+                    <circle cx="50" cy="52" r="3" fill="#0f172a"/>
+                    <rect x="49" y="52" width="2" height="10" rx="1" fill="#0f172a"/>
+                    
+                    <!-- Network lines -->
+                    <line x1="50" y1="25" x2="30" y2="35" stroke="#06b6d4" stroke-width="1" class="network-line"/>
+                    <line x1="50" y1="25" x2="70" y2="35" stroke="#06b6d4" stroke-width="1" class="network-line"/>
+                    <line x1="30" y1="35" x2="30" y2="55" stroke="#06b6d4" stroke-width="1" class="network-line"/>
+                    <line x1="70" y1="35" x2="70" y2="55" stroke="#06b6d4" stroke-width="1" class="network-line"/>
+                    <line x1="30" y1="55" x2="50" y2="65" stroke="#06b6d4" stroke-width="1" class="network-line"/>
+                    <line x1="70" y1="55" x2="50" y2="65" stroke="#06b6d4" stroke-width="1" class="network-line"/>
+                    
+                    <!-- Network nodes -->
+                    <circle cx="50" cy="25" r="3" fill="#06b6d4"/>
+                    <circle cx="30" cy="35" r="3" fill="#06b6d4"/>
+                    <circle cx="70" cy="35" r="3" fill="#06b6d4"/>
+                    <circle cx="30" cy="55" r="3" fill="#06b6d4"/>
+                    <circle cx="70" cy="55" r="3" fill="#06b6d4"/>
+                    <circle cx="50" cy="65" r="3" fill="#06b6d4"/>
+                </svg>
+                
+                <!-- Binary background effect -->
+                <div class="binary" style="top: 10px; left: 5px;">01001100</div>
+                <div class="binary" style="top: 25px; left: 85px;">10110011</div>
+                <div class="binary" style="top: 45px; left: 15px;">01100101</div>
+                <div class="binary" style="top: 65px; left: 75px;">11010010</div>
+                <div class="binary" style="top: 85px; left: 25px;">00111100</div>
+            </div>
+            <h1 class="text-4xl font-bold mb-4 text-center gradient-text">Cybersecurity Skills Assessment</h1>
+            <p class="text-lg text-gray-300 mb-8 text-center max-w-2xl">Evaluate your cybersecurity knowledge with our comprehensive assessment. Complete 20 questions to receive personalized feedback and a certificate.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl mb-10">
+                <div class="card p-6 rounded-xl">
+                    <div class="flex items-center justify-center mb-4 text-cyan-400">
+                        <svg class="w-12 h-12 tech-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 15V17M6 21H18C19.1046 21 20 20.1046 20 19V5C20 3.89543 19.1046 3 18 3H6C4.89543 3 4 3.89543 4 5V19C4 20.1046 4.89543 21 6 21ZM16 11C16 13.2091 14.2091 15 12 15C9.79086 15 8 13.2091 8 11C8 8.79086 9.79086 7 12 7C14.2091 7 16 8.79086 16 11Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="12" cy="11" r="1" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-center">Network Security</h3>
+                    <p class="text-gray-400 text-center">Test your knowledge of firewalls, VPNs, and secure network architecture.</p>
+                </div>
+                
+                <div class="card p-6 rounded-xl">
+                    <div class="flex items-center justify-center mb-4 text-cyan-400">
+                        <svg class="w-12 h-12 tech-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 15V17M6 21H18C19.1046 21 20 20.1046 20 19V5C20 3.89543 19.1046 3 18 3H6C4.89543 3 4 3.89543 4 5V19C4 20.1046 4.89543 21 6 21ZM11 11H13M7 11H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8 7H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-center">Application Security</h3>
+                    <p class="text-gray-400 text-center">Evaluate your understanding of secure coding practices and vulnerability assessment.</p>
+                </div>
+                
+                <div class="card p-6 rounded-xl">
+                    <div class="flex items-center justify-center mb-4 text-cyan-400">
+                        <svg class="w-12 h-12 tech-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 12L11 14L15 10M12 3L20 7V11C20 15.4183 16.4183 19 12 19C7.58172 19 4 15.4183 4 11V7L12 3Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-center">Security Operations</h3>
+                    <p class="text-gray-400 text-center">Test your skills in threat detection, incident response, and security monitoring.</p>
+                </div>
+            </div>
+            
+            <div class="relative w-full max-w-4xl mb-10 card p-8 rounded-xl overflow-hidden cyber-grid">
+                <div class="flex flex-wrap md:flex-nowrap items-center">
+                    <div class="w-full md:w-1/2 mb-6 md:mb-0 md:pr-6">
+                        <h3 class="text-2xl font-semibold mb-3 gradient-text">Why Cybersecurity Skills Matter</h3>
+                        <p class="text-gray-300 mb-4">Strong cybersecurity skills are essential in today's digital world. They help you:</p>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-cyan-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-gray-300">Protect sensitive data from unauthorized access</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-cyan-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-gray-300">Identify and mitigate security vulnerabilities</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-cyan-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-gray-300">Respond effectively to security incidents</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-cyan-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-gray-300">Implement security best practices across organizations</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="w-full md:w-1/2 flex justify-center">
+                        <div class="relative h-64 w-64">
+                            <!-- Cybersecurity Visualization -->
+                            <div class="chart-container">
+                                <canvas id="welcome-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="wave"></div>
+            </div>
+            
+            <button id="start-btn" class="btn-primary text-white font-semibold py-3 px-8 rounded-full text-lg">
+                Start Assessment
+            </button>
+        </div>
+
+        <!-- User Info Form -->
+        <div id="user-info-screen" class="hidden max-w-2xl mx-auto card rounded-xl p-8">
+            <h2 class="text-2xl font-bold mb-6 gradient-text">Before we begin</h2>
+            <p class="text-gray-300 mb-6">Please provide your information for your Cybersecurity skills certificate:</p>
+            
+            <form id="user-form" class="space-y-4">
+                <div>
+                    <label for="fullName" class="block text-sm font-medium text-gray-300 mb-1">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" required class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:ring-cyan-500 focus:border-cyan-500 text-white">
+                </div>
+                
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-300 mb-1">Email Address</label>
+                    <input type="email" id="email" name="email" required class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:ring-cyan-500 focus:border-cyan-500 text-white">
+                </div>
+                
+                <div>
+                    <label for="experience" class="block text-sm font-medium text-gray-300 mb-1">Cybersecurity Experience</label>
+                    <select id="experience" name="experience" class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:ring-cyan-500 focus:border-cyan-500 text-white">
+                        <option value="beginner">Beginner (0-1 years)</option>
+                        <option value="intermediate">Intermediate (1-3 years)</option>
+                        <option value="advanced">Advanced (3-5 years)</option>
+                        <option value="expert">Expert (5+ years)</option>
+                    </select>
+                </div>
+                
+                <div class="pt-4">
+                    <button type="submit" class="btn-primary text-white font-semibold py-2 px-6 rounded-lg w-full">
+                        Continue to Assessment
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Assessment Screen -->
+        <div id="assessment-screen" class="hidden">
+            <div class="mb-6 flex items-center justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold gradient-text">Cybersecurity Skills Assessment</h2>
+                    <p class="text-gray-300">Question <span id="current-question">1</span> of 20</p>
+                </div>
+                <div class="card px-4 py-2 rounded-lg flex items-center">
+                    <svg class="w-5 h-5 text-cyan-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span id="timer" class="font-semibold text-gray-200">00:45</span>
+                </div>
+            </div>
+            
+            <div class="w-full bg-gray-700 rounded-full h-2.5 mb-8">
+                <div id="progress-bar" class="progress-bar bg-cyan-500 h-2.5 rounded-full" style="width: 0%"></div>
+            </div>
+            
+            <div id="question-container" class="card rounded-xl p-8 mb-6">
+                <h3 id="question-text" class="text-xl font-semibold mb-6">Loading question...</h3>
+                
+                <div id="code-snippet" class="code-block code-font text-sm mb-6 hidden">
+                    <!-- Code snippet will be inserted here when needed -->
+                </div>
+                
+                <div id="data-viz" class="mb-6 hidden">
+                    <!-- Data visualization will be inserted here when needed -->
+                </div>
+                
+                <div id="options-container" class="space-y-3">
+                    <!-- Options will be inserted here -->
+                </div>
+            </div>
+            
+            <div class="flex justify-between">
+                <button id="prev-btn" class="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-6 rounded-lg disabled:opacity-50" disabled>
+                    Previous
+                </button>
+                <button id="next-btn" class="btn-primary text-white font-semibold py-2 px-6 rounded-lg">
+                    Next
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="hidden">
+            <div class="card rounded-xl p-8 mb-8">
+                <div class="flex items-center justify-center mb-6">
+                    <div class="relative">
+                        <svg class="w-32 h-32" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="45" fill="#1e293b" stroke="#334155" stroke-width="2"></circle>
+                            <circle id="score-circle" cx="50" cy="50" r="45" fill="none" stroke="#06b6d4" stroke-width="8" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="42"></circle>
+                            <text id="score-text" x="50" y="50" font-size="20" text-anchor="middle" alignment-baseline="middle" font-weight="bold" fill="#06b6d4">85%</text>
+                        </svg>
+                    </div>
+                </div>
+                
+                <h2 class="text-2xl font-bold text-center mb-2 gradient-text">Cybersecurity Assessment Complete!</h2>
+                <p class="text-gray-300 text-center mb-6">Here's how you performed in your cybersecurity skills assessment.</p>
+                
+                <div class="space-y-4 mb-8">
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-300">Network Security</span>
+                            <span id="network-score" class="text-sm font-medium text-cyan-400">80%</span>
+                        </div>
+                        <div class="w-full bg-gray-700 rounded-full h-2">
+                            <div id="network-bar" class="bg-cyan-500 h-2 rounded-full" style="width: 80%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-300">Application Security</span>
+                            <span id="app-score" class="text-sm font-medium text-cyan-400">90%</span>
+                        </div>
+                        <div class="w-full bg-gray-700 rounded-full h-2">
+                            <div id="app-bar" class="bg-cyan-500 h-2 rounded-full" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-300">Security Operations</span>
+                            <span id="ops-score" class="text-sm font-medium text-cyan-400">85%</span>
+                        </div>
+                        <div class="w-full bg-gray-700 rounded-full h-2">
+                            <div id="ops-bar" class="bg-cyan-500 h-2 rounded-full" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-300">Cryptography</span>
+                            <span id="crypto-score" class="text-sm font-medium text-cyan-400">75%</span>
+                        </div>
+                        <div class="w-full bg-gray-700 rounded-full h-2">
+                            <div id="crypto-bar" class="bg-cyan-500 h-2 rounded-full" style="width: 75%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-300">Security Governance</span>
+                            <span id="gov-score" class="text-sm font-medium text-cyan-400">70%</span>
+                        </div>
+                        <div class="w-full bg-gray-700 rounded-full h-2">
+                            <div id="gov-bar" class="bg-cyan-500 h-2 rounded-full" style="width: 70%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-800 rounded-lg p-6 mb-6">
+                    <h3 class="text-lg font-semibold mb-2 gradient-text">Your Cybersecurity Profile</h3>
+                    <p id="analyst-type" class="text-gray-200 font-medium mb-3">Security Operations Specialist</p>
+                    <p id="feedback-text" class="text-gray-300">
+                        You demonstrate strong security operations skills with excellent understanding of threat detection and incident response. Your knowledge of network security and application security is well-developed, and you can effectively apply them to protect systems and data. Your cryptography and security governance skills could be enhanced by studying more about encryption standards and compliance frameworks. Overall, you have a solid foundation in cybersecurity that serves you well in protecting organizations from threats.
+                    </p>
+                </div>
+                
+                <div class="text-center">
+                    <button id="get-certificate-btn" class="btn-primary text-white font-semibold py-3 px-8 rounded-full">
+                        Get Your Cybersecurity Certificate
+                    </button>
+                </div>
+            </div>
+            
+            <div class="mb-8">
+                <div class="card rounded-xl p-8">
+                    <h3 class="text-xl font-semibold mb-4 gradient-text">Performance Analysis</h3>
+                    <div class="h-64">
+                        <canvas id="radar-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Screen -->
+        <div id="payment-screen" class="hidden max-w-2xl mx-auto">
+            <div class="card rounded-xl p-8 mb-8">
+                <h2 class="text-2xl font-bold mb-6 text-center gradient-text">Get Your Cybersecurity Certificate</h2>
+                
+                <div class="flex justify-center mb-8">
+                    <div class="relative w-64 h-40 bg-gray-800 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-600 pulse">
+                        <svg class="w-16 h-16 text-cyan-400" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 3L20 7V11C20 15.4183 16.4183 19 12 19C7.58172 19 4 15.4183 4 11V7L12 3Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <div class="absolute top-0 right-0 bg-cyan-500 text-white text-xs font-bold px-2 py-1 rounded-bl-lg rounded-tr-lg">
+                            PREVIEW
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-800 rounded-lg p-6 mb-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-gray-200 font-medium">Cybersecurity Skills Certificate</span>
+                        <span class="text-cyan-400 font-bold">$9.99</span>
+                    </div>
+                    <ul class="space-y-2 mb-4">
+                        <li class="flex items-center text-sm text-gray-300">
+                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Personalized Cybersecurity skills certificate
+                        </li>
+                        <li class="flex items-center text-sm text-gray-300">
+                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            High-resolution downloadable PDF
+                        </li>
+                        <li class="flex items-center text-sm text-gray-300">
+                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Detailed Cybersecurity profile analysis
+                        </li>
+                        <li class="flex items-center text-sm text-gray-300">
+                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Share with employers or on your portfolio
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Demo Payment Form -->
+                <div class="mb-6">
+                    <div class="border border-gray-700 rounded-lg p-4 mb-4">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-sm font-medium text-gray-300">Payment Method</span>
+                            <div class="flex space-x-2">
+                                <div class="w-8 h-5 bg-blue-600 rounded"></div>
+                                <div class="w-8 h-5 bg-red-500 rounded"></div>
+                                <div class="w-8 h-5 bg-yellow-400 rounded"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-medium text-gray-400 mb-1">Card Holder</label>
+                                    <div class="h-10 bg-gray-700 rounded-lg"></div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-gray-400 mb-1">Card Number</label>
+                                    <div class="h-10 bg-gray-700 rounded-lg"></div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-3 gap-4">
+                                <div>
+                                    <label class="block text-xs font-medium text-gray-400 mb-1">Expiry</label>
+                                    <div class="h-10 bg-gray-700 rounded-lg"></div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-gray-400 mb-1">CVC</label>
+                                    <div class="h-10 bg-gray-700 rounded-lg"></div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-gray-400 mb-1">ZIP</label>
+                                    <div class="h-10 bg-gray-700 rounded-lg"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <p class="text-sm text-gray-400 mb-4">This is a demo payment form. In a real application, secure payment processing would be implemented.</p>
+                        <button id="process-payment-btn" class="btn-primary text-white font-semibold py-3 px-8 rounded-full w-full">
+                            Pay $9.99 & Get Certificate
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Certificate Screen -->
+        <div id="certificate-screen" class="hidden">
+            <div class="max-w-4xl mx-auto">
+                <div class="certificate p-10 rounded-xl shadow-lg mb-8 relative">
+                    <div class="absolute top-5 left-5">
+                        <svg class="w-16 h-16" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M50 5L85 20V50C85 70 70 85 50 95C30 85 15 70 15 50V20L50 5Z" fill="none" stroke="#06b6d4" stroke-width="2"/>
+                            <rect x="40" y="45" width="20" height="25" rx="2" stroke="#06b6d4" stroke-width="2" fill="none"/>
+                            <rect x="35" y="45" width="30" height="15" rx="7.5" stroke="#06b6d4" stroke-width="2" fill="none"/>
+                            <circle cx="50" cy="52" r="3" fill="#06b6d4"/>
+                            <rect x="49" y="52" width="2" height="10" rx="1" fill="#06b6d4"/>
+                        </svg>
+                    </div>
+                    
+                    <div class="text-center mb-8 pt-8">
+                        <h2 class="text-3xl font-bold text-cyan-800 mb-2">Certificate of Cybersecurity Excellence</h2>
+                        <div class="h-1 w-32 bg-cyan-600 mx-auto mb-2"></div>
+                        <p class="text-gray-600">Cybersecurity Skills Assessment</p>
+                    </div>
+                    
+                    <div class="text-center mb-8">
+                        <p class="text-lg text-gray-700 mb-2">This certifies that</p>
+                        <h3 id="cert-name" class="text-2xl font-bold text-gray-800 mb-2">John Doe</h3>
+                        <p class="text-lg text-gray-700">has successfully completed the Cybersecurity Skills Assessment</p>
+                        <p class="text-lg text-gray-700 mb-2">with a score of <span id="cert-score" class="font-bold text-cyan-700">85%</span></p>
+                        <p class="text-md text-gray-600">Cybersecurity Profile: <span id="cert-type" class="font-semibold">Security Operations Specialist</span></p>
+                    </div>
+                    
+                    <div class="flex justify-between items-center mb-4">
+                        <div>
+                            <p id="cert-date" class="text-gray-600">June 15, 2023</p>
+                            <p id="cert-id" class="text-gray-500 text-sm">Certificate ID: CS-2023-78945</p>
+                        </div>
+                        <div>
+                            <svg class="w-32 h-12" viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10,20 Q30,5 50,20 T90,20" stroke="#06b6d4" stroke-width="2" fill="none" />
+                                <text x="50" y="25" font-family="monospace" font-size="8" text-anchor="middle" fill="#06b6d4">CyberShield</text>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <div class="seal">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="#06b6d4" stroke-width="2" />
+                            <circle cx="50" cy="50" r="40" fill="none" stroke="#06b6d4" stroke-width="1" />
+                            <circle cx="50" cy="50" r="30" fill="none" stroke="#06b6d4" stroke-width="1" />
+                            <!-- Shield symbol -->
+                            <path d="M50 30L65 37V50C65 60 58 65 50 70C42 65 35 60 35 50V37L50 30Z" fill="none" stroke="#06b6d4" stroke-width="1"/>
+                            <rect x="45" y="45" width="10" height="12" rx="1" fill="#06b6d4"/>
+                            <rect x="43" y="45" width="14" height="7" rx="3.5" fill="#06b6d4"/>
+                            <text x="50" y="80" font-size="8" text-anchor="middle" fill="#06b6d4">CERTIFIED</text>
+                            <text x="50" y="90" font-size="6" text-anchor="middle" fill="#06b6d4">SECURITY PROFESSIONAL</text>
+                        </svg>
+                    </div>
+                    
+                    <div class="absolute bottom-5 left-5 opacity-30">
+                        <svg class="w-24 h-24" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20,20 L80,20 L80,80 L20,80 Z" stroke="#06b6d4" stroke-width="1" stroke-dasharray="5,5" fill="none"/>
+                            <path d="M30,30 L70,30 L70,70 L30,70 Z" stroke="#06b6d4" stroke-width="1" stroke-dasharray="5,5" fill="none"/>
+                            <circle cx="50" cy="50" r="15" stroke="#06b6d4" stroke-width="1" fill="none"/>
+                            <path d="M50,35 L50,50 L60,50" stroke="#06b6d4" stroke-width="1"/>
+                            <text x="20" y="15" font-family="monospace" font-size="5" fill="#06b6d4">01001100</text>
+                            <text x="60" y="15" font-family="monospace" font-size="5" fill="#06b6d4">10110011</text>
+                            <text x="20" y="90" font-family="monospace" font-size="5" fill="#06b6d4">11010010</text>
+                            <text x="60" y="90" font-family="monospace" font-size="5" fill="#06b6d4">00111100</text>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button id="download-btn" class="bg-cyan-600 hover:bg-cyan-700 text-white font-semibold py-3 px-6 rounded-lg flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                        </svg>
+                        Download Certificate
+                    </button>
+                    <button id="share-btn" class="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path>
+                        </svg>
+                        Share Certificate
+                    </button>
+                    <button id="restart-btn" class="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-6 rounded-lg flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                        </svg>
+                        Take Another Assessment
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize welcome chart
+            const welcomeCtx = document.getElementById('welcome-chart').getContext('2d');
+            const welcomeChart = new Chart(welcomeCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['Network Security', 'Application Security', 'Security Operations', 'Cryptography', 'Security Governance'],
+                    datasets: [{
+                        label: 'Cybersecurity Skills',
+                        data: [80, 90, 85, 75, 70],
+                        backgroundColor: 'rgba(6, 182, 212, 0.2)',
+                        borderColor: 'rgba(6, 182, 212, 1)',
+                        borderWidth: 2,
+                        pointBackgroundColor: 'rgba(6, 182, 212, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(6, 182, 212, 1)'
+                    }]
+                },
+                options: {
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                display: false
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            angleLines: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            pointLabels: {
+                                color: 'rgba(255, 255, 255, 0.7)',
+                                font: {
+                                    size: 10
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+            
+            // Assessment questions
+            const questions = [
+                {
+                    question: "Which of the following is NOT a common network security control?",
+                    options: [
+                        "Firewall",
+                        "Intrusion Detection System",
+                        "Data Normalization",
+                        "Virtual Private Network"
+                    ],
+                    category: "network",
+                    correctAnswer: 2
+                },
+                {
+                    question: "What is the primary purpose of a Web Application Firewall (WAF)?",
+                    options: [
+                        "To filter network traffic based on IP addresses",
+                        "To protect web applications from common attacks like SQL injection and XSS",
+                        "To encrypt data transmitted between client and server",
+                        "To authenticate users accessing the application"
+                    ],
+                    category: "app",
+                    correctAnswer: 1
+                },
+                {
+                    question: "Which of the following best describes the concept of 'defense in depth'?",
+                    options: [
+                        "Using the strongest possible encryption algorithm",
+                        "Implementing multiple layers of security controls",
+                        "Focusing security resources on the most critical assets",
+                        "Conducting regular penetration testing"
+                    ],
+                    category: "ops",
+                    correctAnswer: 1
+                },
+                {
+                    question: "What is the difference between symmetric and asymmetric encryption?",
+                    options: [
+                        "Symmetric encryption uses one key, while asymmetric uses two keys",
+                        "Symmetric encryption is more secure than asymmetric encryption",
+                        "Symmetric encryption is only used for authentication",
+                        "Asymmetric encryption is always faster than symmetric encryption"
+                    ],
+                    category: "crypto",
+                    correctAnswer: 0
+                },
+                {
+                    question: "Which framework provides guidelines for implementing information security controls?",
+                    options: [
+                        "GDPR",
+                        "ISO 27001",
+                        "OWASP Top 10",
+                        "TCP/IP"
+                    ],
+                    category: "gov",
+                    correctAnswer: 1
+                },
+                {
+                    question: "What does the following code vulnerability represent?",
+                    code: `
+<span class="code-line"><span class="keyword">function</span> <span class="function">login</span>(username, password) {</span>
+<span class="code-line">    <span class="keyword">var</span> query = <span class="string">"SELECT * FROM users WHERE username='"</span> + username + <span class="string">"' AND password='"</span> + password + <span class="string">"'"</span>;</span>
+<span class="code-line">    <span class="keyword">return</span> database.execute(query);</span>
+<span class="code-line">}</span>`,
+                    options: [
+                        "Cross-Site Scripting (XSS)",
+                        "SQL Injection",
+                        "Cross-Site Request Forgery (CSRF)",
+                        "Buffer Overflow"
+                    ],
+                    category: "app",
+                    correctAnswer: 1
+                },
+                {
+                    question: "Which network protocol is designed to provide encrypted communication over a computer network?",
+                    options: [
+                        "HTTP",
+                        "FTP",
+                        "HTTPS",
+                        "SMTP"
+                    ],
+                    category: "network",
+                    correctAnswer: 2
+                },
+                {
+                    question: "What is the purpose of a Security Information and Event Management (SIEM) system?",
+                    options: [
+                        "To encrypt sensitive data at rest",
+                        "To collect, analyze, and correlate security events from multiple sources",
+                        "To authenticate users accessing network resources",
+                        "To scan applications for vulnerabilities"
+                    ],
+                    category: "ops",
+                    correctAnswer: 1
+                },
+                {
+                    question: "Which of the following is a property of a secure hash function?",
+                    options: [
+                        "Reversibility",
+                        "Collision resistance",
+                        "Predictability",
+                        "Symmetry"
+                    ],
+                    category: "crypto",
+                    correctAnswer: 1
+                },
+                {
+                    question: "What does the principle of 'least privilege' refer to?",
+                    options: [
+                        "Using the minimum number of security controls",
+                        "Granting users only the access rights they need to perform their job",
+                        "Implementing security measures only on critical systems",
+                        "Minimizing the use of encryption to improve performance"
+                    ],
+                    category: "gov",
+                    correctAnswer: 1
+                },
+                {
+                    question: "What is the purpose of a DMZ (Demilitarized Zone) in network security?",
+                    options: [
+                        "To physically secure server rooms",
+                        "To separate internal networks from untrusted external networks",
+                        "To encrypt all network traffic",
+                        "To authenticate users before granting network access"
+                    ],
+                    category: "network",
+                    correctAnswer: 1
+                },
+                {
+                    question: "Which of the following is NOT a common web application security vulnerability according to OWASP?",
+                    options: [
+                        "Injection",
+                        "Broken Authentication",
+                        "Network Latency",
+                        "Cross-Site Scripting"
+                    ],
+                    category: "app",
+                    correctAnswer: 2
+                },
+                {
+                    question: "What is the primary goal of an incident response plan?",
+                    options: [
+                        "To prevent all security incidents",
+                        "To minimize the impact of security incidents",
+                        "To identify who to blame for security incidents",
+                        "To avoid reporting security incidents to authorities"
+                    ],
+                    category: "ops",
+                    correctAnswer: 1
+                },
+                {
+                    question: "What does TLS (Transport Layer Security) provide?",
+                    options: [
+                        "Authentication only",
+                        "Encryption only",
+                        "Both authentication and encryption",
+                        "Neither authentication nor encryption"
+                    ],
+                    category: "crypto",
+                    correctAnswer: 2
+                },
+                {
+                    question: "Which of the following is a key component of a security awareness program?",
+                    options: [
+                        "Implementing firewalls",
+                        "Training employees to recognize security threats",
+                        "Encrypting all data",
+                        "Conducting penetration testing"
+                    ],
+                    category: "gov",
+                    correctAnswer: 1
+                },
+                {
+                    question: "What is the purpose of network segmentation?",
+                    options: [
+                        "To increase network speed",
+                        "To reduce the attack surface and contain breaches",
+                        "To eliminate the need for firewalls",
+                        "To simplify network management"
+                    ],
+                    category: "network",
+                    correctAnswer: 1
+                },
+                {
+                    question: "What does the following code demonstrate?",
+                    code: `
+<span class="code-line"><span class="keyword">function</span> <span class="function">validateInput</span>(input) {</span>
+<span class="code-line">    <span class="keyword">return</span> input.replace(<span class="string">/[<>]/g</span>, <span class="string">''</span>);</span>
+<span class="code-line">}</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="keyword">function</span> <span class="function">displayUserContent</span>(userInput) {</span>
+<span class="code-line">    <span class="keyword">var</span> sanitized = validateInput(userInput);</span>
+<span class="code-line">    document.getElementById(<span class="string">'output'</span>).innerHTML = sanitized;</span>
+<span class="code-line">}</span>`,
+                    options: [
+                        "Proper input validation",
+                        "Incomplete XSS protection",
+                        "SQL injection prevention",
+                        "Secure authentication"
+                    ],
+                    category: "app",
+                    correctAnswer: 1
+                },
+                {
+                    question: "Which of the following is a key component of threat hunting?",
+                    options: [
+                        "Waiting for alerts from security tools",
+                        "Proactively searching for threats that have evaded existing security solutions",
+                        "Implementing stronger passwords",
+                        "Conducting regular vulnerability scans"
+                    ],
+                    category: "ops",
+                    correctAnswer: 1
+                },
+                {
+                    question: "What is a digital certificate used for?",
+                    options: [
+                        "To encrypt data",
+                        "To verify the identity of entities in digital communications",
+                        "To detect malware",
+                        "To bypass firewalls"
+                    ],
+                    category: "crypto",
+                    correctAnswer: 1
+                },
+                {
+                    question: "What is the purpose of a Business Continuity Plan (BCP)?",
+                    options: [
+                        "To maximize business profits",
+                        "To ensure critical business functions can continue during and after a disaster",
+                        "To prevent all security incidents",
+                        "To comply with GDPR requirements"
+                    ],
+                    category: "gov",
+                    correctAnswer: 1
+                }
+            ];
+
+            // Cybersecurity profiles based on answer patterns
+            const securityProfiles = {
+                "network": {
+                    high: "Network Security Specialist",
+                    medium: "Network Security Analyst",
+                    low: "Network Security Enthusiast"
+                },
+                "app": {
+                    high: "Application Security Specialist",
+                    medium: "Application Security Analyst",
+                    low: "Application Security Enthusiast"
+                },
+                "ops": {
+                    high: "Security Operations Specialist",
+                    medium: "Security Operations Analyst",
+                    low: "Security Operations Enthusiast"
+                },
+                "crypto": {
+                    high: "Cryptography Specialist",
+                    medium: "Cryptography Analyst",
+                    low: "Cryptography Enthusiast"
+                },
+                "gov": {
+                    high: "Security Governance Specialist",
+                    medium: "Security Governance Analyst",
+                    low: "Security Governance Enthusiast"
+                }
+            };
+
+            // DOM elements
+            const welcomeScreen = document.getElementById('welcome-screen');
+            const userInfoScreen = document.getElementById('user-info-screen');
+            const assessmentScreen = document.getElementById('assessment-screen');
+            const resultsScreen = document.getElementById('results-screen');
+            const paymentScreen = document.getElementById('payment-screen');
+            const certificateScreen = document.getElementById('certificate-screen');
+            
+            const startBtn = document.getElementById('start-btn');
+            const userForm = document.getElementById('user-form');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const getCertificateBtn = document.getElementById('get-certificate-btn');
+            const processPaymentBtn = document.getElementById('process-payment-btn');
+            const downloadBtn = document.getElementById('download-btn');
+            const shareBtn = document.getElementById('share-btn');
+            const restartBtn = document.getElementById('restart-btn');
+            
+            const currentQuestionEl = document.getElementById('current-question');
+            const progressBar = document.getElementById('progress-bar');
+            const questionText = document.getElementById('question-text');
+            const codeSnippet = document.getElementById('code-snippet');
+            const dataViz = document.getElementById('data-viz');
+            const optionsContainer = document.getElementById('options-container');
+            const timerEl = document.getElementById('timer');
+
+            // State variables
+            let currentQuestion = 0;
+            let userAnswers = Array(questions.length).fill(null);
+            let timer;
+            let timeLeft = 45;
+            let userData = {
+                name: '',
+                email: '',
+                experience: ''
+            };
+
+            // Event listeners
+            startBtn.addEventListener('click', showUserInfoScreen);
+            userForm.addEventListener('submit', handleUserFormSubmit);
+            prevBtn.addEventListener('click', showPreviousQuestion);
+            nextBtn.addEventListener('click', handleNextQuestion);
+            getCertificateBtn.addEventListener('click', showPaymentScreen);
+            processPaymentBtn.addEventListener('click', showCertificate);
+            downloadBtn.addEventListener('click', downloadCertificate);
+            shareBtn.addEventListener('click', shareCertificate);
+            restartBtn.addEventListener('click', restartAssessment);
+
+            // Functions
+            function showUserInfoScreen(e) {
+                e.preventDefault();
+                welcomeScreen.classList.add('hidden');
+                userInfoScreen.classList.remove('hidden');
+            }
+
+            function handleUserFormSubmit(e) {
+                e.preventDefault();
+                userData.name = document.getElementById('fullName').value;
+                userData.email = document.getElementById('email').value;
+                userData.experience = document.getElementById('experience').value;
+                
+                userInfoScreen.classList.add('hidden');
+                assessmentScreen.classList.remove('hidden');
+                
+                loadQuestion(currentQuestion);
+                startTimer();
+            }
+
+            function loadQuestion(index) {
+                const question = questions[index];
+                questionText.textContent = question.question;
+                
+                // Update progress indicators
+                currentQuestionEl.textContent = index + 1;
+                progressBar.style.width = `${((index + 1) / questions.length) * 100}%`;
+                
+                // Handle code snippet if present
+                if (question.code) {
+                    codeSnippet.innerHTML = question.code;
+                    codeSnippet.classList.remove('hidden');
+                } else {
+                    codeSnippet.classList.add('hidden');
+                }
+                
+                // Handle data visualization if needed
+                if (question.dataViz) {
+                    dataViz.innerHTML = question.dataViz;
+                    dataViz.classList.remove('hidden');
+                } else {
+                    dataViz.classList.add('hidden');
+                }
+                
+                // Clear previous options
+                optionsContainer.innerHTML = '';
+                
+                // Add new options
+                question.options.forEach((option, i) => {
+                    const isSelected = userAnswers[index] === i;
+                    
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = `option-card p-4 rounded-lg ${
+                        isSelected ? 'selected' : ''
+                    }`;
+                    optionDiv.dataset.index = i;
+                    
+                    optionDiv.innerHTML = `
+                        <div class="flex items-center">
+                            <div class="w-6 h-6 rounded-full border ${
+                                isSelected ? 'border-cyan-500 bg-cyan-500' : 'border-gray-500'
+                            } flex items-center justify-center mr-3">
+                                ${isSelected ? '<div class="w-2 h-2 rounded-full bg-white"></div>' : ''}
+                            </div>
+                            <span>${option}</span>
+                        </div>
+                    `;
+                    
+                    optionDiv.addEventListener('click', () => selectOption(i));
+                    optionsContainer.appendChild(optionDiv);
+                });
+                
+                // Update button states
+                prevBtn.disabled = index === 0;
+                nextBtn.textContent = index === questions.length - 1 ? 'Finish' : 'Next';
+                
+                // Reset timer
+                clearInterval(timer);
+                timeLeft = 45;
+                timerEl.textContent = formatTime(timeLeft);
+                timerEl.classList.remove('text-red-500', 'timer-warning');
+                startTimer();
+            }
+
+            function selectOption(optionIndex) {
+                userAnswers[currentQuestion] = optionIndex;
+                
+                // Update UI to show selected option
+                const options = optionsContainer.querySelectorAll('.option-card');
+                options.forEach((option, i) => {
+                    const circle = option.querySelector('div > div');
+                    if (i === optionIndex) {
+                        option.classList.add('selected');
+                        circle.classList.add('border-cyan-500', 'bg-cyan-500');
+                        circle.classList.remove('border-gray-500');
+                        circle.innerHTML = '<div class="w-2 h-2 rounded-full bg-white"></div>';
+                    } else {
+                        option.classList.remove('selected');
+                        circle.classList.remove('border-cyan-500', 'bg-cyan-500');
+                        circle.classList.add('border-gray-500');
+                        circle.innerHTML = '';
+                    }
+                });
+            }
+
+            function showPreviousQuestion() {
+                if (currentQuestion > 0) {
+                    currentQuestion--;
+                    loadQuestion(currentQuestion);
+                }
+            }
+
+            function handleNextQuestion() {
+                // If no option selected, prompt user
+                if (userAnswers[currentQuestion] === null) {
+                    alert('Please select an answer before proceeding.');
+                    return;
+                }
+                
+                if (currentQuestion < questions.length - 1) {
+                    currentQuestion++;
+                    loadQuestion(currentQuestion);
+                } else {
+                    showResults();
+                }
+            }
+
+            function startTimer() {
+                timer = setInterval(() => {
+                    timeLeft--;
+                    timerEl.textContent = formatTime(timeLeft);
+                    
+                    if (timeLeft <= 10) {
+                        timerEl.classList.add('text-red-500');
+                        if (timeLeft <= 5) {
+                            timerEl.classList.add('timer-warning');
+                        }
+                    } else {
+                        timerEl.classList.remove('text-red-500', 'timer-warning');
+                    }
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(timer);
+                        // Auto-advance if time runs out
+                        if (userAnswers[currentQuestion] === null) {
+                            // If no answer selected, choose one randomly
+                            selectOption(Math.floor(Math.random() * 4));
+                        }
+                        
+                        if (currentQuestion < questions.length - 1) {
+                            currentQuestion++;
+                            loadQuestion(currentQuestion);
+                        } else {
+                            showResults();
+                        }
+                    }
+                }, 1000);
+            }
+
+            function formatTime(seconds) {
+                return `00:${seconds < 10 ? '0' : ''}${seconds}`;
+            }
+
+            function calculateScores() {
+                // Initialize category scores
+                let categoryScores = {
+                    "network": { score: 0, count: 0 },
+                    "app": { score: 0, count: 0 },
+                    "ops": { score: 0, count: 0 },
+                    "crypto": { score: 0, count: 0 },
+                    "gov": { score: 0, count: 0 }
+                };
+                
+                // Calculate scores based on correct answers
+                questions.forEach((question, index) => {
+                    const category = question.category;
+                    const userAnswer = userAnswers[index];
+                    const correctAnswer = question.correctAnswer;
+                    
+                    if (userAnswer !== null) {
+                        categoryScores[category].count++;
+                        if (userAnswer === correctAnswer) {
+                            categoryScores[category].score++;
+                        }
+                    }
+                });
+                
+                // Calculate percentages
+                const networkScore = Math.round((categoryScores["network"].score / (categoryScores["network"].count || 1)) * 100);
+                const appScore = Math.round((categoryScores["app"].score / (categoryScores["app"].count || 1)) * 100);
+                const opsScore = Math.round((categoryScores["ops"].score / (categoryScores["ops"].count || 1)) * 100);
+                const cryptoScore = Math.round((categoryScores["crypto"].score / (categoryScores["crypto"].count || 1)) * 100);
+                const govScore = Math.round((categoryScores["gov"].score / (categoryScores["gov"].count || 1)) * 100);
+                
+                // Calculate overall score
+                const totalScore = categoryScores["network"].score + categoryScores["app"].score + 
+                                  categoryScores["ops"].score + categoryScores["crypto"].score + 
+                                  categoryScores["gov"].score;
+                const totalPossible = categoryScores["network"].count + categoryScores["app"].count + 
+                                     categoryScores["ops"].count + categoryScores["crypto"].count + 
+                                     categoryScores["gov"].count;
+                const overallScore = Math.round((totalScore / (totalPossible || 1)) * 100);
+                
+                return {
+                    overall: overallScore,
+                    "network": networkScore,
+                    "app": appScore,
+                    "ops": opsScore,
+                    "crypto": cryptoScore,
+                    "gov": govScore
+                };
+            }
+
+            function determineSecurityProfile(scores) {
+                // Determine Cybersecurity profile based on highest category score
+                const categories = ["network", "app", "ops", "crypto", "gov"];
+                const highestCategory = categories.reduce((a, b) => scores[a] > scores[b] ? a : b);
+                
+                // Determine level (high, medium, low)
+                let level;
+                if (scores[highestCategory] >= 80) {
+                    level = 'high';
+                } else if (scores[highestCategory] >= 60) {
+                    level = 'medium';
+                } else {
+                    level = 'low';
+                }
+                
+                // Map to Cybersecurity type based on experience and scores
+                let securityType;
+                
+                if (userData.experience === 'beginner') {
+                    securityType = "Junior Security Analyst";
+                } else if (userData.experience === 'intermediate') {
+                    securityType = "Security Analyst";
+                } else if (userData.experience === 'advanced') {
+                    securityType = "Senior Security Analyst";
+                } else {
+                    securityType = "Security Architect";
+                }
+                
+                // Add specialization based on highest score
+                if (highestCategory === 'network') {
+                    securityType += " (Network Security)";
+                } else if (highestCategory === 'app') {
+                    securityType += " (Application Security)";
+                } else if (highestCategory === 'ops') {
+                    securityType += " (Security Operations)";
+                } else if (highestCategory === 'crypto') {
+                    securityType += " (Cryptography)";
+                } else {
+                    securityType += " (Security Governance)";
+                }
+                
+                return securityType;
+            }
+
+            function generateFeedback(scores, securityProfile) {
+                let feedback = '';
+                
+                // Generate feedback based on Cybersecurity profile and scores
+                if (scores.overall >= 80) {
+                    feedback = 'You demonstrate excellent cybersecurity skills across multiple areas. ';
+                } else if (scores.overall >= 60) {
+                    feedback = 'You show solid cybersecurity knowledge with some areas of strength. ';
+                } else {
+                    feedback = 'You have a foundation in cybersecurity with opportunities for growth. ';
+                }
+                
+                // Add strengths
+                feedback += 'Your key strengths include ';
+                
+                // Find top two categories
+                const categories = Object.entries(scores)
+                    .filter(([key]) => key !== 'overall')
+                    .sort((a, b) => b[1] - a[1]);
+                
+                const topCategory = categories[0][0];
+                const secondCategory = categories[1][0];
+                
+                switch (topCategory) {
+                    case 'network':
+                        feedback += 'network security';
+                        break;
+                    case 'app':
+                        feedback += 'application security';
+                        break;
+                    case 'ops':
+                        feedback += 'security operations';
+                        break;
+                    case 'crypto':
+                        feedback += 'cryptography';
+                        break;
+                    case 'gov':
+                        feedback += 'security governance';
+                        break;
+                }
+                
+                feedback += ' and ';
+                
+                switch (secondCategory) {
+                    case 'network':
+                        feedback += 'understanding network protection concepts';
+                        break;
+                    case 'app':
+                        feedback += 'securing applications from vulnerabilities';
+                        break;
+                    case 'ops':
+                        feedback += 'managing security incidents and operations';
+                        break;
+                    case 'crypto':
+                        feedback += 'implementing cryptographic solutions';
+                        break;
+                    case 'gov':
+                        feedback += 'establishing security policies and compliance';
+                        break;
+                }
+                
+                feedback += '. ';
+                
+                // Add area for improvement
+                const lowestCategory = categories[4][0];
+                
+                feedback += 'An area for potential growth is ';
+                
+                switch (lowestCategory) {
+                    case 'network':
+                        feedback += 'strengthening your understanding of network security architecture and controls.';
+                        break;
+                    case 'app':
+                        feedback += 'developing more knowledge of secure coding practices and application vulnerabilities.';
+                        break;
+                    case 'ops':
+                        feedback += 'expanding your skills in security monitoring and incident response procedures.';
+                        break;
+                    case 'crypto':
+                        feedback += 'improving your understanding of encryption standards and cryptographic implementations.';
+                        break;
+                    case 'gov':
+                        feedback += 'enhancing your knowledge of security frameworks, compliance, and risk management.';
+                        break;
+                }
+                
+                // Add experience-based recommendation
+                if (userData.experience === 'beginner') {
+                    feedback += ' As you continue your cybersecurity journey, focus on building practical skills through hands-on labs and pursuing foundational certifications like Security+.';
+                } else if (userData.experience === 'intermediate') {
+                    feedback += ' Consider pursuing specialized certifications in your areas of strength and participating in capture-the-flag competitions to further develop your skills.';
+                } else {
+                    feedback += ' You might benefit from mentoring junior security professionals and contributing to open-source security projects to share your expertise.';
+                }
+                
+                return feedback;
+            }
+
+            function showResults() {
+                clearInterval(timer);
+                assessmentScreen.classList.add('hidden');
+                resultsScreen.classList.remove('hidden');
+                
+                const scores = calculateScores();
+                const securityProfile = determineSecurityProfile(scores);
+                
+                // Update score displays
+                document.getElementById('score-circle').style.strokeDashoffset = 283 - (283 * scores.overall / 100);
+                document.getElementById('score-text').textContent = `${scores.overall}%`;
+                
+                document.getElementById('network-score').textContent = `${scores["network"]}%`;
+                document.getElementById('network-bar').style.width = `${scores["network"]}%`;
+                
+                document.getElementById('app-score').textContent = `${scores["app"]}%`;
+                document.getElementById('app-bar').style.width = `${scores["app"]}%`;
+                
+                document.getElementById('ops-score').textContent = `${scores["ops"]}%`;
+                document.getElementById('ops-bar').style.width = `${scores["ops"]}%`;
+                
+                document.getElementById('crypto-score').textContent = `${scores["crypto"]}%`;
+                document.getElementById('crypto-bar').style.width = `${scores["crypto"]}%`;
+                
+                document.getElementById('gov-score').textContent = `${scores["gov"]}%`;
+                document.getElementById('gov-bar').style.width = `${scores["gov"]}%`;
+                
+                // Set Cybersecurity profile
+                document.getElementById('analyst-type').textContent = securityProfile;
+                
+                // Generate and display feedback
+                const feedback = generateFeedback(scores, securityProfile);
+                document.getElementById('feedback-text').textContent = feedback;
+                
+                // Create radar chart
+                const radarCtx = document.getElementById('radar-chart').getContext('2d');
+                const radarChart = new Chart(radarCtx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['Network Security', 'Application Security', 'Security Operations', 'Cryptography', 'Security Governance'],
+                        datasets: [{
+                            label: 'Your Skills',
+                            data: [scores["network"], scores["app"], scores["ops"], scores["crypto"], scores["gov"]],
+                            backgroundColor: 'rgba(6, 182, 212, 0.2)',
+                            borderColor: 'rgba(6, 182, 212, 1)',
+                            borderWidth: 2,
+                            pointBackgroundColor: 'rgba(6, 182, 212, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(6, 182, 212, 1)'
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            r: {
+                                beginAtZero: true,
+                                max: 100,
+                                ticks: {
+                                    display: false
+                                },
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                },
+                                angleLines: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                },
+                                pointLabels: {
+                                    color: 'rgba(255, 255, 255, 0.7)',
+                                    font: {
+                                        size: 12
+                                    }
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+            }
+
+            function showPaymentScreen() {
+                resultsScreen.classList.add('hidden');
+                paymentScreen.classList.remove('hidden');
+            }
+
+            function showCertificate() {
+                paymentScreen.classList.add('hidden');
+                certificateScreen.classList.remove('hidden');
+                
+                // Update certificate with user data
+                document.getElementById('cert-name').textContent = userData.name;
+                
+                const scores = calculateScores();
+                document.getElementById('cert-score').textContent = `${scores.overall}%`;
+                
+                const securityProfile = determineSecurityProfile(scores);
+                document.getElementById('cert-type').textContent = securityProfile;
+                
+                // Set current date
+                const today = new Date();
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                document.getElementById('cert-date').textContent = today.toLocaleDateString('en-US', options);
+                
+                // Generate certificate ID
+                const certId = 'CS-' + today.getFullYear() + '-' + Math.floor(10000 + Math.random() * 90000);
+                document.getElementById('cert-id').textContent = 'Certificate ID: ' + certId;
+                
+                // Create confetti effect
+                createConfetti();
+            }
+
+            function createConfetti() {
+                const colors = ['#06b6d4', '#0284c7', '#f472b6', '#10b981', '#f59e0b'];
+                const confettiCount = 100;
+                
+                for (let i = 0; i < confettiCount; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = `${Math.random() * 100}vw`;
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.opacity = '1';
+                    confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    
+                    document.body.appendChild(confetti);
+                    
+                    // Animate confetti
+                    const duration = Math.random() * 3 + 2; // 2-5 seconds
+                    confetti.animate([
+                        { transform: `translate(0, 0) rotate(0deg)`, opacity: 1 },
+                        { transform: `translate(${Math.random() * 100 - 50}px, ${window.innerHeight}px) rotate(${Math.random() * 720}deg)`, opacity: 0 }
+                    ], {
+                        duration: duration * 1000,
+                        easing: 'cubic-bezier(0.1, 0.8, 0.3, 1)'
+                    });
+                    
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, duration * 1000);
+                }
+            }
+
+            function downloadCertificate() {
+                alert('In a real application, this would generate and download a PDF certificate. This is a demo version.');
+            }
+
+            function shareCertificate() {
+                alert('In a real application, this would open sharing options for social media platforms. This is a demo version.');
+            }
+
+            function restartAssessment() {
+                // Reset state
+                currentQuestion = 0;
+                userAnswers = Array(questions.length).fill(null);
+                
+                // Show welcome screen
+                certificateScreen.classList.add('hidden');
+                welcomeScreen.classList.remove('hidden');
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'965ab79060e83c88',t:'MTc1MzYwNDQyMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

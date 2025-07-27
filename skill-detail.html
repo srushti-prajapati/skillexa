@@ -161,15 +161,18 @@
   document.getElementById("skillDesc").textContent = descriptions[skill] || "Enhance your knowledge and build confidence in this skill.";
 
   if (isPremium) {
-    document.getElementById("judgeBtn").classList.remove("locked");
-    document.getElementById("certBtn").classList.remove("locked");
+  document.getElementById("judgeBtn").classList.remove("locked");
+  document.getElementById("certBtn").classList.remove("locked");
 
-    document.getElementById("judgeBtn").onclick = () => location.href = "judge.html";
-    document.getElementById("certBtn").onclick = () => location.href = "certificate.html";
-  } else {
-    document.getElementById("judgeBtn").onclick = () => alert("🔒 This feature is available for Premium users.");
-    document.getElementById("certBtn").onclick = () => alert("🔒 This feature is available for Premium users.");
-  }
+  document.getElementById("judgeBtn").onclick = () => location.href = "judge.html";
+  document.getElementById("certBtn").onclick = () => {
+    localStorage.setItem("courseName", skill);
+    localStorage.setItem("courseCompleted", "true");
+    window.location.href = "certificate.html";
+  };
+} else {
+  document.getElementById("certBtn").onclick = () => alert("🔒 This feature is available for Premium users.");
+}
 
   function goToTutor() {
     localStorage.setItem("completedSkill", skill);
@@ -194,6 +197,12 @@
     "Data Structure and Algorithm": "dsa-assessment.html",
     "Machine Learning and AI": "ml-ai-assessment.html",
     "Programming": "programming-assessment.html",
+    "Cybersecurity": "cybersecurity-assessment.html",
+  "Cloud Computing": "cloudcomputing-assessment.html",
+  "Database Management": "databasemanagement-assessment.html",
+  "SEO Skill": "seo-assessment.html",
+  "Data Science and Analysis": "datascience-assessment.html",
+  "Digital Marketing": "digitalmarketing-assessment.html" 
   
       // Add more mappings as needed
     };

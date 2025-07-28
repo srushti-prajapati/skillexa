@@ -212,12 +212,12 @@
             <div class="absolute bottom-4 left-4 right-4">
                 <div class="dashboard-card p-4">
                     <div class="flex items-center">
-                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold">
-                            JS
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold user-initials">
+                            <!-- Initials will be set by script -->
                         </div>
                         <div class="ml-3">
-                            <p class="text-sm font-medium">John Smith</p>
-                            <p class="text-xs text-gray-400">View Profile</p>
+                            <p class="text-sm font-medium" id="username-display">Loading...</p>
+                            <p class="text-xs text-gray-400 cursor-pointer" onclick="logout()">Logout</p>
                         </div>
                     </div>
                 </div>
@@ -229,7 +229,7 @@
             <!-- Header Area -->
             <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
                 <div class="mb-4 md:mb-0">
-                    <h1 class="text-2xl font-bold">Welcome back, John!</h1>
+                    <h1 class="text-2xl font-bold">Welcome back, <span id="welcome-name">User</span>!</h1>
                     <p class="text-gray-400">Track your learning progress and skills</p>
                 </div>
                 
@@ -242,7 +242,8 @@
                     </button>
                     <div class="relative">
                         <button class="bg-gradient-to-r from-blue-500 to-purple-600 rounded-full px-4 py-2 flex items-center">
-                            <span class="mr-2">Upgrade Plan</span>
+                            <span class="mr-2"></span>
+                            <a href="payment.html" >Upgrade Plan</a>
                             <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="m6 9 6 6 6-6"></path>
                             </svg>
@@ -255,18 +256,18 @@
             <div class="dashboard-card p-6 mb-6 fade-in">
                 <div class="flex flex-col md:flex-row items-start md:items-center">
                     <div class="flex-shrink-0 mb-4 md:mb-0">
-                        <div class="w-20 h-20 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white text-2xl font-bold">
-                            JS
+                        <div class="w-20 h-20 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white text-2xl font-bold user-avatar">
+                            <!-- Initials will be set by script -->
                         </div>
                     </div>
                     <div class="md:ml-6 flex-grow">
                         <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
                             <div>
-                                <h2 class="text-xl font-bold">John Smith</h2>
-                                <p class="text-gray-400">john.smith@example.com</p>
+                                <h2 class="text-xl font-bold" id="username-display-large">Loading...</h2>
+                                <p class="text-gray-400" id="user-email">Loading...</p>
                             </div>
                             <div class="mt-2 md:mt-0">
-                                <span class="badge badge-pro">Pro Plan</span>
+                                <span class="badge badge-pro" id="plan-badge">Loading...</span>
                             </div>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -405,7 +406,7 @@
                         <h2 class="text-xl font-bold mb-4">Subscription</h2>
                         <div class="bg-gradient-to-r from-blue-500/20 to-purple-600/20 rounded-xl p-4 border border-white/10">
                             <div class="flex justify-between items-center mb-4">
-                                <span class="badge badge-pro">Pro Plan</span>
+                                <span class="badge badge-pro" id="plan-badge-small">Loading...</span>
                                 <span class="text-sm text-gray-400">Renews on Oct 15, 2023</span>
                             </div>
                             <div class="space-y-3 mb-4">
@@ -597,6 +598,55 @@
     <script>
         // Animation for chart bars
         document.addEventListener('DOMContentLoaded', function() {
+            // User authentication check and data loading
+            const user = JSON.parse(localStorage.getItem("skillexa-user"));
+            if (!user) {
+                alert("Please login first.");
+                window.location.href = "signup-login.html";
+            }
+
+            // Set user information
+            const userName = user.name || "User";
+            const userEmail = user.email || "N/A";
+            const userInitials = userName.split(' ').map(n => n[0]).join('').toUpperCase();
+            
+            // Update all username displays
+            document.getElementById("username-display").textContent = userName;
+            document.getElementById("username-display-large").textContent = userName;
+            document.getElementById("welcome-name").textContent = userName.split(' ')[0];
+            document.getElementById("user-email").textContent = userEmail;
+            
+            // Set user initials in avatar
+            const userAvatarElements = document.querySelectorAll('.user-avatar, .user-initials');
+            userAvatarElements.forEach(el => {
+                el.textContent = userInitials;
+            });
+
+            // Set plan information
+            let planText = "";
+            let planBadgeClass = "badge-basic";
+            
+            switch (user.plan) {
+                case "premium":
+                    planText = "Premium Plan";
+                    planBadgeClass = "badge-premium";
+                    break;
+                case "all":
+                    planText = "All-in-One Plan";
+                    planBadgeClass = "badge-pro";
+                    break;
+                default:
+                    planText = "Free Plan";
+                    planBadgeClass = "badge-basic";
+            }
+            
+            // Update plan badges
+            const planBadges = document.querySelectorAll('#plan-badge, #plan-badge-small');
+            planBadges.forEach(badge => {
+                badge.textContent = planText;
+                badge.className = `badge ${planBadgeClass}`;
+            });
+
             // Animate chart bars
             const chartBars = document.querySelectorAll('.chart-bar');
             setTimeout(() => {
@@ -620,6 +670,12 @@
                 });
             });
         });
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem("skillexa-user");
+            window.location.href = "signup-login.html";
+        }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96631dc29629f15a',t:'MTc1MzY5MjQ5My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96632a7912808609',t:'MTc1MzY5MzAxNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>

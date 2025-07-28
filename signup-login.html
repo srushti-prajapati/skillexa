@@ -131,6 +131,8 @@
         <!-- Signup Form -->
         <form id="signupForm" class="hidden">
           <input type="text" id="signupName" placeholder="Your Name" required />
+          <input type="text" id="signupCity" placeholder="City" required />
+          <input type="text" id="signupState" placeholder="State" required />
           <input type="email" id="signupEmail" placeholder="Email" required />
           <input type="password" id="signupPassword" placeholder="Password" required />
           <button type="submit">Sign Up</button>
@@ -161,6 +163,8 @@
       e.preventDefault();
       const user = {
         name: document.getElementById('signupName').value,
+        city: document.getElementById('signupCity').value,
+        state: document.getElementById('signupState').value,
         email: document.getElementById('signupEmail').value,
         plan: 'Free'
       };
@@ -183,28 +187,23 @@
       }
     });
   </script>
+
   <div style="max-height: 180px; overflow-y: auto; background: #f9f9f9; border: 1px solid #ccc; padding: 15px; border-radius: 10px; font-size: 0.9rem; margin-bottom: 15px;">
-  <strong>🔒 Terms & Conditions</strong><br><br>
-  ✅ By signing up, you agree to share your basic details (like name, email, and phone number) for certification, communication, and platform updates.<br><br>
+    <strong>🔒 Terms & Conditions</strong><br><br>
+    ✅ By signing up, you agree to share your basic details (like name, email, and phone number) for certification, communication, and platform updates.<br><br>
+    ✅ You allow Skillexa to send updates regarding skill progress, certificates, job alerts, and special offers via Email, WhatsApp, or SMS.<br><br>
+    ✅ Your data will be securely stored and not shared with third parties without your consent.<br><br>
+    ✅ You can opt out of communication anytime via your profile settings.<br><br>
+    🛡 We respect your privacy and are committed to protecting it.<br><br>
+    ☑ By continuing, you agree to our 
+    <a href="#" style="color: blue;">Terms & Conditions</a> and 
+    <a href="#" style="color: blue;">Privacy Policy</a>.
+  </div>
 
-  ✅ You allow Skillexa to send updates regarding skill progress, certificates, job alerts, and special offers via Email, WhatsApp, or SMS.<br><br>
-
-  ✅ Your data will be securely stored and not shared with third parties without your consent.<br><br>
-
-  ✅ You can opt out of communication anytime via your profile settings.<br><br>
-
-  🛡 We respect your privacy and are committed to protecting it.<br><br>
-
-  ☑ By continuing, you agree to our 
-  <a href="#" style="color: blue;">Terms & Conditions</a> and 
-  <a href="#" style="color: blue;">Privacy Policy</a>.
-</div>
-
-<label style="display: flex; align-items: center; font-size: 0.9rem; margin-bottom: 10px;">
-  <input type="checkbox" id="agreeTerms" style="margin-right: 8px;" />
-  I agree to the above Terms & Conditions.
-</label>
-
+  <label style="display: flex; align-items: center; font-size: 0.9rem; margin-bottom: 10px;">
+    <input type="checkbox" id="agreeTerms" style="margin-right: 8px;" />
+    I agree to the above Terms & Conditions.
+  </label>
 
   <footer style="background-color: #1e3a8a; color: white; padding: 40px 20px; text-align: center;">
     <div style="max-width: 1000px; margin: auto;">
@@ -216,4 +215,8 @@
       </div>
       <div style="margin: 30px 0;">
         <a href="https://www.instagram.com/_skillexa_" target="_blank" style="color: #dbeafe; margin: 0 12px;">📸 Instagram</a>
-            |
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

@@ -186,6 +186,31 @@
         alert('User not found. Please sign up first.');
       }
     });
+  // Runs after the page is ready
+  document.addEventListener('DOMContentLoaded', () => {
+    const signupForm = document.getElementById('signupForm');
+
+    signupForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // Get values from the signup form
+      const user = {
+        name: document.getElementById('signupName').value.trim(),
+        city: document.getElementById('signupCity').value.trim(),
+        state: document.getElementById('signupState').value.trim(),
+        email: document.getElementById('signupEmail').value.trim(),
+        password: document.getElementById('signupPassword').value.trim(),
+        plan: 'Free'
+      };
+
+      // Store in localStorage
+      localStorage.setItem('skillexa-user', JSON.stringify(user));
+
+      // Redirect to dashboard
+      window.location.href = 'dashboard.html';
+    });
+  });
+
   </script>
 
   <div style="max-height: 180px; overflow-y: auto; background: #f9f9f9; border: 1px solid #ccc; padding: 15px; border-radius: 10px; font-size: 0.9rem; margin-bottom: 15px;">

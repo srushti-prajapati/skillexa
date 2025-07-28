@@ -106,111 +106,109 @@
   </style>
 </head>
 <body>
-  <header>
-    <img src="assets/logo.jpg" class="logo" />
-  </header>
+  <!-- Login Section -->
+  <section id="loginSection">
+    <h2>Login to Skillexa</h2>
+    <form id="loginForm">
+      <input type="email" id="loginEmail" placeholder="Email" required />
+      <input type="password" id="loginPassword" placeholder="Password" required />
+      <button type="submit">Login</button>
+    </form>
+    <p>Don't have an account? <a href="#" id="showSignup">Sign Up</a></p>
+  </section>
 
-  <div class="auth-container">
-    <div class="auth-left">
-      <h1>Welcome to Skillexa</h1>
-      <p>Empowering you with AI-based skill certification and career growth tools.</p>
-    </div>
+  <!-- Signup Section -->
+  <section id="signupSection" style="display: none;">
+    <h2>Create Your Skillexa Account</h2>
+    <form id="signupForm">
+      <input type="text" id="signupName" placeholder="Full Name" required />
+      <input type="text" id="signupCity" placeholder="City" required />
+      <input type="text" id="signupState" placeholder="State" required />
+      <input type="email" id="signupEmail" placeholder="Email" required />
+      <input type="password" id="signupPassword" placeholder="Password" required />
+      <button type="submit">Sign Up</button>
+    </form>
+    <p>Already have an account? <a href="#" id="showLogin">Login</a></p>
+  </section>
 
-    <div class="auth-right">
-      <div class="form-box">
-        <h2 id="formTitle">Login to Skillexa</h2>
+  <!-- Scripts -->
+  <script type="module">
+    // Firebase Imports
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-        <!-- Login Form -->
-        <form id="loginForm">
-          <input type="email" id="loginEmail" placeholder="Email" required />
-          <input type="password" id="loginPassword" placeholder="Password" required />
-          <button type="submit">Login</button>
-          <p class="link">Don't have an account? <a href="#" onclick="toggleForm('signup')">Sign Up</a></p>
-        </form>
+const firebaseConfig = {
+  apiKey: "AIzaSyDvR9KfczfZEqa792GTXX1eGRGz3ial1Vc", // ✅ This is your correct API key
+  authDomain: "skillexa-auth.firebaseapp.com",
+  projectId: "skillexa-auth",
+  storageBucket: "skillexa-auth.appspot.com",
+  messagingSenderId: "560797846224",
+  appId: "1:560797846224:web:1a7bd6241fb2a8f7aa2cd5" // ✅ This is your correct appId
+};
 
-        <!-- Signup Form -->
-        <form id="signupForm" class="hidden">
-          <input type="text" id="signupName" placeholder="Your Name" required />
-          <input type="text" id="signupCity" placeholder="City" required />
-          <input type="text" id="signupState" placeholder="State" required />
-          <input type="email" id="signupEmail" placeholder="Email" required />
-          <input type="password" id="signupPassword" placeholder="Password" required />
-          <button type="submit">Sign Up</button>
-          <p class="link">Already have an account? <a href="#" onclick="toggleForm('login')">Login</a></p>
-        </form>
-      </div>
-    </div>
-  </div>
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-  <script>
-    const loginForm = document.getElementById('loginForm');
-    const signupForm = document.getElementById('signupForm');
-    const formTitle = document.getElementById('formTitle');
-
-    function toggleForm(mode) {
-      if (mode === 'signup') {
-        loginForm.classList.add('hidden');
-        signupForm.classList.remove('hidden');
-        formTitle.innerText = 'Create an Account';
-      } else {
-        signupForm.classList.add('hidden');
-        loginForm.classList.remove('hidden');
-        formTitle.innerText = 'Login to Skillexa';
-      }
-    }
-
-    signupForm.addEventListener('submit', function(e) {
+    // Signup Logic
+    const signupForm = document.getElementById("signupForm");
+    signupForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const user = {
-        name: document.getElementById('signupName').value,
-        city: document.getElementById('signupCity').value,
-        state: document.getElementById('signupState').value,
-        email: document.getElementById('signupEmail').value,
-        plan: 'Free'
-      };
-      localStorage.setItem('skillexa-user', JSON.stringify(user));
-      alert('Signup successful! Redirecting to dashboard...');
-      window.location.href = 'dashboard.html';
-    });
 
-    loginForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const email = document.getElementById('loginEmail').value;
-      const password = document.getElementById('loginPassword').value;
-      const storedUser = JSON.parse(localStorage.getItem('skillexa-user'));
+      const name = document.getElementById("signupName").value.trim();
+      const city = document.getElementById("signupCity").value.trim();
+      const state = document.getElementById("signupState").value.trim();
+      const email = document.getElementById("signupEmail").value.trim();
+      const password = document.getElementById("signupPassword").value.trim();
 
-      if (storedUser && storedUser.email === email) {
-        alert('Login successful! Redirecting to dashboard...');
-        window.location.href = 'dashboard.html';
-      } else {
-        alert('User not found. Please sign up first.');
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const uid = userCredential.user.uid;
+
+        await setDoc(doc(db, "users", uid), {
+          name,
+          city,
+          state,
+          email,
+          plan: "Free"
+        });
+
+        localStorage.setItem("skillexa-user", JSON.stringify({ name, city, state, email, plan: "Free" }));
+        window.location.href = "dashboard.html";
+      } catch (error) {
+        alert("Signup Error: " + error.message);
       }
     });
-  // Runs after the page is ready
-  document.addEventListener('DOMContentLoaded', () => {
-    const signupForm = document.getElementById('signupForm');
 
-    signupForm.addEventListener('submit', function(e) {
+    // Login Logic
+    const loginForm = document.getElementById("loginForm");
+    loginForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      // Get values from the signup form
-      const user = {
-        name: document.getElementById('signupName').value.trim(),
-        city: document.getElementById('signupCity').value.trim(),
-        state: document.getElementById('signupState').value.trim(),
-        email: document.getElementById('signupEmail').value.trim(),
-        password: document.getElementById('signupPassword').value.trim(),
-        plan: 'Free'
-      };
+      const email = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPassword").value.trim();
 
-      // Store in localStorage
-      localStorage.setItem('skillexa-user', JSON.stringify(user));
-
-      // Redirect to dashboard
-      window.location.href = 'dashboard.html';
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        localStorage.setItem("skillexa-email", user.email);
+        window.location.href = "dashboard.html";
+      } catch (error) {
+        alert("Login Error: " + error.message);
+      }
     });
-  });
 
+    // Toggle Between Login & Signup
+    document.getElementById("showSignup").addEventListener("click", function () {
+      document.getElementById("signupSection").style.display = "block";
+      document.getElementById("loginSection").style.display = "none";
+    });
+
+    document.getElementById("showLogin").addEventListener("click", function () {
+      document.getElementById("loginSection").style.display = "block";
+      document.getElementById("signupSection").style.display = "none";
+    });
   </script>
 
   <div style="max-height: 180px; overflow-y: auto; background: #f9f9f9; border: 1px solid #ccc; padding: 15px; border-radius: 10px; font-size: 0.9rem; margin-bottom: 15px;">

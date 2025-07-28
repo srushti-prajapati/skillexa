@@ -1,50 +1,43 @@
-document.getElementById("signupForm").addEventListener("submit", function (e) {
+// signup.js
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+document.getElementById("signupForm").addEventListener("submit", async function (e) {
   e.preventDefault();
 
   const name = document.getElementById("name").value.trim();
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value;
+  const agree = document.getElementById("agreeTerms");
 
   if (!name || !email || !password) {
-    alert("Please fill all the fields.");
+    alert("Please fill all fields.");
     return;
   }
 
-  // Send data to Google Sheets via Apps Script Web App
-  fetch("https://script.google.com/macros/s/AKfycbwFu3c_73SIevvBTVeuBLkEVrKDj8YrOEb3qDwL8666Udr3I3Z2IYXOxXLScOPY0YLzMQ/exec", {
-    method: "POST",
-    body: JSON.stringify({
-      type: "signup",
+  if (!agree.checked) {
+    alert("Please agree to the Terms & Conditions before signing up.");
+    return;
+  }
+
+  const auth = getAuth();
+
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    await updateProfile(userCredential.user, {
+      displayName: name
+    });
+
+    // Save extra data to localStorage
+    localStorage.setItem("skillexa-user", JSON.stringify({
       name: name,
       email: email,
-      password: password,
       plan: "freemium"
-    }),
-    headers: {
-      "Content-Type": "application/json"
-    }
-  })
-  .then(res => res.text())
-  .then(data => {
-    alert(data);
-    if (data === "Signup successful") {
-      window.location.href = "login.html";
-    }
-  })
-  .catch(error => {
-    console.error("Error:", error);
-    alert("Something went wrong. Please try again later.");
-  });
-});
-document.addEventListener('DOMContentLoaded', () => {
-  const signupForm = document.getElementById('signupForm');
-  if (signupForm) {
-    signupForm.addEventListener('submit', function (e) {
-      const agree = document.getElementById('agreeTerms');
-      if (!agree.checked) {
-        e.preventDefault();
-        alert("Please agree to the Terms & Conditions before signing up.");
-      }
-    });
+    }));
+
+    alert("Signup successful!");
+    window.location.href = "login.html";
+  } catch (error) {
+    console.error("Signup Error:", error.message);
+    alert(error.message);
   }
 });

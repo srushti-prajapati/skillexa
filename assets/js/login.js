@@ -1,4 +1,7 @@
-document.getElementById("loginForm").addEventListener("submit", function (e) {
+// login.js
+import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+document.getElementById("loginForm").addEventListener("submit", async function (e) {
   e.preventDefault();
 
   const email = document.getElementById("email").value.trim();
@@ -9,37 +12,22 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
     return;
   }
 
-  // Google Apps Script Web App URL (Your deployed endpoint)
-  const scriptURL = "https://script.google.com/macros/s/AKfycbwFu3c_73SIevvBTVeuBLkEVrKDj8YrOEb3qDwL8666Udr3I3Z2IYXOxXLScOPY0YLzMQ/exec";
+  const auth = getAuth();
 
-  fetch(scriptURL)
-    .then(res => res.json())
-    .then(data => {
-      const user = data.find(u => u.email === email && u.password === password);
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
 
-      if (user) {
-        // Save to localStorage
-        localStorage.setItem("skillexa-user", JSON.stringify(user));
-        alert("Login successful! Redirecting to dashboard...");
-        window.location.href = "dashboard.html";
-      } else {
-        alert("Invalid email or password. Please try again.");
-      }
-    })
-    .catch(err => {
-      console.error("Error during login:", err);
-      alert("Error connecting to server. Please try again later.");
-    });
-});
-document.addEventListener('DOMContentLoaded', () => {
-  const signupForm = document.getElementById('signupForm');
-  if (signupForm) {
-    signupForm.addEventListener('submit', function (e) {
-      const agree = document.getElementById('agreeTerms');
-      if (!agree.checked) {
-        e.preventDefault();
-        alert("Please agree to the Terms & Conditions before signing up.");
-      }
-    });
+    localStorage.setItem("skillexa-user", JSON.stringify({
+      name: user.displayName || "User",
+      email: user.email,
+      plan: "freemium"
+    }));
+
+    alert("Login successful!");
+    window.location.href = "dashboard.html";
+  } catch (error) {
+    console.error("Login Error:", error.message);
+    alert("Invalid email or password.");
   }
 });

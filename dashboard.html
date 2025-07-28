@@ -155,6 +155,28 @@
             border-radius: 4px 4px 0 0;
         }
     </style>
+    <!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js"></script>
+
+<script>
+  // Your Firebase config
+  const firebaseConfig = {
+    apiKey: "AIzaSyDvR9KfczfZEqa792GTXX1eGRGz3ial1Vc",
+    authDomain: "skillexa-auth.firebaseapp.com",
+    projectId: "skillexa-auth",
+    storageBucket: "skillexa-auth.appspot.com",
+    messagingSenderId: "560797846224",
+    appId: "1:560797846224:web:1a7bd6241fb2a8f7aa2cd5"
+  };
+
+  // Initialize Firebase
+  const app = firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+</script>
+
 </head>
 <body class="p-0 m-0">
     <div class="flex h-screen">
@@ -677,5 +699,34 @@
             window.location.href = "signup-login.html";
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96632a7912808609',t:'MTc1MzY5MzAxNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96632a7912808609',t:'MTc1MzY5MzAxNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+<script>
+  document.addEventListener("DOMContentLoaded", async () => {
+    const user = auth.currentUser;
+
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        const uid = user.uid;
+        const userDoc = await db.collection("users").doc(uid).get();
+        const userData = userDoc.data();
+
+        // Show user data
+        if (userData) {
+          document.getElementById("userName").textContent = userData.name || "User";
+          document.getElementById("userEmail").textContent = userData.email || "Email";
+          document.getElementById("userPlan").textContent = userData.plan || "Free";
+
+          // Update skill progress (replace these with your actual logic)
+          document.querySelectorAll(".progress").forEach((el, index) => {
+            el.style.width = (userData.skills?.[index]?.progress || 0) + "%";
+          });
+        }
+      } else {
+        // If not logged in, redirect to login page
+        window.location.href = "login.html";
+      }
+    });
+  });
+</script>
+</body>
 </html>

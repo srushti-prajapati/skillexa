@@ -1,4 +1,10 @@
+
 document.addEventListener("DOMContentLoaded", () => {
+  // 🔐 Redirect if user is not logged in
+if (!localStorage.getItem("name")) {
+  alert("Please log in first!");
+  window.location.href = "signup-login.html"; // or "login.html"
+}
   // Get user data from localStorage
   const userName = localStorage.getItem("name") || "User";
   const userPlan = localStorage.getItem("plan") || "Free";
@@ -50,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.removeItem("name");
       localStorage.removeItem("email");
       localStorage.removeItem("plan");
-      window.location.href = "login.html";
+      window.location.href = "signup-login.html";
     });
   }
 });

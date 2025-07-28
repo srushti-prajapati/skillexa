@@ -213,20 +213,50 @@
     box.appendChild(btn);
     return box;
   }
+// List of specific free skill names
+const freeSkills = [
+  // 🧠 Business & Marketing
+  "Digital Marketing",
+  "SEO",
+  "Content Creation",
+  "Sales Skills",
 
-  // Only "Communication Skills" free, rest locked for free users
-  categories.softSkills.forEach((s, i) =>
-    document.getElementById("softSkills").appendChild(
-      createSkillBox(s, isPremium || i === 0)
-    )
-  );
+  // 🎨 Creative & Design
+  "Graphic Design",
+  "Motion Graphics",
+  "Storytelling",
+  "Logo Design",
 
-  Object.entries(categories).forEach(([key, list]) => {
-    if (key === "softSkills") return;
-    list.forEach(skill => {
-      document.getElementById(key).appendChild(createSkillBox(skill, isPremium));
-    });
+  // 🗣️ Soft Skills
+  "Communication Skills",
+  "Public Speaking",
+  "Interview Preparation",
+  "Time Management",
+  "Problem Solving",
+  "Conflict Resolution",
+
+  // 💻 Technical Skills
+  "Programming",
+  "Web Development",
+  "App Development",
+  "Database Management"
+];
+
+// Render softSkills
+categories.softSkills.forEach(skill =>
+  document.getElementById("softSkills").appendChild(
+    createSkillBox(skill, isPremium || freeSkills.includes(skill))
+  )
+);
+
+// Render all other categories
+Object.entries(categories).forEach(([key, list]) => {
+  if (key === "softSkills") return; // Already handled
+  list.forEach(skill => {
+    const isFree = freeSkills.includes(skill);
+    document.getElementById(key).appendChild(createSkillBox(skill, isPremium || isFree));
   });
+});
 
   function logout() {
     localStorage.removeItem("skillexa-user");

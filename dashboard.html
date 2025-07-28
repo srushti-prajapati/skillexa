@@ -1,229 +1,625 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dashboard – Skillexa</title>
-  <link rel="stylesheet" href="assets/css/style.css" />
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: #f0f4f8;
-      color: #1f2937;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillExa Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: #fff;
+            min-height: 100vh;
+        }
 
-    header {
-      background: white;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
+        /* Dashboard Card Styles */
+        .dashboard-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
 
-    h1 {
-      font-size: 1.6rem;
-      color: #2563eb;
-    }
+        /* Logo Styles */
+        .logo-text {
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
 
-    nav a {
-      text-decoration: none;
-      color: #2563eb;
-      margin-left: 20px;
-      font-weight: 500;
-    }
+        /* Progress Bar Styles */
+        .progress-container {
+            background: rgba(255, 255, 255, 0.1);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
 
-    .dashboard-header {
-      max-width: 1000px;
-      margin: 2rem auto;
-      background: white;
-      border-radius: 12px;
-      padding: 1.5rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    }
+        /* Badge Styles */
+        .badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+        }
+        
+        .badge-premium {
+            background: linear-gradient(90deg, #f59e0b, #ef4444);
+            color: white;
+        }
+        
+        .badge-pro {
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            color: white;
+        }
+        
+        .badge-basic {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
 
-    .user-details {
-      text-align: left;
-    }
+        /* Skill Card Styles */
+        .skill-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .skill-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
 
-    .user-details h2 {
-      margin-bottom: 0.3rem;
-    }
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
 
-    .user-stats {
-      display: flex;
-      gap: 2rem;
-    }
+        /* Scrollbar Styles */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
 
-    .user-stats div {
-      font-weight: bold;
-      font-size: 1rem;
-      color: #10b981;
-    }
+        /* XR Elements */
+        .xr-icon {
+            filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.5));
+        }
 
-    .dashboard-main {
-      max-width: 1000px;
-      margin: 2rem auto;
-      display: flex;
-      gap: 2rem;
-    }
+        /* Nav Item Styles */
+        .nav-item {
+            transition: all 0.2s ease;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-item.active {
+            background: rgba(59, 130, 246, 0.2);
+            border-left: 3px solid #3b82f6;
+        }
 
-    .left-panel, .right-panel {
-      flex: 1;
-      background: white;
-      border-radius: 12px;
-      padding: 1.5rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    }
-
-    .card {
-      margin-bottom: 1.5rem;
-      padding: 1rem;
-      border: 1px solid #e5e7eb;
-      border-radius: 10px;
-      background-color: #f9fafb;
-    }
-
-    .card h3 {
-      margin-bottom: 0.5rem;
-    }
-
-    progress {
-      width: 100%;
-      height: 20px;
-    }
-
-    .leaderboard ul {
-      padding-left: 1rem;
-    }
-
-    .leaderboard li {
-      margin: 0.5rem 0;
-      font-weight: 500;
-    }
-
-    button {
-      margin-top: 1rem;
-      background: #2563eb;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      font-size: 1rem;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #1e40af;
-    }
-  </style>
+        /* Chart Styles */
+        .chart-bar {
+            transition: height 1s ease-out;
+            background: linear-gradient(180deg, #3b82f6, #8b5cf6);
+            border-radius: 4px 4px 0 0;
+        }
+    </style>
 </head>
-<body>
-
-<header>
-  <img src="assets/logo.jpg" class="logo" />
-  <nav>
-    <a href="index.html">Home</a>
-            <a href="verify.html">Verify Certificate</a>
-    <a href="skill.html">Skills</a>
-    <a href="#" onclick="logout()">Logout</a>
-  </nav>
-</header>
-
-<!-- Dashboard Header Section -->
-<div class="dashboard-header">
-  <div class="user-details">
-    <h2>Welcome back, <span id="username-display">User</span></h2>
-    <p>Email: <span id="user-email">demo@example.com</span></p>
-    <div class="plan" id="planMsg">Checking plan...</div>
-    <button onclick="window.location.href='payment.html'">Change Plan</button>
-  </div>
-  
-  <div class="user-stats">
-    <div>📅 Days Trained: <strong>6</strong></div>
-  </div>
-</div>
-
-<!-- Main Section (Two Columns) -->
-<div class="dashboard-main">
-  <!-- Left Column: Skills -->
-  <div class="left-panel">
-    <h3>🧠 Skill Progress</h3>
-
-    <div class="card">
-      <h3>Communication Skills</h3>
-      <progress value="70" max="100"></progress>
-      <p>Status: In Progress</p>
-      <p>Certification: Not Attempted</p>
+<body class="p-0 m-0">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="w-64 h-full hidden md:block p-4 border-r border-white/10">
+            <div class="flex items-center mb-8 px-2">
+                <div class="mr-2">
+                    <svg class="w-8 h-8 xr-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                </div>
+                <h1 class="text-2xl font-bold logo-text">SkillExa</h1>
+            </div>
+            
+            <nav class="space-y-1">
+                <a href="#" class="nav-item active flex items-center p-3">
+                    <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                    Dashboard
+                </a>
+                <a href="skill.html" class="nav-item flex items-center p-3">
+                    <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                    </svg>
+                    Skills
+                </a>
+                <a href="#" class="nav-item flex items-center p-3">
+                    <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 20h9"></path>
+                        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                    </svg>
+                    Verify Certificate
+                </a>
+                <a href="#" class="nav-item flex items-center p-3">
+                    <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    Messages
+                </a>
+                <a href="#" class="nav-item flex items-center p-3">
+                    <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    </svg>
+                    Settings
+                </a>
+            </nav>
+            
+            <div class="absolute bottom-4 left-4 right-4">
+                <div class="dashboard-card p-4">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold">
+                            JS
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm font-medium">John Smith</p>
+                            <p class="text-xs text-gray-400">View Profile</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content Area -->
+        <div class="flex-1 overflow-auto p-6">
+            <!-- Header Area -->
+            <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+                <div class="mb-4 md:mb-0">
+                    <h1 class="text-2xl font-bold">Welcome back, John!</h1>
+                    <p class="text-gray-400">Track your learning progress and skills</p>
+                </div>
+                
+                <div class="flex items-center">
+                    <button class="bg-white/10 hover:bg-white/20 transition-colors rounded-full p-2 mr-2">
+                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                    </button>
+                    <div class="relative">
+                        <button class="bg-gradient-to-r from-blue-500 to-purple-600 rounded-full px-4 py-2 flex items-center">
+                            <span class="mr-2">Upgrade Plan</span>
+                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="m6 9 6 6 6-6"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- User Profile Card -->
+            <div class="dashboard-card p-6 mb-6 fade-in">
+                <div class="flex flex-col md:flex-row items-start md:items-center">
+                    <div class="flex-shrink-0 mb-4 md:mb-0">
+                        <div class="w-20 h-20 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white text-2xl font-bold">
+                            JS
+                        </div>
+                    </div>
+                    <div class="md:ml-6 flex-grow">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
+                            <div>
+                                <h2 class="text-xl font-bold">John Smith</h2>
+                                <p class="text-gray-400">john.smith@example.com</p>
+                            </div>
+                            <div class="mt-2 md:mt-0">
+                                <span class="badge badge-pro">Pro Plan</span>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-white/5 rounded-lg p-3">
+                                <p class="text-gray-400 text-sm">Enrolled Courses</p>
+                                <p class="text-xl font-bold">4</p>
+                            </div>
+                            <div class="bg-white/5 rounded-lg p-3">
+                                <p class="text-gray-400 text-sm">Completed</p>
+                                <p class="text-xl font-bold">2</p>
+                            </div>
+                            <div class="bg-white/5 rounded-lg p-3">
+                                <p class="text-gray-400 text-sm">Hours Spent</p>
+                                <p class="text-xl font-bold">37.5</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Dashboard Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Skills Progress -->
+                <div class="lg:col-span-2">
+                    <div class="dashboard-card p-6 h-full">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-xl font-bold">Skills Progress</h2>
+                            <div class="flex">
+                                <button class="text-sm bg-white/10 hover:bg-white/20 transition-colors rounded-lg px-3 py-1">
+                                    This Month
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-6">
+                            <!-- Skill 1 -->
+                            <div class="skill-card p-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 flex items-center justify-center">
+                                            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+                                                <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+                                                <path d="m2 2 7.586 7.586"></path>
+                                                <circle cx="11" cy="11" r="2"></circle>
+                                            </svg>
+                                        </div>
+                                        <div class="ml-3">
+                                            <h3 class="font-medium">UI/UX Design</h3>
+                                            <p class="text-xs text-gray-400">Advanced Course</p>
+                                        </div>
+                                    </div>
+                                    <span class="text-sm font-medium">78%</span>
+                                </div>
+                                <div class="progress-container">
+                                    <div class="progress-bar" style="width: 78%"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Skill 2 -->
+                            <div class="skill-card p-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 rounded-lg bg-gradient-to-r from-purple-500 to-purple-600 flex items-center justify-center">
+                                            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="16 18 22 12 16 6"></polyline>
+                                                <polyline points="8 6 2 12 8 18"></polyline>
+                                                <line x1="12" y1="2" x2="12" y2="22"></line>
+                                            </svg>
+                                        </div>
+                                        <div class="ml-3">
+                                            <h3 class="font-medium">Frontend Development</h3>
+                                            <p class="text-xs text-gray-400">Intermediate Course</p>
+                                        </div>
+                                    </div>
+                                    <span class="text-sm font-medium">45%</span>
+                                </div>
+                                <div class="progress-container">
+                                    <div class="progress-bar" style="width: 45%"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Skill 3 -->
+                            <div class="skill-card p-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 rounded-lg bg-gradient-to-r from-green-500 to-green-600 flex items-center justify-center">
+                                            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                                                <path d="M2 17l10 5 10-5"></path>
+                                                <path d="M2 12l10 5 10-5"></path>
+                                            </svg>
+                                        </div>
+                                        <div class="ml-3">
+                                            <h3 class="font-medium">3D Modeling</h3>
+                                            <p class="text-xs text-gray-400">Beginner Course</p>
+                                        </div>
+                                    </div>
+                                    <span class="text-sm font-medium">20%</span>
+                                </div>
+                                <div class="progress-container">
+                                    <div class="progress-bar" style="width: 20%"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Skill 4 -->
+                            <div class="skill-card p-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 rounded-lg bg-gradient-to-r from-red-500 to-red-600 flex items-center justify-center">
+                                            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                                                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                                            </svg>
+                                        </div>
+                                        <div class="ml-3">
+                                            <h3 class="font-medium">AR Development</h3>
+                                            <p class="text-xs text-gray-400">Expert Course</p>
+                                        </div>
+                                    </div>
+                                    <span class="text-sm font-medium">92%</span>
+                                </div>
+                                <div class="progress-container">
+                                    <div class="progress-bar" style="width: 92%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Subscription & Weekly Activity -->
+                <div class="space-y-6">
+                    <!-- Subscription -->
+                    <div class="dashboard-card p-6">
+                        <h2 class="text-xl font-bold mb-4">Subscription</h2>
+                        <div class="bg-gradient-to-r from-blue-500/20 to-purple-600/20 rounded-xl p-4 border border-white/10">
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="badge badge-pro">Pro Plan</span>
+                                <span class="text-sm text-gray-400">Renews on Oct 15, 2023</span>
+                            </div>
+                            <div class="space-y-3 mb-4">
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 text-green-400 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                    <span class="text-sm">Unlimited course access</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 text-green-400 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                    <span class="text-sm">1-on-1 mentoring sessions</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 text-green-400 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                    <span class="text-sm">Project portfolio reviews</span>
+                                </div>
+                            </div>
+                            <button class="w-full bg-white/10 hover:bg-white/20 transition-colors rounded-lg py-2 text-sm font-medium">
+                                Manage Subscription
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Weekly Activity -->
+                    <div class="dashboard-card p-6">
+                        <h2 class="text-xl font-bold mb-6">Weekly Activity</h2>
+                        <div class="h-40 flex items-end justify-between">
+                            <div class="w-1/7 px-1 flex flex-col items-center">
+                                <div class="chart-bar w-full" style="height: 30%"></div>
+                                <span class="text-xs mt-2">Mon</span>
+                            </div>
+                            <div class="w-1/7 px-1 flex flex-col items-center">
+                                <div class="chart-bar w-full" style="height: 60%"></div>
+                                <span class="text-xs mt-2">Tue</span>
+                            </div>
+                            <div class="w-1/7 px-1 flex flex-col items-center">
+                                <div class="chart-bar w-full" style="height: 45%"></div>
+                                <span class="text-xs mt-2">Wed</span>
+                            </div>
+                            <div class="w-1/7 px-1 flex flex-col items-center">
+                                <div class="chart-bar w-full" style="height: 80%"></div>
+                                <span class="text-xs mt-2">Thu</span>
+                            </div>
+                            <div class="w-1/7 px-1 flex flex-col items-center">
+                                <div class="chart-bar w-full" style="height: 65%"></div>
+                                <span class="text-xs mt-2">Fri</span>
+                            </div>
+                            <div class="w-1/7 px-1 flex flex-col items-center">
+                                <div class="chart-bar w-full" style="height: 20%"></div>
+                                <span class="text-xs mt-2">Sat</span>
+                            </div>
+                            <div class="w-1/7 px-1 flex flex-col items-center">
+                                <div class="chart-bar w-full" style="height: 10%"></div>
+                                <span class="text-xs mt-2">Sun</span>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-center">
+                            <p class="text-sm text-gray-400">Total hours this week: <span class="text-white font-medium">12.5</span></p>
+                        </div>
+                    </div>
+                    
+                    <!-- Upcoming Deadlines -->
+                    <div class="dashboard-card p-6">
+                        <h2 class="text-xl font-bold mb-4">Upcoming Deadlines</h2>
+                        <div class="space-y-3">
+                            <div class="flex items-center p-3 bg-white/5 rounded-lg">
+                                <div class="w-2 h-2 rounded-full bg-red-500 mr-3"></div>
+                                <div>
+                                    <p class="text-sm font-medium">UI Design Project</p>
+                                    <p class="text-xs text-gray-400">Due in 2 days</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-white/5 rounded-lg">
+                                <div class="w-2 h-2 rounded-full bg-yellow-500 mr-3"></div>
+                                <div>
+                                    <p class="text-sm font-medium">Frontend Quiz</p>
+                                    <p class="text-xs text-gray-400">Due in 5 days</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-white/5 rounded-lg">
+                                <div class="w-2 h-2 rounded-full bg-green-500 mr-3"></div>
+                                <div>
+                                    <p class="text-sm font-medium">3D Model Submission</p>
+                                    <p class="text-xs text-gray-400">Due in 10 days</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recommended Courses -->
+            <div class="mt-6">
+                <div class="dashboard-card p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-bold">Recommended Courses</h2>
+                        <a href="#" class="text-sm text-blue-400 hover:underline">View All</a>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <!-- Course 1 -->
+                        <div class="bg-white/5 rounded-xl overflow-hidden border border-white/10 hover:border-white/20 transition-colors">
+                            <div class="h-40 bg-gradient-to-r from-blue-500/20 to-purple-600/20 flex items-center justify-center">
+                                <svg class="w-16 h-16 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                    <polyline points="7.5 4.21 12 6.81 16.5 4.21"></polyline>
+                                    <polyline points="7.5 19.79 7.5 14.6 3 12"></polyline>
+                                    <polyline points="21 12 16.5 14.6 16.5 19.79"></polyline>
+                                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                                </svg>
+                            </div>
+                            <div class="p-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="badge badge-basic">Beginner</span>
+                                    <span class="text-sm text-gray-400">4.8 ★</span>
+                                </div>
+                                <h3 class="font-medium mb-1">VR Development Fundamentals</h3>
+                                <p class="text-xs text-gray-400 mb-3">Learn the basics of creating immersive VR experiences</p>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm font-medium">12 hours</span>
+                                    <button class="text-xs bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 transition-colors rounded-lg px-3 py-1">
+                                        Enroll Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Course 2 -->
+                        <div class="bg-white/5 rounded-xl overflow-hidden border border-white/10 hover:border-white/20 transition-colors">
+                            <div class="h-40 bg-gradient-to-r from-purple-500/20 to-pink-600/20 flex items-center justify-center">
+                                <svg class="w-16 h-16 text-purple-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                </svg>
+                            </div>
+                            <div class="p-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="badge badge-basic">Intermediate</span>
+                                    <span class="text-sm text-gray-400">4.9 ★</span>
+                                </div>
+                                <h3 class="font-medium mb-1">UX Research for XR</h3>
+                                <p class="text-xs text-gray-400 mb-3">Master user experience research for extended reality</p>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm font-medium">18 hours</span>
+                                    <button class="text-xs bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 transition-colors rounded-lg px-3 py-1">
+                                        Enroll Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Course 3 -->
+                        <div class="bg-white/5 rounded-xl overflow-hidden border border-white/10 hover:border-white/20 transition-colors">
+                            <div class="h-40 bg-gradient-to-r from-green-500/20 to-teal-600/20 flex items-center justify-center">
+                                <svg class="w-16 h-16 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                                    <path d="M2 17l10 5 10-5"></path>
+                                    <path d="M2 12l10 5 10-5"></path>
+                                </svg>
+                            </div>
+                            <div class="p-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="badge badge-basic">Advanced</span>
+                                    <span class="text-sm text-gray-400">4.7 ★</span>
+                                </div>
+                                <h3 class="font-medium mb-1">3D Asset Creation</h3>
+                                <p class="text-xs text-gray-400 mb-3">Create professional 3D assets for XR applications</p>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm font-medium">24 hours</span>
+                                    <button class="text-xs bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 transition-colors rounded-lg px-3 py-1">
+                                        Enroll Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="card">
-      <h3>Leadership Skills</h3>
-      <progress value="40" max="100"></progress>
-      <p>Status: In Progress</p>
-      <p>Certification: Not Attempted</p>
-    </div>
-  </div>
-
-<script>
-  const user = JSON.parse(localStorage.getItem("skillexa-user"));
-  if (!user) {
-    alert("Please login first.");
-    window.location.href = "signup-login.html";
-
-  }
-
-  document.getElementById("username-display").textContent = user.name;
-  document.getElementById("user-email").textContent = user.email || "N/A";
-
-  let planText = "";
-  switch (user.plan) {
-    case "premium":
-      planText = "You're a Premium Member (₹799/month)";
-      break;
-    case "all":
-      planText = "You're on the All-in-One Plan (₹999/year)";
-      break;
-    default:
-      planText = "You're on the Free Plan";
-  }
-
-  document.getElementById("planMsg").textContent = planText;
-
-  function logout() {
-    localStorage.removeItem("skillexa-user");
-    window.location.href = "login.html";
-  }
-</script>
-<footer style="background-color: #1e3a8a; color: white; padding: 40px 20px; text-align: center;">
-  <div style="max-width: 1000px; margin: auto;">
-    <h2 style="margin-bottom: 10px; font-size: 1.6rem;">Skillexa</h2>
-    <p style="margin: 5px 0;">Empowering skill development with AI-powered learning and evaluation.</p>
-
-    <div style="margin: 20px 0;">
-      <p>📧 Email us: <a href="mailto:skillexa@gmail.com" style="color: #dbeafe; text-decoration: underline;">skillexa@gmail.com</a></p>
-      <p>📍 Location: India</p>
-    </div>
-
-    <div style="margin: 30px 0;">
-      <a href="https://www.instagram.com/_skillexa_?igsh=MXEzZzZ4N213aTdxNA%3D%3D&utm_source=qr" target="_blank" style="margin: 0 12px; color: #dbeafe; text-decoration: none;">📸 Instagram</a>
-      |
-      <a href="https://www.youtube.com/@Skillexaa" target="_blank" style="margin: 0 12px; color: #dbeafe; text-decoration: none;">▶️ YouTube</a>
-      |
-      <a href="https://www.linkedin.com/in/jagdeep-kaur-i-2b3b632a2" target="_blank" style="margin: 0 12px; color: #dbeafe; text-decoration: none;">💼 LinkedIn</a>
-      |
-      <a href="https://www.linkedin.com/in/jagdeep-kaur-i-2b3b632a2" target="_blank" style="margin: 0 12px; color: #dbeafe; text-decoration: none;">📢 Telegram Channel</a>
-    </div>
-
-    <hr style="border: none; border-top: 1px solid #3b82f6; margin: 30px 0;" />
-
-    <p style="font-size: 0.9rem;">&copy; 2025 Skillexa. All rights reserved.</p>
-  </div>
-</footer>
-
-</body>
+    <script>
+        // Animation for chart bars
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate chart bars
+            const chartBars = document.querySelectorAll('.chart-bar');
+            setTimeout(() => {
+                chartBars.forEach(bar => {
+                    const height = bar.style.height;
+                    bar.style.height = '0%';
+                    setTimeout(() => {
+                        bar.style.height = height;
+                    }, 100);
+                });
+            }, 300);
+            
+            // Add click event for skill cards
+            const skillCards = document.querySelectorAll('.skill-card');
+            skillCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    this.classList.add('pulse');
+                    setTimeout(() => {
+                        this.classList.remove('pulse');
+                    }, 2000);
+                });
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96631dc29629f15a',t:'MTc1MzY5MjQ5My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>

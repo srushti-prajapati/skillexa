@@ -151,35 +151,53 @@ const firebaseConfig = {
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // Signup Logic
-    const signupForm = document.getElementById("signupForm");
-    signupForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
+   import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { auth, db } from "./firebase-config.js"; // adjust path as needed
 
-      const name = document.getElementById("signupName").value.trim();
-      const city = document.getElementById("signupCity").value.trim();
-      const state = document.getElementById("signupState").value.trim();
-      const email = document.getElementById("signupEmail").value.trim();
-      const password = document.getElementById("signupPassword").value.trim();
+const signupForm = document.getElementById("signupForm");
 
-      try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const uid = userCredential.user.uid;
+signupForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-        await setDoc(doc(db, "users", uid), {
-          name,
-          city,
-          state,
-          email,
-          plan: "Free"
-        });
+  const name = document.getElementById("signupName").value.trim();
+  const city = document.getElementById("signupCity").value.trim();
+  const state = document.getElementById("signupState").value.trim();
+  const email = document.getElementById("signupEmail").value.trim();
+  const password = document.getElementById("signupPassword").value;
 
-        localStorage.setItem("skillexa-user", JSON.stringify({ name, city, state, email, plan: "Free" }));
-        window.location.href = "dashboard.html";
-      } catch (error) {
-        alert("Signup Error: " + error.message);
-      }
+  try {
+    // Firebase Signup
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const uid = userCredential.user.uid;
+
+    // Save user info in Firestore
+    await setDoc(doc(db, "users", uid), {
+      name,
+      city,
+      state,
+      email,
+      plan: "Free"
     });
+
+    // Optional: Store session in localStorage
+    localStorage.setItem("name", name);
+    localStorage.setItem("email", email);
+    localStorage.setItem("plan", "Free");
+
+    // Redirect
+    alert("Signup successful! Redirecting...");
+    window.location.href = "dashboard.html";
+
+  } catch (error) {
+    if (error.code === "auth/email-already-in-use") {
+      alert("This email is already registered. Please login instead.");
+    } else {
+      alert("Signup Error: " + error.message);
+    }
+  }
+});
+
 
     // Login Logic
     const loginForm = document.getElementById("loginForm");

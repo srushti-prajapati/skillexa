@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Skillexa Certificate</title>
+  <style>
+    body {
+      text-align: center;
+      background: #f5f5f5;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    canvas {
+      max-width: 100%;
+      border: 1px solid #ccc;
+      margin-top: 20px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #4b2aad;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h2>🎓 Your Skillexa Certificate</h2>
+  <canvas id="certificateCanvas" width="1200" height="848"></canvas>
+  <button onclick="downloadCertificate()">Download as PNG</button>
+
+  <script>
+    const canvas = document.getElementById("certificateCanvas");
+    const ctx = canvas.getContext("2d");
+
+    const userName = localStorage.getItem("username") || "Your Full Name";
+    const skillName = localStorage.getItem("coursename") || "Your Skill Name";
+    const certID = "SKX-" + Math.floor(100000 + Math.random() * 900000);
+    const today = new Date().toLocaleDateString();
+
+    const image = new Image();
+    image.src = "assets/images/skillex_certificate.jpg";
+    image.onload = () => {
+      ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+      // ✅ USER NAME (centered, right under "This is to certify...")
+      ctx.font = "bold 36px 'Georgia'";
+      ctx.fillStyle = "#000";
+      ctx.textAlign = "center";
+      ctx.fillText(userName, canvas.width / 2, 405);
+
+      // ✅ SKILL NAME (between the lines)
+      ctx.font = "italic 28px 'Georgia'";
+      ctx.fillText(skillName, canvas.width / 2, 500); // Adjusted Y position
+
+      // ✅ Date (bottom left)
+      ctx.font = "20px Arial";
+      ctx.textAlign = "left";
+      ctx.fillText(`        ${today}`, 90, 740); // matched with template
+
+      // ✅ Certificate ID (bottom left)
+      ctx.fillText(`                        ${certID}`, 90, 770); // below date
+    };
+
+    function downloadCertificate() {
+      const link = document.createElement('a');
+      link.download = `${userName}-certificate.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+  </script>
+</body>
+</html>

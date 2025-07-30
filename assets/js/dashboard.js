@@ -60,3 +60,31 @@ if (!localStorage.getItem("name")) {
     });
   }
 });
+document.addEventListener("DOMContentLoaded", () => {
+  const visitedSkills = JSON.parse(localStorage.getItem("visitedSkills")) || [];
+
+  const totalSkillCount = 45; // Adjust as needed
+  const percent = Math.round((visitedSkills.length / totalSkillCount) * 100);
+  document.getElementById("progressFill").style.width = `${percent}%`;
+  document.getElementById("progressText").textContent = `${percent}%`;
+
+  const list = document.getElementById("visitedSkillsList");
+  if (visitedSkills.length === 0) {
+    list.innerHTML = `<li class="text-gray-400">No skills started yet.</li>`;
+  } else {
+    visitedSkills.forEach(skill => {
+      const li = document.createElement("li");
+      li.textContent = skill.charAt(0).toUpperCase() + skill.slice(1);
+      list.appendChild(li);
+    });
+  }
+
+  // Also update header stats if IDs exist
+  const enrolledCount = document.getElementById("enrolled-count");
+  const completedCount = document.getElementById("completed-count");
+  const hoursSpent = document.getElementById("hours-spent");
+
+  if (enrolledCount) enrolledCount.textContent = visitedSkills.length;
+  if (completedCount) completedCount.textContent = visitedSkills.length;
+  if (hoursSpent) hoursSpent.textContent = (visitedSkills.length * 0.5).toFixed(1);
+});

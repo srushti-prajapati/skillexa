@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skillexa - Communication Skills Assessment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            color: white;
+        }
+        
+        .handwriting {
+            font-family: 'Dancing Script', cursive;
+        }
+        
+        .gradient-border {
+            background: linear-gradient(135deg, #ff6b6b, #6b47ff);
+            padding: 3px;
+            border-radius: 10px;
+        }
+        
+        .btn {
+            @apply px-6 py-3 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-opacity-50 cursor-pointer;
+        }
+        
+        .btn-primary {
+            @apply bg-gradient-to-r from-purple-600 to-pink-500 text-white focus:ring-purple-500;
+        }
+        
+        .btn-secondary {
+            @apply bg-gradient-to-r from-gray-700 to-gray-900 text-white focus:ring-gray-500;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .slide-in {
+            animation: slideIn 0.5s ease-in-out;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .category-card {
+            @apply bg-gradient-to-br from-gray-800/80 to-gray-900/80 p-5 rounded-xl transition-all duration-300 hover:shadow-lg hover:from-gray-700/80;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .question-card {
+            @apply bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm p-6 rounded-xl;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .option {
+            @apply bg-gray-800/70 hover:bg-gray-700/90 p-4 rounded-lg cursor-pointer transition-all duration-200 border border-transparent;
+        }
+        
+        .option.selected {
+            @apply border-purple-500 bg-purple-900/30;
+        }
+        
+        .progress-bar {
+            @apply h-2 rounded-full bg-gray-700 overflow-hidden;
+        }
+        
+        .progress-fill {
+            @apply h-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-300;
+        }
+        
+        .timer {
+            @apply text-xl font-bold;
+        }
+        
+        .timer.warning {
+            @apply text-yellow-400;
+        }
+        
+        .timer.danger {
+            @apply text-red-500 animate-pulse;
+        }
+        
+        .certificate {
+            background-color: white;
+            color: #333;
+            width: 1123px; /* A4 landscape */
+            height: 794px; /* A4 landscape */
+            position: relative;
+            margin: 0 auto;
+        }
+        
+        .certificate-border {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            border: 15px solid;
+            border-image: linear-gradient(135deg, #ff6b6b, #6b47ff) 1;
+            padding: 30px;
+        }
+        
+        .certificate-content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .skill-badge {
+            @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium mr-2 mb-2;
+        }
+        
+        .skill-excellent {
+            @apply bg-green-100 text-green-800;
+        }
+        
+        .skill-good {
+            @apply bg-blue-100 text-blue-800;
+        }
+        
+        .skill-average {
+            @apply bg-yellow-100 text-yellow-800;
+        }
+        
+        .skill-needs-improvement {
+            @apply bg-red-100 text-red-800;
+        }
+        
+        /* Loading animation */
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Payment animation */
+        .payment-pulse {
+            animation: paymentPulse 2s infinite;
+        }
+        
+        @keyframes paymentPulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 255, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+        }
+        
+        /* Colorful text gradients */
+        .text-gradient-blue {
+            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .text-gradient-purple {
+            background: linear-gradient(90deg, #8a2be2 0%, #ba55d3 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .text-gradient-pink {
+            background: linear-gradient(90deg, #ff758c 0%, #ff7eb3 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .text-gradient-green {
+            background: linear-gradient(90deg, #0ba360 0%, #3cba92 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .text-gradient-orange {
+            background: linear-gradient(90deg, #ff9a44 0%, #fc6076 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Decorative elements */
+        .floating-shape {
+            position: absolute;
+            opacity: 0.1;
+            z-index: -1;
+        }
+        
+        .shape-1 {
+            top: 10%;
+            left: 5%;
+            width: 150px;
+            height: 150px;
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+            animation: float 8s ease-in-out infinite;
+        }
+        
+        .shape-2 {
+            top: 60%;
+            right: 5%;
+            width: 200px;
+            height: 200px;
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            background: linear-gradient(45deg, #a18cd1, #fbc2eb);
+            animation: float 10s ease-in-out infinite;
+        }
+        
+        .shape-3 {
+            bottom: 10%;
+            left: 15%;
+            width: 100px;
+            height: 100px;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            background: linear-gradient(45deg, #84fab0, #8fd3f4);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(15px, -15px) rotate(5deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+        
+        /* Glow effects */
+        .glow {
+            box-shadow: 0 0 15px rgba(123, 31, 162, 0.5);
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        
+        /* Card hover effects */
+        .hover-card {
+            transition: all 0.3s ease;
+        }
+        
+        .hover-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Colorful icons */
+        .icon-blue {
+            color: #4facfe;
+        }
+        
+        .icon-purple {
+            color: #a18cd1;
+        }
+        
+        .icon-pink {
+            color: #ff758c;
+        }
+        
+        .icon-green {
+            color: #0ba360;
+        }
+        
+        .icon-orange {
+            color: #ff9a44;
+        }
+        
+        .icon-yellow {
+            color: #ffd166;
+        }
+        
+        /* Modal styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+        }
+        
+        .modal-container {
+            background: linear-gradient(135deg, #2a2a72, #009ffd);
+            border-radius: 12px;
+            padding: 24px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            animation: modalFadeIn 0.3s ease-out;
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.5);
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .input-field::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        /* Certificate signature styles */
+        .signature-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+        
+        .signature-line {
+            width: 180px;
+            border-bottom: 1px solid #333;
+            margin-bottom: 8px;
+        }
+        
+        .signature-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <!-- Decorative shapes -->
+    <div class="floating-shape shape-1"></div>
+    <div class="floating-shape shape-2"></div>
+    <div class="floating-shape shape-3"></div>
+    
+    <div id="app" class="max-w-6xl mx-auto relative">
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="fade-in">
+            <div class="text-center mb-12">
+                <h1 class="text-5xl md:text-6xl font-bold mb-4 glow-text">
+                    <span class="text-gradient-purple">Skill</span><span class="text-gradient-pink">exa</span>
+                </h1>
+                <p class="text-xl text-gradient-blue">Communication Skills Assessment</p>
+            </div>
+            
+            <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm p-8 rounded-xl shadow-xl mb-8 glow">
+                <h2 class="text-2xl font-semibold mb-6 text-gradient-green">Welcome to Your Assessment</h2>
+                <p class="mb-6 text-gray-300">This assessment will evaluate your communication skills across multiple categories. You'll have 15 minutes to complete 20 questions.</p>
+                
+                <!-- Name input field -->
+                <div class="mb-6">
+                    <label for="user-name" class="block text-gray-300 mb-2">Enter your full name for the certificate:</label>
+                    <input type="text" id="user-name" class="input-field" placeholder="e.g. John Doe" required>
+                    <p id="name-error" class="text-red-400 text-sm mt-1 hidden">Please enter your name to continue</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div class="flex items-center space-x-4 hover-card p-3 rounded-lg">
+                        <div class="bg-purple-500/20 p-3 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 icon-purple" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-gradient-purple">Timed Assessment</h3>
+                            <p class="text-sm text-gray-400">15 minutes, 20 questions</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4 hover-card p-3 rounded-lg">
+                        <div class="bg-blue-500/20 p-3 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 icon-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-gradient-blue">Detailed Feedback</h3>
+                            <p class="text-sm text-gray-400">Analysis by skill category</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4 hover-card p-3 rounded-lg">
+                        <div class="bg-green-500/20 p-3 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 icon-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-gradient-green">Certificate</h3>
+                            <p class="text-sm text-gray-400">Downloadable PDF certificate</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4 hover-card p-3 rounded-lg">
+                        <div class="bg-pink-500/20 p-3 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 icon-pink" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-gradient-pink">Instant Results</h3>
+                            <p class="text-sm text-gray-400">Get your score immediately</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <button id="start-btn" class="btn btn-primary pulse">Start Assessment</button>
+                </div>
+            </div>
+            
+            <!-- Decorative SVG graphics -->
+            <div class="flex justify-center mb-8">
+                <svg width="600" height="100" viewBox="0 0 600 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0,50 Q150,10 300,50 T600,50" fill="none" stroke="url(#gradient1)" stroke-width="2"/>
+                    <path d="M0,60 Q150,20 300,60 T600,60" fill="none" stroke="url(#gradient2)" stroke-width="2"/>
+                    <path d="M0,70 Q150,30 300,70 T600,70" fill="none" stroke="url(#gradient3)" stroke-width="2"/>
+                    <defs>
+                        <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#ff9a9e"/>
+                            <stop offset="100%" stop-color="#fad0c4"/>
+                        </linearGradient>
+                        <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#a18cd1"/>
+                            <stop offset="100%" stop-color="#fbc2eb"/>
+                        </linearGradient>
+                        <linearGradient id="gradient3" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#84fab0"/>
+                            <stop offset="100%" stop-color="#8fd3f4"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+        </div>
+        
+        <!-- Categories Screen -->
+        <div id="categories-screen" class="fade-in hidden">
+            <div class="text-center mb-12">
+                <h1 class="text-3xl font-bold mb-4 text-gradient-purple">Communication Skills Categories</h1>
+                <p class="text-gray-300">The assessment will evaluate you across these key areas</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+                <div class="category-card hover-card">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-blue-500/20 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 icon-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-medium text-gradient-blue">Verbal Communication</h3>
+                    </div>
+                    <p class="text-gray-400">Your ability to express ideas clearly and effectively through speech.</p>
+                </div>
+                
+                <div class="category-card hover-card">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-green-500/20 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 icon-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-medium text-gradient-green">Non-verbal Cues</h3>
+                    </div>
+                    <p class="text-gray-400">Your understanding of body language, facial expressions, and gestures.</p>
+                </div>
+                
+                <div class="category-card hover-card">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-purple-500/20 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 icon-purple" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-medium text-gradient-purple">Active Listening</h3>
+                    </div>
+                    <p class="text-gray-400">Your ability to fully concentrate, understand, and respond to others.</p>
+                </div>
+                
+                <div class="category-card hover-card">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-yellow-500/20 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 icon-yellow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-medium text-gradient-orange">Clarity & Conciseness</h3>
+                    </div>
+                    <p class="text-gray-400">Your skill in conveying information clearly and efficiently.</p>
+                </div>
+                
+                <div class="category-card hover-card">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-red-500/20 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 icon-pink" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-medium text-gradient-pink">Empathy</h3>
+                    </div>
+                    <p class="text-gray-400">Your capacity to understand and share the feelings of others.</p>
+                </div>
+                
+                <div class="category-card hover-card">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-pink-500/20 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 icon-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-medium text-gradient-orange">Adaptability</h3>
+                    </div>
+                    <p class="text-gray-400">Your flexibility in adjusting your communication style to different situations.</p>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <button id="begin-test-btn" class="btn btn-primary pulse">Begin Assessment</button>
+            </div>
+        </div>
+        
+        <!-- Assessment Screen -->
+        <div id="assessment-screen" class="hidden">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-gradient-purple">Communication Skills Assessment</h2>
+                </div>
+                <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 icon-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <div id="timer" class="timer">15:00</div>
+                </div>
+            </div>
+            
+            <div class="mb-6">
+                <div class="flex justify-between text-sm text-gray-400 mb-2">
+                    <span>Progress</span>
+                    <span id="progress-text">Question 1 of 20</span>
+                </div>
+                <div class="progress-bar">
+                    <div id="progress-fill" class="progress-fill" style="width: 5%;"></div>
+                </div>
+            </div>
+            
+            <div id="question-container" class="question-card mb-8 glow">
+                <h3 id="question-text" class="text-xl font-medium mb-6 text-gradient-blue">Question text will appear here</h3>
+                <div id="options-container" class="space-y-4">
+                    <!-- Options will be inserted here -->
+                </div>
+            </div>
+            
+            <div class="flex justify-between">
+                <button id="prev-btn" class="btn btn-secondary" disabled>Previous</button>
+                <button id="next-btn" class="btn btn-primary">Next</button>
+            </div>
+        </div>
+        
+        <!-- Results Screen -->
+        <div id="results-screen" class="hidden fade-in">
+            <div class="text-center mb-10">
+                <h1 class="text-3xl font-bold mb-2 text-gradient-green">Assessment Complete!</h1>
+                <p class="text-gray-300">Here's how you performed in your communication skills assessment</p>
+            </div>
+            
+            <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm p-8 rounded-xl shadow-xl mb-8 glow">
+                <div class="flex flex-col md:flex-row justify-between items-center mb-8">
+                    <div>
+                        <h2 class="text-2xl font-semibold mb-2 text-gradient-purple">Your Results</h2>
+                        <p class="text-gray-400">Completed in <span id="completion-time">--:--</span></p>
+                    </div>
+                    <div class="mt-4 md:mt-0">
+                        <div class="text-center">
+                            <div class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-purple-600/20 to-pink-500/20 mb-2 border-2 border-purple-500/50">
+                                <span id="overall-score" class="text-3xl font-bold text-gradient-pink">85%</span>
+                            </div>
+                            <p class="text-sm text-gray-400">Overall Score</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3 class="text-xl font-medium mb-4 text-gradient-blue">Performance by Category</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-gray-800/50 p-4 rounded-lg hover-card">
+                        <div class="flex justify-between items-center mb-2">
+                            <div class="flex items-center">
+                                <div class="bg-blue-500/20 p-2 rounded-full mr-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 icon-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                    </svg>
+                                </div>
+                                <h4 class="font-medium text-gradient-blue">Verbal Communication</h4>
+                            </div>
+                            <span id="verbal-score" class="font-semibold">90%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div id="verbal-progress" class="progress-fill" style="width: 90%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-800/50 p-4 rounded-lg hover-card">
+                        <div class="flex justify-between items-center mb-2">
+                            <div class="flex items-center">
+                                <div class="bg-green-500/20 p-2 rounded-full mr-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 icon-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                </div>
+                                <h4 class="font-medium text-gradient-green">Non-verbal Cues</h4>
+                            </div>
+                            <span id="nonverbal-score" class="font-semibold">75%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div id="nonverbal-progress" class="progress-fill" style="width: 75%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-800/50 p-4 rounded-lg hover-card">
+                        <div class="flex justify-between items-center mb-2">
+                            <div class="flex items-center">
+                                <div class="bg-purple-500/20 p-2 rounded-full mr-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 icon-purple" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </div>
+                                <h4 class="font-medium text-gradient-purple">Active Listening</h4>
+                            </div>
+                            <span id="listening-score" class="font-semibold">85%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div id="listening-progress" class="progress-fill" style="width: 85%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-800/50 p-4 rounded-lg hover-card">
+                        <div class="flex justify-between items-center mb-2">
+                            <div class="flex items-center">
+                                <div class="bg-yellow-500/20 p-2 rounded-full mr-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 icon-yellow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                </div>
+                                <h4 class="font-medium text-gradient-orange">Clarity & Conciseness</h4>
+                            </div>
+                            <span id="clarity-score" class="font-semibold">80%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div id="clarity-progress" class="progress-fill" style="width: 80%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-800/50 p-4 rounded-lg hover-card">
+                        <div class="flex justify-between items-center mb-2">
+                            <div class="flex items-center">
+                                <div class="bg-red-500/20 p-2 rounded-full mr-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 icon-pink" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                    </svg>
+                                </div>
+                                <h4 class="font-medium text-gradient-pink">Empathy</h4>
+                            </div>
+                            <span id="empathy-score" class="font-semibold">95%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div id="empathy-progress" class="progress-fill" style="width: 95%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-800/50 p-4 rounded-lg hover-card">
+                        <div class="flex justify-between items-center mb-2">
+                            <div class="flex items-center">
+                                <div class="bg-pink-500/20 p-2 rounded-full mr-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 icon-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                    </svg>
+                                </div>
+                                <h4 class="font-medium text-gradient-orange">Adaptability</h4>
+                            </div>
+                            <span id="adaptability-score" class="font-semibold">85%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div id="adaptability-progress" class="progress-fill" style="width: 85%;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <button id="get-certificate-btn" class="btn btn-primary pulse">Get Your Certificate</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Payment Screen -->
+        <div id="payment-screen" class="hidden fade-in">
+            <div class="text-center mb-10">
+                <h1 class="text-3xl font-bold mb-2 text-gradient-purple">Almost There!</h1>
+                <p class="text-gray-300">Complete the payment to receive your certificate</p>
+            </div>
+            
+            <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm p-8 rounded-xl shadow-xl mb-8 glow">
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl font-semibold mb-4 text-gradient-green">Communication Skills Certificate</h2>
+                    <p class="text-gray-400 mb-6">Your personalized certificate is ready for download after payment</p>
+                    
+                    <div class="flex justify-center mb-6">
+                        <div class="bg-white p-4 rounded-lg payment-pulse">
+                            <!-- QR Code SVG with more detailed pattern -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+                                <rect width="200" height="200" fill="white"/>
+                                <g fill="black">
+                                    <!-- More detailed QR code pattern -->
+                                    <rect x="20" y="20" width="40" height="40"/>
+                                    <rect x="140" y="20" width="40" height="40"/>
+                                    <rect x="20" y="140" width="40" height="40"/>
+                                    
+                                    <rect x="70" y="20" width="10" height="10"/>
+                                    <rect x="90" y="20" width="10" height="10"/>
+                                    <rect x="120" y="20" width="10" height="10"/>
+                                    
+                                    <rect x="20" y="70" width="10" height="10"/>
+                                    <rect x="40" y="70" width="10" height="10"/>
+                                    <rect x="60" y="70" width="10" height="10"/>
+                                    <rect x="90" y="70" width="20" height="10"/>
+                                    <rect x="120" y="70" width="10" height="10"/>
+                                    <rect x="140" y="70" width="10" height="10"/>
+                                    <rect x="170" y="70" width="10" height="10"/>
+                                    
+                                    <rect x="20" y="90" width="10" height="10"/>
+                                    <rect x="50" y="90" width="20" height="10"/>
+                                    <rect x="80" y="90" width="10" height="10"/>
+                                    <rect x="100" y="90" width="10" height="10"/>
+                                    <rect x="120" y="90" width="10" height="10"/>
+                                    <rect x="140" y="90" width="10" height="10"/>
+                                    <rect x="170" y="90" width="10" height="10"/>
+                                    
+                                    <rect x="20" y="110" width="10" height="10"/>
+                                    <rect x="40" y="110" width="10" height="10"/>
+                                    <rect x="60" y="110" width="10" height="10"/>
+                                    <rect x="80" y="110" width="10" height="10"/>
+                                    <rect x="110" y="110" width="20" height="10"/>
+                                    <rect x="140" y="110" width="10" height="10"/>
+                                    <rect x="170" y="110" width="10" height="10"/>
+                                    
+                                    <rect x="70" y="140" width="10" height="10"/>
+                                    <rect x="90" y="140" width="10" height="10"/>
+                                    <rect x="110" y="140" width="10" height="10"/>
+                                    <rect x="130" y="140" width="10" height="10"/>
+                                    <rect x="150" y="140" width="10" height="10"/>
+                                    <rect x="170" y="140" width="10" height="10"/>
+                                    
+                                    <rect x="70" y="170" width="10" height="10"/>
+                                    <rect x="90" y="170" width="10" height="10"/>
+                                    <rect x="110" y="170" width="10" height="10"/>
+                                    <rect x="150" y="170" width="10" height="10"/>
+                                    <rect x="170" y="170" width="10" height="10"/>
+                                </g>
+                                
+                                <!-- UPI Logo overlay -->
+                                <g transform="translate(85, 85) scale(0.15)">
+                                    <circle cx="100" cy="100" r="100" fill="#061F57"/>
+                                    <path d="M65,40 L65,160 L100,160 L100,40 Z" fill="#097939"/>
+                                    <path d="M135,40 L135,160 L170,160 L170,40 Z" fill="#ED752E"/>
+                                </g>
+                            </svg>
+                            <div class="mt-2 text-black font-medium">Scan to Pay</div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col items-center space-y-4">
+                        <div class="flex items-center space-x-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 icon-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span class="text-gray-300">Secure Payment</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 icon-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span class="text-gray-300">Instant Certificate Download</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <button id="payment-complete-btn" class="btn btn-primary pulse">I've Completed Payment</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Certificate Screen -->
+        <div id="certificate-screen" class="hidden fade-in">
+            <div class="text-center mb-10">
+                <h1 class="text-3xl font-bold mb-2 text-gradient-green">Your Certificate</h1>
+                <p class="text-gray-300">Congratulations on completing the assessment!</p>
+            </div>
+            
+            <div class="flex justify-center mb-8">
+                <div id="certificate-container" class="certificate shadow-2xl transform scale-50 md:scale-75 lg:scale-90 origin-top">
+                    <div class="certificate-border">
+                        <div class="certificate-content">
+                            <!-- Certificate Header -->
+                            <div class="text-center mb-6">
+                                <div class="flex justify-center mb-4">
+                                    <!-- Skillexa Logo -->
+                                    <div class="bg-gradient-to-r from-purple-600 to-pink-500 text-white text-3xl font-bold py-2 px-6 rounded-lg">
+                                        Skillexa
+                                    </div>
+                                </div>
+                                <h1 class="text-4xl font-bold handwriting text-gray-800 mb-1">Certificate of Achievement</h1>
+                                <div class="w-32 h-1 bg-gradient-to-r from-purple-600 to-pink-500 mx-auto mb-2"></div>
+                                <p class="text-gray-600">This certifies that</p>
+                            </div>
+                            
+                            <!-- Certificate Body -->
+                            <div class="text-center mb-8">
+                                <h2 id="certificate-name" class="text-3xl handwriting font-bold text-gray-800 mb-4">Your Name</h2>
+                                <p class="text-gray-600 mb-4">has successfully completed the</p>
+                                <h3 class="text-2xl font-bold text-gray-800 mb-1">Communication Skills Assessment</h3>
+                                <p class="text-gray-600 mb-6">with an overall score of <span id="certificate-score" class="font-bold">85%</span></p>
+                                
+                                <div class="flex justify-center mb-6">
+                                    <div class="flex items-center bg-gray-100 px-4 py-2 rounded-full">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        <span class="text-gray-700">Verified Achievement</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="grid grid-cols-3 gap-2 mb-6">
+                                    <div class="skill-badge skill-excellent">
+                                        <span>Verbal: Excellent 🗣️</span>
+                                    </div>
+                                    <div class="skill-badge skill-good">
+                                        <span>Non-verbal: Good 👁️</span>
+                                    </div>
+                                    <div class="skill-badge skill-excellent">
+                                        <span>Listening: Excellent 🎧</span>
+                                    </div>
+                                    <div class="skill-badge skill-good">
+                                        <span>Clarity: Good 📝</span>
+                                    </div>
+                                    <div class="skill-badge skill-excellent">
+                                        <span>Empathy: Excellent 💖</span>
+                                    </div>
+                                    <div class="skill-badge skill-excellent">
+                                        <span>Adaptability: Excellent 🔄</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Certificate ID -->
+                                <div class="flex justify-center mb-6">
+                                    <div class="bg-gray-100 px-4 py-2 rounded-lg">
+                                        <p class="text-gray-700 text-sm">Certificate ID: <span id="certificate-id" class="font-mono font-bold">SKX-2023-12345</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Certificate Footer -->
+                            <div class="flex justify-between items-end mt-12">
+                                <div class="text-center">
+                                    <div class="signature-text">John Smith</div>
+                                    <div class="signature-line"></div>
+                                    <p class="text-sm text-gray-600">Founder Signature</p>
+                                </div>
+                                
+                                <div class="text-center">
+                                    <p id="certificate-date" class="text-gray-600 font-medium">June 15, 2023</p>
+                                    <p class="text-sm text-gray-500">Issue Date</p>
+                                </div>
+                                
+                                <div class="text-center">
+                                    <div class="signature-text">Sarah Johnson</div>
+                                    <div class="signature-line"></div>
+                                    <p class="text-sm text-gray-600">Co-Founder Signature</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <button id="download-certificate-btn" class="btn btn-primary mb-4 pulse">Download Certificate</button>
+                <p class="text-gray-400 text-sm">Your certificate has been saved to your account</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Assessment Questions
+        const questions = [
+            {
+                text: "When someone is speaking to you, what is the most effective way to show you're actively listening?",
+                options: [
+                    "Maintaining eye contact and nodding occasionally",
+                    "Thinking about what you'll say next",
+                    "Interrupting with questions whenever you have them",
+                    "Checking your phone to make sure you don't miss anything important"
+                ],
+                correctAnswer: 0,
+                category: "listening"
+            },
+            {
+                text: "Which of the following is an example of non-verbal communication?",
+                options: [
+                    "Sending an email",
+                    "Making a phone call",
+                    "Maintaining eye contact",
+                    "Giving a presentation"
+                ],
+                correctAnswer: 2,
+                category: "nonverbal"
+            },
+            {
+                text: "When delivering a presentation to a diverse audience, what's the best approach?",
+                options: [
+                    "Use complex terminology to sound knowledgeable",
+                    "Adapt your language and examples to be inclusive and understandable",
+                    "Speak quickly to cover more material",
+                    "Focus only on the most technical people in the room"
+                ],
+                correctAnswer: 1,
+                category: "adaptability"
+            },
+            {
+                text: "What is the most effective way to handle a disagreement in a professional setting?",
+                options: [
+                    "Avoid the conflict by changing the subject",
+                    "Listen to understand the other perspective before responding",
+                    "Stand your ground and refuse to compromise",
+                    "Bring in others to support your position"
+                ],
+                correctAnswer: 1,
+                category: "empathy"
+            },
+            {
+                text: "Which statement best describes effective verbal communication?",
+                options: [
+                    "Using as many technical terms as possible",
+                    "Speaking loudly to ensure everyone hears you",
+                    "Using clear, concise language appropriate for your audience",
+                    "Talking continuously to avoid awkward silences"
+                ],
+                correctAnswer: 2,
+                category: "verbal"
+            },
+            {
+                text: "When explaining a complex concept, what approach is most effective?",
+                options: [
+                    "Using analogies and examples relevant to the audience",
+                    "Providing all technical details at once",
+                    "Using specialized jargon to sound authoritative",
+                    "Speaking quickly to maintain interest"
+                ],
+                correctAnswer: 0,
+                category: "clarity"
+            },
+            {
+                text: "What does it mean to practice empathetic listening?",
+                options: [
+                    "Finishing the speaker's sentences to show understanding",
+                    "Thinking about similar experiences you've had while they speak",
+                    "Trying to understand the speaker's perspective and feelings",
+                    "Offering immediate solutions to their problems"
+                ],
+                correctAnswer: 2,
+                category: "empathy"
+            },
+            {
+                text: "Which of the following is most important when communicating across cultural boundaries?",
+                options: [
+                    "Speaking slowly and loudly",
+                    "Being aware of cultural differences in communication styles",
+                    "Using idioms and slang to sound friendly",
+                    "Assuming similarities rather than differences"
+                ],
+                correctAnswer: 1,
+                category: "adaptability"
+            },
+            {
+                text: "What does your posture communicate during a conversation?",
+                options: [
+                    "It has no impact on communication",
+                    "It only matters in formal settings",
+                    "It can indicate your level of interest and engagement",
+                    "It's only important for public speakers"
+                ],
+                correctAnswer: 2,
+                category: "nonverbal"
+            },
+            {
+                text: "When receiving criticism, what is the most constructive response?",
+                options: [
+                    "Defending yourself immediately",
+                    "Listening carefully and asking clarifying questions",
+                    "Criticizing the other person in return",
+                    "Ignoring feedback you disagree with"
+                ],
+                correctAnswer: 1,
+                category: "listening"
+            },
+            {
+                text: "What is the purpose of asking open-ended questions?",
+                options: [
+                    "To get yes or no answers quickly",
+                    "To encourage detailed responses and discussion",
+                    "To limit the conversation to specific topics",
+                    "To demonstrate your knowledge of the subject"
+                ],
+                correctAnswer: 1,
+                category: "verbal"
+            },
+            {
+                text: "Which of the following best demonstrates clarity in communication?",
+                options: [
+                    "Using technical jargon whenever possible",
+                    "Providing excessive detail on every point",
+                    "Organizing information logically with clear main points",
+                    "Speaking without pauses or breaks"
+                ],
+                correctAnswer: 2,
+                category: "clarity"
+            },
+            {
+                text: "How can you best adapt your communication style when speaking with someone who is very detail-oriented?",
+                options: [
+                    "Be vague to encourage their creativity",
+                    "Provide specific information and be precise",
+                    "Speak quickly to match their thought process",
+                    "Use emotional appeals rather than facts"
+                ],
+                correctAnswer: 1,
+                category: "adaptability"
+            },
+            {
+                text: "What does it mean to 'read between the lines' in communication?",
+                options: [
+                    "Skimming written text for key points",
+                    "Understanding implied meaning beyond literal words",
+                    "Reading body language instead of listening",
+                    "Looking for hidden messages in formal documents"
+                ],
+                correctAnswer: 1,
+                category: "empathy"
+            },
+            {
+                text: "Which of the following is an example of a communication barrier?",
+                options: [
+                    "Using simple language",
+                    "Providing visual aids",
+                    "Making assumptions about what others know",
+                    "Asking for feedback"
+                ],
+                correctAnswer: 2,
+                category: "clarity"
+            },
+            {
+                text: "What role does silence play in effective communication?",
+                options: [
+                    "It should always be avoided as it creates awkwardness",
+                    "It provides time for reflection and processing information",
+                    "It indicates a lack of knowledge or preparation",
+                    "It should only be used when communication breaks down"
+                ],
+                correctAnswer: 1,
+                category: "listening"
+            },
+            {
+                text: "How does your tone of voice affect your message?",
+                options: [
+                    "It has no impact as long as the words are correct",
+                    "It only matters when speaking to superiors",
+                    "It can completely change the meaning of your words",
+                    "It only affects formal presentations"
+                ],
+                correctAnswer: 2,
+                category: "verbal"
+            },
+            {
+                text: "What is the best way to ensure your written communication is effective?",
+                options: [
+                    "Using complex vocabulary to sound intelligent",
+                    "Writing long paragraphs with detailed explanations",
+                    "Being concise and organizing information logically",
+                    "Using informal language to sound approachable"
+                ],
+                correctAnswer: 2,
+                category: "clarity"
+            },
+            {
+                text: "Which facial expression is universally recognized across cultures?",
+                options: [
+                    "Contempt",
+                    "Happiness",
+                    "Embarrassment",
+                    "Pride"
+                ],
+                correctAnswer: 1,
+                category: "nonverbal"
+            },
+            {
+                text: "When communicating with someone who is upset, what approach is most effective?",
+                options: [
+                    "Telling them to calm down",
+                    "Showing empathy and acknowledging their feelings",
+                    "Changing the subject to something positive",
+                    "Leaving them alone until they feel better"
+                ],
+                correctAnswer: 1,
+                category: "empathy"
+            }
+        ];
+        
+        // DOM Elements
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const categoriesScreen = document.getElementById('categories-screen');
+        const assessmentScreen = document.getElementById('assessment-screen');
+        const resultsScreen = document.getElementById('results-screen');
+        const paymentScreen = document.getElementById('payment-screen');
+        const certificateScreen = document.getElementById('certificate-screen');
+        
+        const startBtn = document.getElementById('start-btn');
+        const beginTestBtn = document.getElementById('begin-test-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const getCertificateBtn = document.getElementById('get-certificate-btn');
+        const paymentCompleteBtn = document.getElementById('payment-complete-btn');
+        const downloadCertificateBtn = document.getElementById('download-certificate-btn');
+        const userNameInput = document.getElementById('user-name');
+        const nameError = document.getElementById('name-error');
+        
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const progressText = document.getElementById('progress-text');
+        const progressFill = document.getElementById('progress-fill');
+        const timerElement = document.getElementById('timer');
+        
+        // Assessment State
+        let currentQuestion = 0;
+        let userAnswers = Array(questions.length).fill(null);
+        let timerInterval;
+        let timeRemaining = 15 * 60; // 15 minutes in seconds
+        let startTime;
+        let userName = "";
+        
+        // Event Listeners
+        startBtn.addEventListener('click', function() {
+            // Validate name input
+            userName = userNameInput.value.trim();
+            if (userName === "") {
+                nameError.classList.remove('hidden');
+                userNameInput.focus();
+                return;
+            }
+            
+            nameError.classList.add('hidden');
+            welcomeScreen.classList.add('hidden');
+            categoriesScreen.classList.remove('hidden');
+        });
+        
+        beginTestBtn.addEventListener('click', function() {
+            categoriesScreen.classList.add('hidden');
+            assessmentScreen.classList.remove('hidden');
+            startAssessment();
+        });
+        
+        prevBtn.addEventListener('click', function() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                displayQuestion();
+            }
+        });
+        
+        nextBtn.addEventListener('click', function() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                displayQuestion();
+            } else {
+                finishAssessment();
+            }
+        });
+        
+        getCertificateBtn.addEventListener('click', function() {
+            resultsScreen.classList.add('hidden');
+            paymentScreen.classList.remove('hidden');
+        });
+        
+        paymentCompleteBtn.addEventListener('click', function() {
+            paymentScreen.classList.add('hidden');
+            certificateScreen.classList.remove('hidden');
+            populateCertificate();
+        });
+        
+        downloadCertificateBtn.addEventListener('click', function() {
+            downloadCertificate();
+        });
+        
+        // Functions
+        function startAssessment() {
+            startTime = new Date();
+            displayQuestion();
+            startTimer();
+        }
+        
+        function displayQuestion() {
+            const question = questions[currentQuestion];
+            questionText.textContent = question.text;
+            
+            // Clear previous options
+            optionsContainer.innerHTML = '';
+            
+            // Create options with proper event listeners
+            question.options.forEach((option, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = `option ${userAnswers[currentQuestion] === index ? 'selected' : ''}`;
+                optionDiv.textContent = option;
+                
+                // Add event listener directly to the div
+                optionDiv.addEventListener('click', function() {
+                    selectOption(index);
+                });
+                
+                optionsContainer.appendChild(optionDiv);
+            });
+            
+            // Update progress
+            progressText.textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
+            progressFill.style.width = `${((currentQuestion + 1) / questions.length) * 100}%`;
+            
+            // Update buttons
+            prevBtn.disabled = currentQuestion === 0;
+            nextBtn.textContent = currentQuestion === questions.length - 1 ? 'Finish' : 'Next';
+        }
+        
+        function selectOption(index) {
+            userAnswers[currentQuestion] = index;
+            
+            // Update selected option styling
+            const options = optionsContainer.querySelectorAll('.option');
+            options.forEach((option, i) => {
+                if (i === index) {
+                    option.classList.add('selected');
+                } else {
+                    option.classList.remove('selected');
+                }
+            });
+        }
+        
+        function startTimer() {
+            updateTimerDisplay();
+            
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateTimerDisplay();
+                
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    finishAssessment();
+                }
+            }, 1000);
+        }
+        
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Add warning classes
+            timerElement.classList.toggle('warning', timeRemaining < 300); // Less than 5 minutes
+            timerElement.classList.toggle('danger', timeRemaining < 60); // Less than 1 minute
+        }
+        
+        function finishAssessment() {
+            clearInterval(timerInterval);
+            
+            // Calculate time taken
+            const endTime = new Date();
+            const timeTaken = Math.floor((endTime - startTime) / 1000); // in seconds
+            const minutesTaken = Math.floor(timeTaken / 60);
+            const secondsTaken = timeTaken % 60;
+            document.getElementById('completion-time').textContent = `${minutesTaken}:${secondsTaken.toString().padStart(2, '0')}`;
+            
+            // Calculate scores
+            const scores = calculateScores();
+            
+            // Update results screen
+            document.getElementById('overall-score').textContent = `${scores.overall}%`;
+            
+            document.getElementById('verbal-score').textContent = `${scores.verbal}%`;
+            document.getElementById('verbal-progress').style.width = `${scores.verbal}%`;
+            
+            document.getElementById('nonverbal-score').textContent = `${scores.nonverbal}%`;
+            document.getElementById('nonverbal-progress').style.width = `${scores.nonverbal}%`;
+            
+            document.getElementById('listening-score').textContent = `${scores.listening}%`;
+            document.getElementById('listening-progress').style.width = `${scores.listening}%`;
+            
+            document.getElementById('clarity-score').textContent = `${scores.clarity}%`;
+            document.getElementById('clarity-progress').style.width = `${scores.clarity}%`;
+            
+            document.getElementById('empathy-score').textContent = `${scores.empathy}%`;
+            document.getElementById('empathy-progress').style.width = `${scores.empathy}%`;
+            
+            document.getElementById('adaptability-score').textContent = `${scores.adaptability}%`;
+            document.getElementById('adaptability-progress').style.width = `${scores.adaptability}%`;
+            
+            // Show results screen
+            assessmentScreen.classList.add('hidden');
+            resultsScreen.classList.remove('hidden');
+        }
+        
+        function calculateScores() {
+            const categoryQuestions = {
+                verbal: questions.filter(q => q.category === 'verbal'),
+                nonverbal: questions.filter(q => q.category === 'nonverbal'),
+                listening: questions.filter(q => q.category === 'listening'),
+                clarity: questions.filter(q => q.category === 'clarity'),
+                empathy: questions.filter(q => q.category === 'empathy'),
+                adaptability: questions.filter(q => q.category === 'adaptability')
+            };
+            
+            const categoryScores = {
+                verbal: 0,
+                nonverbal: 0,
+                listening: 0,
+                clarity: 0,
+                empathy: 0,
+                adaptability: 0
+            };
+            
+            let totalCorrect = 0;
+            
+            // Calculate correct answers for each category
+            questions.forEach((question, index) => {
+                if (userAnswers[index] === question.correctAnswer) {
+                    totalCorrect++;
+                    categoryScores[question.category]++;
+                }
+            });
+            
+            // Calculate percentages
+            const scores = {
+                overall: Math.round((totalCorrect / questions.length) * 100)
+            };
+            
+            // Calculate category percentages
+            for (const category in categoryQuestions) {
+                if (categoryQuestions[category].length > 0) {
+                    scores[category] = Math.round((categoryScores[category] / categoryQuestions[category].length) * 100);
+                } else {
+                    scores[category] = 0;
+                }
+            }
+            
+            return scores;
+        }
+        
+        // Generate a unique certificate ID
+        function generateCertificateId() {
+            const prefix = "SKX";
+            const year = new Date().getFullYear();
+            const randomDigits = Math.floor(10000 + Math.random() * 90000); // 5-digit random number
+            return `${prefix}-${year}-${randomDigits}`;
+        }
+        
+        function populateCertificate() {
+            // Set user name from input
+            document.getElementById('certificate-name').textContent = userName;
+            
+            // Set score
+            const scores = calculateScores();
+            document.getElementById('certificate-score').textContent = `${scores.overall}%`;
+            
+            // Set date
+            const today = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('certificate-date').textContent = today.toLocaleDateString('en-US', options);
+            
+            // Set certificate ID
+            document.getElementById('certificate-id').textContent = generateCertificateId();
+        }
+        
+        function downloadCertificate() {
+            // Make sure jsPDF is loaded
+            if (typeof window.jspdf === 'undefined') {
+                console.error('jsPDF library not loaded');
+                alert('PDF generation library not loaded. Please try again later.');
+                return;
+            }
+            
+            const { jsPDF } = window.jspdf;
+            
+            // Show loading indicator
+            const loadingIndicator = document.createElement('div');
+            loadingIndicator.className = 'fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50';
+            loadingIndicator.innerHTML = `
+                <div class="text-center">
+                    <div class="loading-spinner mx-auto mb-4"></div>
+                    <p class="text-white">Generating your certificate...</p>
+                </div>
+            `;
+            document.body.appendChild(loadingIndicator);
+            
+            // Use setTimeout to allow the loading indicator to render
+            setTimeout(() => {
+                const certificateElement = document.getElementById('certificate-container');
+                
+                html2canvas(certificateElement, {
+                    scale: 2,
+                    logging: false,
+                    useCORS: true,
+                    allowTaint: true
+                }).then(canvas => {
+                    const imgData = canvas.toDataURL('image/png');
+                    const pdf = new jsPDF({
+                        orientation: 'landscape',
+                        unit: 'mm',
+                        format: 'a4'
+                    });
+                    
+                    const imgProps = pdf.getImageProperties(imgData);
+                    const pdfWidth = pdf.internal.pageSize.getWidth();
+                    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+                    
+                    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                    
+                    // Save the PDF file
+                    pdf.save('Skillexa_Communication_Certificate.pdf');
+                    
+                    // Remove loading indicator
+                    document.body.removeChild(loadingIndicator);
+                    
+                    // Show success message
+                    const successMessage = document.createElement('div');
+                    successMessage.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 fade-in';
+                    successMessage.textContent = 'Certificate downloaded successfully!';
+                    document.body.appendChild(successMessage);
+                    
+                    // Remove success message after 3 seconds
+                    setTimeout(() => {
+                        document.body.removeChild(successMessage);
+                    }, 3000);
+                }).catch(error => {
+                    console.error('Error generating certificate:', error);
+                    document.body.removeChild(loadingIndicator);
+                    
+                    // Show error message
+                    const errorMessage = document.createElement('div');
+                    errorMessage.className = 'fixed bottom-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 fade-in';
+                    errorMessage.textContent = 'Error generating certificate. Please try again.';
+                    document.body.appendChild(errorMessage);
+                    
+                    setTimeout(() => {
+                        document.body.removeChild(errorMessage);
+                    }, 3000);
+                });
+            }, 100);
+        }
+        
+        // Initialize when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add confetti animation to welcome screen
+            createConfetti();
+            
+            // Focus on name input
+            userNameInput.focus();
+        });
+        
+        // Create confetti animation
+        function createConfetti() {
+            const confettiContainer = document.createElement('div');
+            confettiContainer.style.position = 'absolute';
+            confettiContainer.style.top = '0';
+            confettiContainer.style.left = '0';
+            confettiContainer.style.width = '100%';
+            confettiContainer.style.height = '100%';
+            confettiContainer.style.pointerEvents = 'none';
+            confettiContainer.style.zIndex = '-1';
+            document.body.appendChild(confettiContainer);
+            
+            const colors = ['#ff6b6b', '#4facfe', '#00f2fe', '#a18cd1', '#fbc2eb', '#0ba360', '#3cba92', '#ff9a44'];
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'absolute';
+                confetti.style.width = `${Math.random() * 10 + 5}px`;
+                confetti.style.height = `${Math.random() * 10 + 5}px`;
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.borderRadius = '50%';
+                confetti.style.opacity = '0';
+                confetti.style.top = `${Math.random() * 100}%`;
+                confetti.style.left = `${Math.random() * 100}%`;
+                
+                const animation = confetti.animate([
+                    { opacity: 0, transform: 'translateY(-50px) rotate(0deg)' },
+                    { opacity: 1, transform: 'translateY(0) rotate(180deg)' },
+                    { opacity: 0, transform: 'translateY(50px) rotate(360deg)' }
+                ], {
+                    duration: Math.random() * 3000 + 2000,
+                    delay: Math.random() * 2000,
+                    iterations: Infinity
+                });
+                
+                confettiContainer.appendChild(confetti);
+            }
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'966e0cb962823206',t:'MTc1MzgwNzEzOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

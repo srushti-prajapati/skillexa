@@ -113,16 +113,15 @@
 </head>
 <body>
 <header>
-<img src="assets/logo.jpg" class="logo" />
- <a href="index.html">
-  </a>
+  <img src="assets/logo.jpg" class="logo" />
+  <a href="index.html"></a>
 </header>
 
 <header>
   <h1>Skillexa</h1>
   <nav>
-        <a href="index.html">Home</a>
-        <a href="dashboard.html">Dashboard</a>
+    <a href="index.html">Home</a>
+    <a href="dashboard.html">Dashboard</a>
     <a href="#" onclick="logout()">Logout</a>
   </nav>
 </header>
@@ -192,17 +191,32 @@
     window.location.href = "signup-login.html";
   }
 
+  const freeSkills = [
+    "Digital Marketing", "SEO", "Content Creation", "Sales Skills",
+    "Graphic Design", "Motion Graphics", "Storytelling", "Logo Design",
+    "Communication Skills", "Public Speaking", "Interview Preparation", "Time Management",
+    "Problem Solving", "Conflict Resolution",
+    "Programming", "Web Development", "App Development", "Database Management"
+  ];
+
   function createSkillBox(skill, unlocked = false) {
     const box = document.createElement("div");
     box.className = "skill-box" + (unlocked ? "" : " locked");
+
     const h3 = document.createElement("h3");
     h3.textContent = skill;
 
     const btn = document.createElement("button");
     btn.textContent = unlocked ? "Start Learning" : "Upgrade Now";
+
     btn.onclick = () => {
       if (unlocked) {
         localStorage.setItem("completedSkill", skill);
+        let visited = JSON.parse(localStorage.getItem("visitedSkills")) || [];
+        if (!visited.includes(skill)) {
+          visited.push(skill);
+          localStorage.setItem("visitedSkills", JSON.stringify(visited));
+        }
         window.location.href = "skill-detail.html";
       } else {
         window.location.href = "payment.html";
@@ -213,88 +227,28 @@
     box.appendChild(btn);
     return box;
   }
-// List of specific free skill names
-const freeSkills = [
-  // 🧠 Business & Marketing
-  "Digital Marketing",
-  "SEO",
-  "Content Creation",
-  "Sales Skills",
 
-  // 🎨 Creative & Design
-  "Graphic Design",
-  "Motion Graphics",
-  "Storytelling",
-  "Logo Design",
+  // Render softSkills
+  categories.softSkills.forEach(skill =>
+    document.getElementById("softSkills").appendChild(
+      createSkillBox(skill, isPremium || freeSkills.includes(skill))
+    )
+  );
 
-  // 🗣️ Soft Skills
-  "Communication Skills",
-  "Public Speaking",
-  "Interview Preparation",
-  "Time Management",
-  "Problem Solving",
-  "Conflict Resolution",
-
-  // 💻 Technical Skills
-  "Programming",
-  "Web Development",
-  "App Development",
-  "Database Management"
-];
-
-// Render softSkills
-categories.softSkills.forEach(skill =>
-  document.getElementById("softSkills").appendChild(
-    createSkillBox(skill, isPremium || freeSkills.includes(skill))
-  )
-);
-
-// Render all other categories
-Object.entries(categories).forEach(([key, list]) => {
-  if (key === "softSkills") return; // Already handled
-  list.forEach(skill => {
-    const isFree = freeSkills.includes(skill);
-    document.getElementById(key).appendChild(createSkillBox(skill, isPremium || isFree));
+  // Render all other categories
+  Object.entries(categories).forEach(([key, list]) => {
+    if (key === "softSkills") return; // Already handled
+    list.forEach(skill => {
+      const isFree = freeSkills.includes(skill);
+      document.getElementById(key).appendChild(createSkillBox(skill, isPremium || isFree));
+    });
   });
-});
 
   function logout() {
     localStorage.removeItem("skillexa-user");
     window.location.href = "signup-login.html";
   }
 </script>
-<script>
-  function logout() {
-    localStorage.removeItem("skillexa-user");
-    window.location.href = "signup-login.html";
-  }
-</script>
-
-<footer style="background-color: #1e3a8a; color: white; padding: 40px 20px; text-align: center;">
-  <div style="max-width: 1000px; margin: auto;">
-    <h2 style="margin-bottom: 10px; font-size: 1.6rem;">Skillexa</h2>
-    <p style="margin: 5px 0;">Empowering skill development with AI-powered learning and evaluation.</p>
-
-    <div style="margin: 20px 0;">
-      <p>📧 Email us: <a href="mailto:skillexa@gmail.com" style="color: #dbeafe; text-decoration: underline;">skillexa@gmail.com</a></p>
-      <p>📍 Location: India</p>
-    </div>
-
-    <div style="margin: 30px 0;">
-      <a href="https://www.instagram.com/_skillexa_?igsh=MXEzZzZ4N213aTdxNA%3D%3D&utm_source=qr" target="_blank" style="margin: 0 12px; color: #dbeafe; text-decoration: none;">📸 Instagram</a>
-      |
-      <a href="https://www.youtube.com/@Skillexaa" target="_blank" style="margin: 0 12px; color: #dbeafe; text-decoration: none;">▶️ YouTube</a>
-      |
-      <a href="https://www.linkedin.com/in/jagdeep-kaur-i-2b3b632a2" target="_blank" style="margin: 0 12px; color: #dbeafe; text-decoration: none;">💼 LinkedIn</a>
-      |
-      <a href="https://www.linkedin.com/in/jagdeep-kaur-i-2b3b632a2" target="_blank" style="margin: 0 12px; color: #dbeafe; text-decoration: none;">📢 Telegram Channel</a>
-    </div>
-
-    <hr style="border: none; border-top: 1px solid #3b82f6; margin: 30px 0;" />
-
-    <p style="font-size: 0.9rem;">&copy; 2025 Skillexa. All rights reserved.</p>
-  </div>
-</footer>
 
 </body>
 </html>

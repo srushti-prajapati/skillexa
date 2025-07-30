@@ -4,260 +4,174 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Skillexa – Login / Sign Up</title>
-  <link rel="stylesheet" href="assets/css/style.css" />
-  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
   <style>
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: #f9f9f9;
     }
-
     .auth-container {
       min-height: 100vh;
-      display: flex;
-    }
-
-    .auth-left {
-      background: linear-gradient(to bottom right, #2563eb, #1e3a8a);
-      color: white;
-      flex: 1;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       padding: 2rem;
     }
-
-    .auth-left h1 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .auth-left p {
-      font-size: 1.1rem;
-      max-width: 400px;
-      text-align: center;
-    }
-
-    .auth-right {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: white;
-      padding: 2rem;
-    }
-
     .form-box {
       width: 100%;
       max-width: 400px;
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-
-    .form-box h2 {
-      font-size: 1.8rem;
-      margin-bottom: 1.5rem;
-      color: #1e3a8a;
+    h2 {
       text-align: center;
+      color: #1e3a8a;
     }
-
-    input {
+    input, button {
       width: 100%;
+      margin: 10px 0;
       padding: 0.75rem;
-      margin-bottom: 1rem;
-      border: 1px solid #ccc;
       border-radius: 8px;
       font-size: 1rem;
     }
-
+    input {
+      border: 1px solid #ccc;
+    }
     button {
-      width: 100%;
       background-color: #2563eb;
       color: white;
-      padding: 0.75rem;
       border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 600;
     }
-
     button:hover {
       background-color: #1e3a8a;
     }
-
-    .link {
-      margin-top: 1rem;
+    .toggle-link {
       text-align: center;
+      margin-top: 1rem;
       color: #2563eb;
+      cursor: pointer;
     }
-
     .hidden {
       display: none;
-    }
-
-    @media (max-width: 768px) {
-      .auth-container {
-        flex-direction: column;
-      }
-      .auth-left {
-        display: none;
-      }
     }
   </style>
 </head>
 <body>
-  <!-- Login Section -->
-  <section id="loginSection">
-    <h2>Login to Skillexa</h2>
-    <form id="loginForm">
-      <input type="email" id="loginEmail" placeholder="Email" required />
-      <input type="password" id="loginPassword" placeholder="Password" required />
-      <button type="submit">Login</button>
-    </form>
-    <p>Don't have an account? <a href="#" id="showSignup">Sign Up</a></p>
-  </section>
+  <div class="auth-container">
+    <div class="form-box" id="loginBox">
+      <h2>Login to Skillexa</h2>
+      <form id="loginForm">
+        <input type="email" id="loginEmail" placeholder="Email" required />
+        <input type="password" id="loginPassword" placeholder="Password" required />
+        <button type="submit">Login</button>
+      </form>
+      <p class="toggle-link" onclick="toggleForms()">Don't have an account? Sign Up</p>
+    </div>
 
-  <!-- Signup Section -->
-  <section id="signupSection" style="display: none;">
-    <h2>Create Your Skillexa Account</h2>
-    <form id="signupForm">
-      <input type="text" id="signupName" placeholder="Full Name" required />
-      <input type="text" id="signupCity" placeholder="City" required />
-      <input type="text" id="signupState" placeholder="State" required />
-      <input type="email" id="signupEmail" placeholder="Email" required />
-      <input type="password" id="signupPassword" placeholder="Password" required />
-      <button type="submit">Sign Up</button>
-    </form>
-    <p>Already have an account? <a href="#" id="showLogin">Login</a></p>
-  </section>
+    <div class="form-box hidden" id="signupBox">
+      <h2>Create Skillexa Account</h2>
+      <form id="signupForm">
+        <input type="text" id="signupName" placeholder="Full Name" required />
+        <input type="email" id="signupEmail" placeholder="Email" required />
+        <input type="password" id="signupPassword" placeholder="Password" required />
+        <label style="font-size: 0.9rem;">
+          <input type="checkbox" id="agreeTerms" style="margin-right: 6px;" />
+          I agree to the <a href="#">Terms & Conditions</a>.
+        </label>
+        <button type="submit">Sign Up</button>
+      </form>
+      <p class="toggle-link" onclick="toggleForms()">Already have an account? Login</p>
+    </div>
+  </div>
 
-  <!-- Scripts -->
+  <footer style="background-color: #1e3a8a; color: white; text-align: center; padding: 20px;">
+    <p>&copy; 2025 Skillexa – Empowering Skills with AI</p>
+  </footer>
+
+  <!-- Firebase + Logic -->
   <script type="module">
-    // Firebase Imports
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDvR9KfczfZEqa792GTXX1eGRGz3ial1Vc", // ✅ This is your correct API key
-  authDomain: "skillexa-auth.firebaseapp.com",
-  projectId: "skillexa-auth",
-  storageBucket: "skillexa-auth.appspot.com",
-  messagingSenderId: "560797846224",
-  appId: "1:560797846224:web:1a7bd6241fb2a8f7aa2cd5" // ✅ This is your correct appId
-};
+    const firebaseConfig = {
+      apiKey: "AIzaSyDvR9KfczfZEqa792GTXX1eGRGz3ial1Vc",
+      authDomain: "skillexa-auth.firebaseapp.com",
+      projectId: "skillexa-auth",
+      storageBucket: "skillexa-auth.appspot.com",
+      messagingSenderId: "560797846224",
+      appId: "1:560797846224:web:1a7bd6241fb2a8f7aa2cd5"
+    };
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
-    const db = getFirestore(app);
 
-   import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { auth, db } from "./firebase-config.js"; // adjust path as needed
+    // Toggle form view
+    window.toggleForms = function () {
+      document.getElementById("loginBox").classList.toggle("hidden");
+      document.getElementById("signupBox").classList.toggle("hidden");
+    };
 
-const signupForm = document.getElementById("signupForm");
+    // Signup logic
+    document.getElementById("signupForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-signupForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
+      const name = document.getElementById("signupName").value.trim();
+      const email = document.getElementById("signupEmail").value.trim();
+      const password = document.getElementById("signupPassword").value;
+      const agree = document.getElementById("agreeTerms").checked;
 
-  const name = document.getElementById("signupName").value.trim();
-  const city = document.getElementById("signupCity").value.trim();
-  const state = document.getElementById("signupState").value.trim();
-  const email = document.getElementById("signupEmail").value.trim();
-  const password = document.getElementById("signupPassword").value;
+      if (!agree) {
+        alert("Please agree to the Terms & Conditions.");
+        return;
+      }
 
-  try {
-    // Firebase Signup
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const uid = userCredential.user.uid;
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
 
-    // Save user info in Firestore
-    await setDoc(doc(db, "users", uid), {
-      name,
-      city,
-      state,
-      email,
-      plan: "Free"
+        localStorage.setItem("skillexa-user", JSON.stringify({
+          name: name,
+          email: user.email,
+          plan: "freemium"
+        }));
+
+        alert("Signup successful!");
+        window.location.href = "dashboard.html";
+      } catch (err) {
+        alert("Signup failed: " + err.message);
+      }
     });
 
-    // Optional: Store session in localStorage
-    localStorage.setItem("name", name);
-    localStorage.setItem("email", email);
-    localStorage.setItem("plan", "Free");
-
-    // Redirect
-    alert("Signup successful! Redirecting...");
-    window.location.href = "dashboard.html";
-
-  } catch (error) {
-    if (error.code === "auth/email-already-in-use") {
-      alert("This email is already registered. Please login instead.");
-    } else {
-      alert("Signup Error: " + error.message);
-    }
-  }
-});
-
-
-    // Login Logic
-    const loginForm = document.getElementById("loginForm");
-    loginForm.addEventListener("submit", async (e) => {
+    // Login logic
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
       e.preventDefault();
 
       const email = document.getElementById("loginEmail").value.trim();
-      const password = document.getElementById("loginPassword").value.trim();
+      const password = document.getElementById("loginPassword").value;
 
       try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
-        localStorage.setItem("skillexa-email", user.email);
+
+        localStorage.setItem("skillexa-user", JSON.stringify({
+          name: user.displayName || "User",
+          email: user.email,
+          plan: "freemium"
+        }));
+
+        alert("Login successful!");
         window.location.href = "dashboard.html";
-      } catch (error) {
-        alert("Login Error: " + error.message);
+      } catch (err) {
+        alert("Login failed: " + err.message);
       }
     });
-
-    // Toggle Between Login & Signup
-    document.getElementById("showSignup").addEventListener("click", function () {
-      document.getElementById("signupSection").style.display = "block";
-      document.getElementById("loginSection").style.display = "none";
-    });
-
-    document.getElementById("showLogin").addEventListener("click", function () {
-      document.getElementById("loginSection").style.display = "block";
-      document.getElementById("signupSection").style.display = "none";
-    });
   </script>
-
-  <div style="max-height: 180px; overflow-y: auto; background: #f9f9f9; border: 1px solid #ccc; padding: 15px; border-radius: 10px; font-size: 0.9rem; margin-bottom: 15px;">
-    <strong>🔒 Terms & Conditions</strong><br><br>
-    ✅ By signing up, you agree to share your basic details (like name, email, and phone number) for certification, communication, and platform updates.<br><br>
-    ✅ You allow Skillexa to send updates regarding skill progress, certificates, job alerts, and special offers via Email, WhatsApp, or SMS.<br><br>
-    ✅ Your data will be securely stored and not shared with third parties without your consent.<br><br>
-    ✅ You can opt out of communication anytime via your profile settings.<br><br>
-    🛡 We respect your privacy and are committed to protecting it.<br><br>
-    ☑ By continuing, you agree to our 
-    <a href="#" style="color: blue;">Terms & Conditions</a> and 
-    <a href="#" style="color: blue;">Privacy Policy</a>.
-  </div>
-
-  <label style="display: flex; align-items: center; font-size: 0.9rem; margin-bottom: 10px;">
-    <input type="checkbox" id="agreeTerms" style="margin-right: 8px;" />
-    I agree to the above Terms & Conditions.
-  </label>
-
-  <footer style="background-color: #1e3a8a; color: white; padding: 40px 20px; text-align: center;">
-    <div style="max-width: 1000px; margin: auto;">
-      <h2 style="margin-bottom: 10px; font-size: 1.6rem;">Skillexa</h2>
-      <p style="margin: 5px 0;">Empowering skill development with AI-powered learning and evaluation.</p>
-      <div style="margin: 20px 0;">
-        <p>📧 Email: <a href="mailto:skillexa@gmail.com" style="color: #dbeafe; text-decoration: underline;">skillexa@gmail.com</a></p>
-        <p>📍 India</p>
-      </div>
-      <div style="margin: 30px 0;">
-        <a href="https://www.instagram.com/_skillexa_" target="_blank" style="color: #dbeafe; margin: 0 12px;">📸 Instagram</a>
-      </div>
-    </div>
-  </footer>
 </body>
 </html>

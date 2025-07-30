@@ -154,29 +154,20 @@
             background: linear-gradient(180deg, #3b82f6, #8b5cf6);
             border-radius: 4px 4px 0 0;
         }
+        
+        /* Empty State Styles */
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+        }
     </style>
-    <!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js"></script>
-
-<script>
-  // Your Firebase config
-  const firebaseConfig = {
-    apiKey: "AIzaSyDvR9KfczfZEqa792GTXX1eGRGz3ial1Vc",
-    authDomain: "skillexa-auth.firebaseapp.com",
-    projectId: "skillexa-auth",
-    storageBucket: "skillexa-auth.appspot.com",
-    messagingSenderId: "560797846224",
-    appId: "1:560797846224:web:1a7bd6241fb2a8f7aa2cd5"
-  };
-
-  // Initialize Firebase
-  const app = firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-  const db = firebase.firestore();
-</script>
-
 </head>
 <body class="p-0 m-0">
     <div class="flex h-screen">
@@ -189,7 +180,7 @@
                         <circle cx="12" cy="12" r="3"></circle>
                     </svg>
                 </div>
-                <h1 class="text-2xl font-bold logo-text">Skillexa</h1>
+                <h1 class="text-2xl font-bold logo-text">SkillExa</h1>
             </div>
             
             <nav class="space-y-1">
@@ -209,26 +200,20 @@
                     </svg>
                     Skills
                 </a>
-                <a href="#" class="nav-item flex items-center p-3">
+                <a href="certificate.html" class="nav-item flex items-center p-3">
                     <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 20h9"></path>
                         <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
                     </svg>
                     Verify Certificate
                 </a>
-                <a href="#" class="nav-item flex items-center p-3">
+                <a href="index.html" class="nav-item flex items-center p-3">
                     <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                     </svg>
-                    Messages
+                    Home
                 </a>
-                <a href="#" class="nav-item flex items-center p-3">
-                    <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="3"></circle>
-                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                    </svg>
-                    Settings
-                </a>
+                
             </nav>
             
             <div class="absolute bottom-4 left-4 right-4">
@@ -265,7 +250,7 @@
                     <div class="relative">
                         <button class="bg-gradient-to-r from-blue-500 to-purple-600 rounded-full px-4 py-2 flex items-center">
                             <span class="mr-2"></span>
-                            <a href="payment.html" >Upgrade Plan</a>
+                             <a href="payment.html">UPGRADE PLAN</a>
                             <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="m6 9 6 6 6-6"></path>
                             </svg>
@@ -295,15 +280,15 @@
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div class="bg-white/5 rounded-lg p-3">
                                 <p class="text-gray-400 text-sm">Enrolled Courses</p>
-                                <p class="text-xl font-bold">4</p>
+                                <p class="text-xl font-bold" id="enrolled-count">0</p>
                             </div>
                             <div class="bg-white/5 rounded-lg p-3">
-                                <p class="text-gray-400 text-sm">Completed</p>
-                                <p class="text-xl font-bold">2</p>
+                               <p class="text-xs text-gray-400 mb-1">Completed</p>
+                               <div id="completedCount" class="text-2xl font-semibold">0</div>
                             </div>
                             <div class="bg-white/5 rounded-lg p-3">
                                 <p class="text-gray-400 text-sm">Hours Spent</p>
-                                <p class="text-xl font-bold">37.5</p>
+                                <p class="text-xl font-bold" id="hours-spent">0</p>
                             </div>
                         </div>
                     </div>
@@ -324,103 +309,19 @@
                             </div>
                         </div>
                         
-                        <div class="space-y-6">
-                            <!-- Skill 1 -->
-                            <div class="skill-card p-4">
-                                <div class="flex justify-between items-center mb-2">
-                                    <div class="flex items-center">
-                                        <div class="w-10 h-10 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 flex items-center justify-center">
-                                            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
-                                                <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
-                                                <path d="m2 2 7.586 7.586"></path>
-                                                <circle cx="11" cy="11" r="2"></circle>
-                                            </svg>
-                                        </div>
-                                        <div class="ml-3">
-                                            <h3 class="font-medium">UI/UX Design</h3>
-                                            <p class="text-xs text-gray-400">Advanced Course</p>
-                                        </div>
-                                    </div>
-                                    <span class="text-sm font-medium">78%</span>
-                                </div>
-                                <div class="progress-container">
-                                    <div class="progress-bar" style="width: 78%"></div>
-                                </div>
-                            </div>
-                            
-                            <!-- Skill 2 -->
-                            <div class="skill-card p-4">
-                                <div class="flex justify-between items-center mb-2">
-                                    <div class="flex items-center">
-                                        <div class="w-10 h-10 rounded-lg bg-gradient-to-r from-purple-500 to-purple-600 flex items-center justify-center">
-                                            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="16 18 22 12 16 6"></polyline>
-                                                <polyline points="8 6 2 12 8 18"></polyline>
-                                                <line x1="12" y1="2" x2="12" y2="22"></line>
-                                            </svg>
-                                        </div>
-                                        <div class="ml-3">
-                                            <h3 class="font-medium">Frontend Development</h3>
-                                            <p class="text-xs text-gray-400">Intermediate Course</p>
-                                        </div>
-                                    </div>
-                                    <span class="text-sm font-medium">45%</span>
-                                </div>
-                                <div class="progress-container">
-                                    <div class="progress-bar" style="width: 45%"></div>
-                                </div>
-                            </div>
-                            
-                            <!-- Skill 3 -->
-                            <div class="skill-card p-4">
-                                <div class="flex justify-between items-center mb-2">
-                                    <div class="flex items-center">
-                                        <div class="w-10 h-10 rounded-lg bg-gradient-to-r from-green-500 to-green-600 flex items-center justify-center">
-                                            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-                                                <path d="M2 17l10 5 10-5"></path>
-                                                <path d="M2 12l10 5 10-5"></path>
-                                            </svg>
-                                        </div>
-                                        <div class="ml-3">
-                                            <h3 class="font-medium">3D Modeling</h3>
-                                            <p class="text-xs text-gray-400">Beginner Course</p>
-                                        </div>
-                                    </div>
-                                    <span class="text-sm font-medium">20%</span>
-                                </div>
-                                <div class="progress-container">
-                                    <div class="progress-bar" style="width: 20%"></div>
-                                </div>
-                            </div>
-                            
-                            <!-- Skill 4 -->
-                            <div class="skill-card p-4">
-                                <div class="flex justify-between items-center mb-2">
-                                    <div class="flex items-center">
-                                        <div class="w-10 h-10 rounded-lg bg-gradient-to-r from-red-500 to-red-600 flex items-center justify-center">
-                                            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                                                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                                                <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                                            </svg>
-                                        </div>
-                                        <div class="ml-3">
-                                            <h3 class="font-medium">AR Development</h3>
-                                            <p class="text-xs text-gray-400">Expert Course</p>
-                                        </div>
-                                    </div>
-                                    <span class="text-sm font-medium">92%</span>
-                                </div>
-                                <div class="progress-container">
-                                    <div class="progress-bar" style="width: 92%"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
+                        <div id="skillsProgressCard" class="rounded-xl bg-[#1b2a41] p-6">
+  <h3 class="text-white text-lg font-semibold mb-3">Skills Progress</h3>
+
+  <div class="h-3 bg-gray-700 rounded-full w-full mb-2">
+    <div id="progressFill" class="h-3 bg-green-400 rounded-full" style="width: 0%"></div>
+  </div>
+  <p class="text-gray-300 text-sm mb-4">Progress: <span id="progressText">0%</span></p>
+
+  <ul id="visitedSkillsList" class="text-white text-sm space-y-1">
+    <!-- Skills will be listed here dynamically -->
+  </ul>
+</div>
+
                 <!-- Subscription & Weekly Activity -->
                 <div class="space-y-6">
                     <!-- Subscription -->
@@ -429,30 +330,31 @@
                         <div class="bg-gradient-to-r from-blue-500/20 to-purple-600/20 rounded-xl p-4 border border-white/10">
                             <div class="flex justify-between items-center mb-4">
                                 <span class="badge badge-pro" id="plan-badge-small">Loading...</span>
-                                <span class="text-sm text-gray-400">Renews on Oct 15, 2023</span>
+                                <span class="text-sm text-gray-400" id="plan-renewal">Renews on Oct 15, 2023</span>
                             </div>
                             <div class="space-y-3 mb-4">
                                 <div class="flex items-center">
                                     <svg class="w-4 h-4 text-green-400 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <polyline points="20 6 9 17 4 12"></polyline>
                                     </svg>
-                                    <span class="text-sm">Unlimited course access</span>
+                                    <span class="text-sm" id="plan-feature-1">Unlimited course access</span>
                                 </div>
                                 <div class="flex items-center">
                                     <svg class="w-4 h-4 text-green-400 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <polyline points="20 6 9 17 4 12"></polyline>
                                     </svg>
-                                    <span class="text-sm">1-on-1 mentoring sessions</span>
+                                    <span class="text-sm" id="plan-feature-2">1-on-1 mentoring sessions</span>
                                 </div>
                                 <div class="flex items-center">
                                     <svg class="w-4 h-4 text-green-400 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <polyline points="20 6 9 17 4 12"></polyline>
                                     </svg>
-                                    <span class="text-sm">Project portfolio reviews</span>
+                                    <span class="text-sm" id="plan-feature-3">Project portfolio reviews</span>
                                 </div>
                             </div>
+                            <p class="text-sm text-center mb-4" id="planMsg">Loading plan details...</p>
                             <button class="w-full bg-white/10 hover:bg-white/20 transition-colors rounded-lg py-2 text-sm font-medium">
-                                Manage Subscription
+                                <a href="payment.html"> Subscription></a>
                             </button>
                         </div>
                     </div>
@@ -462,63 +364,52 @@
                         <h2 class="text-xl font-bold mb-6">Weekly Activity</h2>
                         <div class="h-40 flex items-end justify-between">
                             <div class="w-1/7 px-1 flex flex-col items-center">
-                                <div class="chart-bar w-full" style="height: 30%"></div>
+                                <div class="chart-bar w-full" style="height: 0%"></div>
                                 <span class="text-xs mt-2">Mon</span>
                             </div>
                             <div class="w-1/7 px-1 flex flex-col items-center">
-                                <div class="chart-bar w-full" style="height: 60%"></div>
+                                <div class="chart-bar w-full" style="height: 0%"></div>
                                 <span class="text-xs mt-2">Tue</span>
                             </div>
                             <div class="w-1/7 px-1 flex flex-col items-center">
-                                <div class="chart-bar w-full" style="height: 45%"></div>
+                                <div class="chart-bar w-full" style="height: 0%"></div>
                                 <span class="text-xs mt-2">Wed</span>
                             </div>
                             <div class="w-1/7 px-1 flex flex-col items-center">
-                                <div class="chart-bar w-full" style="height: 80%"></div>
+                                <div class="chart-bar w-full" style="height: 0%"></div>
                                 <span class="text-xs mt-2">Thu</span>
                             </div>
                             <div class="w-1/7 px-1 flex flex-col items-center">
-                                <div class="chart-bar w-full" style="height: 65%"></div>
+                                <div class="chart-bar w-full" style="height: 0%"></div>
                                 <span class="text-xs mt-2">Fri</span>
                             </div>
                             <div class="w-1/7 px-1 flex flex-col items-center">
-                                <div class="chart-bar w-full" style="height: 20%"></div>
+                                <div class="chart-bar w-full" style="height: 0%"></div>
                                 <span class="text-xs mt-2">Sat</span>
                             </div>
                             <div class="w-1/7 px-1 flex flex-col items-center">
-                                <div class="chart-bar w-full" style="height: 10%"></div>
+                                <div class="chart-bar w-full" style="height: 0%"></div>
                                 <span class="text-xs mt-2">Sun</span>
                             </div>
                         </div>
                         <div class="mt-4 text-center">
-                            <p class="text-sm text-gray-400">Total hours this week: <span class="text-white font-medium">12.5</span></p>
+                            <p class="text-sm text-gray-400">Total hours this week: <span class="text-white font-medium" id="weekly-hours">0</span></p>
                         </div>
                     </div>
                     
                     <!-- Upcoming Deadlines -->
                     <div class="dashboard-card p-6">
                         <h2 class="text-xl font-bold mb-4">Upcoming Deadlines</h2>
-                        <div class="space-y-3">
-                            <div class="flex items-center p-3 bg-white/5 rounded-lg">
-                                <div class="w-2 h-2 rounded-full bg-red-500 mr-3"></div>
-                                <div>
-                                    <p class="text-sm font-medium">UI Design Project</p>
-                                    <p class="text-xs text-gray-400">Due in 2 days</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center p-3 bg-white/5 rounded-lg">
-                                <div class="w-2 h-2 rounded-full bg-yellow-500 mr-3"></div>
-                                <div>
-                                    <p class="text-sm font-medium">Frontend Quiz</p>
-                                    <p class="text-xs text-gray-400">Due in 5 days</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center p-3 bg-white/5 rounded-lg">
-                                <div class="w-2 h-2 rounded-full bg-green-500 mr-3"></div>
-                                <div>
-                                    <p class="text-sm font-medium">3D Model Submission</p>
-                                    <p class="text-xs text-gray-400">Due in 10 days</p>
-                                </div>
+                        <div id="deadlines-container" class="space-y-3">
+                            <!-- Deadlines will be dynamically inserted here -->
+                            <div id="no-deadlines-message" class="empty-state py-6">
+                                <svg class="w-12 h-12 text-gray-500 mb-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                                </svg>
+                                <p class="text-sm text-gray-400">No upcoming deadlines</p>
                             </div>
                         </div>
                     </div>
@@ -530,87 +421,11 @@
                 <div class="dashboard-card p-6">
                     <div class="flex justify-between items-center mb-6">
                         <h2 class="text-xl font-bold">Recommended Courses</h2>
-                        <a href="#" class="text-sm text-blue-400 hover:underline">View All</a>
+                        <a href="skill.html" class="text-sm text-blue-400 hover:underline">View All</a>
                     </div>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <!-- Course 1 -->
-                        <div class="bg-white/5 rounded-xl overflow-hidden border border-white/10 hover:border-white/20 transition-colors">
-                            <div class="h-40 bg-gradient-to-r from-blue-500/20 to-purple-600/20 flex items-center justify-center">
-                                <svg class="w-16 h-16 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                                    <polyline points="7.5 4.21 12 6.81 16.5 4.21"></polyline>
-                                    <polyline points="7.5 19.79 7.5 14.6 3 12"></polyline>
-                                    <polyline points="21 12 16.5 14.6 16.5 19.79"></polyline>
-                                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                                </svg>
-                            </div>
-                            <div class="p-4">
-                                <div class="flex justify-between items-center mb-2">
-                                    <span class="badge badge-basic">Beginner</span>
-                                    <span class="text-sm text-gray-400">4.8 ★</span>
-                                </div>
-                                <h3 class="font-medium mb-1">VR Development Fundamentals</h3>
-                                <p class="text-xs text-gray-400 mb-3">Learn the basics of creating immersive VR experiences</p>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-sm font-medium">12 hours</span>
-                                    <button class="text-xs bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 transition-colors rounded-lg px-3 py-1">
-                                        Enroll Now
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Course 2 -->
-                        <div class="bg-white/5 rounded-xl overflow-hidden border border-white/10 hover:border-white/20 transition-colors">
-                            <div class="h-40 bg-gradient-to-r from-purple-500/20 to-pink-600/20 flex items-center justify-center">
-                                <svg class="w-16 h-16 text-purple-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <circle cx="12" cy="12" r="10"></circle>
-                                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
-                                </svg>
-                            </div>
-                            <div class="p-4">
-                                <div class="flex justify-between items-center mb-2">
-                                    <span class="badge badge-basic">Intermediate</span>
-                                    <span class="text-sm text-gray-400">4.9 ★</span>
-                                </div>
-                                <h3 class="font-medium mb-1">UX Research for XR</h3>
-                                <p class="text-xs text-gray-400 mb-3">Master user experience research for extended reality</p>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-sm font-medium">18 hours</span>
-                                    <button class="text-xs bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 transition-colors rounded-lg px-3 py-1">
-                                        Enroll Now
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Course 3 -->
-                        <div class="bg-white/5 rounded-xl overflow-hidden border border-white/10 hover:border-white/20 transition-colors">
-                            <div class="h-40 bg-gradient-to-r from-green-500/20 to-teal-600/20 flex items-center justify-center">
-                                <svg class="w-16 h-16 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-                                    <path d="M2 17l10 5 10-5"></path>
-                                    <path d="M2 12l10 5 10-5"></path>
-                                </svg>
-                            </div>
-                            <div class="p-4">
-                                <div class="flex justify-between items-center mb-2">
-                                    <span class="badge badge-basic">Advanced</span>
-                                    <span class="text-sm text-gray-400">4.7 ★</span>
-                                </div>
-                                <h3 class="font-medium mb-1">3D Asset Creation</h3>
-                                <p class="text-xs text-gray-400 mb-3">Create professional 3D assets for XR applications</p>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-sm font-medium">24 hours</span>
-                                    <button class="text-xs bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 transition-colors rounded-lg px-3 py-1">
-                                        Enroll Now
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                    <div id="recommended-courses" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <!-- Recommended courses will be dynamically inserted here -->
                     </div>
                 </div>
             </div>
@@ -618,13 +433,216 @@
     </div>
 
     <script>
-        // Animation for chart bars
-        document.addEventListener('DOMContentLoaded', function() {
-            // User authentication check and data loading
+        // Sample data for enrolled courses
+        const sampleCourses = [
+            {
+                id: 1,
+                title: "UI/UX Design",
+                category: "Advanced Course",
+                progress: 78,
+                icon: `<svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+                        <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+                        <path d="m2 2 7.586 7.586"></path>
+                        <circle cx="11" cy="11" r="2"></circle>
+                      </svg>`,
+                iconBg: "from-blue-500 to-blue-600"
+            },
+            {
+                id: 2,
+                title: "Frontend Development",
+                category: "Intermediate Course",
+                progress: 45,
+                icon: `<svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="16 18 22 12 16 6"></polyline>
+                        <polyline points="8 6 2 12 8 18"></polyline>
+                        <line x1="12" y1="2" x2="12" y2="22"></line>
+                      </svg>`,
+                iconBg: "from-purple-500 to-purple-600"
+            },
+            {
+                id: 3,
+                title: "3D Modeling",
+                category: "Beginner Course",
+                progress: 20,
+                icon: `<svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                        <path d="M2 17l10 5 10-5"></path>
+                        <path d="M2 12l10 5 10-5"></path>
+                      </svg>`,
+                iconBg: "from-green-500 to-green-600"
+            }
+        ];
+
+        // Sample data for recommended courses
+        const recommendedCourses = [
+            {
+                id: 4,
+                title: "VR Development Fundamentals",
+                description: "Learn the basics of creating immersive VR experiences",
+                level: "Beginner",
+                rating: 4.8,
+                hours: 12,
+                icon: `<svg class="w-16 h-16 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                        <polyline points="7.5 4.21 12 6.81 16.5 4.21"></polyline>
+                        <polyline points="7.5 19.79 7.5 14.6 3 12"></polyline>
+                        <polyline points="21 12 16.5 14.6 16.5 19.79"></polyline>
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                      </svg>`,
+                bgGradient: "from-blue-500/20 to-purple-600/20"
+            },
+            {
+                id: 5,
+                title: "UX Research for XR",
+                description: "Master user experience research for extended reality",
+                level: "Intermediate",
+                rating: 4.9,
+                hours: 18,
+                icon: `<svg class="w-16 h-16 text-purple-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                      </svg>`,
+                bgGradient: "from-purple-500/20 to-pink-600/20"
+            },
+            {
+                id: 6,
+                title: "3D Asset Creation",
+                description: "Create professional 3D assets for XR applications",
+                level: "Advanced",
+                rating: 4.7,
+                hours: 24,
+                icon: `<svg class="w-16 h-16 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                        <path d="M2 17l10 5 10-5"></path>
+                        <path d="M2 12l10 5 10-5"></path>
+                      </svg>`,
+                bgGradient: "from-green-500/20 to-teal-600/20"
+            }
+        ];
+
+        // Sample data for deadlines
+        const deadlines = [
+            {
+                title: "UI Design Project",
+                daysLeft: 2,
+                color: "bg-red-500"
+            },
+            {
+                title: "Frontend Quiz",
+                daysLeft: 5,
+                color: "bg-yellow-500"
+            },
+            {
+                title: "3D Model Submission",
+                daysLeft: 10,
+                color: "bg-green-500"
+            }
+        ];
+
+        // Sample weekly activity data
+        const weeklyActivity = [30, 60, 45, 80, 65, 20, 10]; // Percentages for Mon-Sun
+
+        // Function to generate a skill card
+        function createSkillCard(course) {
+            return `
+                <div class="skill-card p-4" data-course-id="${course.id}">
+                    <div class="flex justify-between items-center mb-2">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 rounded-lg bg-gradient-to-r ${course.iconBg} flex items-center justify-center">
+                                ${course.icon}
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="font-medium">${course.title}</h3>
+                                <p class="text-xs text-gray-400">${course.category}</p>
+                            </div>
+                        </div>
+                        <span class="text-sm font-medium">${course.progress}%</span>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: ${course.progress}%"></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Function to generate a recommended course card
+        function createRecommendedCourseCard(course) {
+            return `
+                <div class="bg-white/5 rounded-xl overflow-hidden border border-white/10 hover:border-white/20 transition-colors">
+                    <div class="h-40 bg-gradient-to-r ${course.bgGradient} flex items-center justify-center">
+                        ${course.icon}
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="badge badge-basic">${course.level}</span>
+                            <span class="text-sm text-gray-400">${course.rating} ★</span>
+                        </div>
+                        <h3 class="font-medium mb-1">${course.title}</h3>
+                        <p class="text-xs text-gray-400 mb-3">${course.description}</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium">${course.hours} hours</span>
+                            <button class="text-xs bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 transition-colors rounded-lg px-3 py-1" 
+                                    onclick="enrollCourse(${course.id})">
+                                Enroll Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Function to generate a deadline item
+        function createDeadlineItem(deadline) {
+            return `
+                <div class="flex items-center p-3 bg-white/5 rounded-lg">
+                    <div class="w-2 h-2 rounded-full ${deadline.color} mr-3"></div>
+                    <div>
+                        <p class="text-sm font-medium">${deadline.title}</p>
+                        <p class="text-xs text-gray-400">Due in ${deadline.daysLeft} days</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Function to handle course enrollment
+        function enrollCourse(courseId) {
+            // Get user data
+            const user = JSON.parse(localStorage.getItem("skillexa-user")) || {};
+            
+            // Initialize enrolled courses if not exists
+            if (!user.enrolledCourses) {
+                user.enrolledCourses = [];
+            }
+            
+            // Check if already enrolled
+            if (user.enrolledCourses.includes(courseId)) {
+                alert("You are already enrolled in this course!");
+                return;
+            }
+            
+            // Add course to enrolled courses
+            user.enrolledCourses.push(courseId);
+            
+            // Save updated user data
+            localStorage.setItem("skillexa-user", JSON.stringify(user));
+            
+            // Refresh the dashboard
+            loadUserData();
+            alert("Successfully enrolled in the course!");
+        }
+
+        // Function to load user data and update the dashboard
+        function loadUserData() {
+            // Get user data from localStorage
             const user = JSON.parse(localStorage.getItem("skillexa-user"));
+            
             if (!user) {
                 alert("Please login first.");
                 window.location.href = "signup-login.html";
+                return;
             }
 
             // Set user information
@@ -647,19 +665,38 @@
             // Set plan information
             let planText = "";
             let planBadgeClass = "badge-basic";
+            let planFeatures = [];
             
             switch (user.plan) {
                 case "premium":
                     planText = "Premium Plan";
                     planBadgeClass = "badge-premium";
+                    planFeatures = [
+                        "Unlimited course access",
+                        "1-on-1 mentoring sessions",
+                        "Project portfolio reviews"
+                    ];
+                    document.getElementById("planMsg").textContent = "You're a Premium Member (₹799/month)";
                     break;
                 case "all":
                     planText = "All-in-One Plan";
                     planBadgeClass = "badge-pro";
+                    planFeatures = [
+                        "Unlimited course access",
+                        "1-on-1 mentoring sessions",
+                        "Project portfolio reviews"
+                    ];
+                    document.getElementById("planMsg").textContent = "You're on the All-in-One Plan (₹999/year)";
                     break;
                 default:
                     planText = "Free Plan";
                     planBadgeClass = "badge-basic";
+                    planFeatures = [
+                        "Limited course access",
+                        "Community support",
+                        "Basic certificates"
+                    ];
+                    document.getElementById("planMsg").textContent = "You're on the Free Plan";
             }
             
             // Update plan badges
@@ -669,63 +706,154 @@
                 badge.className = `badge ${planBadgeClass}`;
             });
 
-            // Animate chart bars
-            const chartBars = document.querySelectorAll('.chart-bar');
-            setTimeout(() => {
-                chartBars.forEach(bar => {
-                    const height = bar.style.height;
-                    bar.style.height = '0%';
-                    setTimeout(() => {
-                        bar.style.height = height;
-                    }, 100);
-                });
-            }, 300);
+            // Update plan features
+            document.getElementById("plan-feature-1").textContent = planFeatures[0];
+            document.getElementById("plan-feature-2").textContent = planFeatures[1];
+            document.getElementById("plan-feature-3").textContent = planFeatures[2];
+
+            // Handle enrolled courses
+            const enrolledCourses = user.enrolledCourses || [];
+            const skillsContainer = document.getElementById("skills-container");
+            const noSkillsMessage = document.getElementById("no-skills-message");
             
-            // Add click event for skill cards
-            const skillCards = document.querySelectorAll('.skill-card');
-            skillCards.forEach(card => {
-                card.addEventListener('click', function() {
-                    this.classList.add('pulse');
-                    setTimeout(() => {
-                        this.classList.remove('pulse');
-                    }, 2000);
+            // Update enrolled count
+            document.getElementById("enrolled-count").textContent = enrolledCourses.length;
+            
+            // Filter enrolled courses from sample data
+            const userEnrolledCourses = sampleCourses.filter(course => enrolledCourses.includes(course.id));
+            
+            // Clear existing skills
+            skillsContainer.innerHTML = '';
+            
+            // Display enrolled courses or empty state message
+            if (userEnrolledCourses.length > 0) {
+                userEnrolledCourses.forEach(course => {
+                    skillsContainer.innerHTML += createSkillCard(course);
                 });
+            } else {
+                skillsContainer.appendChild(noSkillsMessage);
+            }
+
+            // Handle deadlines
+            const deadlinesContainer = document.getElementById("deadlines-container");
+            const noDeadlinesMessage = document.getElementById("no-deadlines-message");
+            
+            // Clear existing deadlines
+            deadlinesContainer.innerHTML = '';
+            
+            // Filter deadlines based on enrolled courses
+            const userDeadlines = deadlines.filter((_, index) => 
+                enrolledCourses.includes(sampleCourses[index]?.id)
+            );
+            
+            // Display deadlines or empty state message
+            if (userDeadlines.length > 0) {
+                userDeadlines.forEach(deadline => {
+                    deadlinesContainer.innerHTML += createDeadlineItem(deadline);
+                });
+            } else {
+                deadlinesContainer.appendChild(noDeadlinesMessage);
+            }
+
+            // Handle recommended courses
+            const recommendedCoursesContainer = document.getElementById("recommended-courses");
+            
+            // Clear existing recommended courses
+            recommendedCoursesContainer.innerHTML = '';
+            
+            // Filter out already enrolled courses from recommendations
+            const filteredRecommendations = recommendedCourses.filter(course => 
+                !enrolledCourses.includes(course.id)
+            );
+            
+            // Display recommended courses
+            filteredRecommendations.forEach(course => {
+                recommendedCoursesContainer.innerHTML += createRecommendedCourseCard(course);
             });
-        });
+
+            // Calculate completed courses (assuming >80% progress means completed)
+            const completedCourses = userEnrolledCourses.filter(course => course.progress > 80);
+            document.getElementById("completed-count").textContent = completedCourses.length;
+
+            // Calculate hours spent (based on progress percentage of enrolled courses)
+            let totalHours = 0;
+            userEnrolledCourses.forEach(course => {
+                // Find the corresponding recommended course to get hours
+                const courseDetails = [...recommendedCourses, ...sampleCourses].find(c => c.id === course.id);
+                if (courseDetails && courseDetails.hours) {
+                    totalHours += (courseDetails.hours * course.progress / 100);
+                }
+            });
+            document.getElementById("hours-spent").textContent = totalHours.toFixed(1);
+
+            // Update weekly activity chart
+            const chartBars = document.querySelectorAll('.chart-bar');
+            let weeklyHours = 0;
+            
+            // Only show activity if user has enrolled courses
+            if (userEnrolledCourses.length > 0) {
+                setTimeout(() => {
+                    chartBars.forEach((bar, index) => {
+                        const height = weeklyActivity[index] + '%';
+                        bar.style.height = '0%';
+                        setTimeout(() => {
+                            bar.style.height = height;
+                        }, 100 * index);
+                        
+                        // Calculate weekly hours (assuming 100% = 8 hours per day)
+                        weeklyHours += (weeklyActivity[index] / 100) * 8;
+                    });
+                    document.getElementById("weekly-hours").textContent = weeklyHours.toFixed(1);
+                }, 300);
+            } else {
+                document.getElementById("weekly-hours").textContent = "0";
+            }
+
+            // Add click event for skill cards
+            setTimeout(() => {
+                const skillCards = document.querySelectorAll('.skill-card');
+                skillCards.forEach(card => {
+                    card.addEventListener('click', function() {
+                        this.classList.add('pulse');
+                        setTimeout(() => {
+                            this.classList.remove('pulse');
+                        }, 2000);
+                    });
+                });
+            }, 500);
+        }
 
         // Logout function
         function logout() {
             localStorage.removeItem("skillexa-user");
             window.location.href = "signup-login.html";
         }
+
+        // Initialize the dashboard when the page loads
+        document.addEventListener('DOMContentLoaded', loadUserData);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96632a7912808609',t:'MTc1MzY5MzAxNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'966bab6ae6156ee8',t:'MTc1Mzc4MjE4Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 <script>
-  document.addEventListener("DOMContentLoaded", async () => {
-    const user = auth.currentUser;
+  document.addEventListener("DOMContentLoaded", () => {
+    const visitedSkills = JSON.parse(localStorage.getItem("visitedSkills")) || [];
+    const totalSkills = 40; // Set to the real number of your skills
 
-    auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        const uid = user.uid;
-        const userDoc = await db.collection("users").doc(uid).get();
-        const userData = userDoc.data();
+    const percent = Math.round((visitedSkills.length / totalSkills) * 100);
+    document.getElementById("progressFill").style.width = `${percent}%`;
+    document.getElementById("progressText").textContent = `${percent}%`;
 
-        // Show user data
-        if (userData) {
-          document.getElementById("userName").textContent = userData.name || "User";
-          document.getElementById("userEmail").textContent = userData.email || "Email";
-          document.getElementById("userPlan").textContent = userData.plan || "Free";
-
-          // Update skill progress (replace these with your actual logic)
-          document.querySelectorAll(".progress").forEach((el, index) => {
-            el.style.width = (userData.skills?.[index]?.progress || 0) + "%";
-          });
-        }
-      } else {
-        // If not logged in, redirect to login page
-        window.location.href = "login.html";
-      }
+    const list = document.getElementById("visitedSkillsList");
+    visitedSkills.forEach(skill => {
+      const li = document.createElement("li");
+      li.textContent = `✅ ${skill}`;
+      list.appendChild(li);
     });
+
+    // Update the 'Completed' counter box
+    const completedBox = document.getElementById("completedCount");
+    if (completedBox) {
+      completedBox.textContent = visitedSkills.length;
+    }
   });
 </script>
 </body>

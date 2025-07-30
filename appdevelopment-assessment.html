@@ -770,7 +770,7 @@
                     <div class="text-center">
                         <p class="text-sm text-gray-400 mb-4">This is a demo payment form. In a real application, secure payment processing would be implemented.</p>
                         <button id="process-payment-btn" class="btn-primary text-white font-semibold py-3 px-8 rounded-full w-full">
-                            Pay $9.99 & Get Certificate
+                            Pay Rs.99 & Get Certificate
                         </button>
                     </div>
                 </div>
@@ -840,7 +840,12 @@
                         </svg>
                     </div>
                 </div>
-                
+                <div style="text-align: center; margin-top: 20px;">
+                                    <button onclick="markSkillCompleted()" style="margin-top: 20px; padding: 10px 20px; background: #22c55e; color: white; border: none; border-radius: 6px; cursor: pointer;">
+  ✅ Mark App Development as Completed
+</button>
+</div>
+
                 <div class="flex flex-wrap justify-center gap-4">
                     <button id="download-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg flex items-center">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -864,6 +869,7 @@
             </div>
         </div>
     </div>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -1632,5 +1638,23 @@
             }
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9655ea42239d35b8',t:'MTc1MzU1NDA2OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9655ea42239d35b8',t:'MTc1MzU1NDA2OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+<!-- Other scripts or HTML -->
+
+<script>
+  function markSkillCompleted() {
+    const skill = "App Development"; // <-- this is the current skill
+
+    let visited = JSON.parse(localStorage.getItem("visitedSkills")) || [];
+
+    if (!visited.includes(skill)) {
+      visited.push(skill);
+      localStorage.setItem("visitedSkills", JSON.stringify(visited));
+    }
+
+    alert("✅ App Development marked as completed!");
+    window.location.href = "dashboard.html"; // or wherever you want to redirect
+  }
+</script>
+</body>
 </html>

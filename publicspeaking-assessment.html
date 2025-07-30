@@ -3,857 +3,1176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Public Speaking Skills Assessment</title>
+    <title>Public Speaking Skills Assessment | Skillexa</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            overflow-x: hidden;
         }
-        .progress-bar {
-            transition: width 0.5s ease-in-out;
+        .handwriting {
+            font-family: 'Dancing Script', cursive;
         }
-        .card {
+        .gradient-bg {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+        }
+        .quiz-gradient-bg {
+            background: linear-gradient(135deg, #4f46e5 0%, #7e22ce 50%, #be185d 100%);
+        }
+        .category-card {
             transition: all 0.3s ease;
         }
-        .card:hover {
+        .category-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
         }
-        .btn-primary {
-            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
-            transition: all 0.3s ease;
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
         }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.2);
+        .slide-in {
+            animation: slideIn 0.8s ease-out;
         }
-        .certificate {
-            background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
-            border: 2px solid #4f46e5;
+        .scale-in {
+            animation: scaleIn 0.5s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes scaleIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .certificate-border {
+            background: linear-gradient(135deg, #ff6b6b, #6b47ff);
+            padding: 10px;
+        }
+        .certificate-inner-border {
+            background: linear-gradient(135deg, #6b47ff, #ff6b6b);
+            padding: 5px;
+        }
+        .certificate-content {
+            background: white;
             position: relative;
             overflow: hidden;
         }
-        .certificate::before {
-            content: '';
+        .watermark {
             position: absolute;
-            top: -50px;
-            left: -50px;
-            width: 100px;
-            height: 100px;
-            background: rgba(99, 102, 241, 0.1);
-            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-30deg);
+            font-size: 100px;
+            color: rgba(0,0,0,0.05);
+            font-weight: bold;
+            white-space: nowrap;
+            z-index: 0;
         }
-        .certificate::after {
-            content: '';
-            position: absolute;
-            bottom: -50px;
-            right: -50px;
-            width: 100px;
-            height: 100px;
-            background: rgba(99, 102, 241, 0.1);
-            border-radius: 50%;
+        .timer-bar {
+            transition: width 1s linear;
         }
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
+        .progress-bar {
+            transition: width 0.5s ease;
         }
-        .float {
-            animation: float 3s ease-in-out infinite;
+        .quiz-option:hover {
+            background-color: rgba(255,255,255,0.1);
         }
-        .seal {
-            position: absolute;
-            bottom: 30px;
-            right: 40px;
-            width: 100px;
-            height: 100px;
-        }
-        .confetti {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            background-color: #f00;
-            opacity: 0;
-            z-index: 1000;
+        .quiz-option.selected {
+            background-color: rgba(107, 71, 255, 0.3);
+            border-color: #6b47ff;
         }
     </style>
 </head>
-<body class="min-h-screen">
-    <div id="app" class="container mx-auto px-4 py-8 max-w-5xl">
-        <!-- Welcome Screen -->
-        <div id="welcome-screen" class="flex flex-col items-center justify-center py-10">
-            <div class="float">
-                <svg class="w-32 h-32 mb-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="12" cy="12" r="10" fill="#4f46e5" opacity="0.2"/>
-                    <path d="M12 7V12L15 15" stroke="#4f46e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M8 12C8 10.9391 8.42143 9.92172 9.17157 9.17157C9.92172 8.42143 10.9391 8 12 8C13.0609 8 14.0783 8.42143 14.8284 9.17157C15.5786 9.92172 16 10.9391 16 12C16 13.0609 15.5786 14.0783 14.8284 14.8284C14.0783 15.5786 13.0609 16 12 16C10.9391 16 9.92172 15.5786 9.17157 14.8284C8.42143 14.0783 8 13.0609 8 12Z" stroke="#4f46e5" stroke-width="2"/>
-                    <circle cx="12" cy="12" r="10" stroke="#4f46e5" stroke-width="2"/>
-                </svg>
+<body>
+    <!-- Main Container -->
+    <div id="app" class="min-h-screen w-full">
+        <!-- Login Screen -->
+        <div id="login-screen" class="min-h-screen gradient-bg flex flex-col items-center justify-center px-4 py-12">
+            <div class="w-full max-w-md bg-white rounded-xl shadow-lg p-8 fade-in">
+                <h1 class="text-3xl font-bold text-center mb-8 text-gray-800">Public Speaking Skills Assessment</h1>
+                <form id="login-form" class="space-y-6">
+                    <div>
+                        <label for="fullName" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                        <input type="text" id="fullName" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                        <input type="email" id="email" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
+                    </div>
+                    <button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-2 rounded-md font-medium hover:opacity-90 transition-opacity">Start Assessment</button>
+                </form>
             </div>
-            <h1 class="text-4xl font-bold text-gray-800 mb-4 text-center">Public Speaking Skills Assessment</h1>
-            <p class="text-lg text-gray-600 mb-8 text-center max-w-2xl">Evaluate your public speaking abilities with our comprehensive assessment. Complete 15 questions to receive personalized feedback and a certificate.</p>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl mb-10">
-                <div class="card bg-white p-6 rounded-xl shadow-lg">
-                    <div class="flex items-center justify-center mb-4 text-indigo-600">
-                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2 text-center">Timed Assessment</h3>
-                    <p class="text-gray-600 text-center">Complete questions within the allocated time for each section.</p>
-                </div>
-                
-                <div class="card bg-white p-6 rounded-xl shadow-lg">
-                    <div class="flex items-center justify-center mb-4 text-indigo-600">
-                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2 text-center">Instant Feedback</h3>
-                    <p class="text-gray-600 text-center">Get detailed performance analysis on your public speaking skills.</p>
-                </div>
-                
-                <div class="card bg-white p-6 rounded-xl shadow-lg">
-                    <div class="flex items-center justify-center mb-4 text-indigo-600">
-                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2 text-center">Certificate</h3>
-                    <p class="text-gray-600 text-center">Receive a personalized certificate upon successful completion.</p>
-                </div>
-            </div>
-            
-            <button id="start-btn" class="btn-primary text-white font-semibold py-3 px-8 rounded-full text-lg">
-                Start Assessment
-            </button>
         </div>
 
-        <!-- User Info Form -->
-        <div id="user-info-screen" class="hidden max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-8">
-            <h2 class="text-2xl font-bold text-gray-800 mb-6">Before we begin</h2>
-            <p class="text-gray-600 mb-6">Please provide your information for your certificate:</p>
+        <!-- Category Preview Screen -->
+        <div id="category-preview" class="hidden min-h-screen gradient-bg flex flex-col items-center justify-center px-4 py-12">
+            <div class="w-full max-w-4xl text-center mb-10 fade-in">
+                <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Public Speaking Skills Assessment</h1>
+                <p class="text-xl text-white text-opacity-90">Explore the key areas we'll be evaluating</p>
+            </div>
             
-            <form id="user-form" class="space-y-4">
-                <div>
-                    <label for="fullName" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-                    <input type="text" id="fullName" name="fullName" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl mb-10">
+                <!-- Category 1 -->
+                <div class="category-card bg-white bg-opacity-20 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.1s">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-white p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold">Vocal Delivery</h3>
+                    </div>
+                    <p class="text-white text-opacity-90">Evaluates your voice projection, clarity, pace, and vocal variety when speaking.</p>
                 </div>
                 
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                    <input type="email" id="email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                <!-- Category 2 -->
+                <div class="category-card bg-white bg-opacity-20 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.2s">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-white p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-pink-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold">Body Language</h3>
+                    </div>
+                    <p class="text-white text-opacity-90">Measures your posture, gestures, facial expressions, and overall physical presence.</p>
                 </div>
                 
-                <div class="pt-4">
-                    <button type="submit" class="btn-primary text-white font-semibold py-2 px-6 rounded-lg w-full">
-                        Continue to Assessment
-                    </button>
+                <!-- Category 3 -->
+                <div class="category-card bg-white bg-opacity-20 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.3s">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-white p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold">Content Structure</h3>
+                    </div>
+                    <p class="text-white text-opacity-90">Assesses how well you organize ideas with clear introductions, main points, and conclusions.</p>
                 </div>
-            </form>
+                
+                <!-- Category 4 -->
+                <div class="category-card bg-white bg-opacity-20 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.4s">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-white p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold">Audience Engagement</h3>
+                    </div>
+                    <p class="text-white text-opacity-90">Evaluates your ability to connect with and maintain audience interest throughout your presentation.</p>
+                </div>
+                
+                <!-- Category 5 -->
+                <div class="category-card bg-white bg-opacity-20 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.5s">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-white p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold">Confidence & Presence</h3>
+                    </div>
+                    <p class="text-white text-opacity-90">Measures your self-assurance, authenticity, and commanding presence while speaking.</p>
+                </div>
+                
+                <!-- Category 6 -->
+                <div class="category-card bg-white bg-opacity-20 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.6s">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-white p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold">Preparation & Timing</h3>
+                    </div>
+                    <p class="text-white text-opacity-90">Assesses your preparation level and ability to manage time effectively during presentations.</p>
+                </div>
+            </div>
+            
+            <div class="w-full max-w-md text-center fade-in">
+                <button id="start-quiz-btn" class="px-8 py-3 bg-white text-purple-700 rounded-full font-medium text-lg hover:bg-opacity-90 transition-opacity shadow-lg">
+                    Start 20-Question Assessment
+                </button>
+                <p class="text-white text-opacity-90 mt-4">You'll have 15 minutes to complete all questions</p>
+            </div>
         </div>
 
-        <!-- Assessment Screen -->
-        <div id="assessment-screen" class="hidden">
-            <div class="mb-6 flex items-center justify-between">
-                <div>
-                    <h2 class="text-2xl font-bold text-gray-800">Public Speaking Assessment</h2>
-                    <p class="text-gray-600">Question <span id="current-question">1</span> of 15</p>
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="hidden min-h-screen quiz-gradient-bg flex flex-col">
+            <!-- Quiz Header -->
+            <div class="p-4 md:p-6 flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h2 class="text-2xl font-bold text-white">Public Speaking Skills Assessment</h2>
+                    <p class="text-white text-opacity-80">Answer each question to the best of your ability</p>
                 </div>
-                <div class="bg-white px-4 py-2 rounded-lg shadow flex items-center">
-                    <svg class="w-5 h-5 text-indigo-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    <span id="timer" class="font-semibold text-gray-800">00:30</span>
-                </div>
-            </div>
-            
-            <div class="w-full bg-gray-200 rounded-full h-2.5 mb-8">
-                <div id="progress-bar" class="progress-bar bg-indigo-600 h-2.5 rounded-full" style="width: 0%"></div>
-            </div>
-            
-            <div id="question-container" class="bg-white rounded-xl shadow-lg p-8 mb-6">
-                <h3 id="question-text" class="text-xl font-semibold text-gray-800 mb-6">Loading question...</h3>
-                
-                <div id="options-container" class="space-y-3">
-                    <!-- Options will be inserted here -->
+                <div class="flex flex-col items-end">
+                    <div class="flex items-center mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span id="timer" class="text-white font-medium">15:00</span>
+                    </div>
+                    <div class="w-full bg-white bg-opacity-20 rounded-full h-2">
+                        <div id="timer-bar" class="timer-bar bg-gradient-to-r from-green-400 to-blue-500 h-2 rounded-full" style="width: 100%"></div>
+                    </div>
                 </div>
             </div>
             
-            <div class="flex justify-between">
-                <button id="prev-btn" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-6 rounded-lg disabled:opacity-50" disabled>
-                    Previous
-                </button>
-                <button id="next-btn" class="btn-primary text-white font-semibold py-2 px-6 rounded-lg">
-                    Next
-                </button>
+            <!-- Quiz Progress -->
+            <div class="px-4 md:px-6 py-2">
+                <div class="flex justify-between items-center mb-1">
+                    <span class="text-sm text-white text-opacity-80">Question <span id="current-question">1</span> of 20</span>
+                    <span class="text-sm text-white text-opacity-80"><span id="progress-percent">5</span>% Complete</span>
+                </div>
+                <div class="w-full bg-white bg-opacity-20 rounded-full h-2">
+                    <div id="progress-bar" class="progress-bar bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full" style="width: 5%"></div>
+                </div>
+            </div>
+            
+            <!-- Quiz Content -->
+            <div class="flex-grow flex items-center justify-center p-4 md:p-6">
+                <div id="question-container" class="w-full max-w-3xl bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 md:p-8 shadow-lg scale-in">
+                    <div id="question-icon" class="mx-auto mb-6 bg-gradient-to-br from-purple-500 to-pink-500 w-16 h-16 rounded-full flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+                        </svg>
+                    </div>
+                    <h3 id="question-text" class="text-xl md:text-2xl font-medium text-white text-center mb-8">When speaking in public, how do you typically manage your speaking pace?</h3>
+                    
+                    <div id="options-container" class="space-y-4">
+                        <!-- Options will be dynamically generated -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quiz Navigation -->
+            <div class="p-4 md:p-6 flex justify-between">
+                <button id="prev-btn" class="px-6 py-2 bg-white bg-opacity-20 text-white rounded-lg font-medium hover:bg-opacity-30 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Previous</button>
+                <button id="next-btn" class="px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-500 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">Next</button>
             </div>
         </div>
 
         <!-- Results Screen -->
-        <div id="results-screen" class="hidden">
-            <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
-                <div class="flex items-center justify-center mb-6">
-                    <div class="relative">
-                        <svg class="w-24 h-24 text-indigo-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="12" cy="12" r="10" fill="currentColor" fill-opacity="0.2"/>
-                            <path d="M8 12L11 15L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <div id="score-display" class="absolute inset-0 flex items-center justify-center font-bold text-2xl text-indigo-700">85%</div>
-                    </div>
-                </div>
+        <div id="results-screen" class="hidden min-h-screen quiz-gradient-bg flex flex-col">
+            <div class="p-4 md:p-6">
+                <h2 class="text-2xl md:text-3xl font-bold text-white text-center">Your Assessment Results</h2>
+                <p class="text-white text-opacity-80 text-center mb-8">Here's how you performed in the Public Speaking Skills Assessment</p>
                 
-                <h2 class="text-2xl font-bold text-gray-800 text-center mb-2">Assessment Complete!</h2>
-                <p class="text-gray-600 text-center mb-6">Here's how you performed in your public speaking assessment.</p>
-                
-                <div class="space-y-4 mb-8">
-                    <div>
-                        <div class="flex justify-between mb-1">
-                            <span class="text-sm font-medium text-gray-700">Content Organization</span>
-                            <span id="content-score" class="text-sm font-medium text-indigo-600">80%</span>
+                <div class="w-full max-w-4xl mx-auto bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 md:p-8 shadow-lg mb-8">
+                    <div class="flex flex-col md:flex-row items-center justify-between mb-8">
+                        <div class="mb-6 md:mb-0">
+                            <h3 class="text-xl text-white text-opacity-90 mb-2">Total Score</h3>
+                            <div class="text-5xl font-bold text-white"><span id="total-score">0</span>/<span id="max-score">100</span></div>
                         </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div id="content-bar" class="bg-indigo-600 h-2 rounded-full" style="width: 80%"></div>
+                        <div class="w-full md:w-auto">
+                            <div id="score-gauge" class="w-40 h-40 mx-auto relative">
+                                <svg class="w-full h-full" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="45" fill="none" stroke="#ffffff33" stroke-width="10" />
+                                    <circle id="score-circle" cx="50" cy="50" r="45" fill="none" stroke-width="10" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="283" transform="rotate(-90 50 50)" />
+                                </svg>
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <span id="score-percentage" class="text-2xl font-bold text-white">0%</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
-                    <div>
-                        <div class="flex justify-between mb-1">
-                            <span class="text-sm font-medium text-gray-700">Delivery Techniques</span>
-                            <span id="delivery-score" class="text-sm font-medium text-indigo-600">90%</span>
+                    <h3 class="text-xl text-white mb-4">Performance by Category</h3>
+                    <div id="category-results" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <!-- Category results will be dynamically generated -->
+                    </div>
+                </div>
+                
+                <div class="w-full max-w-md mx-auto bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 shadow-lg text-center">
+                    <h3 class="text-xl text-white mb-4">Get Your Certificate</h3>
+                    <p class="text-white text-opacity-80 mb-6">Complete the payment to receive your official Skillexa certification</p>
+                    
+                    <div class="mb-6">
+                        <div id="qr-code" class="w-48 h-48 mx-auto bg-white p-4 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="w-full h-full">
+                                <!-- Simple QR code SVG representation -->
+                                <rect x="10" y="10" width="80" height="80" fill="none" stroke="black" stroke-width="1" />
+                                <g fill="black">
+                                    <!-- QR code pattern - simplified representation -->
+                                    <rect x="20" y="20" width="20" height="20" />
+                                    <rect x="60" y="20" width="20" height="20" />
+                                    <rect x="20" y="60" width="20" height="20" />
+                                    <rect x="40" y="40" width="20" height="20" />
+                                    <rect x="65" y="65" width="10" height="10" />
+                                    <rect x="25" y="45" width="10" height="10" />
+                                    <rect x="45" y="25" width="10" height="10" />
+                                    <rect x="65" y="45" width="10" height="10" />
+                                    <rect x="45" y="65" width="10" height="10" />
+                                </g>
+                            </svg>
                         </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div id="delivery-bar" class="bg-indigo-600 h-2 rounded-full" style="width: 90%"></div>
-                        </div>
+                        <p class="text-white text-opacity-80 mt-2">Scan to pay via UPI</p>
                     </div>
                     
-                    <div>
-                        <div class="flex justify-between mb-1">
-                            <span class="text-sm font-medium text-gray-700">Audience Engagement</span>
-                            <span id="engagement-score" class="text-sm font-medium text-indigo-600">85%</span>
-                        </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div id="engagement-bar" class="bg-indigo-600 h-2 rounded-full" style="width: 85%"></div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-indigo-50 rounded-lg p-6 mb-6">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Feedback Summary</h3>
-                    <p id="feedback-text" class="text-gray-700">
-                        You demonstrate strong public speaking skills with excellent delivery techniques. Your content organization is good, but could benefit from more structured transitions. Your audience engagement techniques are effective, particularly your use of questions and examples.
-                    </p>
-                </div>
-                
-                <div class="text-center">
-                    <button id="get-certificate-btn" class="btn-primary text-white font-semibold py-3 px-8 rounded-full">
-                        Get Your Certificate
+                    <!-- Simulated payment button for demo purposes -->
+                    <button id="simulate-payment-btn" class="w-full px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">
+                        Simulate Payment (Demo)
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Payment Screen -->
-                <div class="text-center mb-6">
-    <h2 class="text-2xl font-semibold mb-2 text-gray-800">Scan to Pay</h2>
-    <p class="text-gray-600 mb-4">Use your UPI or banking app to complete payment</p>
-    
-    <img src="assets/payment-qr.jpg" alt="QR Code for Payment" class="mx-auto w-64 rounded border border-gray-300 shadow-md">
-    
-    <p class="mt-4 text-sm text-gray-500">Once paid, click the button below to continue</p>
-</div>
-
-<button id="confirmPaymentBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-6 rounded-md transition duration-300 mb-4">
-    I Have Paid – Continue
-</button>
-
-<p class="text-center text-xs text-gray-500">We do not store any payment data.</p>
-
-
         <!-- Certificate Screen -->
-        <div id="certificate-screen" class="hidden">
-            <div class="max-w-4xl mx-auto">
-                <div class="certificate p-10 rounded-xl shadow-lg mb-8 relative">
-                    <div class="text-center mb-8">
-                        <h2 class="text-3xl font-bold text-indigo-800 mb-2">Certificate of Achievement</h2>
-                        <p class="text-gray-600">Public Speaking Skills Assessment</p>
-                    </div>
-                    
-                    <div class="text-center mb-8">
-                        <p class="text-lg text-gray-700 mb-2">This certifies that</p>
-                        <h3 id="cert-name" class="text-2xl font-bold text-gray-800 mb-2">John Doe</h3>
-                        <p class="text-lg text-gray-700">has successfully completed the Public Speaking Skills Assessment</p>
-                        <p class="text-lg text-gray-700">with a score of <span id="cert-score" class="font-bold text-indigo-700">85%</span></p>
-                    </div>
-                    
-                    <div class="flex justify-between items-center mb-4">
-                        <div>
-                            <p id="cert-date" class="text-gray-600">June 15, 2023</p>
+        <div id="certificate-screen" class="hidden min-h-screen bg-gray-100 p-4 md:p-8 flex flex-col items-center justify-center">
+            <div class="mb-6 text-center">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800">Your Certificate is Ready!</h2>
+                <p class="text-gray-600">Your certificate has been generated and will download automatically</p>
+            </div>
+            
+            <!-- Certificate Preview -->
+            <div id="certificate" class="w-full max-w-5xl certificate-border rounded-lg shadow-xl">
+                <div class="certificate-inner-border rounded-lg">
+                    <div class="certificate-content p-8 rounded-lg">
+                        <div class="watermark">SKILLEXA</div>
+                        
+                        <div class="flex justify-between items-start mb-6 relative z-10">
+                            <!-- Logo placeholder -->
+                            <div class="w-16 h-16 rounded-md overflow-hidden mr-3 shadow-md">
+                            <img src="assets/logo.jpg" alt="Skillexa Logo" class="w-full h-full object-cover" />
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <div class="text-right mr-4">
+                                    <h3 class="text-xl font-bold text-gray-800">CERTIFICATE</h3>
+                                    <p class="text-gray-600">OF ACHIEVEMENT</p>
+                                </div>
+                                <div class="w-12 h-12">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" class="w-full h-full">
+                                        <circle cx="48" cy="48" r="46" fill="#2196F3"/>
+                                        <path fill="#FFFFFF" d="M41,59.4l-12-12l-4.2,4.2L41,67.8l30.2-30.2l-4.2-4.2L41,59.4z"/>
+                                    </svg>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <svg class="w-32 h-12" viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10,20 Q30,5 50,20 T90,20" stroke="#4f46e5" stroke-width="2" fill="none" />
-                                <text x="50" y="25" font-family="cursive" font-size="8" text-anchor="middle" fill="#4f46e5">Director Signature</text>
-                            </svg>
+                        
+                        <div class="text-center mb-8 relative z-10">
+                            <h2 class="handwriting text-4xl text-gray-800 mb-1">Certificate of Excellence</h2>
+                            <p class="text-gray-600">This certifies that</p>
+                            <h3 id="certificate-name" class="handwriting text-3xl text-gray-800 my-3">John Doe</h3>
+                            <p class="text-gray-600 max-w-lg mx-auto">has successfully completed the Public Speaking Skills Assessment with outstanding performance and is hereby recognized for their achievement.</p>
                         </div>
-                    </div>
-                    
-                    <div class="seal">
-                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="50" cy="50" r="45" fill="none" stroke="#4f46e5" stroke-width="2" />
-                            <circle cx="50" cy="50" r="40" fill="none" stroke="#4f46e5" stroke-width="1" />
-                            <path d="M50,10 L53,20 L63,20 L55,27 L58,37 L50,31 L42,37 L45,27 L37,20 L47,20 Z" fill="#4f46e5" />
-                            <text x="50" y="60" font-size="8" text-anchor="middle" fill="#4f46e5">VERIFIED</text>
-                            <text x="50" y="70" font-size="6" text-anchor="middle" fill="#4f46e5">EXCELLENCE</text>
-                        </svg>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 relative z-10">
+                            <div>
+                                <h4 class="font-bold text-gray-800 mb-2">Assessment Details</h4>
+                                <div class="space-y-2">
+                                    <div class="flex items-center">
+                                        <span class="text-gray-600 w-32">Skill:</span>
+                                        <span class="font-medium text-gray-800">Public Speaking Skills</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-gray-600 w-32">Total Score:</span>
+                                        <span id="certificate-score" class="font-medium text-gray-800">85/100</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-gray-600 w-32">Rank:</span>
+                                        <span id="certificate-rank" class="font-medium text-gray-800">Excellent</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-gray-600 w-32">Date:</span>
+                                        <span id="certificate-date" class="font-medium text-gray-800">May 15, 2024</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-gray-600 w-32">Certificate ID:</span>
+                                        <span id="certificate-id" class="font-medium text-gray-800">SKX-123456</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-bold text-gray-800 mb-2">Performance Breakdown</h4>
+                                <div id="certificate-categories" class="grid grid-cols-2 gap-2">
+                                    <!-- Will be populated dynamically -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center my-4 relative z-10">
+                            <div class="handwriting text-2xl font-bold text-gray-400">SKILLEXA CERTIFIED 2025</div>
+                        </div>
+                        
+                        <div class="flex justify-between items-end mt-8 relative z-10">
+                            <div class="text-center">
+                             <img src="assets/images/khushi.png" alt="Signature" class="mx-auto mb-2" style="height: 30px; contain;" />
+                          <div class="w-40 border-b border-gray-400 mb-1"></div>      
+                                <p class="text-gray-800 font-medium">Jagdeep Kaur I</p>
+                                <p class="text-gray-600 text-sm">Founder</p>
+                            </div>
+                            
+                            <div class="text-center">
+                                 <img src="assets/images/srushti.jpg" alt="Signature" class="mx-auto mb-2" style="height: 30px; contain;" />
+                                <div class="w-40 border-b border-gray-400 mb-1"></div>
+                                <p class="text-gray-800 font-medium">Prajapati Srushti K</p>
+                                <p class="text-gray-600 text-sm">Co-Founder</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="flex justify-center space-x-4">
-                    <button id="download-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg flex items-center">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
-                        </svg>
-                        Download Certificate
-                    </button>
-                    <button id="restart-btn" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 px-6 rounded-lg flex items-center">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-                        </svg>
-                        Take Another Assessment
-                    </button>
-                </div>
+            </div>
+            
+            <div class="mt-8">
+                <button id="download-again-btn" class="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-500 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">
+                    Download Certificate Again
+                </button>
             </div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Assessment questions
-            const questions = [
+            // Quiz questions data
+            const quizQuestions = [
                 {
-                    question: "What is the most effective way to start a speech?",
+                    category: "Vocal Delivery",
+                    question: "When speaking in public, how do you typically manage your speaking pace?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+                          </svg>`,
                     options: [
-                        "With a personal story that relates to your topic",
-                        "By stating your name and credentials",
-                        "By apologizing for any nervousness",
-                        "By reading directly from your notes"
+                        "I speak as quickly as possible to fit in all information",
+                        "I vary my pace intentionally to emphasize key points",
+                        "I maintain the same pace throughout for consistency",
+                        "I haven't thought about my speaking pace before"
                     ],
-                    correctAnswer: 0,
-                    category: "content"
+                    correctAnswer: 1
                 },
                 {
-                    question: "How should you handle a situation where you forget what you were going to say next?",
+                    category: "Body Language",
+                    question: "How do you typically use hand gestures during presentations?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />
+                          </svg>`,
                     options: [
-                        "Apologize repeatedly to the audience",
-                        "Pause, take a breath, and refer to your notes if needed",
-                        "End your speech early",
-                        "Tell the audience you're nervous"
+                        "I use purposeful gestures that emphasize my points",
+                        "I keep my hands still to avoid distracting the audience",
+                        "I gesture constantly throughout my presentation",
+                        "I hold onto the podium or keep hands in pockets"
                     ],
-                    correctAnswer: 1,
-                    category: "delivery"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is the recommended eye contact pattern when speaking to a group?",
+                    category: "Content Structure",
+                    question: "How do you typically organize the content of your presentations?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                          </svg>`,
                     options: [
-                        "Focus on one friendly face the entire time",
-                        "Look at the back wall or above the audience",
-                        "Make brief eye contact with different sections of the room",
-                        "Avoid eye contact completely to stay focused"
+                        "I present information as it comes to mind",
+                        "I follow a clear structure with intro, main points, and conclusion",
+                        "I focus mainly on details without an overall framework",
+                        "I prefer to speak spontaneously without organization"
                     ],
-                    correctAnswer: 2,
-                    category: "delivery"
+                    correctAnswer: 1
                 },
                 {
-                    question: "Which of the following is most important for audience engagement?",
+                    category: "Audience Engagement",
+                    question: "How do you typically engage with your audience during presentations?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                          </svg>`,
                     options: [
-                        "Using complex vocabulary to impress listeners",
-                        "Speaking without pauses to maintain momentum",
-                        "Including relevant examples and stories",
-                        "Covering as many points as possible"
+                        "I maintain eye contact with different audience members",
+                        "I focus on my notes or slides rather than the audience",
+                        "I ask questions and encourage participation",
+                        "I speak directly to only one or two people"
                     ],
-                    correctAnswer: 2,
-                    category: "engagement"
+                    correctAnswer: 2
                 },
                 {
-                    question: "What is the best way to handle audience questions?",
+                    category: "Confidence & Presence",
+                    question: "How do you typically handle nervousness before a presentation?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                          </svg>`,
                     options: [
-                        "Answer only the easy questions",
-                        "Repeat the question, then answer clearly and concisely",
-                        "Give lengthy, detailed answers to show expertise",
-                        "Defer all questions until after your presentation"
+                        "I use specific techniques like deep breathing to calm myself",
+                        "I try to ignore my nervousness and hope it goes away",
+                        "I over-prepare by memorizing every word",
+                        "I avoid thinking about the presentation until the last minute"
                     ],
-                    correctAnswer: 1,
-                    category: "engagement"
+                    correctAnswer: 0
                 },
                 {
-                    question: "Which vocal technique helps emphasize important points?",
+                    category: "Preparation & Timing",
+                    question: "How do you typically prepare for a presentation?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>`,
                     options: [
-                        "Speaking at the same volume throughout",
-                        "Varying your pace, pitch, and volume",
-                        "Speaking as quickly as possible",
-                        "Using a formal tone for the entire speech"
+                        "I create an outline and practice multiple times with timing",
+                        "I write out a full script and memorize it word for word",
+                        "I prepare slides but don't practice delivering them",
+                        "I prefer to improvise with minimal preparation"
                     ],
-                    correctAnswer: 1,
-                    category: "delivery"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is the purpose of a speech conclusion?",
+                    category: "Vocal Delivery",
+                    question: "How do you typically use vocal variety in your presentations?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+                          </svg>`,
                     options: [
-                        "To introduce new information",
-                        "To summarize key points and provide a call to action",
-                        "To apologize for any mistakes made",
-                        "To thank the audience for their patience"
+                        "I vary my volume, pitch, and tone intentionally",
+                        "I maintain a consistent tone throughout",
+                        "I speak loudly to ensure everyone can hear me",
+                        "I haven't thought about vocal variety before"
                     ],
-                    correctAnswer: 1,
-                    category: "content"
+                    correctAnswer: 0
                 },
                 {
-                    question: "How should you prepare your presentation space before speaking?",
+                    category: "Body Language",
+                    question: "How do you typically position yourself when presenting?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />
+                          </svg>`,
                     options: [
-                        "Arrive just in time to start speaking",
-                        "Test equipment, check room layout, and practice in the space if possible",
-                        "Rearrange furniture without asking permission",
-                        "Focus only on your notes and ignore the environment"
+                        "I stand confidently with good posture and move purposefully",
+                        "I stay behind a podium or desk the entire time",
+                        "I pace back and forth continuously",
+                        "I stand stiffly in one spot without moving"
                     ],
-                    correctAnswer: 1,
-                    category: "delivery"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is the best approach to using presentation slides?",
+                    category: "Content Structure",
+                    question: "How do you typically handle transitions between main points?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                          </svg>`,
                     options: [
-                        "Include as much information as possible on each slide",
-                        "Use slides with minimal text and relevant visuals",
-                        "Read directly from your slides",
-                        "Use complex animations between every slide"
+                        "I use clear verbal signposts and transition phrases",
+                        "I move between points without indicating transitions",
+                        "I pause awkwardly while gathering my thoughts",
+                        "I rush through transitions to save time"
                     ],
-                    correctAnswer: 1,
-                    category: "content"
+                    correctAnswer: 0
                 },
                 {
-                    question: "How can you best handle nervousness before a speech?",
+                    category: "Audience Engagement",
+                    question: "How do you typically respond to audience questions?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                          </svg>`,
                     options: [
-                        "Tell the audience how nervous you are",
-                        "Practice deep breathing and positive visualization",
-                        "Drink alcohol to calm your nerves",
-                        "Memorize your speech word for word"
+                        "I listen carefully and respond thoughtfully to each question",
+                        "I try to anticipate questions and have prepared answers",
+                        "I get defensive when challenged by questions",
+                        "I prefer not to take questions during presentations"
                     ],
-                    correctAnswer: 1,
-                    category: "delivery"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is the most effective way to address a diverse audience?",
+                    category: "Confidence & Presence",
+                    question: "How would you describe your speaking style?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                          </svg>`,
                     options: [
-                        "Use technical jargon to sound professional",
-                        "Speak only to the decision-makers in the room",
-                        "Use clear language and varied examples that different people can relate to",
-                        "Focus only on your most important points"
+                        "Authentic and conversational while maintaining professionalism",
+                        "Formal and academic regardless of the audience",
+                        "Casual and unpolished to seem relatable",
+                        "Mimicking other speakers I admire"
                     ],
-                    correctAnswer: 2,
-                    category: "engagement"
+                    correctAnswer: 0
                 },
                 {
-                    question: "Which body language practice is most effective during a speech?",
+                    category: "Preparation & Timing",
+                    question: "How do you typically manage your presentation time?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>`,
                     options: [
-                        "Standing completely still behind a podium",
-                        "Using purposeful gestures that emphasize your points",
-                        "Pacing back and forth continuously",
-                        "Keeping your hands in your pockets"
+                        "I rehearse with timing and adjust content to fit the allotted time",
+                        "I prepare too much content and rush through at the end",
+                        "I finish early and have to fill remaining time",
+                        "I don't pay attention to timing during preparation"
                     ],
-                    correctAnswer: 1,
-                    category: "delivery"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is the best way to structure the main body of your speech?",
+                    category: "Vocal Delivery",
+                    question: "How do you ensure your voice projects to the entire audience?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+                          </svg>`,
                     options: [
-                        "Cover as many points as possible",
-                        "Focus on 2-4 main points with supporting evidence",
-                        "Speak spontaneously without structure",
-                        "Include only statistics and facts"
+                        "I practice proper breathing and vocal projection techniques",
+                        "I rely entirely on microphones and audio equipment",
+                        "I shout to make sure everyone can hear me",
+                        "I speak at my normal conversational volume"
                     ],
-                    correctAnswer: 1,
-                    category: "content"
+                    correctAnswer: 0
                 },
                 {
-                    question: "How should you respond if asked a question you don't know the answer to?",
+                    category: "Body Language",
+                    question: "How do you typically use facial expressions during presentations?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />
+                          </svg>`,
                     options: [
-                        "Make up an answer to avoid embarrassment",
-                        "Honestly acknowledge you don't know, offer to find out, and redirect if possible",
-                        "Ignore the question and move on",
-                        "Criticize the question as irrelevant"
+                        "I use expressions that match my message and show enthusiasm",
+                        "I maintain a neutral expression throughout",
+                        "I smile constantly regardless of content",
+                        "I haven't thought about facial expressions before"
                     ],
-                    correctAnswer: 1,
-                    category: "engagement"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is the most important factor in connecting with your audience?",
+                    category: "Content Structure",
+                    question: "How do you typically conclude your presentations?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                          </svg>`,
                     options: [
-                        "Your credentials and expertise",
-                        "The quality of your visual aids",
-                        "Authenticity and passion for your topic",
-                        "The length of your presentation"
+                        "With a strong summary and clear call to action",
+                        "By introducing new information not covered earlier",
+                        "By abruptly ending when I run out of content",
+                        "With 'That's all I have' or similar phrases"
                     ],
-                    correctAnswer: 2,
-                    category: "engagement"
+                    correctAnswer: 0
+                },
+                {
+                    category: "Audience Engagement",
+                    question: "How do you typically adapt your presentation to different audiences?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                          </svg>`,
+                    options: [
+                        "I research the audience and customize content accordingly",
+                        "I use the same presentation for all audiences",
+                        "I ask the audience what they want at the beginning",
+                        "I focus only on what interests me personally"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Confidence & Presence",
+                    question: "How do you handle mistakes during a presentation?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                          </svg>`,
+                    options: [
+                        "I acknowledge them briefly and move on confidently",
+                        "I apologize profusely and draw attention to them",
+                        "I get flustered and have trouble continuing",
+                        "I pretend they didn't happen and hope no one noticed"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Preparation & Timing",
+                    question: "How do you typically prepare visual aids for presentations?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>`,
+                    options: [
+                        "I create simple, visual slides that enhance my message",
+                        "I include as much information as possible on each slide",
+                        "I use templates with minimal customization",
+                        "I prefer not to use visual aids at all"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Vocal Delivery",
+                    question: "How do you handle filler words (um, uh, like) when speaking?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+                          </svg>`,
+                    options: [
+                        "I practice to minimize them and use purposeful pauses instead",
+                        "I speak quickly to avoid pauses where fillers might occur",
+                        "I don't worry about filler words at all",
+                        "I've never noticed my use of filler words"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Body Language",
+                    question: "How do you typically use the stage or presentation space?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />
+                          </svg>`,
+                    options: [
+                        "I move purposefully to different areas for different points",
+                        "I stand in one spot for the entire presentation",
+                        "I wander randomly around the space",
+                        "I hide behind furniture or equipment"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Content Structure",
+                    question: "How do you typically handle complex information in presentations?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                          </svg>`,
+                    options: [
+                        "I break it down into simpler components with analogies",
+                        "I present it in its full complexity regardless of audience",
+                        "I skip over complex information entirely",
+                        "I read technical information verbatim from slides"
+                    ],
+                    correctAnswer: 0
                 }
             ];
 
+            // Variables to track quiz state
+            let currentUser = {
+                name: "",
+                email: ""
+            };
+            let currentQuestionIndex = 0;
+            let userAnswers = new Array(quizQuestions.length).fill(null);
+            let quizTimer;
+            let timeRemaining = 15 * 60; // 15 minutes in seconds
+
             // DOM elements
-            const welcomeScreen = document.getElementById('welcome-screen');
-            const userInfoScreen = document.getElementById('user-info-screen');
-            const assessmentScreen = document.getElementById('assessment-screen');
+            const loginScreen = document.getElementById('login-screen');
+            const categoryPreview = document.getElementById('category-preview');
+            const quizScreen = document.getElementById('quiz-screen');
             const resultsScreen = document.getElementById('results-screen');
-            const paymentScreen = document.getElementById('payment-screen');
             const certificateScreen = document.getElementById('certificate-screen');
             
-            const startBtn = document.getElementById('start-btn');
-            const userForm = document.getElementById('user-form');
+            const loginForm = document.getElementById('login-form');
+            const startQuizBtn = document.getElementById('start-quiz-btn');
             const prevBtn = document.getElementById('prev-btn');
             const nextBtn = document.getElementById('next-btn');
-            const getCertificateBtn = document.getElementById('get-certificate-btn');
-            const processPaymentBtn = document.getElementById('process-payment-btn');
-            const downloadBtn = document.getElementById('download-btn');
-            const restartBtn = document.getElementById('restart-btn');
+            const simulatePaymentBtn = document.getElementById('simulate-payment-btn');
+            const downloadAgainBtn = document.getElementById('download-again-btn');
             
-            const currentQuestionEl = document.getElementById('current-question');
-            const progressBar = document.getElementById('progress-bar');
+            const questionContainer = document.getElementById('question-container');
+            const questionIcon = document.getElementById('question-icon');
             const questionText = document.getElementById('question-text');
             const optionsContainer = document.getElementById('options-container');
-            const timerEl = document.getElementById('timer');
-
-            // State variables
-            let currentQuestion = 0;
-            let userAnswers = Array(questions.length).fill(null);
-            let timer;
-            let timeLeft = 30;
-            let userData = {
-                name: '',
-                email: ''
-            };
+            const currentQuestionElement = document.getElementById('current-question');
+            const progressPercentElement = document.getElementById('progress-percent');
+            const progressBarElement = document.getElementById('progress-bar');
+            const timerElement = document.getElementById('timer');
+            const timerBarElement = document.getElementById('timer-bar');
 
             // Event listeners
-            startBtn.addEventListener('click', showUserInfoScreen);
-            userForm.addEventListener('submit', handleUserFormSubmit);
+            loginForm.addEventListener('submit', handleLogin);
+            startQuizBtn.addEventListener('click', startQuiz);
             prevBtn.addEventListener('click', showPreviousQuestion);
             nextBtn.addEventListener('click', handleNextQuestion);
-            getCertificateBtn.addEventListener('click', showPaymentScreen);
-            processPaymentBtn.addEventListener('click', showCertificate);
-            downloadBtn.addEventListener('click', downloadCertificate);
-            restartBtn.addEventListener('click', restartAssessment);
+            simulatePaymentBtn.addEventListener('click', handlePayment);
+            downloadAgainBtn.addEventListener('click', downloadCertificate);
 
             // Functions
-            function showUserInfoScreen(e) {
+            function handleLogin(e) {
                 e.preventDefault();
-                welcomeScreen.classList.add('hidden');
-                userInfoScreen.classList.remove('hidden');
+                currentUser.name = document.getElementById('fullName').value;
+                currentUser.email = document.getElementById('email').value;
+                
+                // Store user info in localStorage
+                localStorage.setItem('userName', currentUser.name);
+                localStorage.setItem('userEmail', currentUser.email);
+                
+                // Show category preview
+                loginScreen.classList.add('hidden');
+                categoryPreview.classList.remove('hidden');
             }
 
-            function handleUserFormSubmit(e) {
-                e.preventDefault();
-                userData.name = document.getElementById('fullName').value;
-                userData.email = document.getElementById('email').value;
+            function startQuiz() {
+                categoryPreview.classList.add('hidden');
+                quizScreen.classList.remove('hidden');
                 
-                userInfoScreen.classList.add('hidden');
-                assessmentScreen.classList.remove('hidden');
-                
-                loadQuestion(currentQuestion);
+                // Start the timer
                 startTimer();
+                
+                // Show first question
+                showQuestion(0);
+                updateQuizProgress();
             }
 
-            function loadQuestion(index) {
-                const question = questions[index];
-                questionText.textContent = question.question;
+            function startTimer() {
+                updateTimerDisplay();
+                quizTimer = setInterval(() => {
+                    timeRemaining--;
+                    updateTimerDisplay();
+                    
+                    if (timeRemaining <= 0) {
+                        clearInterval(quizTimer);
+                        submitQuiz();
+                    }
+                }, 1000);
+            }
+
+            function updateTimerDisplay() {
+                const minutes = Math.floor(timeRemaining / 60);
+                const seconds = timeRemaining % 60;
+                timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
                 
-                // Update progress indicators
-                currentQuestionEl.textContent = index + 1;
-                progressBar.style.width = `${((index + 1) / questions.length) * 100}%`;
+                // Update timer bar
+                const percentRemaining = (timeRemaining / (15 * 60)) * 100;
+                timerBarElement.style.width = `${percentRemaining}%`;
+                
+                // Change color based on time remaining
+                if (percentRemaining > 60) {
+                    timerBarElement.className = 'timer-bar bg-gradient-to-r from-green-400 to-blue-500 h-2 rounded-full';
+                } else if (percentRemaining > 30) {
+                    timerBarElement.className = 'timer-bar bg-gradient-to-r from-yellow-400 to-orange-500 h-2 rounded-full';
+                } else {
+                    timerBarElement.className = 'timer-bar bg-gradient-to-r from-red-500 to-pink-500 h-2 rounded-full';
+                }
+            }
+
+            function showQuestion(index) {
+                const question = quizQuestions[index];
+                
+                // Update question content
+                questionIcon.innerHTML = question.icon;
+                questionText.textContent = question.question;
                 
                 // Clear previous options
                 optionsContainer.innerHTML = '';
                 
                 // Add new options
                 question.options.forEach((option, i) => {
-                    const isSelected = userAnswers[index] === i;
-                    
-                    const optionDiv = document.createElement('div');
-                    optionDiv.className = `option p-4 border rounded-lg cursor-pointer transition-colors ${
-                        isSelected ? 'bg-indigo-100 border-indigo-500' : 'hover:bg-gray-50'
-                    }`;
-                    optionDiv.dataset.index = i;
-                    
-                    optionDiv.innerHTML = `
+                    const optionElement = document.createElement('div');
+                    optionElement.className = `quiz-option p-4 border border-white border-opacity-30 rounded-lg cursor-pointer transition-colors ${userAnswers[index] === i ? 'selected' : ''}`;
+                    optionElement.innerHTML = `
                         <div class="flex items-center">
-                            <div class="w-6 h-6 rounded-full border ${
-                                isSelected ? 'border-indigo-500 bg-indigo-500' : 'border-gray-300'
-                            } flex items-center justify-center mr-3">
-                                ${isSelected ? '<div class="w-2 h-2 rounded-full bg-white"></div>' : ''}
+                            <div class="w-6 h-6 rounded-full border-2 border-white border-opacity-60 flex items-center justify-center mr-3">
+                                ${userAnswers[index] === i ? '<div class="w-3 h-3 rounded-full bg-purple-500"></div>' : ''}
                             </div>
-                            <span>${option}</span>
+                            <span class="text-white">${option}</span>
                         </div>
                     `;
                     
-                    optionDiv.addEventListener('click', () => selectOption(i));
-                    optionsContainer.appendChild(optionDiv);
+                    optionElement.addEventListener('click', () => {
+                        // Remove selected class from all options
+                        document.querySelectorAll('.quiz-option').forEach(opt => {
+                            opt.classList.remove('selected');
+                            opt.querySelector('.w-6').innerHTML = '';
+                        });
+                        
+                        // Add selected class to clicked option
+                        optionElement.classList.add('selected');
+                        optionElement.querySelector('.w-6').innerHTML = '<div class="w-3 h-3 rounded-full bg-purple-500"></div>';
+                        
+                        // Save answer
+                        userAnswers[index] = i;
+                        
+                        // Enable next button if it was disabled
+                        nextBtn.disabled = false;
+                    });
+                    
+                    optionsContainer.appendChild(optionElement);
                 });
                 
-                // Update button states
+                // Update current question index
+                currentQuestionIndex = index;
+                
+                // Update navigation buttons
                 prevBtn.disabled = index === 0;
-                nextBtn.textContent = index === questions.length - 1 ? 'Finish' : 'Next';
+                nextBtn.textContent = index === quizQuestions.length - 1 ? 'Submit' : 'Next';
                 
-                // Reset timer
-                clearInterval(timer);
-                timeLeft = 30;
-                timerEl.textContent = formatTime(timeLeft);
-                startTimer();
-            }
-
-            function selectOption(optionIndex) {
-                userAnswers[currentQuestion] = optionIndex;
+                // Disable next button if no answer selected
+                nextBtn.disabled = userAnswers[index] === null;
                 
-                // Update UI to show selected option
-                const options = optionsContainer.querySelectorAll('.option');
-                options.forEach((option, i) => {
-                    const circle = option.querySelector('div > div');
-                    if (i === optionIndex) {
-                        option.classList.add('bg-indigo-100', 'border-indigo-500');
-                        option.classList.remove('hover:bg-gray-50');
-                        circle.classList.add('border-indigo-500', 'bg-indigo-500');
-                        circle.innerHTML = '<div class="w-2 h-2 rounded-full bg-white"></div>';
-                    } else {
-                        option.classList.remove('bg-indigo-100', 'border-indigo-500');
-                        option.classList.add('hover:bg-gray-50');
-                        circle.classList.remove('border-indigo-500', 'bg-indigo-500');
-                        circle.classList.add('border-gray-300');
-                        circle.innerHTML = '';
-                    }
-                });
+                // Update progress indicators
+                currentQuestionElement.textContent = index + 1;
+                const progressPercent = Math.round(((index + 1) / quizQuestions.length) * 100);
+                progressPercentElement.textContent = progressPercent;
+                progressBarElement.style.width = `${progressPercent}%`;
+                
+                // Add animation
+                questionContainer.classList.remove('scale-in');
+                void questionContainer.offsetWidth; // Trigger reflow
+                questionContainer.classList.add('scale-in');
             }
 
             function showPreviousQuestion() {
-                if (currentQuestion > 0) {
-                    currentQuestion--;
-                    loadQuestion(currentQuestion);
+                if (currentQuestionIndex > 0) {
+                    showQuestion(currentQuestionIndex - 1);
                 }
             }
 
             function handleNextQuestion() {
-                // If no option selected, prompt user
-                if (userAnswers[currentQuestion] === null) {
-                    alert('Please select an answer before proceeding.');
-                    return;
-                }
-                
-                if (currentQuestion < questions.length - 1) {
-                    currentQuestion++;
-                    loadQuestion(currentQuestion);
+                if (currentQuestionIndex < quizQuestions.length - 1) {
+                    showQuestion(currentQuestionIndex + 1);
                 } else {
-                    showResults();
+                    submitQuiz();
                 }
             }
 
-            function startTimer() {
-                timer = setInterval(() => {
-                    timeLeft--;
-                    timerEl.textContent = formatTime(timeLeft);
-                    
-                    if (timeLeft <= 10) {
-                        timerEl.classList.add('text-red-600');
-                    } else {
-                        timerEl.classList.remove('text-red-600');
-                    }
-                    
-                    if (timeLeft <= 0) {
-                        clearInterval(timer);
-                        // Auto-advance if time runs out
-                        if (userAnswers[currentQuestion] === null) {
-                            // If no answer selected, choose one randomly
-                            selectOption(Math.floor(Math.random() * 4));
-                        }
-                        
-                        if (currentQuestion < questions.length - 1) {
-                            currentQuestion++;
-                            loadQuestion(currentQuestion);
-                        } else {
-                            showResults();
-                        }
-                    }
-                }, 1000);
+            function updateQuizProgress() {
+                const answeredCount = userAnswers.filter(answer => answer !== null).length;
+                const progressPercent = Math.round((answeredCount / quizQuestions.length) * 100);
+                progressPercentElement.textContent = progressPercent;
+                progressBarElement.style.width = `${progressPercent}%`;
             }
 
-            function formatTime(seconds) {
-                return `00:${seconds < 10 ? '0' : ''}${seconds}`;
-            }
-
-            function calculateScores() {
-                let totalCorrect = 0;
-                let categoryScores = {
-                    content: { correct: 0, total: 0 },
-                    delivery: { correct: 0, total: 0 },
-                    engagement: { correct: 0, total: 0 }
-                };
+            function submitQuiz() {
+                // Stop the timer
+                clearInterval(quizTimer);
                 
-                questions.forEach((question, index) => {
-                    const category = question.category;
-                    categoryScores[category].total++;
-                    
-                    if (userAnswers[index] === question.correctAnswer) {
+                // Calculate results
+                const results = calculateResults();
+                
+                // Display results
+                displayResults(results);
+                
+                // Hide quiz screen and show results screen
+                quizScreen.classList.add('hidden');
+                resultsScreen.classList.remove('hidden');
+            }
+
+            function calculateResults() {
+                // Calculate total score
+                let totalCorrect = 0;
+                userAnswers.forEach((answer, index) => {
+                    if (answer === quizQuestions[index].correctAnswer) {
                         totalCorrect++;
-                        categoryScores[category].correct++;
                     }
                 });
                 
-                const overallScore = Math.round((totalCorrect / questions.length) * 100);
-                const contentScore = Math.round((categoryScores.content.correct / categoryScores.content.total) * 100);
-                const deliveryScore = Math.round((categoryScores.delivery.correct / categoryScores.delivery.total) * 100);
-                const engagementScore = Math.round((categoryScores.engagement.correct / categoryScores.engagement.total) * 100);
+                const totalScore = Math.round((totalCorrect / quizQuestions.length) * 100);
+                
+                // Calculate category scores
+                const categories = {};
+                quizQuestions.forEach((question, index) => {
+                    const category = question.category;
+                    if (!categories[category]) {
+                        categories[category] = {
+                            total: 0,
+                            correct: 0
+                        };
+                    }
+                    
+                    categories[category].total++;
+                    if (userAnswers[index] === question.correctAnswer) {
+                        categories[category].correct++;
+                    }
+                });
+                
+                // Convert to percentages and ratings
+                const categoryResults = {};
+                Object.keys(categories).forEach(category => {
+                    const score = Math.round((categories[category].correct / categories[category].total) * 100);
+                    let rating;
+                    let icon;
+                    
+                    if (score >= 90) {
+                        rating = 'Excellent';
+                        icon = '🌟';
+                    } else if (score >= 75) {
+                        rating = 'Good';
+                        icon = '👍';
+                    } else if (score >= 60) {
+                        rating = 'Satisfactory';
+                        icon = '👌';
+                    } else {
+                        rating = 'Needs Improvement';
+                        icon = '📝';
+                    }
+                    
+                    categoryResults[category] = {
+                        score,
+                        rating,
+                        icon
+                    };
+                });
+                
+                // Determine overall rating
+                let overallRating;
+                if (totalScore >= 90) {
+                    overallRating = 'Excellent';
+                } else if (totalScore >= 75) {
+                    overallRating = 'Good';
+                } else if (totalScore >= 60) {
+                    overallRating = 'Satisfactory';
+                } else {
+                    overallRating = 'Needs Improvement';
+                }
                 
                 return {
-                    overall: overallScore,
-                    content: contentScore,
-                    delivery: deliveryScore,
-                    engagement: engagementScore
+                    totalScore,
+                    totalCorrect,
+                    totalQuestions: quizQuestions.length,
+                    categoryResults,
+                    overallRating
                 };
             }
 
-            function generateFeedback(scores) {
-                let feedback = '';
+            function displayResults(results) {
+                // Update total score
+                document.getElementById('total-score').textContent = results.totalScore;
+                document.getElementById('max-score').textContent = '100';
                 
-                if (scores.overall >= 90) {
-                    feedback = 'Excellent! You demonstrate exceptional public speaking skills across all areas. Your content organization is structured and clear, your delivery techniques are polished, and your audience engagement strategies are highly effective.';
-                } else if (scores.overall >= 75) {
-                    feedback = 'Very good! You show strong public speaking abilities with particular strengths in ';
-                    
-                    // Identify strongest area
-                    const strongest = Object.entries(scores)
-                        .filter(([key]) => key !== 'overall')
-                        .sort((a, b) => b[1] - a[1])[0];
-                    
-                    // Identify weakest area
-                    const weakest = Object.entries(scores)
-                        .filter(([key]) => key !== 'overall')
-                        .sort((a, b) => a[1] - b[1])[0];
-                    
-                    const strengthArea = strongest[0] === 'content' ? 'content organization' : 
-                                        strongest[0] === 'delivery' ? 'delivery techniques' : 
-                                        'audience engagement';
-                    
-                    const weakArea = weakest[0] === 'content' ? 'content organization' : 
-                                    weakest[0] === 'delivery' ? 'delivery techniques' : 
-                                    'audience engagement';
-                    
-                    feedback += `${strengthArea}. Consider focusing on improving your ${weakArea} for even better results.`;
-                } else if (scores.overall >= 60) {
-                    feedback = 'Good effort! You have a solid foundation in public speaking. To improve, focus on ';
-                    
-                    // Find the lowest scoring area
-                    const lowestArea = Object.entries(scores)
-                        .filter(([key]) => key !== 'overall')
-                        .sort((a, b) => a[1] - b[1])[0];
-                    
-                    const areaName = lowestArea[0] === 'content' ? 'structuring your content more clearly' : 
-                                    lowestArea[0] === 'delivery' ? 'refining your delivery techniques' : 
-                                    'developing stronger audience engagement strategies';
-                    
-                    feedback += `${areaName}. Practice will help you become more confident and effective.`;
+                // Update score gauge
+                const scoreCircle = document.getElementById('score-circle');
+                const circumference = 2 * Math.PI * 45; // 2πr
+                const offset = circumference - (results.totalScore / 100) * circumference;
+                scoreCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+                scoreCircle.style.strokeDashoffset = offset;
+                
+                // Set color based on score
+                if (results.totalScore >= 90) {
+                    scoreCircle.style.stroke = '#10B981'; // Green
+                } else if (results.totalScore >= 75) {
+                    scoreCircle.style.stroke = '#3B82F6'; // Blue
+                } else if (results.totalScore >= 60) {
+                    scoreCircle.style.stroke = '#F59E0B'; // Yellow
                 } else {
-                    feedback = 'You\'re on your way to developing your public speaking skills. Regular practice and focused attention on all three key areas - content organization, delivery techniques, and audience engagement - will help you improve significantly.';
+                    scoreCircle.style.stroke = '#EF4444'; // Red
                 }
                 
-                return feedback;
+                document.getElementById('score-percentage').textContent = `${results.totalScore}%`;
+                
+                // Update category results
+                const categoryResultsContainer = document.getElementById('category-results');
+                categoryResultsContainer.innerHTML = '';
+                
+                Object.keys(results.categoryResults).forEach(category => {
+                    const result = results.categoryResults[category];
+                    const categoryElement = document.createElement('div');
+                    
+                    // Set background color based on rating
+                    let bgColor;
+                    if (result.rating === 'Excellent') {
+                        bgColor = 'bg-gradient-to-br from-green-500 to-emerald-600';
+                    } else if (result.rating === 'Good') {
+                        bgColor = 'bg-gradient-to-br from-blue-500 to-indigo-600';
+                    } else if (result.rating === 'Satisfactory') {
+                        bgColor = 'bg-gradient-to-br from-yellow-400 to-orange-500';
+                    } else {
+                        bgColor = 'bg-gradient-to-br from-red-500 to-pink-600';
+                    }
+                    
+                    categoryElement.className = `${bgColor} rounded-lg p-4 text-white`;
+                    categoryElement.innerHTML = `
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h4 class="font-medium">${category}</h4>
+                                <p class="text-sm text-white text-opacity-90">${result.rating}</p>
+                            </div>
+                            <div class="text-2xl">${result.icon}</div>
+                        </div>
+                        <div class="mt-2 w-full bg-white bg-opacity-30 rounded-full h-2">
+                            <div class="bg-white h-2 rounded-full" style="width: ${result.score}%"></div>
+                        </div>
+                        <div class="text-right mt-1 text-sm">${result.score}%</div>
+                    `;
+                    
+                    categoryResultsContainer.appendChild(categoryElement);
+                });
+                
+                // Store results for certificate generation
+                localStorage.setItem('quizResults', JSON.stringify(results));
             }
 
-            function showResults() {
-                clearInterval(timer);
-                assessmentScreen.classList.add('hidden');
-                resultsScreen.classList.remove('hidden');
+            function handlePayment() {
+                // In a real app, this would handle actual payment processing
+                // For this demo, we'll simulate a successful payment
                 
-                const scores = calculateScores();
-                
-                // Update score displays
-                document.getElementById('score-display').textContent = `${scores.overall}%`;
-                document.getElementById('content-score').textContent = `${scores.content}%`;
-                document.getElementById('content-bar').style.width = `${scores.content}%`;
-                document.getElementById('delivery-score').textContent = `${scores.delivery}%`;
-                document.getElementById('delivery-bar').style.width = `${scores.delivery}%`;
-                document.getElementById('engagement-score').textContent = `${scores.engagement}%`;
-                document.getElementById('engagement-bar').style.width = `${scores.engagement}%`;
-                
-                // Generate and display feedback
-                const feedback = generateFeedback(scores);
-                document.getElementById('feedback-text').textContent = feedback;
-            }
-
-            function showPaymentScreen() {
+                // Hide results screen and show certificate screen
                 resultsScreen.classList.add('hidden');
-                paymentScreen.classList.remove('hidden');
-            }
-
-            function showCertificate() {
-                paymentScreen.classList.add('hidden');
                 certificateScreen.classList.remove('hidden');
                 
-                // Update certificate with user data
-                document.getElementById('cert-name').textContent = userData.name;
+                // Generate certificate
+                generateCertificate();
                 
-                const scores = calculateScores();
-                document.getElementById('cert-score').textContent = `${scores.overall}%`;
-                
-                // Set current date
-                const today = new Date();
-                const options = { year: 'numeric', month: 'long', day: 'numeric' };
-                document.getElementById('cert-date').textContent = today.toLocaleDateString('en-US', options);
-                
-                // Create confetti effect
-                createConfetti();
+                // Download certificate automatically
+                setTimeout(downloadCertificate, 1000);
             }
 
-            function createConfetti() {
-                const colors = ['#4f46e5', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
-                const confettiCount = 100;
+            function generateCertificate() {
+                // Get user info and results
+                const userName = localStorage.getItem('userName') || 'John Doe';
+                const results = JSON.parse(localStorage.getItem('quizResults')) || {
+                    totalScore: 85,
+                    overallRating: 'Good',
+                    categoryResults: {}
+                };
                 
-                for (let i = 0; i < confettiCount; i++) {
-                    const confetti = document.createElement('div');
-                    confetti.className = 'confetti';
-                    confetti.style.left = `${Math.random() * 100}vw`;
-                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                    confetti.style.opacity = '1';
-                    confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                // Generate certificate ID
+                const certificateId = 'SKX-' + Math.floor(100000 + Math.random() * 900000);
+                
+                // Get current date
+                const currentDate = new Date().toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                
+                // Update certificate content
+                document.getElementById('certificate-name').textContent = userName;
+                document.getElementById('certificate-score').textContent = `${results.totalScore}/100`;
+                document.getElementById('certificate-rank').textContent = results.overallRating;
+                document.getElementById('certificate-date').textContent = currentDate;
+                document.getElementById('certificate-id').textContent = certificateId;
+                
+                // Update category results
+                const certificateCategoriesContainer = document.getElementById('certificate-categories');
+                certificateCategoriesContainer.innerHTML = '';
+                
+                Object.keys(results.categoryResults).forEach(category => {
+                    const result = results.categoryResults[category];
+                    const categoryElement = document.createElement('div');
+                    categoryElement.className = 'flex items-center mb-1';
+                    categoryElement.innerHTML = `
+                        <span class="mr-2">${result.icon}</span>
+                        <span class="text-sm">${category}: <span class="font-medium">${result.rating}</span></span>
+                    `;
                     
-                    document.body.appendChild(confetti);
-                    
-                    // Animate confetti
-                    const duration = Math.random() * 3 + 2; // 2-5 seconds
-                    confetti.animate([
-                        { transform: `translate(0, 0) rotate(0deg)`, opacity: 1 },
-                        { transform: `translate(${Math.random() * 100 - 50}px, ${window.innerHeight}px) rotate(${Math.random() * 720}deg)`, opacity: 0 }
-                    ], {
-                        duration: duration * 1000,
-                        easing: 'cubic-bezier(0.1, 0.8, 0.3, 1)'
-                    });
-                    
-                    setTimeout(() => {
-                        confetti.remove();
-                    }, duration * 1000);
-                }
+                    certificateCategoriesContainer.appendChild(categoryElement);
+                });
             }
 
             function downloadCertificate() {
-                alert('In a real application, this would generate and download a PDF certificate. This is a demo version.');
-            }
-
-            function restartAssessment() {
-                // Reset state
-                currentQuestion = 0;
-                userAnswers = Array(questions.length).fill(null);
+                const certificate = document.getElementById('certificate');
                 
-                // Show welcome screen
-                certificateScreen.classList.add('hidden');
-                welcomeScreen.classList.remove('hidden');
+                // Use html2canvas to capture the certificate as an image
+                html2canvas(certificate, {
+                    scale: 2,
+                    logging: false,
+                    useCORS: true
+                }).then(canvas => {
+                    const imgData = canvas.toDataURL('image/png');
+                    
+                    // Create PDF using jsPDF
+                    const { jsPDF } = window.jspdf;
+                    const pdf = new jsPDF({
+                        orientation: 'landscape',
+                        unit: 'cm',
+                        format: 'a4'
+                    });
+                    
+                    const imgProps = pdf.getImageProperties(imgData);
+                    const pdfWidth = pdf.internal.pageSize.getWidth();
+                    const pdfHeightLimit = pdf.internal.pageSize.getHeight(); // max height available
+                    const scaleRatio = Math.min(pdfWidth / imgProps.width, pdfHeightLimit / imgProps.height);
+                    const imgWidth = imgProps.width * scaleRatio;
+                    const imgHeight = imgProps.height * scaleRatio;
+
+                    const xOffset = (pdfWidth - imgWidth) / 2;
+                    const yOffset = (pdfHeightLimit - imgHeight) / 2;
+                    pdf.addImage(imgData, 'PNG', xOffset, yOffset, imgWidth, imgHeight);
+
+                    
+                    // Download the PDF
+                    const userName = localStorage.getItem('userName') || 'User';
+                    const fileName = `${userName.replace(/\s+/g, '_')}_Public_Speaking_Certificate.pdf`;
+                    pdf.save(fileName);
+                });
             }
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'965359d7046d7e75',t:'MTc1MzUyNzE4Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9675e220c37d914b',t:'MTc1Mzg4OTI4MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>

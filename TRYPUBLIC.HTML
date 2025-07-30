@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Public Speaking Skills Assessment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+        }
+        .progress-bar {
+            transition: width 0.5s ease-in-out;
+        }
+        .card {
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.2);
+        }
+        .certificate {
+            background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+            border: 2px solid #4f46e5;
+            position: relative;
+            overflow: hidden;
+        }
+        .certificate::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 100px;
+            height: 100px;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 50%;
+        }
+        .certificate::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            right: -50px;
+            width: 100px;
+            height: 100px;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 50%;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+        .seal {
+            position: absolute;
+            bottom: 30px;
+            right: 40px;
+            width: 100px;
+            height: 100px;
+        }
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div id="app" class="container mx-auto px-4 py-8 max-w-5xl">
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="flex flex-col items-center justify-center py-10">
+            <div class="float">
+                <svg class="w-32 h-32 mb-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" fill="#4f46e5" opacity="0.2"/>
+                    <path d="M12 7V12L15 15" stroke="#4f46e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M8 12C8 10.9391 8.42143 9.92172 9.17157 9.17157C9.92172 8.42143 10.9391 8 12 8C13.0609 8 14.0783 8.42143 14.8284 9.17157C15.5786 9.92172 16 10.9391 16 12C16 13.0609 15.5786 14.0783 14.8284 14.8284C14.0783 15.5786 13.0609 16 12 16C10.9391 16 9.92172 15.5786 9.17157 14.8284C8.42143 14.0783 8 13.0609 8 12Z" stroke="#4f46e5" stroke-width="2"/>
+                    <circle cx="12" cy="12" r="10" stroke="#4f46e5" stroke-width="2"/>
+                </svg>
+            </div>
+            <h1 class="text-4xl font-bold text-gray-800 mb-4 text-center">Public Speaking Skills Assessment</h1>
+            <p class="text-lg text-gray-600 mb-8 text-center max-w-2xl">Evaluate your public speaking abilities with our comprehensive assessment. Complete 15 questions to receive personalized feedback and a certificate.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl mb-10">
+                <div class="card bg-white p-6 rounded-xl shadow-lg">
+                    <div class="flex items-center justify-center mb-4 text-indigo-600">
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2 text-center">Timed Assessment</h3>
+                    <p class="text-gray-600 text-center">Complete questions within the allocated time for each section.</p>
+                </div>
+                
+                <div class="card bg-white p-6 rounded-xl shadow-lg">
+                    <div class="flex items-center justify-center mb-4 text-indigo-600">
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2 text-center">Instant Feedback</h3>
+                    <p class="text-gray-600 text-center">Get detailed performance analysis on your public speaking skills.</p>
+                </div>
+                
+                <div class="card bg-white p-6 rounded-xl shadow-lg">
+                    <div class="flex items-center justify-center mb-4 text-indigo-600">
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2 text-center">Certificate</h3>
+                    <p class="text-gray-600 text-center">Receive a personalized certificate upon successful completion.</p>
+                </div>
+            </div>
+            
+            <button id="start-btn" class="btn-primary text-white font-semibold py-3 px-8 rounded-full text-lg">
+                Start Assessment
+            </button>
+        </div>
+
+        <!-- User Info Form -->
+        <div id="user-info-screen" class="hidden max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Before we begin</h2>
+            <p class="text-gray-600 mb-6">Please provide your information for your certificate:</p>
+            
+            <form id="user-form" class="space-y-4">
+                <div>
+                    <label for="fullName" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                    <input type="email" id="email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                
+                <div class="pt-4">
+                    <button type="submit" class="btn-primary text-white font-semibold py-2 px-6 rounded-lg w-full">
+                        Continue to Assessment
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Assessment Screen -->
+        <div id="assessment-screen" class="hidden">
+            <div class="mb-6 flex items-center justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">Public Speaking Assessment</h2>
+                    <p class="text-gray-600">Question <span id="current-question">1</span> of 15</p>
+                </div>
+                <div class="bg-white px-4 py-2 rounded-lg shadow flex items-center">
+                    <svg class="w-5 h-5 text-indigo-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span id="timer" class="font-semibold text-gray-800">00:30</span>
+                </div>
+            </div>
+            
+            <div class="w-full bg-gray-200 rounded-full h-2.5 mb-8">
+                <div id="progress-bar" class="progress-bar bg-indigo-600 h-2.5 rounded-full" style="width: 0%"></div>
+            </div>
+            
+            <div id="question-container" class="bg-white rounded-xl shadow-lg p-8 mb-6">
+                <h3 id="question-text" class="text-xl font-semibold text-gray-800 mb-6">Loading question...</h3>
+                
+                <div id="options-container" class="space-y-3">
+                    <!-- Options will be inserted here -->
+                </div>
+            </div>
+            
+            <div class="flex justify-between">
+                <button id="prev-btn" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-6 rounded-lg disabled:opacity-50" disabled>
+                    Previous
+                </button>
+                <button id="next-btn" class="btn-primary text-white font-semibold py-2 px-6 rounded-lg">
+                    Next
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="hidden">
+            <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
+                <div class="flex items-center justify-center mb-6">
+                    <div class="relative">
+                        <svg class="w-24 h-24 text-indigo-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="10" fill="currentColor" fill-opacity="0.2"/>
+                            <path d="M8 12L11 15L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <div id="score-display" class="absolute inset-0 flex items-center justify-center font-bold text-2xl text-indigo-700">85%</div>
+                    </div>
+                </div>
+                
+                <h2 class="text-2xl font-bold text-gray-800 text-center mb-2">Assessment Complete!</h2>
+                <p class="text-gray-600 text-center mb-6">Here's how you performed in your public speaking assessment.</p>
+                
+                <div class="space-y-4 mb-8">
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-700">Content Organization</span>
+                            <span id="content-score" class="text-sm font-medium text-indigo-600">80%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div id="content-bar" class="bg-indigo-600 h-2 rounded-full" style="width: 80%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-700">Delivery Techniques</span>
+                            <span id="delivery-score" class="text-sm font-medium text-indigo-600">90%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div id="delivery-bar" class="bg-indigo-600 h-2 rounded-full" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-700">Audience Engagement</span>
+                            <span id="engagement-score" class="text-sm font-medium text-indigo-600">85%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div id="engagement-bar" class="bg-indigo-600 h-2 rounded-full" style="width: 85%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-indigo-50 rounded-lg p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Feedback Summary</h3>
+                    <p id="feedback-text" class="text-gray-700">
+                        You demonstrate strong public speaking skills with excellent delivery techniques. Your content organization is good, but could benefit from more structured transitions. Your audience engagement techniques are effective, particularly your use of questions and examples.
+                    </p>
+                </div>
+                
+                <div class="text-center">
+                    <button id="get-certificate-btn" class="btn-primary text-white font-semibold py-3 px-8 rounded-full">
+                        Get Your Certificate
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Screen -->
+                <div class="text-center mb-6">
+    <h2 class="text-2xl font-semibold mb-2 text-gray-800">Scan to Pay</h2>
+    <p class="text-gray-600 mb-4">Use your UPI or banking app to complete payment</p>
+    
+    <img src="assets/payment-qr.jpg" alt="QR Code for Payment" class="mx-auto w-64 rounded border border-gray-300 shadow-md">
+    
+    <p class="mt-4 text-sm text-gray-500">Once paid, click the button below to continue</p>
+</div>
+
+<button id="confirmPaymentBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-6 rounded-md transition duration-300 mb-4">
+    I Have Paid – Continue
+</button>
+
+<p class="text-center text-xs text-gray-500">We do not store any payment data.</p>
+
+
+        <!-- Certificate Screen -->
+        <div id="certificate-screen" class="hidden">
+            <div class="max-w-4xl mx-auto">
+                <div class="certificate p-10 rounded-xl shadow-lg mb-8 relative">
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl font-bold text-indigo-800 mb-2">Certificate of Achievement</h2>
+                        <p class="text-gray-600">Public Speaking Skills Assessment</p>
+                    </div>
+                    
+                    <div class="text-center mb-8">
+                        <p class="text-lg text-gray-700 mb-2">This certifies that</p>
+                        <h3 id="cert-name" class="text-2xl font-bold text-gray-800 mb-2">John Doe</h3>
+                        <p class="text-lg text-gray-700">has successfully completed the Public Speaking Skills Assessment</p>
+                        <p class="text-lg text-gray-700">with a score of <span id="cert-score" class="font-bold text-indigo-700">85%</span></p>
+                    </div>
+                    
+                    <div class="flex justify-between items-center mb-4">
+                        <div>
+                            <p id="cert-date" class="text-gray-600">June 15, 2023</p>
+                        </div>
+                        <div>
+                            <svg class="w-32 h-12" viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10,20 Q30,5 50,20 T90,20" stroke="#4f46e5" stroke-width="2" fill="none" />
+                                <text x="50" y="25" font-family="cursive" font-size="8" text-anchor="middle" fill="#4f46e5">Director Signature</text>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <div class="seal">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="#4f46e5" stroke-width="2" />
+                            <circle cx="50" cy="50" r="40" fill="none" stroke="#4f46e5" stroke-width="1" />
+                            <path d="M50,10 L53,20 L63,20 L55,27 L58,37 L50,31 L42,37 L45,27 L37,20 L47,20 Z" fill="#4f46e5" />
+                            <text x="50" y="60" font-size="8" text-anchor="middle" fill="#4f46e5">VERIFIED</text>
+                            <text x="50" y="70" font-size="6" text-anchor="middle" fill="#4f46e5">EXCELLENCE</text>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="flex justify-center space-x-4">
+                    <button id="download-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                        </svg>
+                        Download Certificate
+                    </button>
+                    <button id="restart-btn" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 px-6 rounded-lg flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                        </svg>
+                        Take Another Assessment
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Assessment questions
+            const questions = [
+                {
+                    question: "What is the most effective way to start a speech?",
+                    options: [
+                        "With a personal story that relates to your topic",
+                        "By stating your name and credentials",
+                        "By apologizing for any nervousness",
+                        "By reading directly from your notes"
+                    ],
+                    correctAnswer: 0,
+                    category: "content"
+                },
+                {
+                    question: "How should you handle a situation where you forget what you were going to say next?",
+                    options: [
+                        "Apologize repeatedly to the audience",
+                        "Pause, take a breath, and refer to your notes if needed",
+                        "End your speech early",
+                        "Tell the audience you're nervous"
+                    ],
+                    correctAnswer: 1,
+                    category: "delivery"
+                },
+                {
+                    question: "What is the recommended eye contact pattern when speaking to a group?",
+                    options: [
+                        "Focus on one friendly face the entire time",
+                        "Look at the back wall or above the audience",
+                        "Make brief eye contact with different sections of the room",
+                        "Avoid eye contact completely to stay focused"
+                    ],
+                    correctAnswer: 2,
+                    category: "delivery"
+                },
+                {
+                    question: "Which of the following is most important for audience engagement?",
+                    options: [
+                        "Using complex vocabulary to impress listeners",
+                        "Speaking without pauses to maintain momentum",
+                        "Including relevant examples and stories",
+                        "Covering as many points as possible"
+                    ],
+                    correctAnswer: 2,
+                    category: "engagement"
+                },
+                {
+                    question: "What is the best way to handle audience questions?",
+                    options: [
+                        "Answer only the easy questions",
+                        "Repeat the question, then answer clearly and concisely",
+                        "Give lengthy, detailed answers to show expertise",
+                        "Defer all questions until after your presentation"
+                    ],
+                    correctAnswer: 1,
+                    category: "engagement"
+                },
+                {
+                    question: "Which vocal technique helps emphasize important points?",
+                    options: [
+                        "Speaking at the same volume throughout",
+                        "Varying your pace, pitch, and volume",
+                        "Speaking as quickly as possible",
+                        "Using a formal tone for the entire speech"
+                    ],
+                    correctAnswer: 1,
+                    category: "delivery"
+                },
+                {
+                    question: "What is the purpose of a speech conclusion?",
+                    options: [
+                        "To introduce new information",
+                        "To summarize key points and provide a call to action",
+                        "To apologize for any mistakes made",
+                        "To thank the audience for their patience"
+                    ],
+                    correctAnswer: 1,
+                    category: "content"
+                },
+                {
+                    question: "How should you prepare your presentation space before speaking?",
+                    options: [
+                        "Arrive just in time to start speaking",
+                        "Test equipment, check room layout, and practice in the space if possible",
+                        "Rearrange furniture without asking permission",
+                        "Focus only on your notes and ignore the environment"
+                    ],
+                    correctAnswer: 1,
+                    category: "delivery"
+                },
+                {
+                    question: "What is the best approach to using presentation slides?",
+                    options: [
+                        "Include as much information as possible on each slide",
+                        "Use slides with minimal text and relevant visuals",
+                        "Read directly from your slides",
+                        "Use complex animations between every slide"
+                    ],
+                    correctAnswer: 1,
+                    category: "content"
+                },
+                {
+                    question: "How can you best handle nervousness before a speech?",
+                    options: [
+                        "Tell the audience how nervous you are",
+                        "Practice deep breathing and positive visualization",
+                        "Drink alcohol to calm your nerves",
+                        "Memorize your speech word for word"
+                    ],
+                    correctAnswer: 1,
+                    category: "delivery"
+                },
+                {
+                    question: "What is the most effective way to address a diverse audience?",
+                    options: [
+                        "Use technical jargon to sound professional",
+                        "Speak only to the decision-makers in the room",
+                        "Use clear language and varied examples that different people can relate to",
+                        "Focus only on your most important points"
+                    ],
+                    correctAnswer: 2,
+                    category: "engagement"
+                },
+                {
+                    question: "Which body language practice is most effective during a speech?",
+                    options: [
+                        "Standing completely still behind a podium",
+                        "Using purposeful gestures that emphasize your points",
+                        "Pacing back and forth continuously",
+                        "Keeping your hands in your pockets"
+                    ],
+                    correctAnswer: 1,
+                    category: "delivery"
+                },
+                {
+                    question: "What is the best way to structure the main body of your speech?",
+                    options: [
+                        "Cover as many points as possible",
+                        "Focus on 2-4 main points with supporting evidence",
+                        "Speak spontaneously without structure",
+                        "Include only statistics and facts"
+                    ],
+                    correctAnswer: 1,
+                    category: "content"
+                },
+                {
+                    question: "How should you respond if asked a question you don't know the answer to?",
+                    options: [
+                        "Make up an answer to avoid embarrassment",
+                        "Honestly acknowledge you don't know, offer to find out, and redirect if possible",
+                        "Ignore the question and move on",
+                        "Criticize the question as irrelevant"
+                    ],
+                    correctAnswer: 1,
+                    category: "engagement"
+                },
+                {
+                    question: "What is the most important factor in connecting with your audience?",
+                    options: [
+                        "Your credentials and expertise",
+                        "The quality of your visual aids",
+                        "Authenticity and passion for your topic",
+                        "The length of your presentation"
+                    ],
+                    correctAnswer: 2,
+                    category: "engagement"
+                }
+            ];
+
+            // DOM elements
+            const welcomeScreen = document.getElementById('welcome-screen');
+            const userInfoScreen = document.getElementById('user-info-screen');
+            const assessmentScreen = document.getElementById('assessment-screen');
+            const resultsScreen = document.getElementById('results-screen');
+            const paymentScreen = document.getElementById('payment-screen');
+            const certificateScreen = document.getElementById('certificate-screen');
+            
+            const startBtn = document.getElementById('start-btn');
+            const userForm = document.getElementById('user-form');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const getCertificateBtn = document.getElementById('get-certificate-btn');
+            const processPaymentBtn = document.getElementById('process-payment-btn');
+            const downloadBtn = document.getElementById('download-btn');
+            const restartBtn = document.getElementById('restart-btn');
+            
+            const currentQuestionEl = document.getElementById('current-question');
+            const progressBar = document.getElementById('progress-bar');
+            const questionText = document.getElementById('question-text');
+            const optionsContainer = document.getElementById('options-container');
+            const timerEl = document.getElementById('timer');
+
+            // State variables
+            let currentQuestion = 0;
+            let userAnswers = Array(questions.length).fill(null);
+            let timer;
+            let timeLeft = 30;
+            let userData = {
+                name: '',
+                email: ''
+            };
+
+            // Event listeners
+            startBtn.addEventListener('click', showUserInfoScreen);
+            userForm.addEventListener('submit', handleUserFormSubmit);
+            prevBtn.addEventListener('click', showPreviousQuestion);
+            nextBtn.addEventListener('click', handleNextQuestion);
+            getCertificateBtn.addEventListener('click', showPaymentScreen);
+            processPaymentBtn.addEventListener('click', showCertificate);
+            downloadBtn.addEventListener('click', downloadCertificate);
+            restartBtn.addEventListener('click', restartAssessment);
+
+            // Functions
+            function showUserInfoScreen(e) {
+                e.preventDefault();
+                welcomeScreen.classList.add('hidden');
+                userInfoScreen.classList.remove('hidden');
+            }
+
+            function handleUserFormSubmit(e) {
+                e.preventDefault();
+                userData.name = document.getElementById('fullName').value;
+                userData.email = document.getElementById('email').value;
+                
+                userInfoScreen.classList.add('hidden');
+                assessmentScreen.classList.remove('hidden');
+                
+                loadQuestion(currentQuestion);
+                startTimer();
+            }
+
+            function loadQuestion(index) {
+                const question = questions[index];
+                questionText.textContent = question.question;
+                
+                // Update progress indicators
+                currentQuestionEl.textContent = index + 1;
+                progressBar.style.width = `${((index + 1) / questions.length) * 100}%`;
+                
+                // Clear previous options
+                optionsContainer.innerHTML = '';
+                
+                // Add new options
+                question.options.forEach((option, i) => {
+                    const isSelected = userAnswers[index] === i;
+                    
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = `option p-4 border rounded-lg cursor-pointer transition-colors ${
+                        isSelected ? 'bg-indigo-100 border-indigo-500' : 'hover:bg-gray-50'
+                    }`;
+                    optionDiv.dataset.index = i;
+                    
+                    optionDiv.innerHTML = `
+                        <div class="flex items-center">
+                            <div class="w-6 h-6 rounded-full border ${
+                                isSelected ? 'border-indigo-500 bg-indigo-500' : 'border-gray-300'
+                            } flex items-center justify-center mr-3">
+                                ${isSelected ? '<div class="w-2 h-2 rounded-full bg-white"></div>' : ''}
+                            </div>
+                            <span>${option}</span>
+                        </div>
+                    `;
+                    
+                    optionDiv.addEventListener('click', () => selectOption(i));
+                    optionsContainer.appendChild(optionDiv);
+                });
+                
+                // Update button states
+                prevBtn.disabled = index === 0;
+                nextBtn.textContent = index === questions.length - 1 ? 'Finish' : 'Next';
+                
+                // Reset timer
+                clearInterval(timer);
+                timeLeft = 30;
+                timerEl.textContent = formatTime(timeLeft);
+                startTimer();
+            }
+
+            function selectOption(optionIndex) {
+                userAnswers[currentQuestion] = optionIndex;
+                
+                // Update UI to show selected option
+                const options = optionsContainer.querySelectorAll('.option');
+                options.forEach((option, i) => {
+                    const circle = option.querySelector('div > div');
+                    if (i === optionIndex) {
+                        option.classList.add('bg-indigo-100', 'border-indigo-500');
+                        option.classList.remove('hover:bg-gray-50');
+                        circle.classList.add('border-indigo-500', 'bg-indigo-500');
+                        circle.innerHTML = '<div class="w-2 h-2 rounded-full bg-white"></div>';
+                    } else {
+                        option.classList.remove('bg-indigo-100', 'border-indigo-500');
+                        option.classList.add('hover:bg-gray-50');
+                        circle.classList.remove('border-indigo-500', 'bg-indigo-500');
+                        circle.classList.add('border-gray-300');
+                        circle.innerHTML = '';
+                    }
+                });
+            }
+
+            function showPreviousQuestion() {
+                if (currentQuestion > 0) {
+                    currentQuestion--;
+                    loadQuestion(currentQuestion);
+                }
+            }
+
+            function handleNextQuestion() {
+                // If no option selected, prompt user
+                if (userAnswers[currentQuestion] === null) {
+                    alert('Please select an answer before proceeding.');
+                    return;
+                }
+                
+                if (currentQuestion < questions.length - 1) {
+                    currentQuestion++;
+                    loadQuestion(currentQuestion);
+                } else {
+                    showResults();
+                }
+            }
+
+            function startTimer() {
+                timer = setInterval(() => {
+                    timeLeft--;
+                    timerEl.textContent = formatTime(timeLeft);
+                    
+                    if (timeLeft <= 10) {
+                        timerEl.classList.add('text-red-600');
+                    } else {
+                        timerEl.classList.remove('text-red-600');
+                    }
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(timer);
+                        // Auto-advance if time runs out
+                        if (userAnswers[currentQuestion] === null) {
+                            // If no answer selected, choose one randomly
+                            selectOption(Math.floor(Math.random() * 4));
+                        }
+                        
+                        if (currentQuestion < questions.length - 1) {
+                            currentQuestion++;
+                            loadQuestion(currentQuestion);
+                        } else {
+                            showResults();
+                        }
+                    }
+                }, 1000);
+            }
+
+            function formatTime(seconds) {
+                return `00:${seconds < 10 ? '0' : ''}${seconds}`;
+            }
+
+            function calculateScores() {
+                let totalCorrect = 0;
+                let categoryScores = {
+                    content: { correct: 0, total: 0 },
+                    delivery: { correct: 0, total: 0 },
+                    engagement: { correct: 0, total: 0 }
+                };
+                
+                questions.forEach((question, index) => {
+                    const category = question.category;
+                    categoryScores[category].total++;
+                    
+                    if (userAnswers[index] === question.correctAnswer) {
+                        totalCorrect++;
+                        categoryScores[category].correct++;
+                    }
+                });
+                
+                const overallScore = Math.round((totalCorrect / questions.length) * 100);
+                const contentScore = Math.round((categoryScores.content.correct / categoryScores.content.total) * 100);
+                const deliveryScore = Math.round((categoryScores.delivery.correct / categoryScores.delivery.total) * 100);
+                const engagementScore = Math.round((categoryScores.engagement.correct / categoryScores.engagement.total) * 100);
+                
+                return {
+                    overall: overallScore,
+                    content: contentScore,
+                    delivery: deliveryScore,
+                    engagement: engagementScore
+                };
+            }
+
+            function generateFeedback(scores) {
+                let feedback = '';
+                
+                if (scores.overall >= 90) {
+                    feedback = 'Excellent! You demonstrate exceptional public speaking skills across all areas. Your content organization is structured and clear, your delivery techniques are polished, and your audience engagement strategies are highly effective.';
+                } else if (scores.overall >= 75) {
+                    feedback = 'Very good! You show strong public speaking abilities with particular strengths in ';
+                    
+                    // Identify strongest area
+                    const strongest = Object.entries(scores)
+                        .filter(([key]) => key !== 'overall')
+                        .sort((a, b) => b[1] - a[1])[0];
+                    
+                    // Identify weakest area
+                    const weakest = Object.entries(scores)
+                        .filter(([key]) => key !== 'overall')
+                        .sort((a, b) => a[1] - b[1])[0];
+                    
+                    const strengthArea = strongest[0] === 'content' ? 'content organization' : 
+                                        strongest[0] === 'delivery' ? 'delivery techniques' : 
+                                        'audience engagement';
+                    
+                    const weakArea = weakest[0] === 'content' ? 'content organization' : 
+                                    weakest[0] === 'delivery' ? 'delivery techniques' : 
+                                    'audience engagement';
+                    
+                    feedback += `${strengthArea}. Consider focusing on improving your ${weakArea} for even better results.`;
+                } else if (scores.overall >= 60) {
+                    feedback = 'Good effort! You have a solid foundation in public speaking. To improve, focus on ';
+                    
+                    // Find the lowest scoring area
+                    const lowestArea = Object.entries(scores)
+                        .filter(([key]) => key !== 'overall')
+                        .sort((a, b) => a[1] - b[1])[0];
+                    
+                    const areaName = lowestArea[0] === 'content' ? 'structuring your content more clearly' : 
+                                    lowestArea[0] === 'delivery' ? 'refining your delivery techniques' : 
+                                    'developing stronger audience engagement strategies';
+                    
+                    feedback += `${areaName}. Practice will help you become more confident and effective.`;
+                } else {
+                    feedback = 'You\'re on your way to developing your public speaking skills. Regular practice and focused attention on all three key areas - content organization, delivery techniques, and audience engagement - will help you improve significantly.';
+                }
+                
+                return feedback;
+            }
+
+            function showResults() {
+                clearInterval(timer);
+                assessmentScreen.classList.add('hidden');
+                resultsScreen.classList.remove('hidden');
+                
+                const scores = calculateScores();
+                
+                // Update score displays
+                document.getElementById('score-display').textContent = `${scores.overall}%`;
+                document.getElementById('content-score').textContent = `${scores.content}%`;
+                document.getElementById('content-bar').style.width = `${scores.content}%`;
+                document.getElementById('delivery-score').textContent = `${scores.delivery}%`;
+                document.getElementById('delivery-bar').style.width = `${scores.delivery}%`;
+                document.getElementById('engagement-score').textContent = `${scores.engagement}%`;
+                document.getElementById('engagement-bar').style.width = `${scores.engagement}%`;
+                
+                // Generate and display feedback
+                const feedback = generateFeedback(scores);
+                document.getElementById('feedback-text').textContent = feedback;
+            }
+
+            function showPaymentScreen() {
+                resultsScreen.classList.add('hidden');
+                paymentScreen.classList.remove('hidden');
+            }
+
+            function showCertificate() {
+                paymentScreen.classList.add('hidden');
+                certificateScreen.classList.remove('hidden');
+                
+                // Update certificate with user data
+                document.getElementById('cert-name').textContent = userData.name;
+                
+                const scores = calculateScores();
+                document.getElementById('cert-score').textContent = `${scores.overall}%`;
+                
+                // Set current date
+                const today = new Date();
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                document.getElementById('cert-date').textContent = today.toLocaleDateString('en-US', options);
+                
+                // Create confetti effect
+                createConfetti();
+            }
+
+            function createConfetti() {
+                const colors = ['#4f46e5', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
+                const confettiCount = 100;
+                
+                for (let i = 0; i < confettiCount; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = `${Math.random() * 100}vw`;
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.opacity = '1';
+                    confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    
+                    document.body.appendChild(confetti);
+                    
+                    // Animate confetti
+                    const duration = Math.random() * 3 + 2; // 2-5 seconds
+                    confetti.animate([
+                        { transform: `translate(0, 0) rotate(0deg)`, opacity: 1 },
+                        { transform: `translate(${Math.random() * 100 - 50}px, ${window.innerHeight}px) rotate(${Math.random() * 720}deg)`, opacity: 0 }
+                    ], {
+                        duration: duration * 1000,
+                        easing: 'cubic-bezier(0.1, 0.8, 0.3, 1)'
+                    });
+                    
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, duration * 1000);
+                }
+            }
+
+            function downloadCertificate() {
+                alert('In a real application, this would generate and download a PDF certificate. This is a demo version.');
+            }
+
+            function restartAssessment() {
+                // Reset state
+                currentQuestion = 0;
+                userAnswers = Array(questions.length).fill(null);
+                
+                // Show welcome screen
+                certificateScreen.classList.add('hidden');
+                welcomeScreen.classList.remove('hidden');
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'965359d7046d7e75',t:'MTc1MzUyNzE4Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

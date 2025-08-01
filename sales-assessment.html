@@ -3,1405 +3,1189 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales Skills Assessment</title>
+    <title>Sales Skills Assessment | Skillexa</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            overflow-x: hidden;
         }
-        .quiz-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
+        .handwriting {
+            font-family: 'Dancing Script', cursive;
         }
-        .progress-bar {
-            height: 8px;
-            background: #e9ecef;
-            border-radius: 4px;
-            overflow: hidden;
+        .berry-smoothie-gradient {
+            background: linear-gradient(135deg, #8A2387 0%, #E94057 50%, #F27121 100%);
         }
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #0ea5e9, #38bdf8);
-            transition: width 0.3s ease;
+        .peach-melba-gradient {
+            background: linear-gradient(135deg, #ED4264 0%, #FFEDBC 100%);
         }
-        .btn {
+        .category-card {
             transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
         }
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2);
+        .category-card:hover {
+            transform: translateY(-5px);
         }
-        .option-btn {
-            transition: all 0.2s ease;
-            border: 2px solid #e5e7eb;
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
         }
-        .option-btn:hover {
-            border-color: #0ea5e9;
-            background-color: #f0f9ff;
+        .slide-in {
+            animation: slideIn 0.8s ease-out;
         }
-        .option-btn.selected {
-            border-color: #0ea5e9;
-            background-color: #e0f2fe;
+        .scale-in {
+            animation: scaleIn 0.5s ease-out;
         }
-        .option-btn.correct {
-            border-color: #10b981;
-            background-color: #d1fae5;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
-        .option-btn.incorrect {
-            border-color: #ef4444;
-            background-color: #fee2e2;
+        @keyframes slideIn {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
-        .certificate {
-            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-            border: 2px solid #0ea5e9;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        @keyframes scaleIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .certificate-border {
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            padding: 10px;
+        }
+        .certificate-inner-border {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            padding: 5px;
+        }
+        .certificate-content {
+            background: white;
             position: relative;
             overflow: hidden;
         }
-        .certificate::before {
-            content: '';
+        .watermark {
             position: absolute;
-            top: -50px;
-            left: -50px;
-            width: 200px;
-            height: 200px;
-            background: linear-gradient(135deg, rgba(14, 165, 233, 0.1) 0%, rgba(56, 189, 248, 0.1) 100%);
-            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-30deg);
+            font-size: 100px;
+            color: rgba(0,0,0,0.05);
+            font-weight: bold;
+            white-space: nowrap;
+            z-index: 0;
         }
-        .certificate::after {
-            content: '';
-            position: absolute;
-            bottom: -50px;
-            right: -50px;
-            width: 200px;
-            height: 200px;
-            background: linear-gradient(135deg, rgba(14, 165, 233, 0.1) 0%, rgba(56, 189, 248, 0.1) 100%);
-            border-radius: 50%;
+        .timer-bar {
+            transition: width 1s linear;
         }
-        .badge {
-            animation: pulse 2s infinite;
+        .progress-bar {
+            transition: width 0.5s ease;
         }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        .quiz-option:hover {
+            background-color: rgba(255, 255, 255, 0.1);
         }
-        .confetti {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #0ea5e9;
-            opacity: 0;
+        .quiz-option.selected {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-color: #ffffff;
         }
-        @keyframes fall {
-            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(1000px) rotate(360deg); opacity: 0; }
+        .glow-text {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
         }
-        .timer-warning {
-            animation: blink 1s infinite;
-        }
-        @keyframes blink {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-        .floating {
-            animation: floating 3s ease-in-out infinite;
-        }
-        @keyframes floating {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-        .scale-in {
-            animation: scaleIn 0.5s ease-out forwards;
-            transform-origin: center;
-        }
-        @keyframes scaleIn {
-            0% { transform: scale(0.8); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        .slide-in {
-            animation: slideIn 0.5s ease-out forwards;
-        }
-        @keyframes slideIn {
-            0% { transform: translateX(-20px); opacity: 0; }
-            100% { transform: translateX(0); opacity: 1; }
-        }
-        .fade-in {
-            animation: fadeIn 0.5s ease-out forwards;
-        }
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-        .rotate-in {
-            animation: rotateIn 0.5s ease-out forwards;
-        }
-        @keyframes rotateIn {
-            0% { transform: rotate(-10deg) scale(0.9); opacity: 0; }
-            100% { transform: rotate(0deg) scale(1); opacity: 1; }
-        }
-        .category-icon {
-            transition: all 0.3s ease;
-        }
-        .category-card:hover .category-icon {
-            transform: translateY(-5px);
-        }
-        .skill-bar {
-            height: 8px;
-            background: #e9ecef;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        .skill-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #0ea5e9, #38bdf8);
-            transition: width 1s ease;
-        }
-        .border-pattern {
-            background-image: repeating-linear-gradient(45deg, #0ea5e9 0, #0ea5e9 1px, transparent 0, transparent 50%);
-            background-size: 10px 10px;
-        }
-        .sales-icon {
-            filter: drop-shadow(0 4px 3px rgba(0, 0, 0, 0.07));
+        .berry-text {
+            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #8A2387, 0 0 20px #8A2387;
         }
     </style>
 </head>
-<body class="min-h-screen py-8 px-4">
-    <div id="app">
-        <!-- Welcome Screen -->
-        <div id="welcome-screen" class="quiz-container p-8">
-            <div class="text-center mb-8">
-                <div class="inline-block p-4 bg-sky-100 rounded-full mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-sky-600 sales-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                </div>
-                <h1 class="text-3xl font-bold text-gray-800 mb-2">Sales Skills Assessment</h1>
-                <p class="text-gray-600 mb-6">Test your sales abilities with 25 questions and earn a professional certificate</p>
-                
-                <div class="flex flex-wrap justify-center gap-6 mb-8">
-                    <div class="flex items-center">
-                        <div class="bg-sky-100 p-2 rounded-full mr-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </div>
-                        <span class="text-gray-700">25 minutes</span>
+<body>
+    <!-- Main Container -->
+    <div id="app" class="min-h-screen w-full">
+        <!-- Login Screen -->
+        <div id="login-screen" class="min-h-screen berry-smoothie-gradient flex flex-col items-center justify-center px-4 py-12">
+            <div class="w-full max-w-md bg-white bg-opacity-10 backdrop-blur-sm rounded-xl shadow-lg p-8 fade-in">
+                <h1 class="text-3xl font-bold text-center mb-8 text-white berry-text">Sales Skills Assessment</h1>
+                <form id="login-form" class="space-y-6">
+                    <div>
+                        <label for="fullName" class="block text-sm font-medium text-white mb-1">Full Name</label>
+                        <input type="text" id="fullName" required class="w-full px-4 py-2 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-400 text-white placeholder-white placeholder-opacity-70">
                     </div>
-                    <div class="flex items-center">
-                        <div class="bg-sky-100 p-2 rounded-full mr-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </div>
-                        <span class="text-gray-700">25 questions</span>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-white mb-1">Email Address</label>
+                        <input type="email" id="email" required class="w-full px-4 py-2 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-400 text-white placeholder-white placeholder-opacity-70">
                     </div>
-                    <div class="flex items-center">
-                        <div class="bg-sky-100 p-2 rounded-full mr-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                        </div>
-                        <span class="text-gray-700">Certificate on completion</span>
-                    </div>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
-                    <div class="category-card bg-white p-5 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
-                        <div class="category-icon bg-sky-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <button type="submit" class="w-full bg-gradient-to-r from-pink-500 to-orange-400 text-white py-2 rounded-md font-medium hover:opacity-90 transition-opacity">Start Assessment</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Category Preview Screen -->
+        <div id="category-preview" class="hidden min-h-screen berry-smoothie-gradient flex flex-col items-center justify-center px-4 py-12">
+            <div class="w-full max-w-4xl text-center mb-10 fade-in">
+                <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 berry-text">Sales Skills Assessment</h1>
+                <p class="text-xl text-white text-opacity-90">Explore the key areas we'll be evaluating</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl mb-10">
+                <!-- Category 1: Prospecting -->
+                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.1s">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gradient-to-br from-blue-400 to-indigo-300 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                             </svg>
                         </div>
-                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Prospecting</h3>
-                        <p class="text-gray-600 text-sm text-center">Finding new leads</p>
+                        <h3 class="text-xl font-bold">Prospecting</h3>
                     </div>
-                    <div class="category-card bg-white p-5 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
-                        <div class="category-icon bg-sky-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <p class="text-white text-opacity-90">Ability to identify and qualify potential customers through research, networking, and strategic outreach.</p>
+                </div>
+                
+                <!-- Category 2: Needs Analysis -->
+                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.2s">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gradient-to-br from-pink-400 to-rose-300 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-rose-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold">Needs Analysis</h3>
+                    </div>
+                    <p class="text-white text-opacity-90">Skill in uncovering customer pain points, challenges, and requirements through effective questioning techniques.</p>
+                </div>
+                
+                <!-- Category 3: Presentation Skills -->
+                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.3s">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gradient-to-br from-yellow-400 to-amber-300 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-amber-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold">Presentation Skills</h3>
+                    </div>
+                    <p class="text-white text-opacity-90">Ability to clearly communicate value propositions and tailor presentations to specific customer needs.</p>
+                </div>
+                
+                <!-- Category 4: Objection Handling -->
+                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.4s">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gradient-to-br from-green-400 to-emerald-300 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-emerald-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold">Objection Handling</h3>
+                    </div>
+                    <p class="text-white text-opacity-90">Skill in addressing customer concerns, overcoming resistance, and turning objections into opportunities.</p>
+                </div>
+                
+                <!-- Category 5: Closing Techniques -->
+                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.5s">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gradient-to-br from-blue-400 to-cyan-300 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-cyan-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         </div>
-                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Closing</h3>
-                        <p class="text-gray-600 text-sm text-center">Sealing the deal</p>
+                        <h3 class="text-xl font-bold">Closing Techniques</h3>
                     </div>
-                    <div class="category-card bg-white p-5 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
-                        <div class="category-icon bg-sky-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-                            </svg>
-                        </div>
-                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Negotiation</h3>
-                        <p class="text-gray-600 text-sm text-center">Win-win outcomes</p>
-                    </div>
-                    <div class="category-card bg-white p-5 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
-                        <div class="category-icon bg-sky-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
-                            </svg>
-                        </div>
-                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Communication</h3>
-                        <p class="text-gray-600 text-sm text-center">Effective dialogue</p>
-                    </div>
-                    <div class="category-card bg-white p-5 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
-                        <div class="category-icon bg-sky-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                            </svg>
-                        </div>
-                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Follow-up</h3>
-                        <p class="text-gray-600 text-sm text-center">Relationship building</p>
-                    </div>
+                    <p class="text-white text-opacity-90">Ability to recognize buying signals and effectively guide prospects to make purchasing decisions.</p>
                 </div>
                 
-                <div class="bg-gradient-to-r from-sky-50 to-blue-50 p-6 rounded-lg mb-8 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-32 h-32 -mt-10 -mr-10 bg-sky-100 rounded-full opacity-50"></div>
-                    <div class="absolute bottom-0 left-0 w-24 h-24 -mb-8 -ml-8 bg-blue-100 rounded-full opacity-50"></div>
-                    <h3 class="font-semibold text-sky-800 mb-3 relative z-10">Why Take This Assessment?</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 relative z-10">
-                        <div class="flex items-start">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span class="text-gray-700 text-sm">Identify your sales strengths</span>
-                        </div>
-                        <div class="flex items-start">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span class="text-gray-700 text-sm">Discover areas for improvement</span>
-                        </div>
-                        <div class="flex items-start">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span class="text-gray-700 text-sm">Earn a professional certificate</span>
-                        </div>
-                        <div class="flex items-start">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span class="text-gray-700 text-sm">Enhance your sales career profile</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 mb-8">
+                <!-- Category 6: Relationship Building -->
+                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.6s">
                     <div class="flex items-center mb-4">
-                        <div class="bg-amber-100 p-2 rounded-full mr-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        <div class="bg-gradient-to-br from-red-400 to-orange-300 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-orange-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                             </svg>
                         </div>
-                        <h3 class="font-semibold text-gray-800">How It Works</h3>
+                        <h3 class="text-xl font-bold">Relationship Building</h3>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="flex flex-col items-center text-center">
-                            <div class="bg-sky-100 w-10 h-10 rounded-full flex items-center justify-center mb-3">
-                                <span class="font-bold text-sky-600">1</span>
-                            </div>
-                            <h4 class="font-medium text-gray-800 mb-1">Complete Assessment</h4>
-                            <p class="text-gray-600 text-sm">Answer 25 questions about sales skills</p>
-                        </div>
-                        <div class="flex flex-col items-center text-center">
-                            <div class="bg-sky-100 w-10 h-10 rounded-full flex items-center justify-center mb-3">
-                                <span class="font-bold text-sky-600">2</span>
-                            </div>
-                            <h4 class="font-medium text-gray-800 mb-1">Get Results</h4>
-                            <p class="text-gray-600 text-sm">Receive detailed feedback on your sales abilities</p>
-                        </div>
-                        <div class="flex flex-col items-center text-center">
-                            <div class="bg-sky-100 w-10 h-10 rounded-full flex items-center justify-center mb-3">
-                                <span class="font-bold text-sky-600">3</span>
-                            </div>
-                            <h4 class="font-medium text-gray-800 mb-1">Earn Certificate</h4>
-                            <p class="text-gray-600 text-sm">Get your professional certificate to showcase your skills</p>
-                        </div>
-                    </div>
+                    <p class="text-white text-opacity-90">Capacity to establish trust, rapport, and long-term relationships with customers for repeat business and referrals.</p>
                 </div>
             </div>
             
-            <div class="flex justify-center">
-                <button id="start-btn" class="btn bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-700 hover:to-blue-700 text-white font-medium py-3 px-8 rounded-lg flex items-center">
-                    Start Assessment
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
+            <div class="w-full max-w-md text-center fade-in">
+                <button id="start-quiz-btn" class="px-8 py-3 bg-gradient-to-r from-pink-500 to-orange-400 text-white rounded-full font-medium text-lg hover:bg-opacity-90 transition-opacity shadow-lg">
+                    Start 20-Question Assessment
                 </button>
+                <p class="text-white text-opacity-90 mt-4">You'll have 15 minutes to complete all questions</p>
             </div>
         </div>
 
         <!-- Quiz Screen -->
-        <div id="quiz-screen" class="quiz-container hidden">
-            <div class="p-6 bg-gradient-to-r from-sky-50 to-blue-50 border-b border-sky-100">
-                <div class="flex justify-between items-center mb-4">
-                    <div>
-                        <h2 class="text-xl font-semibold text-gray-800">Sales Skills Assessment</h2>
-                        <p class="text-gray-600 text-sm">Question <span id="current-question">1</span> of 25</p>
-                    </div>
-                    <div class="bg-white px-4 py-2 rounded-lg shadow-sm flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div id="quiz-screen" class="hidden min-h-screen peach-melba-gradient flex flex-col">
+            <!-- Quiz Header -->
+            <div class="p-4 md:p-6 flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h2 class="text-2xl font-bold text-white">Sales Skills Assessment</h2>
+                    <p class="text-white text-opacity-80">Answer each question to the best of your ability</p>
+                </div>
+                <div class="flex flex-col items-end">
+                    <div class="flex items-center mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <span id="timer" class="font-medium">25:00</span>
+                        <span id="timer" class="text-white font-medium">10:00</span>
                     </div>
-                </div>
-                <div class="progress-bar">
-                    <div id="progress-fill" class="progress-fill" style="width: 4%"></div>
+                    <div class="w-full bg-white bg-opacity-30 rounded-full h-2">
+                        <div id="timer-bar" class="timer-bar bg-gradient-to-r from-pink-500 to-orange-400 h-2 rounded-full" style="width: 100%"></div>
+                    </div>
                 </div>
             </div>
             
-            <div class="p-8">
-                <h3 id="question-text" class="text-xl font-medium text-gray-800 mb-6">Loading question...</h3>
-                
-                <div id="options-container" class="space-y-4 mb-8">
-                    <!-- Options will be inserted here -->
+            <!-- Quiz Progress -->
+            <div class="px-4 md:px-6 py-2">
+                <div class="flex justify-between items-center mb-1">
+                    <span class="text-sm text-white text-opacity-80">Question <span id="current-question">1</span> of 20</span>
+                    <span class="text-sm text-white text-opacity-80"><span id="progress-percent">5</span>% Complete</span>
                 </div>
-                
-                <div class="flex justify-between">
-                    <button id="prev-btn" class="btn bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-2 px-6 rounded-lg flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                <div class="w-full bg-white bg-opacity-30 rounded-full h-2">
+                    <div id="progress-bar" class="progress-bar bg-gradient-to-r from-pink-500 to-orange-400 h-2 rounded-full" style="width: 5%"></div>
+                </div>
+            </div>
+            
+            <!-- Quiz Content -->
+            <div class="flex-grow flex items-center justify-center p-4 md:p-6">
+                <div id="question-container" class="w-full max-w-3xl bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 md:p-8 shadow-lg scale-in">
+                    <div id="question-icon" class="mx-auto mb-6 bg-gradient-to-br from-pink-500 to-orange-400 w-16 h-16 rounded-full flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
-                        Previous
-                    </button>
-                    <div class="flex space-x-2">
-                        <button id="skip-btn" class="btn bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-4 rounded-lg">
-                            Skip
-                        </button>
-                        <button id="next-btn" class="btn bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-700 hover:to-blue-700 text-white font-medium py-2 px-6 rounded-lg flex items-center">
-                            Next
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                            </svg>
-                        </button>
+                    </div>
+                    <h3 id="question-text" class="text-xl md:text-2xl font-medium text-white text-center mb-8">What is sales prospecting?</h3>
+                    
+                    <div id="options-container" class="space-y-4">
+                        <!-- Options will be dynamically generated -->
                     </div>
                 </div>
             </div>
             
-            <div class="p-4 bg-gray-50 border-t border-gray-100">
-                <div class="flex flex-wrap gap-2 justify-center" id="question-nav">
-                    <!-- Question navigation buttons will be inserted here -->
-                </div>
+            <!-- Quiz Navigation -->
+            <div class="p-4 md:p-6 flex justify-between">
+                <button id="prev-btn" class="px-6 py-2 bg-white bg-opacity-10 text-white rounded-lg font-medium hover:bg-opacity-20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Previous</button>
+                <button id="next-btn" class="px-6 py-2 bg-gradient-to-r from-pink-500 to-orange-400 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">Next</button>
             </div>
         </div>
 
         <!-- Results Screen -->
-        <div id="results-screen" class="quiz-container hidden">
-            <div class="p-8 text-center">
-                <div id="score-badge" class="badge w-32 h-32 rounded-full bg-gradient-to-r from-sky-100 to-blue-100 flex items-center justify-center mx-auto mb-6">
-                    <div class="text-center">
-                        <span id="score-percentage" class="block text-3xl font-bold text-sky-600">85%</span>
-                        <span class="text-sm text-sky-800">Score</span>
+        <div id="results-screen" class="hidden min-h-screen berry-smoothie-gradient flex flex-col">
+            <div class="p-4 md:p-6">
+                <h2 class="text-2xl md:text-3xl font-bold text-white text-center berry-text">Your Assessment Results</h2>
+                <p class="text-white text-opacity-80 text-center mb-8">Here's how you performed in the Sales Skills Assessment</p>
+                
+                <div class="w-full max-w-4xl mx-auto bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 md:p-8 shadow-lg mb-8">
+                    <div class="flex flex-col md:flex-row items-center justify-between mb-8">
+                        <div class="mb-6 md:mb-0">
+                            <h3 class="text-xl text-white mb-2">Total Score</h3>
+                            <div class="text-5xl font-bold text-white glow-text"><span id="total-score">0</span>/<span id="max-score">100</span></div>
+                        </div>
+                        <div class="w-full md:w-auto">
+                            <div id="score-gauge" class="w-40 h-40 mx-auto relative">
+                                <svg class="w-full h-full" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="45" fill="none" stroke="#ffffff33" stroke-width="10" />
+                                    <circle id="score-circle" cx="50" cy="50" r="45" fill="none" stroke-width="10" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="283" transform="rotate(-90 50 50)" />
+                                </svg>
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <span id="score-percentage" class="text-2xl font-bold text-white glow-text">0%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-xl text-white mb-4">Performance by Category</h3>
+                    <div id="category-results" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <!-- Category results will be dynamically generated -->
                     </div>
                 </div>
                 
-                <h2 class="text-2xl font-bold text-gray-800 mb-2">Assessment Complete!</h2>
-                <p id="result-message" class="text-gray-600 mb-6">Great job! You've completed the assessment.</p>
-                
-                <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
-                    <h3 class="font-semibold text-gray-800 mb-4">Performance Summary</h3>
-                    <div class="grid grid-cols-2 gap-4 mb-6">
-                        <div class="bg-gradient-to-r from-sky-50 to-blue-50 p-4 rounded-lg">
-                            <div class="text-2xl font-bold text-sky-600 mb-1"><span id="correct-answers">21</span>/25</div>
-                            <div class="text-sm text-gray-600">Correct Answers</div>
-                        </div>
-                        <div class="bg-gradient-to-r from-sky-50 to-blue-50 p-4 rounded-lg">
-                            <div class="text-2xl font-bold text-sky-600 mb-1"><span id="time-taken">15:45</span></div>
-                            <div class="text-sm text-gray-600">Time Taken</div>
-                        </div>
-                    </div>
+                <div class="w-full max-w-md mx-auto bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 shadow-lg text-center">
+                    <h3 class="text-xl text-white mb-4 glow-text">Get Your Certificate</h3>
+                    <p class="text-white text-opacity-80 mb-6">Complete the payment to receive your official Skillexa certification</p>
                     
                     <div class="mb-6">
-                        <div class="flex items-center mb-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        <div id="qr-code" class="w-48 h-48 mx-auto bg-white p-4 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="w-full h-full">
+                                <!-- Simple QR code SVG representation -->
+                                <rect x="10" y="10" width="80" height="80" fill="none" stroke="black" stroke-width="1" />
+                                <g fill="black">
+                                    <!-- QR code pattern - simplified representation -->
+                                    <rect x="20" y="20" width="20" height="20" />
+                                    <rect x="60" y="20" width="20" height="20" />
+                                    <rect x="20" y="60" width="20" height="20" />
+                                    <rect x="40" y="40" width="20" height="20" />
+                                    <rect x="65" y="65" width="10" height="10" />
+                                    <rect x="25" y="45" width="10" height="10" />
+                                    <rect x="45" y="25" width="10" height="10" />
+                                    <rect x="65" y="45" width="10" height="10" />
+                                    <rect x="45" y="65" width="10" height="10" />
+                                </g>
                             </svg>
-                            <h4 class="font-medium text-gray-700">Your Sales Strengths</h4>
                         </div>
-                        <div id="strengths" class="text-sm text-gray-600 bg-gray-50 p-4 rounded-lg">
-                            <!-- Strengths will be inserted here -->
-                        </div>
+                        <p class="text-white text-opacity-80 mt-2">Scan to pay via UPI</p>
                     </div>
                     
-                    <div class="mb-6">
-                        <div class="flex items-center mb-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                            </svg>
-                            <h4 class="font-medium text-gray-700">Areas for Growth</h4>
-                        </div>
-                        <div id="improvements" class="text-sm text-gray-600 bg-gray-50 p-4 rounded-lg">
-                            <!-- Areas for improvement will be inserted here -->
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <h4 class="font-medium text-gray-700 mb-3">Skill Breakdown</h4>
-                        <div class="space-y-4">
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-sm text-gray-600">Prospecting</span>
-                                    <span id="prospecting-score" class="text-sm font-medium text-sky-600">85%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div id="prospecting-bar" class="skill-fill" style="width: 85%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-sm text-gray-600">Closing Techniques</span>
-                                    <span id="closing-score" class="text-sm font-medium text-sky-600">70%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div id="closing-bar" class="skill-fill" style="width: 70%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-sm text-gray-600">Negotiation Skills</span>
-                                    <span id="negotiation-score" class="text-sm font-medium text-sky-600">90%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div id="negotiation-bar" class="skill-fill" style="width: 90%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-sm text-gray-600">Communication</span>
-                                    <span id="communication-score" class="text-sm font-medium text-sky-600">75%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div id="communication-bar" class="skill-fill" style="width: 75%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-sm text-gray-600">Follow-up & Relationship Building</span>
-                                    <span id="followup-score" class="text-sm font-medium text-sky-600">80%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div id="followup-bar" class="skill-fill" style="width: 80%"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-gradient-to-r from-sky-50 to-blue-50 p-6 rounded-lg mb-8 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-32 h-32 -mt-10 -mr-10 bg-sky-100 rounded-full opacity-30"></div>
-                    <div class="relative z-10">
-                        <h3 class="font-semibold text-gray-800 mb-3">Next Steps</h3>
-                        <p class="text-gray-600 text-sm mb-4">Get your professional certificate to showcase your sales skills!</p>
-                        <ul class="text-sm text-gray-600 space-y-2">
-                            <li class="flex items-start">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                                </svg>
-                                <span>Verifiable digital certificate</span>
-                            </li>
-                            <li class="flex items-start">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                </svg>
-                                <span>Add to your LinkedIn profile</span>
-                            </li>
-                            <li class="flex items-start">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                </svg>
-                                <span>Download as PDF</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="flex justify-center">
-                    <button id="payment-btn" class="btn bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-700 hover:to-blue-700 text-white font-medium py-3 px-8 rounded-lg flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-                        </svg>
-                        Get Your Certificate ($24.99)
+                    <!-- Simulated payment button for demo purposes -->
+                    <button id="simulate-payment-btn" class="w-full px-6 py-3 bg-gradient-to-r from-pink-500 to-orange-400 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">
+                        Simulate Payment (Demo)
                     </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Payment Modal -->
-        <div id="payment-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-            <div class="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full mx-4 scale-in">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-xl font-bold text-gray-800">Payment Details</h3>
-                    <button id="close-payment" class="text-gray-400 hover:text-gray-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
-                
-                <div class="mb-6">
-                    <div class="flex justify-between items-center p-4 bg-gradient-to-r from-sky-50 to-blue-50 rounded-lg mb-4">
-                        <div class="flex items-center">
-                            <div class="bg-sky-100 p-2 rounded-full mr-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-gray-800">Sales Skills Certificate</h4>
-                                <p class="text-sm text-gray-600">Verifiable digital certificate</p>
-                            </div>
-                        </div>
-                        <span class="font-bold text-sky-600">$24.99</span>
-                    </div>
-                    
-                    <!-- This is a demo payment form -->
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Card Number</label>
-                            <input type="text" placeholder="1234 5678 9012 3456" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
-                        </div>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Expiry Date</label>
-                                <input type="text" placeholder="MM/YY" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">CVC</label>
-                                <input type="text" placeholder="123" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Name on Card</label>
-                            <input type="text" placeholder="John Doe" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                            <input type="email" placeholder="your@email.com" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="text-center">
-                    <button id="process-payment" class="btn w-full bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-700 hover:to-blue-700 text-white font-medium py-3 px-8 rounded-lg">
-                        Pay $24.99 and Get Certificate
-                    </button>
-                    <p class="text-xs text-gray-500 mt-4">This is a demo payment form. No actual payment will be processed.</p>
                 </div>
             </div>
         </div>
 
         <!-- Certificate Screen -->
-        <div id="certificate-screen" class="hidden">
-            <div class="max-w-4xl mx-auto">
-                <div id="confetti-container" class="fixed inset-0 pointer-events-none"></div>
-                
-                <div class="certificate p-8 md:p-12 rounded-xl mb-8">
-                    <div class="border-pattern absolute inset-4 rounded-lg opacity-10 pointer-events-none"></div>
-                    
-                    <div class="text-center mb-8 relative">
-                        <div class="inline-block">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-sky-600 mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-                            </svg>
-                        </div>
-                        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-4">Certificate of Achievement</h2>
-                        <p class="text-gray-600 mt-2">in Sales Skills</p>
-                    </div>
-                    
-                    <div class="text-center mb-8">
-                        <p class="text-gray-600 mb-2">This certifies that</p>
-                        <h3 id="certificate-name" class="text-2xl font-bold text-sky-600 mb-2">John Doe</h3>
-                        <p class="text-gray-600">has successfully completed the</p>
-                        <h4 class="text-xl font-semibold text-gray-800 my-2">Sales Skills Assessment</h4>
-                        <p class="text-gray-600 mb-2">with a score of</p>
-                        <div class="inline-block bg-gradient-to-r from-sky-100 to-blue-100 px-4 py-2 rounded-full">
-                            <span id="certificate-score" class="text-xl font-bold text-sky-600">85%</span>
-                        </div>
-                    </div>
-                    
-                    <div class="mb-8">
-                        <div class="grid grid-cols-5 gap-4 text-center">
-                            <div>
-                                <div class="bg-sky-100 p-2 rounded-full w-12 h-12 mx-auto mb-2 flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        <div id="certificate-screen" class="hidden min-h-screen bg-gray-100 p-4 md:p-8 flex flex-col items-center justify-center">
+            <div class="mb-6 text-center">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800">Your Certificate is Ready!</h2>
+                <p class="text-gray-600">Your certificate has been generated and will download automatically</p>
+            </div>
+            
+            <!-- Certificate Preview -->
+            <div id="certificate" class="w-full max-w-5xl certificate-border rounded-lg shadow-xl">
+                <div class="certificate-inner-border rounded-lg">
+                    <div class="certificate-content p-8 rounded-lg">
+                        <div class="watermark">SKILLEXA</div>
+                        
+                        <div class="flex justify-between items-start mb-6 relative z-10">
+                            <!-- Logo placeholder -->
+                            <div class="w-24 h-24 bg-gray-200 rounded flex items-center justify-center">
+                                <span class="text-gray-500 font-bold">SKILLEXA</span>
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <div class="text-right mr-4">
+                                    <h3 class="text-xl font-bold text-gray-800">CERTIFICATE</h3>
+                                    <p class="text-gray-600">OF ACHIEVEMENT</p>
+                                </div>
+                                <div class="w-12 h-12">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" class="w-full h-full">
+                                        <circle cx="48" cy="48" r="46" fill="#8b5cf6"/>
+                                        <path fill="#FFFFFF" d="M41,59.4l-12-12l-4.2,4.2L41,67.8l30.2-30.2l-4.2-4.2L41,59.4z"/>
                                     </svg>
                                 </div>
-                                <p class="text-xs text-gray-600">Prospecting</p>
-                                <p id="cert-prospecting" class="text-sm font-medium text-sky-600">85%</p>
-                            </div>
-                            <div>
-                                <div class="bg-sky-100 p-2 rounded-full w-12 h-12 mx-auto mb-2 flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                </div>
-                                <p class="text-xs text-gray-600">Closing</p>
-                                <p id="cert-closing" class="text-sm font-medium text-sky-600">70%</p>
-                            </div>
-                            <div>
-                                <div class="bg-sky-100 p-2 rounded-full w-12 h-12 mx-auto mb-2 flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-                                    </svg>
-                                </div>
-                                <p class="text-xs text-gray-600">Negotiation</p>
-                                <p id="cert-negotiation" class="text-sm font-medium text-sky-600">90%</p>
-                            </div>
-                            <div>
-                                <div class="bg-sky-100 p-2 rounded-full w-12 h-12 mx-auto mb-2 flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
-                                    </svg>
-                                </div>
-                                <p class="text-xs text-gray-600">Communication</p>
-                                <p id="cert-communication" class="text-sm font-medium text-sky-600">75%</p>
-                            </div>
-                            <div>
-                                <div class="bg-sky-100 p-2 rounded-full w-12 h-12 mx-auto mb-2 flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                                    </svg>
-                                </div>
-                                <p class="text-xs text-gray-600">Follow-up</p>
-                                <p id="cert-followup" class="text-sm font-medium text-sky-600">80%</p>
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="flex justify-between items-end">
-                        <div>
-                            <svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10 25C15 15 25 30 30 20C35 10 45 25 50 15C55 5 65 20 70 10C75 0 85 15 90 5C95 -5 105 10 110 0" stroke="#0ea5e9" stroke-width="2"/>
-                            </svg>
-                            <div class="h-px w-40 bg-gray-300 mb-2"></div>
-                            <p class="text-sm text-gray-600">Authorized Signature</p>
+                        
+                        <div class="text-center mb-8 relative z-10">
+                            <h2 class="handwriting text-4xl text-gray-800 mb-1">Certificate of Excellence</h2>
+                            <p class="text-gray-600">This certifies that</p>
+                            <h3 id="certificate-name" class="handwriting text-3xl text-gray-800 my-3">John Doe</h3>
+                            <p class="text-gray-600 max-w-lg mx-auto">has successfully completed the Sales Skills Assessment with outstanding performance and is hereby recognized for their achievement.</p>
                         </div>
-                        <div class="text-right">
-                            <p id="certificate-date" class="text-sm text-gray-600">June 15, 2023</p>
-                            <p class="text-sm text-gray-600">Date Issued</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 relative z-10">
+                            <div>
+                                <h4 class="font-bold text-gray-800 mb-2">Assessment Details</h4>
+                                <div class="space-y-2">
+                                    <div class="flex items-center">
+                                        <span class="text-gray-600 w-32">Skill:</span>
+                                        <span class="font-medium text-gray-800">Sales Skills</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-gray-600 w-32">Total Score:</span>
+                                        <span id="certificate-score" class="font-medium text-gray-800">85/100</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-gray-600 w-32">Rank:</span>
+                                        <span id="certificate-rank" class="font-medium text-gray-800">Excellent</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-gray-600 w-32">Date:</span>
+                                        <span id="certificate-date" class="font-medium text-gray-800">May 15, 2024</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-gray-600 w-32">Certificate ID:</span>
+                                        <span id="certificate-id" class="font-medium text-gray-800">SKX-123456</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-bold text-gray-800 mb-2">Performance Breakdown</h4>
+                                <div id="certificate-categories" class="grid grid-cols-2 gap-2">
+                                    <!-- Will be populated dynamically -->
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="absolute bottom-4 right-4">
-                        <div class="flex items-center text-xs text-gray-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                            <span id="certificate-id">ID: SALES-2023-12345</span>
+                        
+                        <div class="text-center my-4 relative z-10">
+                            <div class="handwriting text-2xl font-bold text-gray-400">SKILLEXA CERTIFIED 2025</div>
                         </div>
-                    </div>
-                    
-                    <div class="absolute top-8 right-8">
-                        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="40" cy="40" r="38" stroke="#0ea5e9" stroke-width="2" stroke-dasharray="4 4"/>
-                            <circle cx="40" cy="40" r="30" fill="#e0f2fe" fill-opacity="0.5"/>
-                            <path d="M30 40L36 46L50 32" stroke="#0ea5e9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
+                        
+                        <div class="flex justify-between items-end mt-8 relative z-10">
+                            <div class="text-center">
+                                <div class="w-40 border-b border-gray-400 mb-1"></div>
+                                <p class="text-gray-800 font-medium">Jagdeep Kaur I</p>
+                                <p class="text-gray-600 text-sm">Founder</p>
+                            </div>
+                            
+                            <div class="text-center">
+                                <div class="w-40 border-b border-gray-400 mb-1"></div>
+                                <p class="text-gray-800 font-medium">Prajapathi Srushti K</p>
+                                <p class="text-gray-600 text-sm">Co-Founder</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="flex flex-wrap justify-center gap-4">
-                    <button id="download-btn" class="btn bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-700 hover:to-blue-700 text-white font-medium py-3 px-6 rounded-lg flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                        </svg>
-                        Download Certificate
-                    </button>
-                    <button id="share-btn" class="btn bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-3 px-6 rounded-lg flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                        </svg>
-                        Share Certificate
-                    </button>
-                </div>
+            </div>
+            
+            <div class="mt-8">
+                <button id="download-again-btn" class="px-6 py-3 bg-gradient-to-r from-pink-600 to-purple-600 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">
+                    Download Certificate Again
+                </button>
             </div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Quiz data
-            const quizData = [
+            // Quiz questions data
+            const quizQuestions = [
                 {
-                    question: "What is the primary purpose of a sales discovery call?",
+                    category: "Prospecting",
+                    question: "What is the primary purpose of sales prospecting?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                          </svg>`,
                     options: [
-                        "To close the sale immediately",
-                        "To understand the prospect's needs, pain points, and buying process",
-                        "To present all product features and benefits",
-                        "To negotiate the final price"
+                        "To identify and qualify potential customers who might be interested in your product or service",
+                        "To close sales deals as quickly as possible",
+                        "To create marketing materials for the sales team",
+                        "To analyze competitor pricing strategies"
                     ],
-                    answer: 1,
-                    category: "Prospecting"
+                    correctAnswer: 0
                 },
                 {
-                    question: "Which of the following is NOT typically considered a good prospecting technique?",
+                    category: "Prospecting",
+                    question: "Which of the following is NOT a common prospecting method?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                          </svg>`,
                     options: [
-                        "Researching potential clients before contacting them",
-                        "Using referrals from existing customers",
-                        "Sending the same generic email to hundreds of potential clients",
-                        "Engaging with potential clients on social media platforms"
+                        "Waiting for customers to approach you without any outreach",
+                        "Cold calling potential leads",
+                        "Networking at industry events",
+                        "Social media outreach"
                     ],
-                    answer: 2,
-                    category: "Prospecting"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is a 'value proposition' in sales?",
+                    category: "Prospecting",
+                    question: "What is a 'qualified lead' in sales?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                          </svg>`,
                     options: [
-                        "The lowest price a salesperson can offer",
-                        "A clear statement about how your product or service solves customer problems or improves their situation",
-                        "The commission a salesperson earns from a sale",
-                        "The total value of all products sold to a customer"
+                        "A prospect who has been evaluated and meets specific criteria indicating they're likely to become a customer",
+                        "Any contact information collected from potential customers",
+                        "A customer who has already purchased your product",
+                        "A lead that has been contacted at least three times"
                     ],
-                    answer: 1,
-                    category: "Communication"
+                    correctAnswer: 0
                 },
                 {
-                    question: "Which closing technique involves asking a question that assumes the prospect has already decided to buy?",
+                    category: "Needs Analysis",
+                    question: "What is the primary goal of a needs analysis in the sales process?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                          </svg>`,
                     options: [
-                        "The alternative close",
-                        "The assumptive close",
-                        "The urgency close",
-                        "The summary close"
+                        "To understand the customer's problems, needs, and goals so you can position your solution effectively",
+                        "To convince the customer to buy the most expensive product",
+                        "To gather personal information about the customer",
+                        "To complete the sales paperwork as quickly as possible"
                     ],
-                    answer: 1,
-                    category: "Closing"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is 'BANT' in sales qualification?",
+                    category: "Needs Analysis",
+                    question: "Which questioning technique helps uncover deeper customer needs by asking follow-up questions based on previous responses?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                          </svg>`,
                     options: [
-                        "A sales CRM system",
-                        "A framework for qualifying prospects based on Budget, Authority, Need, and Timeline",
-                        "A type of sales presentation",
-                        "A method for calculating sales commissions"
+                        "The probing technique",
+                        "Closed questioning",
+                        "Leading questions",
+                        "Rhetorical questioning"
                     ],
-                    answer: 1,
-                    category: "Prospecting"
+                    correctAnswer: 0
                 },
                 {
-                    question: "Which of the following is an example of active listening in sales?",
+                    category: "Needs Analysis",
+                    question: "What is SPIN selling?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                          </svg>`,
                     options: [
-                        "Interrupting the customer to correct misconceptions",
-                        "Thinking about your next point while the customer is speaking",
-                        "Paraphrasing what the customer said to confirm understanding",
-                        "Immediately offering solutions before the customer finishes explaining their problem"
+                        "A questioning framework that uses Situation, Problem, Implication, and Need-payoff questions to uncover customer needs",
+                        "A technique for spinning negative product features into positive ones",
+                        "A method for quickly closing sales without much customer interaction",
+                        "A strategy for selling to multiple decision-makers simultaneously"
                     ],
-                    answer: 2,
-                    category: "Communication"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is the purpose of a follow-up email after a sales meeting?",
+                    category: "Presentation Skills",
+                    question: "What is the most effective approach when presenting a product or service to a potential customer?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                          </svg>`,
                     options: [
-                        "To pressure the prospect into making a decision",
-                        "To summarize key points discussed, address any questions, and outline next steps",
-                        "To introduce new product features not discussed in the meeting",
-                        "To check if the prospect has received other competitive offers"
+                        "Focus on benefits that address the specific needs identified during the needs analysis",
+                        "Present all features of the product regardless of the customer's needs",
+                        "Emphasize how the product is better than competitors without mentioning benefits",
+                        "Keep the presentation as technical as possible to impress the customer"
                     ],
-                    answer: 1,
-                    category: "Follow-up"
+                    correctAnswer: 0
                 },
                 {
-                    question: "Which negotiation approach focuses on finding solutions that satisfy both parties' interests?",
+                    category: "Presentation Skills",
+                    question: "What is the 'FAB' approach in sales presentations?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                          </svg>`,
                     options: [
-                        "Win-lose negotiation",
-                        "Competitive negotiation",
-                        "Win-win negotiation",
-                        "Positional bargaining"
+                        "Presenting Features, Advantages, and Benefits to connect product attributes to customer value",
+                        "Fast, Accurate, and Brief - a method for quick presentations",
+                        "Friendly, Assertive, and Bold - a personality approach to sales",
+                        "Focus, Attention, and Brevity - techniques for keeping customer interest"
                     ],
-                    answer: 2,
-                    category: "Negotiation"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is a 'buying signal' in sales?",
+                    category: "Presentation Skills",
+                    question: "Why is storytelling an effective technique in sales presentations?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                          </svg>`,
                     options: [
-                        "A formal request for proposal (RFP)",
-                        "An indication from the prospect that they are interested in purchasing",
-                        "A prospect's budget allocation for the year",
-                        "A signed contract"
+                        "Stories create emotional connections, are memorable, and help customers visualize using the product or service",
+                        "Stories take up more time in presentations, allowing for higher fees",
+                        "Stories confuse customers, making them more likely to agree to the sale",
+                        "Stories are only effective when selling creative products"
                     ],
-                    answer: 1,
-                    category: "Closing"
+                    correctAnswer: 0
                 },
                 {
-                    question: "Which of the following is NOT a common objection handling technique?",
+                    category: "Objection Handling",
+                    question: "What is the first step in effectively handling a sales objection?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                          </svg>`,
                     options: [
-                        "Feel, Felt, Found method",
-                        "Ignoring the objection and continuing with the pitch",
-                        "Asking clarifying questions to understand the objection better",
-                        "Addressing the objection with relevant information"
+                        "Listen carefully and fully understand the objection before responding",
+                        "Immediately offer a discount to overcome the objection",
+                        "Ignore the objection and continue with the sales pitch",
+                        "Tell the customer why they're wrong"
                     ],
-                    answer: 1,
-                    category: "Communication"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is the 'SPIN' selling methodology?",
+                    category: "Objection Handling",
+                    question: "What is the 'feel, felt, found' technique in objection handling?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                          </svg>`,
                     options: [
-                        "A technique for manipulating customers",
-                        "A questioning framework focusing on Situation, Problem, Implication, and Need-payoff",
-                        "A method for spinning negative product features into positives",
-                        "A sales closing technique"
+                        "A method that acknowledges the customer's concern, relates to it, and then provides a positive outcome",
+                        "A technique for making customers feel guilty about their objections",
+                        "A three-step process for rejecting difficult customers",
+                        "An approach that focuses only on emotional appeals"
                     ],
-                    answer: 1,
-                    category: "Communication"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is the primary purpose of a CRM (Customer Relationship Management) system?",
+                    category: "Objection Handling",
+                    question: "What is a 'hidden objection' in sales?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                          </svg>`,
                     options: [
-                        "To automate all sales processes without human intervention",
-                        "To track and manage customer interactions and data throughout the customer lifecycle",
-                        "To replace salespeople with digital solutions",
-                        "To monitor employees' work hours"
+                        "A concern the customer has but doesn't explicitly state",
+                        "An objection that doesn't actually exist",
+                        "A complaint about a hidden feature of the product",
+                        "An objection raised by someone not present at the sales meeting"
                     ],
-                    answer: 1,
-                    category: "Follow-up"
+                    correctAnswer: 0
                 },
                 {
-                    question: "Which of the following is a key component of a successful sales pitch?",
+                    category: "Closing Techniques",
+                    question: "What is an 'assumptive close' in sales?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>`,
                     options: [
-                        "Focusing exclusively on product features",
-                        "Speaking as much as possible to demonstrate knowledge",
-                        "Tailoring the presentation to address the specific needs of the prospect",
-                        "Using technical jargon to impress the prospect"
+                        "A technique where you proceed as if the customer has already decided to buy",
+                        "Closing a sale without discussing the price",
+                        "Assuming the customer won't buy and ending the sales process",
+                        "Closing a sale by making assumptions about the customer's needs"
                     ],
-                    answer: 2,
-                    category: "Communication"
+                    correctAnswer: 0
                 },
                 {
+                    category: "Closing Techniques",
+                    question: "What is the 'alternative choice close'?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>`,
+                    options: [
+                        "Offering the customer a choice between two positive options that both result in a sale",
+                        "Giving the customer the choice to buy now or later",
+                        "Allowing the customer to choose between your product and a competitor's",
+                        "Letting the customer decide whether to buy or not"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Closing Techniques",
+                    question: "What are 'buying signals' in sales?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>`,
+                    options: [
+                        "Verbal or non-verbal cues that indicate a customer is ready to purchase",
+                        "Marketing materials that attract new customers",
+                        "Price signals that indicate when to offer discounts",
+                        "Indicators that a customer is not interested in buying"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Relationship Building",
+                    question: "Why is building rapport important in the sales process?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                          </svg>`,
+                    options: [
+                        "It establishes trust and makes customers more comfortable sharing information and making decisions",
+                        "It allows salespeople to spend less time on the actual sales presentation",
+                        "It's only important when selling expensive products",
+                        "It helps salespeople avoid discussing product features"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Relationship Building",
+                    question: "What is the concept of 'lifetime customer value'?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                          </svg>`,
+                    options: [
+                        "The total worth of a customer's business over the entire period of their relationship with your company",
+                        "The maximum amount a customer will pay for a single purchase",
+                        "The value of selling to customers who are older",
+                        "The amount of time a customer uses a product before replacing it"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Relationship Building",
+                    question: "What is a key benefit of maintaining strong post-sale relationships with customers?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                          </svg>`,
+                    options: [
+                        "It leads to repeat business, referrals, and testimonials that can help acquire new customers",
+                        "It allows salespeople to avoid prospecting for new customers",
+                        "It ensures customers won't return products",
+                        "It prevents customers from comparing your prices with competitors"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Prospecting",
                     question: "What is 'social selling'?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                          </svg>`,
                     options: [
-                        "Selling products at social events",
-                        "Using social media platforms to connect with prospects, build relationships, and ultimately achieve sales goals",
-                        "Offering special discounts to social groups",
-                        "Selling products that promote social causes"
+                        "Using social media platforms to find, connect with, understand, and nurture sales prospects",
+                        "Selling products exclusively through social events",
+                        "Offering special discounts to customers who share your products on social media",
+                        "A technique for selling to groups rather than individuals"
                     ],
-                    answer: 1,
-                    category: "Prospecting"
+                    correctAnswer: 0
                 },
                 {
-                    question: "Which of the following is a benefit of using open-ended questions in sales conversations?",
+                    category: "Needs Analysis",
+                    question: "What is the 'pain point' in sales terminology?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                          </svg>`,
                     options: [
-                        "They can be answered with a simple 'yes' or 'no'",
-                        "They save time in the sales process",
-                        "They encourage prospects to share more information and insights",
-                        "They limit the conversation to specific topics"
+                        "A specific problem or challenge that a potential customer is experiencing that your product or service can solve",
+                        "The discomfort a customer feels when hearing the price",
+                        "The part of a sales pitch that makes customers uncomfortable",
+                        "A negotiation tactic to make customers feel urgency"
                     ],
-                    answer: 2,
-                    category: "Communication"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is the 'puppy dog close' in sales?",
+                    category: "Presentation Skills",
+                    question: "What is the purpose of a product demonstration in sales?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                          </svg>`,
                     options: [
-                        "A technique where the salesperson acts cute and friendly",
-                        "Allowing the prospect to try the product before buying, like taking a puppy home for the weekend",
-                        "A closing technique specifically for selling pets",
-                        "Using emotional appeals to make the sale"
+                        "To show how the product works and how it will solve the customer's specific problems",
+                        "To impress customers with technical specifications",
+                        "To distract customers from considering the price",
+                        "To extend the length of the sales presentation"
                     ],
-                    answer: 1,
-                    category: "Closing"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is the purpose of a sales funnel?",
+                    category: "Objection Handling",
+                    question: "What is the best approach when a customer objects to the price?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                          </svg>`,
                     options: [
-                        "To filter out unqualified leads",
-                        "To visualize and manage the customer journey from prospect to customer",
-                        "To collect customer payments",
-                        "To organize the sales team hierarchy"
+                        "Focus on the value and return on investment rather than just the cost",
+                        "Immediately offer a discount",
+                        "Tell the customer that competitors charge more",
+                        "Suggest they buy a cheaper, lower-quality alternative"
                     ],
-                    answer: 1,
-                    category: "Prospecting"
-                },
-                {
-                    question: "Which of the following is NOT typically considered a key account management strategy?",
-                    options: [
-                        "Developing deep relationships with multiple stakeholders",
-                        "Creating customized solutions for the client's specific needs",
-                        "Treating all accounts with the same level of service regardless of size",
-                        "Regular strategic planning meetings with the client"
-                    ],
-                    answer: 2,
-                    category: "Follow-up"
-                },
-                {
-                    question: "What is 'upselling' in sales?",
-                    options: [
-                        "Selling products at a higher price than market value",
-                        "Encouraging customers to purchase a higher-end product than initially considered",
-                        "Selling products that are not yet available",
-                        "Increasing the sales team's targets"
-                    ],
-                    answer: 1,
-                    category: "Closing"
-                },
-                {
-                    question: "Which negotiation tactic involves creating the impression that you have other options if this deal doesn't work out?",
-                    options: [
-                        "BATNA (Best Alternative To a Negotiated Agreement)",
-                        "Lowballing",
-                        "Good cop/bad cop",
-                        "Nibbling"
-                    ],
-                    answer: 0,
-                    category: "Negotiation"
-                },
-                {
-                    question: "What is the primary benefit of using a consultative selling approach?",
-                    options: [
-                        "It allows for quicker sales cycles",
-                        "It positions the salesperson as a trusted advisor who understands and addresses the customer's specific needs",
-                        "It eliminates the need for product demonstrations",
-                        "It works well with all types of customers regardless of their buying style"
-                    ],
-                    answer: 1,
-                    category: "Communication"
-                },
-                {
-                    question: "Which of the following is a key component of building rapport with prospects?",
-                    options: [
-                        "Talking primarily about yourself to establish credibility",
-                        "Finding common ground and showing genuine interest in the prospect",
-                        "Maintaining a strictly professional relationship with no personal connection",
-                        "Demonstrating your superiority in knowledge"
-                    ],
-                    answer: 1,
-                    category: "Communication"
-                },
-                {
-                    question: "What is a 'cold call' in sales?",
-                    options: [
-                        "A follow-up call to an existing customer",
-                        "A sales call made during winter months",
-                        "An unsolicited call to a potential customer who has had no prior contact with the salesperson",
-                        "A call to a prospect who has requested information"
-                    ],
-                    answer: 2,
-                    category: "Prospecting"
-                },
-                {
-                    question: "Which of the following is NOT a common sales performance metric?",
-                    options: [
-                        "Conversion rate",
-                        "Average deal size",
-                        "Employee satisfaction score",
-                        "Sales cycle length"
-                    ],
-                    answer: 2,
-                    category: "Follow-up"
-                },
-                {
-                    question: "What is the 'anchoring effect' in sales negotiations?",
-                    options: [
-                        "The practice of securing a sale with a down payment",
-                        "The tendency for people to rely heavily on the first piece of information offered (the 'anchor') when making decisions",
-                        "A technique for keeping customers loyal to your brand",
-                        "A method for establishing fixed prices that don't change during negotiation"
-                    ],
-                    answer: 1,
-                    category: "Negotiation"
+                    correctAnswer: 0
                 }
             ];
 
+            // Variables to track quiz state
+            let currentUser = {
+                name: "",
+                email: ""
+            };
+            let currentQuestionIndex = 0;
+            let userAnswers = new Array(quizQuestions.length).fill(null);
+            let quizTimer;
+            let timeRemaining = 10 * 60; // 10 minutes in seconds
+
             // DOM elements
-            const welcomeScreen = document.getElementById('welcome-screen');
+            const loginScreen = document.getElementById('login-screen');
+            const categoryPreview = document.getElementById('category-preview');
             const quizScreen = document.getElementById('quiz-screen');
             const resultsScreen = document.getElementById('results-screen');
-            const paymentModal = document.getElementById('payment-modal');
             const certificateScreen = document.getElementById('certificate-screen');
             
-            const startBtn = document.getElementById('start-btn');
+            const loginForm = document.getElementById('login-form');
+            const startQuizBtn = document.getElementById('start-quiz-btn');
             const prevBtn = document.getElementById('prev-btn');
             const nextBtn = document.getElementById('next-btn');
-            const skipBtn = document.getElementById('skip-btn');
-            const paymentBtn = document.getElementById('payment-btn');
-            const closePaymentBtn = document.getElementById('close-payment');
-            const processPaymentBtn = document.getElementById('process-payment');
-            const downloadBtn = document.getElementById('download-btn');
-            const shareBtn = document.getElementById('share-btn');
+            const simulatePaymentBtn = document.getElementById('simulate-payment-btn');
+            const downloadAgainBtn = document.getElementById('download-again-btn');
             
-            const currentQuestionEl = document.getElementById('current-question');
-            const questionTextEl = document.getElementById('question-text');
-            const optionsContainerEl = document.getElementById('options-container');
-            const progressFillEl = document.getElementById('progress-fill');
-            const timerEl = document.getElementById('timer');
-            const questionNavEl = document.getElementById('question-nav');
-            
-            // Quiz state
-            let currentQuestion = 0;
-            let score = 0;
-            let userAnswers = Array(quizData.length).fill(null);
-            let timerInterval;
-            let timeLeft = 25 * 60; // 25 minutes in seconds
-            
-            // Start quiz
-            startBtn.addEventListener('click', function() {
-                welcomeScreen.classList.add('hidden');
+            const questionContainer = document.getElementById('question-container');
+            const questionIcon = document.getElementById('question-icon');
+            const questionText = document.getElementById('question-text');
+            const optionsContainer = document.getElementById('options-container');
+            const currentQuestionElement = document.getElementById('current-question');
+            const progressPercentElement = document.getElementById('progress-percent');
+            const progressBarElement = document.getElementById('progress-bar');
+            const timerElement = document.getElementById('timer');
+            const timerBarElement = document.getElementById('timer-bar');
+
+            // Event listeners
+            loginForm.addEventListener('submit', handleLogin);
+            startQuizBtn.addEventListener('click', startQuiz);
+            prevBtn.addEventListener('click', showPreviousQuestion);
+            nextBtn.addEventListener('click', handleNextQuestion);
+            simulatePaymentBtn.addEventListener('click', handlePayment);
+            downloadAgainBtn.addEventListener('click', downloadCertificate);
+
+            // Functions
+            function handleLogin(e) {
+                e.preventDefault();
+                currentUser.name = document.getElementById('fullName').value;
+                currentUser.email = document.getElementById('email').value;
+                
+                // Store user info in localStorage
+                localStorage.setItem('userName', currentUser.name);
+                localStorage.setItem('userEmail', currentUser.email);
+                
+                // Show category preview
+                loginScreen.classList.add('hidden');
+                categoryPreview.classList.remove('hidden');
+            }
+
+            function startQuiz() {
+                categoryPreview.classList.add('hidden');
                 quizScreen.classList.remove('hidden');
-                loadQuestion(currentQuestion);
-                createQuestionNav();
+                
+                // Start the timer
                 startTimer();
-            });
-            
-            // Create question navigation
-            function createQuestionNav() {
-                questionNavEl.innerHTML = '';
                 
-                for (let i = 0; i < quizData.length; i++) {
-                    const navBtn = document.createElement('button');
-                    navBtn.className = `w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${i === currentQuestion ? 'bg-sky-600 text-white' : userAnswers[i] !== null ? 'bg-sky-100 text-sky-800' : 'bg-gray-200 text-gray-600'}`;
-                    navBtn.textContent = i + 1;
-                    
-                    navBtn.addEventListener('click', function() {
-                        currentQuestion = i;
-                        loadQuestion(currentQuestion);
-                        updateQuestionNav();
-                    });
-                    
-                    questionNavEl.appendChild(navBtn);
-                }
+                // Show first question
+                showQuestion(0);
+                updateQuizProgress();
             }
-            
-            // Update question navigation
-            function updateQuestionNav() {
-                const navBtns = questionNavEl.querySelectorAll('button');
-                
-                navBtns.forEach((btn, i) => {
-                    btn.className = `w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${i === currentQuestion ? 'bg-sky-600 text-white' : userAnswers[i] !== null ? 'bg-sky-100 text-sky-800' : 'bg-gray-200 text-gray-600'}`;
-                });
-            }
-            
-            // Load question
-            function loadQuestion(index) {
-                const question = quizData[index];
-                questionTextEl.textContent = question.question;
-                currentQuestionEl.textContent = index + 1;
-                
-                // Update progress bar
-                const progress = ((index + 1) / quizData.length) * 100;
-                progressFillEl.style.width = `${progress}%`;
-                
-                // Clear previous options
-                optionsContainerEl.innerHTML = '';
-                
-                // Add options with animation
-                question.options.forEach((option, i) => {
-                    const optionBtn = document.createElement('button');
-                    optionBtn.className = `option-btn w-full text-left p-4 rounded-lg slide-in ${userAnswers[index] === i ? 'selected' : ''}`;
-                    optionBtn.style.animationDelay = `${i * 0.1}s`;
-                    optionBtn.innerHTML = `
-                        <div class="flex items-center">
-                            <div class="w-6 h-6 rounded-full border-2 border-gray-300 flex items-center justify-center mr-3 ${userAnswers[index] === i ? 'bg-sky-600 border-sky-600' : ''}">
-                                ${userAnswers[index] === i ? '<div class="w-2 h-2 rounded-full bg-white"></div>' : ''}
-                            </div>
-                            <span>${option}</span>
-                        </div>
-                    `;
-                    
-                    optionBtn.addEventListener('click', function() {
-                        selectOption(index, i);
-                    });
-                    
-                    optionsContainerEl.appendChild(optionBtn);
-                });
-                
-                // Update button states
-                prevBtn.disabled = index === 0;
-                prevBtn.classList.toggle('opacity-50', index === 0);
-                
-                if (index === quizData.length - 1) {
-                    nextBtn.textContent = 'Finish';
-                    nextBtn.innerHTML = 'Finish <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>';
-                } else {
-                    nextBtn.textContent = 'Next';
-                    nextBtn.innerHTML = 'Next <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>';
-                }
-            }
-            
-            // Select option
-            function selectOption(questionIndex, optionIndex) {
-                userAnswers[questionIndex] = optionIndex;
-                loadQuestion(questionIndex);
-                updateQuestionNav();
-            }
-            
-            // Navigation
-            prevBtn.addEventListener('click', function() {
-                if (currentQuestion > 0) {
-                    currentQuestion--;
-                    loadQuestion(currentQuestion);
-                    updateQuestionNav();
-                }
-            });
-            
-            nextBtn.addEventListener('click', function() {
-                if (currentQuestion < quizData.length - 1) {
-                    currentQuestion++;
-                    loadQuestion(currentQuestion);
-                    updateQuestionNav();
-                } else {
-                    finishQuiz();
-                }
-            });
-            
-            skipBtn.addEventListener('click', function() {
-                if (currentQuestion < quizData.length - 1) {
-                    currentQuestion++;
-                    loadQuestion(currentQuestion);
-                    updateQuestionNav();
-                } else {
-                    finishQuiz();
-                }
-            });
-            
-            // Timer
+
             function startTimer() {
-                timerInterval = setInterval(function() {
-                    timeLeft--;
+                updateTimerDisplay();
+                quizTimer = setInterval(() => {
+                    timeRemaining--;
+                    updateTimerDisplay();
                     
-                    const minutes = Math.floor(timeLeft / 60);
-                    const seconds = timeLeft % 60;
-                    
-                    timerEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                    
-                    if (timeLeft <= 300) { // 5 minutes left
-                        timerEl.classList.add('text-red-600', 'timer-warning');
-                    }
-                    
-                    if (timeLeft <= 0) {
-                        clearInterval(timerInterval);
-                        finishQuiz();
+                    if (timeRemaining <= 0) {
+                        clearInterval(quizTimer);
+                        submitQuiz();
                     }
                 }, 1000);
             }
-            
-            // Finish quiz
-            function finishQuiz() {
-                clearInterval(timerInterval);
+
+            function updateTimerDisplay() {
+                const minutes = Math.floor(timeRemaining / 60);
+                const seconds = timeRemaining % 60;
+                timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
                 
-                // Calculate score
-                score = 0;
-                userAnswers.forEach((answer, index) => {
-                    if (answer === quizData[index].answer) {
-                        score++;
-                    }
+                // Update timer bar
+                const percentRemaining = (timeRemaining / (15 * 60)) * 100;
+                timerBarElement.style.width = `${percentRemaining}%`;
+                
+                // Change color based on time remaining
+                if (percentRemaining > 60) {
+                    timerBarElement.className = 'timer-bar bg-gradient-to-r from-pink-500 to-orange-400 h-2 rounded-full';
+                } else if (percentRemaining > 30) {
+                    timerBarElement.className = 'timer-bar bg-gradient-to-r from-yellow-400 to-orange-400 h-2 rounded-full';
+                } else {
+                    timerBarElement.className = 'timer-bar bg-gradient-to-r from-red-500 to-pink-400 h-2 rounded-full';
+                }
+            }
+
+            function showQuestion(index) {
+                const question = quizQuestions[index];
+                
+                // Update question content
+                questionIcon.innerHTML = question.icon;
+                questionText.textContent = question.question;
+                
+                // Clear previous options
+                optionsContainer.innerHTML = '';
+                
+                // Add new options
+                question.options.forEach((option, i) => {
+                    const optionElement = document.createElement('div');
+                    optionElement.className = `quiz-option p-4 border border-white border-opacity-20 rounded-lg cursor-pointer transition-colors ${userAnswers[index] === i ? 'selected' : ''}`;
+                    optionElement.innerHTML = `
+                        <div class="flex items-center">
+                            <div class="w-6 h-6 rounded-full border-2 border-white border-opacity-60 flex items-center justify-center mr-3">
+                                ${userAnswers[index] === i ? '<div class="w-3 h-3 rounded-full bg-pink-400"></div>' : ''}
+                            </div>
+                            <span class="text-white">${option}</span>
+                        </div>
+                    `;
+                    
+                    optionElement.addEventListener('click', () => {
+                        // Remove selected class from all options
+                        document.querySelectorAll('.quiz-option').forEach(opt => {
+                            opt.classList.remove('selected');
+                            opt.querySelector('.w-6').innerHTML = '';
+                        });
+                        
+                        // Add selected class to clicked option
+                        optionElement.classList.add('selected');
+                        optionElement.querySelector('.w-6').innerHTML = '<div class="w-3 h-3 rounded-full bg-pink-400"></div>';
+                        
+                        // Save answer
+                        userAnswers[index] = i;
+                        
+                        // Enable next button if it was disabled
+                        nextBtn.disabled = false;
+                    });
+                    
+                    optionsContainer.appendChild(optionElement);
                 });
                 
-                const scorePercentage = Math.round((score / quizData.length) * 100);
+                // Update current question index
+                currentQuestionIndex = index;
                 
-                // Calculate category scores
-                const categories = {
-                    "Prospecting": { correct: 0, total: 0 },
-                    "Closing": { correct: 0, total: 0 },
-                    "Negotiation": { correct: 0, total: 0 },
-                    "Communication": { correct: 0, total: 0 },
-                    "Follow-up": { correct: 0, total: 0 }
-                };
+                // Update navigation buttons
+                prevBtn.disabled = index === 0;
+                nextBtn.textContent = index === quizQuestions.length - 1 ? 'Submit' : 'Next';
                 
-                quizData.forEach((question, index) => {
-                    const category = question.category;
-                    if (categories[category]) {
-                        categories[category].total++;
-                        if (userAnswers[index] === question.answer) {
-                            categories[category].correct++;
-                        }
-                    }
-                });
+                // Disable next button if no answer selected
+                nextBtn.disabled = userAnswers[index] === null;
                 
-                // Calculate category percentages
-                const categoryScores = {};
-                for (const [category, data] of Object.entries(categories)) {
-                    if (data.total > 0) {
-                        categoryScores[category] = Math.round((data.correct / data.total) * 100);
-                    } else {
-                        categoryScores[category] = 0;
-                    }
+                // Update progress indicators
+                currentQuestionElement.textContent = index + 1;
+                const progressPercent = Math.round(((index + 1) / quizQuestions.length) * 100);
+                progressPercentElement.textContent = progressPercent;
+                progressBarElement.style.width = `${progressPercent}%`;
+                
+                // Add animation
+                questionContainer.classList.remove('scale-in');
+                void questionContainer.offsetWidth; // Trigger reflow
+                questionContainer.classList.add('scale-in');
+            }
+
+            function showPreviousQuestion() {
+                if (currentQuestionIndex > 0) {
+                    showQuestion(currentQuestionIndex - 1);
                 }
-                
-                // Find strengths and areas for improvement
-                const strengths = [];
-                const improvements = [];
-                
-                for (const [category, percentage] of Object.entries(categoryScores)) {
-                    if (percentage >= 80) {
-                        strengths.push(`${category} (${percentage}% correct)`);
-                    } else if (percentage < 70) {
-                        improvements.push(`${category} (${percentage}% correct)`);
-                    }
-                }
-                
-                // Update results screen
-                document.getElementById('score-percentage').textContent = `${scorePercentage}%`;
-                document.getElementById('correct-answers').textContent = score;
-                
-                const minutes = Math.floor((25 * 60 - timeLeft) / 60);
-                const seconds = (25 * 60 - timeLeft) % 60;
-                document.getElementById('time-taken').textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                
-                // Set result message based on score
-                const resultMessage = document.getElementById('result-message');
-                if (scorePercentage >= 80) {
-                    resultMessage.textContent = 'Excellent! You have strong sales skills.';
-                } else if (scorePercentage >= 60) {
-                    resultMessage.textContent = 'Good job! You have solid sales skills.';
+            }
+
+            function handleNextQuestion() {
+                if (currentQuestionIndex < quizQuestions.length - 1) {
+                    showQuestion(currentQuestionIndex + 1);
                 } else {
-                    resultMessage.textContent = 'You have completed the assessment. There\'s room for improvement in your sales skills.';
+                    submitQuiz();
                 }
+            }
+
+            function updateQuizProgress() {
+                const answeredCount = userAnswers.filter(answer => answer !== null).length;
+                const progressPercent = Math.round((answeredCount / quizQuestions.length) * 100);
+                progressPercentElement.textContent = progressPercent;
+                progressBarElement.style.width = `${progressPercent}%`;
+            }
+
+            function submitQuiz() {
+                // Stop the timer
+                clearInterval(quizTimer);
                 
-                // Update strengths and improvements
-                const strengthsEl = document.getElementById('strengths');
-                strengthsEl.innerHTML = '';
+                // Calculate results
+                const results = calculateResults();
                 
-                if (strengths.length > 0) {
-                    strengths.forEach(strength => {
-                        const div = document.createElement('div');
-                        div.className = 'flex items-start mb-2';
-                        div.innerHTML = `
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span>${strength}</span>
-                        `;
-                        strengthsEl.appendChild(div);
-                    });
-                } else {
-                    strengthsEl.innerHTML = '<p class="text-gray-500">Keep practicing to develop your sales strengths!</p>';
-                }
+                // Display results
+                displayResults(results);
                 
-                const improvementsEl = document.getElementById('improvements');
-                improvementsEl.innerHTML = '';
-                
-                if (improvements.length > 0) {
-                    improvements.forEach(improvement => {
-                        const div = document.createElement('div');
-                        div.className = 'flex items-start mb-2';
-                        div.innerHTML = `
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                            </svg>
-                            <span>${improvement}</span>
-                        `;
-                        improvementsEl.appendChild(div);
-                    });
-                } else {
-                    improvementsEl.innerHTML = '<p class="text-gray-500">Great job! No significant areas for improvement.</p>';
-                }
-                
-                // Update skill bars
-                document.getElementById('prospecting-score').textContent = `${categoryScores.Prospecting}%`;
-                document.getElementById('prospecting-bar').style.width = `${categoryScores.Prospecting}%`;
-                
-                document.getElementById('closing-score').textContent = `${categoryScores.Closing}%`;
-                document.getElementById('closing-bar').style.width = `${categoryScores.Closing}%`;
-                
-                document.getElementById('negotiation-score').textContent = `${categoryScores.Negotiation}%`;
-                document.getElementById('negotiation-bar').style.width = `${categoryScores.Negotiation}%`;
-                
-                document.getElementById('communication-score').textContent = `${categoryScores.Communication}%`;
-                document.getElementById('communication-bar').style.width = `${categoryScores.Communication}%`;
-                
-                document.getElementById('followup-score').textContent = `${categoryScores["Follow-up"]}%`;
-                document.getElementById('followup-bar').style.width = `${categoryScores["Follow-up"]}%`;
-                
-                // Show results screen
+                // Hide quiz screen and show results screen
                 quizScreen.classList.add('hidden');
                 resultsScreen.classList.remove('hidden');
             }
-            
-            // Payment modal
-            paymentBtn.addEventListener('click', function() {
-                paymentModal.classList.remove('hidden');
-            });
-            
-            closePaymentBtn.addEventListener('click', function() {
-                paymentModal.classList.add('hidden');
-            });
-            
-            processPaymentBtn.addEventListener('click', function() {
-                paymentModal.classList.add('hidden');
-                resultsScreen.classList.add('hidden');
-                certificateScreen.classList.remove('hidden');
-                
-                // Set certificate details
-                const scorePercentage = Math.round((score / quizData.length) * 100);
-                document.getElementById('certificate-score').textContent = `${scorePercentage}%`;
-                
-                // Calculate category scores for certificate
-                const categories = {
-                    "Prospecting": { correct: 0, total: 0 },
-                    "Closing": { correct: 0, total: 0 },
-                    "Negotiation": { correct: 0, total: 0 },
-                    "Communication": { correct: 0, total: 0 },
-                    "Follow-up": { correct: 0, total: 0 }
-                };
-                
-                quizData.forEach((question, index) => {
-                    const category = question.category;
-                    if (categories[category]) {
-                        categories[category].total++;
-                        if (userAnswers[index] === question.answer) {
-                            categories[category].correct++;
-                        }
+
+            function calculateResults() {
+                // Calculate total score
+                let totalCorrect = 0;
+                userAnswers.forEach((answer, index) => {
+                    if (answer === quizQuestions[index].correctAnswer) {
+                        totalCorrect++;
                     }
                 });
                 
-                // Calculate category percentages for certificate
-                for (const [category, data] of Object.entries(categories)) {
-                    if (data.total > 0) {
-                        const percentage = Math.round((data.correct / data.total) * 100);
-                        const categoryId = category.toLowerCase().replace('-', '');
-                        document.getElementById(`cert-${categoryId}`).textContent = `${percentage}%`;
-                    } else {
-                        const categoryId = category.toLowerCase().replace('-', '');
-                        document.getElementById(`cert-${categoryId}`).textContent = '0%';
+                const totalScore = Math.round((totalCorrect / quizQuestions.length) * 100);
+                
+                // Calculate category scores
+                const categories = {};
+                quizQuestions.forEach((question, index) => {
+                    const category = question.category;
+                    if (!categories[category]) {
+                        categories[category] = {
+                            total: 0,
+                            correct: 0
+                        };
                     }
-                }
-                
-                const today = new Date();
-                const options = { year: 'numeric', month: 'long', day: 'numeric' };
-                document.getElementById('certificate-date').textContent = today.toLocaleDateString('en-US', options);
-                
-                document.getElementById('certificate-id').textContent = `ID: SALES-${today.getFullYear()}-${Math.floor(10000 + Math.random() * 90000)}`;
-                
-                // Create confetti effect
-                createConfetti();
-            });
-            
-            // Create confetti effect
-            function createConfetti() {
-                const confettiContainer = document.getElementById('confetti-container');
-                const colors = ['#0ea5e9', '#38bdf8', '#7dd3fc', '#bae6fd', '#ffffff'];
-                
-                for (let i = 0; i < 150; i++) {
-                    const confetti = document.createElement('div');
-                    confetti.className = 'confetti';
-                    confetti.style.left = `${Math.random() * 100}%`;
-                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                    confetti.style.width = `${Math.random() * 10 + 5}px`;
-                    confetti.style.height = `${Math.random() * 10 + 5}px`;
-                    confetti.style.opacity = '1';
-                    confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
-                    confetti.style.animationDelay = `${Math.random() * 2}s`;
                     
-                    confettiContainer.appendChild(confetti);
+                    categories[category].total++;
+                    if (userAnswers[index] === question.correctAnswer) {
+                        categories[category].correct++;
+                    }
+                });
+                
+                // Convert to percentages and ratings
+                const categoryResults = {};
+                Object.keys(categories).forEach(category => {
+                    const score = Math.round((categories[category].correct / categories[category].total) * 100);
+                    let rating;
+                    let icon;
+                    
+                    if (score >= 90) {
+                        rating = 'Excellent';
+                        icon = '🏆';
+                    } else if (score >= 75) {
+                        rating = 'Good';
+                        icon = '👍';
+                    } else if (score >= 60) {
+                        rating = 'Satisfactory';
+                        icon = '👌';
+                    } else {
+                        rating = 'Needs Improvement';
+                        icon = '📝';
+                    }
+                    
+                    categoryResults[category] = {
+                        score,
+                        rating,
+                        icon
+                    };
+                });
+                
+                // Determine overall rating
+                let overallRating;
+                if (totalScore >= 90) {
+                    overallRating = 'Excellent';
+                } else if (totalScore >= 75) {
+                    overallRating = 'Good';
+                } else if (totalScore >= 60) {
+                    overallRating = 'Satisfactory';
+                } else {
+                    overallRating = 'Needs Improvement';
                 }
+                
+                return {
+                    totalScore,
+                    totalCorrect,
+                    totalQuestions: quizQuestions.length,
+                    categoryResults,
+                    overallRating
+                };
             }
-            
-            // Certificate actions
-            downloadBtn.addEventListener('click', function() {
-                alert('Certificate download started! (This is a demo feature)');
-            });
-            
-            shareBtn.addEventListener('click', function() {
-                alert('Share options opened! (This is a demo feature)');
-            });
+
+            function displayResults(results) {
+                // Update total score
+                document.getElementById('total-score').textContent = results.totalScore;
+                document.getElementById('max-score').textContent = '100';
+                
+                // Update score gauge
+                const scoreCircle = document.getElementById('score-circle');
+                const circumference = 2 * Math.PI * 45; // 2πr
+                const offset = circumference - (results.totalScore / 100) * circumference;
+                scoreCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+                scoreCircle.style.strokeDashoffset = offset;
+                
+                // Set color based on score
+                if (results.totalScore >= 90) {
+                    scoreCircle.style.stroke = '#10B981'; // Green
+                } else if (results.totalScore >= 75) {
+                    scoreCircle.style.stroke = '#3B82F6'; // Blue
+                } else if (results.totalScore >= 60) {
+                    scoreCircle.style.stroke = '#F59E0B'; // Yellow
+                } else {
+                    scoreCircle.style.stroke = '#EF4444'; // Red
+                }
+                
+                document.getElementById('score-percentage').textContent = `${results.totalScore}%`;
+                
+                // Update category results
+                const categoryResultsContainer = document.getElementById('category-results');
+                categoryResultsContainer.innerHTML = '';
+                
+                Object.keys(results.categoryResults).forEach(category => {
+                    const result = results.categoryResults[category];
+                    const categoryElement = document.createElement('div');
+                    
+                    // Set background color based on rating
+                    let bgColor;
+                    if (result.rating === 'Excellent') {
+                        bgColor = 'bg-gradient-to-br from-green-500 to-emerald-600';
+                    } else if (result.rating === 'Good') {
+                        bgColor = 'bg-gradient-to-br from-blue-500 to-indigo-600';
+                    } else if (result.rating === 'Satisfactory') {
+                        bgColor = 'bg-gradient-to-br from-yellow-400 to-orange-500';
+                    } else {
+                        bgColor = 'bg-gradient-to-br from-red-500 to-pink-600';
+                    }
+                    
+                    categoryElement.className = `${bgColor} rounded-lg p-4 text-white`;
+                    categoryElement.innerHTML = `
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h4 class="font-medium">${category}</h4>
+                                <p class="text-sm text-white text-opacity-90">${result.rating}</p>
+                            </div>
+                            <div class="text-2xl">${result.icon}</div>
+                        </div>
+                        <div class="mt-2 w-full bg-white bg-opacity-30 rounded-full h-2">
+                            <div class="bg-white h-2 rounded-full" style="width: ${result.score}%"></div>
+                        </div>
+                        <div class="text-right mt-1 text-sm">${result.score}%</div>
+                    `;
+                    
+                    categoryResultsContainer.appendChild(categoryElement);
+                });
+                
+                // Store results for certificate generation
+                localStorage.setItem('quizResults', JSON.stringify(results));
+            }
+
+            function handlePayment() {
+                // In a real app, this would handle actual payment processing
+                // For this demo, we'll simulate a successful payment
+                
+                // Hide results screen and show certificate screen
+                resultsScreen.classList.add('hidden');
+                certificateScreen.classList.remove('hidden');
+                
+                // Generate certificate
+                generateCertificate();
+                
+                // Download certificate automatically
+                setTimeout(downloadCertificate, 1000);
+            }
+
+            function generateCertificate() {
+                // Get user info and results
+                const userName = localStorage.getItem('userName') || 'John Doe';
+                const results = JSON.parse(localStorage.getItem('quizResults')) || {
+                    totalScore: 85,
+                    overallRating: 'Good',
+                    categoryResults: {}
+                };
+                
+                // Generate certificate ID
+                const certificateId = 'SKX-' + Math.floor(100000 + Math.random() * 900000);
+                
+                // Get current date
+                const currentDate = new Date().toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                
+                // Update certificate content
+                document.getElementById('certificate-name').textContent = userName;
+                document.getElementById('certificate-score').textContent = `${results.totalScore}/100`;
+                document.getElementById('certificate-rank').textContent = results.overallRating;
+                document.getElementById('certificate-date').textContent = currentDate;
+                document.getElementById('certificate-id').textContent = certificateId;
+                
+                // Update category results
+                const certificateCategoriesContainer = document.getElementById('certificate-categories');
+                certificateCategoriesContainer.innerHTML = '';
+                
+                Object.keys(results.categoryResults).forEach(category => {
+                    const result = results.categoryResults[category];
+                    const categoryElement = document.createElement('div');
+                    categoryElement.className = 'flex items-center mb-1';
+                    categoryElement.innerHTML = `
+                        <span class="mr-2">${result.icon}</span>
+                        <span class="text-sm">${category}: <span class="font-medium">${result.rating}</span></span>
+                    `;
+                    
+                    certificateCategoriesContainer.appendChild(categoryElement);
+                });
+            }
+
+            function downloadCertificate() {
+                const certificate = document.getElementById('certificate');
+                
+                // Use html2canvas to capture the certificate as an image
+                html2canvas(certificate, {
+                    scale: 2,
+                    logging: false,
+                    useCORS: true
+                }).then(canvas => {
+                    const imgData = canvas.toDataURL('image/png');
+                    
+                    // Create PDF using jsPDF
+                    const { jsPDF } = window.jspdf;
+                    const pdf = new jsPDF({
+                        orientation: 'landscape',
+                        unit: 'mm',
+                        format: 'a4'
+                    });
+                    
+                    const imgProps = pdf.getImageProperties(imgData);
+                    const pdfWidth = pdf.internal.pageSize.getWidth();
+                    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+                    
+                    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                    
+                    // Download the PDF
+                    const userName = localStorage.getItem('userName') || 'User';
+                    const fileName = `${userName.replace(/\s+/g, '_')}_Sales_Skills_Certificate.pdf`;
+                    pdf.save(fileName);
+                });
+            }
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'965d3fe640c285fa',t:'MTc1MzYzMDk3Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'967ee127347f8eee',t:'MTc1Mzk4MzYxMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>

@@ -63,12 +63,15 @@
     let selectedPlan = null;
 
     function selectPlan(plan) {
-      if (plan === "freemium") {
-        localStorage.setItem("skillexa-user", JSON.stringify({ plan: "freemium" }));
-        alert("✅ Freemium Plan Activated! Limited features available.");
-        window.location.href = "dashboard.html";
-      }
-    }
+  if (plan === "freemium") {
+    const capitalizedPlan = "Freemium";
+    localStorage.setItem("skillexa-user", JSON.stringify({ plan: capitalizedPlan }));
+    localStorage.setItem("plan", capitalizedPlan); // ✅ Important line
+    alert("✅ Freemium Plan Activated! Limited features available.");
+    window.location.href = "dashboard.html";
+  }
+}
+
 
     function showQR(plan) {
       if (plan === "allinone") {
@@ -85,13 +88,16 @@
     }
 
     function confirmPayment() {
-      if (selectedPlan) {
-        localStorage.setItem("skillexa-user", JSON.stringify({ plan: selectedPlan }));
-        alert(`✅ ${selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1)} Plan Activated!`);
-        closeQR();
-        window.location.href = "dashboard.html";
-      }
-    }
+  if (selectedPlan) {
+    const capitalizedPlan = selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1);
+    localStorage.setItem("skillexa-user", JSON.stringify({ plan: capitalizedPlan }));
+    localStorage.setItem("plan", capitalizedPlan); // ✅ Important line
+    alert(`✅ ${capitalizedPlan} Plan Activated!`);
+    closeQR();
+    window.location.href = "dashboard.html";
+  }
+}
+
   </script>
 <footer style="background-color: #1e3a8a; color: white; padding: 40px 20px; text-align: center;">
   <div style="max-width: 1000px; margin: auto;">

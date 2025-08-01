@@ -137,11 +137,12 @@
         const user = userCredential.user;
 
         localStorage.setItem("skillexa-user", JSON.stringify({
-          name: name,
-          email: user.email,
-          plan: "freemium"
+        name: name,
+        email: user.email,
+        plan: "Freemium" 
         }));
-
+        localStorage.setItem("plan", "Freemium");
+        
         alert("Signup successful!");
         window.location.href = "dashboard.html";
       } catch (err) {
@@ -161,10 +162,12 @@
         const user = userCredential.user;
 
         localStorage.setItem("skillexa-user", JSON.stringify({
-          name: user.displayName || "User",
-          email: user.email,
-          plan: "freemium"
+        name: user.displayName || "User",
+        email: user.email,
+        plan: "Freemium"
         }));
+        localStorage.setItem("plan", "Freemium");
+
 
         alert("Login successful!");
         window.location.href = "dashboard.html";

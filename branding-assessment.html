@@ -3,1405 +3,1175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Branding Skills Assessment</title>
+    <title>Branding Skills Assessment | Skillexa</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            overflow-x: hidden;
         }
-        .assessment-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
+        .handwriting {
+            font-family: 'Dancing Script', cursive;
         }
-        .progress-bar {
-            height: 8px;
-            background: #e9ecef;
-            border-radius: 4px;
-            overflow: hidden;
+        .mango-mint-gradient {
+            background: linear-gradient(135deg, #FFD166 0%, #06D6A0 100%);
         }
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #f472b6, #ec4899);
-            transition: width 0.3s ease;
+        .lavender-sky-gradient {
+            background: linear-gradient(135deg, #9D84B7 0%, #7579E7 100%);
         }
-        .btn {
+        .category-card {
             transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
         }
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.2);
+        .category-card:hover {
+            transform: translateY(-5px);
         }
-        .option-btn {
-            transition: all 0.2s ease;
-            border: 2px solid #e5e7eb;
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
         }
-        .option-btn:hover {
-            border-color: #ec4899;
-            background-color: #fdf2f8;
+        .slide-in {
+            animation: slideIn 0.8s ease-out;
         }
-        .option-btn.selected {
-            border-color: #ec4899;
-            background-color: #fbcfe8;
+        .scale-in {
+            animation: scaleIn 0.5s ease-out;
         }
-        .option-btn.correct {
-            border-color: #10b981;
-            background-color: #d1fae5;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
-        .option-btn.incorrect {
-            border-color: #ef4444;
-            background-color: #fee2e2;
+        @keyframes slideIn {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
-        .certificate {
-            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-            border: 2px solid #ec4899;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        @keyframes scaleIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .certificate-border {
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            padding: 10px;
+        }
+        .certificate-inner-border {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            padding: 5px;
+        }
+        .certificate-content {
+            background: white;
             position: relative;
             overflow: hidden;
         }
-        .certificate::before {
-            content: '';
+        .watermark {
             position: absolute;
-            top: -50px;
-            left: -50px;
-            width: 200px;
-            height: 200px;
-            background: linear-gradient(135deg, rgba(236, 72, 153, 0.1) 0%, rgba(219, 39, 119, 0.1) 100%);
-            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-30deg);
+            font-size: 100px;
+            color: rgba(0,0,0,0.05);
+            font-weight: bold;
+            white-space: nowrap;
+            z-index: 0;
         }
-        .certificate::after {
-            content: '';
-            position: absolute;
-            bottom: -50px;
-            right: -50px;
-            width: 200px;
-            height: 200px;
-            background: linear-gradient(135deg, rgba(236, 72, 153, 0.1) 0%, rgba(219, 39, 119, 0.1) 100%);
-            border-radius: 50%;
+        .timer-bar {
+            transition: width 1s linear;
         }
-        .badge {
-            animation: pulse 2s infinite;
+        .progress-bar {
+            transition: width 0.5s ease;
         }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        .quiz-option:hover {
+            background-color: rgba(255, 255, 255, 0.1);
         }
-        .confetti {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #ec4899;
-            opacity: 0;
+        .quiz-option.selected {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-color: #ffffff;
         }
-        @keyframes fall {
-            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(1000px) rotate(360deg); opacity: 0; }
+        .glow-text {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
         }
-        .timer-warning {
-            animation: blink 1s infinite;
-        }
-        @keyframes blink {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-        .floating {
-            animation: floating 3s ease-in-out infinite;
-        }
-        @keyframes floating {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-        .scale-in {
-            animation: scaleIn 0.5s ease-out forwards;
-            transform-origin: center;
-        }
-        @keyframes scaleIn {
-            0% { transform: scale(0.8); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        .slide-in {
-            animation: slideIn 0.5s ease-out forwards;
-        }
-        @keyframes slideIn {
-            0% { transform: translateX(-20px); opacity: 0; }
-            100% { transform: translateX(0); opacity: 1; }
-        }
-        .fade-in {
-            animation: fadeIn 0.5s ease-out forwards;
-        }
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-        .rotate-in {
-            animation: rotateIn 0.5s ease-out forwards;
-        }
-        @keyframes rotateIn {
-            0% { transform: rotate(-10deg) scale(0.9); opacity: 0; }
-            100% { transform: rotate(0deg) scale(1); opacity: 1; }
-        }
-        .category-icon {
-            transition: all 0.3s ease;
-        }
-        .category-card:hover .category-icon {
-            transform: translateY(-5px);
-        }
-        .skill-bar {
-            height: 8px;
-            background: #e9ecef;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        .skill-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #f472b6, #ec4899);
-            transition: width 1s ease;
-        }
-        .border-pattern {
-            background-image: repeating-linear-gradient(45deg, #ec4899 0, #ec4899 1px, transparent 0, transparent 50%);
-            background-size: 10px 10px;
-        }
-        .brand-icon {
-            filter: drop-shadow(0 4px 3px rgba(0, 0, 0, 0.07));
+        .mango-text {
+            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #FFD166, 0 0 20px #FFD166;
         }
     </style>
 </head>
-<body class="min-h-screen py-8 px-4">
-    <div id="app">
-        <!-- Welcome Screen -->
-        <div id="welcome-screen" class="assessment-container p-8">
-            <div class="text-center mb-8">
-                <div class="inline-block p-4 bg-pink-100 rounded-full mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-pink-600 brand-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
-                    </svg>
+<body>
+    <!-- Main Container -->
+    <div id="app" class="min-h-screen w-full">
+        <!-- Login Screen -->
+        <div id="login-screen" class="min-h-screen mango-mint-gradient flex flex-col items-center justify-center px-4 py-12">
+            <div class="w-full max-w-md bg-white bg-opacity-10 backdrop-blur-sm rounded-xl shadow-lg p-8 fade-in">
+                <h1 class="text-3xl font-bold text-center mb-8 text-white mango-text">Branding Skills Assessment</h1>
+                <form id="login-form" class="space-y-6">
+                    <div>
+                        <label for="fullName" class="block text-sm font-medium text-white mb-1">Full Name</label>
+                        <input type="text" id="fullName" required class="w-full px-4 py-2 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-400 text-white placeholder-white placeholder-opacity-70">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-white mb-1">Email Address</label>
+                        <input type="email" id="email" required class="w-full px-4 py-2 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-400 text-white placeholder-white placeholder-opacity-70">
+                    </div>
+                    <button type="submit" class="w-full bg-gradient-to-r from-amber-500 to-emerald-400 text-white py-2 rounded-md font-medium hover:opacity-90 transition-opacity">Start Assessment</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Category Preview Screen -->
+        <div id="category-preview" class="hidden min-h-screen mango-mint-gradient flex flex-col items-center justify-center px-4 py-12">
+            <div class="w-full max-w-4xl text-center mb-10 fade-in">
+                <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 mango-text">Branding Skills Assessment</h1>
+                <p class="text-xl text-white text-opacity-90">Explore the key areas we'll be evaluating</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl mb-10">
+                <!-- Category 1: Brand Strategy -->
+                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.1s">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gradient-to-br from-amber-400 to-yellow-300 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-amber-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold">Brand Strategy</h3>
+                    </div>
+                    <p class="text-white text-opacity-90">Ability to develop comprehensive brand strategies that align with business objectives and resonate with target audiences.</p>
                 </div>
-                <h1 class="text-3xl font-bold text-gray-800 mb-2">Branding Skills Assessment</h1>
-                <p class="text-gray-600 mb-6">Test your branding abilities with 25 questions and earn a professional certificate</p>
                 
-                <div class="flex flex-wrap justify-center gap-6 mb-8">
-                    <div class="flex items-center">
-                        <div class="bg-pink-100 p-2 rounded-full mr-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </div>
-                        <span class="text-gray-700">30 minutes</span>
-                    </div>
-                    <div class="flex items-center">
-                        <div class="bg-pink-100 p-2 rounded-full mr-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </div>
-                        <span class="text-gray-700">25 questions</span>
-                    </div>
-                    <div class="flex items-center">
-                        <div class="bg-pink-100 p-2 rounded-full mr-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                        </div>
-                        <span class="text-gray-700">Certificate on completion</span>
-                    </div>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
-                    <div class="category-card bg-white p-5 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
-                        <div class="category-icon bg-pink-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                            </svg>
-                        </div>
-                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Brand Identity</h3>
-                        <p class="text-gray-600 text-sm text-center">Visual elements</p>
-                    </div>
-                    <div class="category-card bg-white p-5 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
-                        <div class="category-icon bg-pink-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                            </svg>
-                        </div>
-                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Brand Strategy</h3>
-                        <p class="text-gray-600 text-sm text-center">Long-term planning</p>
-                    </div>
-                    <div class="category-card bg-white p-5 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
-                        <div class="category-icon bg-pink-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <!-- Category 2: Visual Identity -->
+                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.2s">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gradient-to-br from-pink-400 to-rose-300 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-rose-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
                         </div>
-                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Visual Design</h3>
-                        <p class="text-gray-600 text-sm text-center">Aesthetics & style</p>
+                        <h3 class="text-xl font-bold">Visual Identity</h3>
                     </div>
-                    <div class="category-card bg-white p-5 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
-                        <div class="category-icon bg-pink-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <p class="text-white text-opacity-90">Skill in creating cohesive visual elements including logos, color schemes, typography, and design systems that represent brand values.</p>
+                </div>
+                
+                <!-- Category 3: Brand Messaging -->
+                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.3s">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gradient-to-br from-blue-400 to-cyan-300 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                             </svg>
                         </div>
-                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Brand Messaging</h3>
-                        <p class="text-gray-600 text-sm text-center">Communication</p>
+                        <h3 class="text-xl font-bold">Brand Messaging</h3>
                     </div>
-                    <div class="category-card bg-white p-5 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
-                        <div class="category-icon bg-pink-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <p class="text-white text-opacity-90">Ability to craft compelling brand stories, value propositions, and consistent messaging across all communication channels.</p>
+                </div>
+                
+                <!-- Category 4: Brand Experience -->
+                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.4s">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gradient-to-br from-purple-400 to-indigo-300 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold">Brand Experience</h3>
+                    </div>
+                    <p class="text-white text-opacity-90">Skill in designing consistent and meaningful customer experiences across all brand touchpoints and interactions.</p>
+                </div>
+                
+                <!-- Category 5: Digital Branding -->
+                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.5s">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gradient-to-br from-green-400 to-emerald-300 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold">Digital Branding</h3>
+                    </div>
+                    <p class="text-white text-opacity-90">Ability to translate brand identity effectively across digital platforms, social media, and online marketing channels.</p>
+                </div>
+                
+                <!-- Category 6: Brand Management -->
+                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.6s">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gradient-to-br from-orange-400 to-red-300 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-orange-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
                             </svg>
                         </div>
-                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Brand Management</h3>
-                        <p class="text-gray-600 text-sm text-center">Consistency & growth</p>
+                        <h3 class="text-xl font-bold">Brand Management</h3>
                     </div>
-                </div>
-                
-                <div class="bg-gradient-to-r from-pink-50 to-purple-50 p-6 rounded-lg mb-8 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-32 h-32 -mt-10 -mr-10 bg-pink-100 rounded-full opacity-50"></div>
-                    <div class="absolute bottom-0 left-0 w-24 h-24 -mb-8 -ml-8 bg-purple-100 rounded-full opacity-50"></div>
-                    <h3 class="font-semibold text-pink-800 mb-3 relative z-10">Why Take This Assessment?</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 relative z-10">
-                        <div class="flex items-start">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-pink-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span class="text-gray-700 text-sm">Identify your branding strengths</span>
-                        </div>
-                        <div class="flex items-start">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-pink-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span class="text-gray-700 text-sm">Discover areas for improvement</span>
-                        </div>
-                        <div class="flex items-start">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-pink-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span class="text-gray-700 text-sm">Earn a professional certificate</span>
-                        </div>
-                        <div class="flex items-start">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-pink-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span class="text-gray-700 text-sm">Enhance your branding career profile</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 mb-8">
-                    <div class="flex items-center mb-4">
-                        <div class="bg-amber-100 p-2 rounded-full mr-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </div>
-                        <h3 class="font-semibold text-gray-800">How It Works</h3>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="flex flex-col items-center text-center">
-                            <div class="bg-pink-100 w-10 h-10 rounded-full flex items-center justify-center mb-3">
-                                <span class="font-bold text-pink-600">1</span>
-                            </div>
-                            <h4 class="font-medium text-gray-800 mb-1">Complete Assessment</h4>
-                            <p class="text-gray-600 text-sm">Answer 25 questions about branding</p>
-                        </div>
-                        <div class="flex flex-col items-center text-center">
-                            <div class="bg-pink-100 w-10 h-10 rounded-full flex items-center justify-center mb-3">
-                                <span class="font-bold text-pink-600">2</span>
-                            </div>
-                            <h4 class="font-medium text-gray-800 mb-1">Get Results</h4>
-                            <p class="text-gray-600 text-sm">Receive detailed feedback on your branding abilities</p>
-                        </div>
-                        <div class="flex flex-col items-center text-center">
-                            <div class="bg-pink-100 w-10 h-10 rounded-full flex items-center justify-center mb-3">
-                                <span class="font-bold text-pink-600">3</span>
-                            </div>
-                            <h4 class="font-medium text-gray-800 mb-1">Earn Certificate</h4>
-                            <p class="text-gray-600 text-sm">Get your professional certificate to showcase your skills</p>
-                        </div>
-                    </div>
+                    <p class="text-white text-opacity-90">Skill in maintaining brand consistency, measuring brand performance, and evolving the brand strategically over time.</p>
                 </div>
             </div>
             
-            <div class="flex justify-center">
-                <button id="start-btn" class="btn bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white font-medium py-3 px-8 rounded-lg flex items-center">
-                    Start Assessment
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
+            <div class="w-full max-w-md text-center fade-in">
+                <button id="start-quiz-btn" class="px-8 py-3 bg-gradient-to-r from-amber-500 to-emerald-400 text-white rounded-full font-medium text-lg hover:bg-opacity-90 transition-opacity shadow-lg">
+                    Start 20-Question Assessment
                 </button>
+                <p class="text-white text-opacity-90 mt-4">You'll have 15 minutes to complete all questions</p>
             </div>
         </div>
 
         <!-- Quiz Screen -->
-        <div id="quiz-screen" class="assessment-container hidden">
-            <div class="p-6 bg-gradient-to-r from-pink-50 to-purple-50 border-b border-pink-100">
-                <div class="flex justify-between items-center mb-4">
-                    <div>
-                        <h2 class="text-xl font-semibold text-gray-800">Branding Assessment</h2>
-                        <p class="text-gray-600 text-sm">Question <span id="current-question">1</span> of 25</p>
-                    </div>
-                    <div class="bg-white px-4 py-2 rounded-lg shadow-sm flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-pink-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div id="quiz-screen" class="hidden min-h-screen lavender-sky-gradient flex flex-col">
+            <!-- Quiz Header -->
+            <div class="p-4 md:p-6 flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h2 class="text-2xl font-bold text-white">Branding Skills Assessment</h2>
+                    <p class="text-white text-opacity-80">Answer each question to the best of your ability</p>
+                </div>
+                <div class="flex flex-col items-end">
+                    <div class="flex items-center mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <span id="timer" class="font-medium">30:00</span>
+                        <span id="timer" class="text-white font-medium">10:00</span>
                     </div>
-                </div>
-                <div class="progress-bar">
-                    <div id="progress-fill" class="progress-fill" style="width: 4%"></div>
+                    <div class="w-full bg-white bg-opacity-30 rounded-full h-2">
+                        <div id="timer-bar" class="timer-bar bg-gradient-to-r from-amber-500 to-emerald-400 h-2 rounded-full" style="width: 100%"></div>
+                    </div>
                 </div>
             </div>
             
-            <div class="p-8">
-                <h3 id="question-text" class="text-xl font-medium text-gray-800 mb-6">Loading question...</h3>
-                
-                <div id="options-container" class="space-y-4 mb-8">
-                    <!-- Options will be inserted here -->
+            <!-- Quiz Progress -->
+            <div class="px-4 md:px-6 py-2">
+                <div class="flex justify-between items-center mb-1">
+                    <span class="text-sm text-white text-opacity-80">Question <span id="current-question">1</span> of 20</span>
+                    <span class="text-sm text-white text-opacity-80"><span id="progress-percent">5</span>% Complete</span>
                 </div>
-                
-                <div class="flex justify-between">
-                    <button id="prev-btn" class="btn bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-2 px-6 rounded-lg flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                <div class="w-full bg-white bg-opacity-30 rounded-full h-2">
+                    <div id="progress-bar" class="progress-bar bg-gradient-to-r from-amber-500 to-emerald-400 h-2 rounded-full" style="width: 5%"></div>
+                </div>
+            </div>
+            
+            <!-- Quiz Content -->
+            <div class="flex-grow flex items-center justify-center p-4 md:p-6">
+                <div id="question-container" class="w-full max-w-3xl bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 md:p-8 shadow-lg scale-in">
+                    <div id="question-icon" class="mx-auto mb-6 bg-gradient-to-br from-amber-500 to-emerald-400 w-16 h-16 rounded-full flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                         </svg>
-                        Previous
-                    </button>
-                    <div class="flex space-x-2">
-                        <button id="skip-btn" class="btn bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-4 rounded-lg">
-                            Skip
-                        </button>
-                        <button id="next-btn" class="btn bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white font-medium py-2 px-6 rounded-lg flex items-center">
-                            Next
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                            </svg>
-                        </button>
+                    </div>
+                    <h3 id="question-text" class="text-xl md:text-2xl font-medium text-white text-center mb-8">What is the primary purpose of a brand strategy?</h3>
+                    
+                    <div id="options-container" class="space-y-4">
+                        <!-- Options will be dynamically generated -->
                     </div>
                 </div>
             </div>
             
-            <div class="p-4 bg-gray-50 border-t border-gray-100">
-                <div class="flex flex-wrap gap-2 justify-center" id="question-nav">
-                    <!-- Question navigation buttons will be inserted here -->
-                </div>
+            <!-- Quiz Navigation -->
+            <div class="p-4 md:p-6 flex justify-between">
+                <button id="prev-btn" class="px-6 py-2 bg-white bg-opacity-10 text-white rounded-lg font-medium hover:bg-opacity-20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Previous</button>
+                <button id="next-btn" class="px-6 py-2 bg-gradient-to-r from-amber-500 to-emerald-400 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">Next</button>
             </div>
         </div>
 
         <!-- Results Screen -->
-        <div id="results-screen" class="assessment-container hidden">
-            <div class="p-8 text-center">
-                <div id="score-badge" class="badge w-32 h-32 rounded-full bg-gradient-to-r from-pink-100 to-purple-100 flex items-center justify-center mx-auto mb-6">
-                    <div class="text-center">
-                        <span id="score-percentage" class="block text-3xl font-bold text-pink-600">85%</span>
-                        <span class="text-sm text-pink-800">Score</span>
+        <div id="results-screen" class="hidden min-h-screen mango-mint-gradient flex flex-col">
+            <div class="p-4 md:p-6">
+                <h2 class="text-2xl md:text-3xl font-bold text-white text-center mango-text">Your Assessment Results</h2>
+                <p class="text-white text-opacity-80 text-center mb-8">Here's how you performed in the Branding Skills Assessment</p>
+                
+                <div class="w-full max-w-4xl mx-auto bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 md:p-8 shadow-lg mb-8">
+                    <div class="flex flex-col md:flex-row items-center justify-between mb-8">
+                        <div class="mb-6 md:mb-0">
+                            <h3 class="text-xl text-white mb-2">Total Score</h3>
+                            <div class="text-5xl font-bold text-white glow-text"><span id="total-score">0</span>/<span id="max-score">100</span></div>
+                        </div>
+                        <div class="w-full md:w-auto">
+                            <div id="score-gauge" class="w-40 h-40 mx-auto relative">
+                                <svg class="w-full h-full" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="45" fill="none" stroke="#ffffff33" stroke-width="10" />
+                                    <circle id="score-circle" cx="50" cy="50" r="45" fill="none" stroke-width="10" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="283" transform="rotate(-90 50 50)" />
+                                </svg>
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <span id="score-percentage" class="text-2xl font-bold text-white glow-text">0%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-xl text-white mb-4">Performance by Category</h3>
+                    <div id="category-results" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <!-- Category results will be dynamically generated -->
                     </div>
                 </div>
                 
-                <h2 class="text-2xl font-bold text-gray-800 mb-2">Assessment Complete!</h2>
-                <p id="result-message" class="text-gray-600 mb-6">Great job! You've completed the assessment.</p>
-                
-                <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
-                    <h3 class="font-semibold text-gray-800 mb-4">Performance Summary</h3>
-                    <div class="grid grid-cols-2 gap-4 mb-6">
-                        <div class="bg-gradient-to-r from-pink-50 to-purple-50 p-4 rounded-lg">
-                            <div class="text-2xl font-bold text-pink-600 mb-1"><span id="correct-answers">21</span>/25</div>
-                            <div class="text-sm text-gray-600">Correct Answers</div>
-                        </div>
-                        <div class="bg-gradient-to-r from-pink-50 to-purple-50 p-4 rounded-lg">
-                            <div class="text-2xl font-bold text-pink-600 mb-1"><span id="time-taken">15:45</span></div>
-                            <div class="text-sm text-gray-600">Time Taken</div>
-                        </div>
-                    </div>
+                <div class="w-full max-w-md mx-auto bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 shadow-lg text-center">
+                    <h3 class="text-xl text-white mb-4 glow-text">Get Your Certificate</h3>
+                    <p class="text-white text-opacity-80 mb-6">Complete the payment to receive your official Skillexa certification</p>
                     
                     <div class="mb-6">
-                        <div class="flex items-center mb-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-pink-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        <div id="qr-code" class="w-48 h-48 mx-auto bg-white p-4 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="w-full h-full">
+                                <!-- Simple QR code SVG representation -->
+                                <rect x="10" y="10" width="80" height="80" fill="none" stroke="black" stroke-width="1" />
+                                <g fill="black">
+                                    <!-- QR code pattern - simplified representation -->
+                                    <rect x="20" y="20" width="20" height="20" />
+                                    <rect x="60" y="20" width="20" height="20" />
+                                    <rect x="20" y="60" width="20" height="20" />
+                                    <rect x="40" y="40" width="20" height="20" />
+                                    <rect x="65" y="65" width="10" height="10" />
+                                    <rect x="25" y="45" width="10" height="10" />
+                                    <rect x="45" y="25" width="10" height="10" />
+                                    <rect x="65" y="45" width="10" height="10" />
+                                    <rect x="45" y="65" width="10" height="10" />
+                                </g>
                             </svg>
-                            <h4 class="font-medium text-gray-700">Your Branding Strengths</h4>
                         </div>
-                        <div id="strengths" class="text-sm text-gray-600 bg-gray-50 p-4 rounded-lg">
-                            <!-- Strengths will be inserted here -->
-                        </div>
+                        <p class="text-white text-opacity-80 mt-2">Scan to pay via UPI</p>
                     </div>
                     
-                    <div class="mb-6">
-                        <div class="flex items-center mb-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                            </svg>
-                            <h4 class="font-medium text-gray-700">Areas for Growth</h4>
-                        </div>
-                        <div id="improvements" class="text-sm text-gray-600 bg-gray-50 p-4 rounded-lg">
-                            <!-- Areas for improvement will be inserted here -->
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <h4 class="font-medium text-gray-700 mb-3">Knowledge Area Breakdown</h4>
-                        <div class="space-y-4">
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-sm text-gray-600">Brand Identity</span>
-                                    <span id="identity-score" class="text-sm font-medium text-pink-600">85%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div id="identity-bar" class="skill-fill" style="width: 85%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-sm text-gray-600">Brand Strategy</span>
-                                    <span id="strategy-score" class="text-sm font-medium text-pink-600">70%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div id="strategy-bar" class="skill-fill" style="width: 70%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-sm text-gray-600">Visual Design</span>
-                                    <span id="design-score" class="text-sm font-medium text-pink-600">90%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div id="design-bar" class="skill-fill" style="width: 90%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-sm text-gray-600">Brand Messaging</span>
-                                    <span id="messaging-score" class="text-sm font-medium text-pink-600">75%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div id="messaging-bar" class="skill-fill" style="width: 75%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-sm text-gray-600">Brand Management</span>
-                                    <span id="management-score" class="text-sm font-medium text-pink-600">80%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div id="management-bar" class="skill-fill" style="width: 80%"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-gradient-to-r from-pink-50 to-purple-50 p-6 rounded-lg mb-8 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-32 h-32 -mt-10 -mr-10 bg-pink-100 rounded-full opacity-30"></div>
-                    <div class="relative z-10">
-                        <h3 class="font-semibold text-gray-800 mb-3">Next Steps</h3>
-                        <p class="text-gray-600 text-sm mb-4">Get your professional certificate to showcase your branding skills!</p>
-                        <ul class="text-sm text-gray-600 space-y-2">
-                            <li class="flex items-start">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-pink-600 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                                </svg>
-                                <span>Verifiable digital certificate</span>
-                            </li>
-                            <li class="flex items-start">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-pink-600 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                </svg>
-                                <span>Add to your LinkedIn profile</span>
-                            </li>
-                            <li class="flex items-start">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-pink-600 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                </svg>
-                                <span>Download as PDF</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="flex justify-center">
-                    <button id="payment-btn" class="btn bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white font-medium py-3 px-8 rounded-lg flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-                        </svg>
-                        Get Your Certificate ($24.99)
+                    <!-- Simulated payment button for demo purposes -->
+                    <button id="simulate-payment-btn" class="w-full px-6 py-3 bg-gradient-to-r from-amber-500 to-emerald-400 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">
+                        Simulate Payment (Demo)
                     </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Payment Modal -->
-        <div id="payment-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-            <div class="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full mx-4 scale-in">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-xl font-bold text-gray-800">Payment Details</h3>
-                    <button id="close-payment" class="text-gray-400 hover:text-gray-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
-                
-                <div class="mb-6">
-                    <div class="flex justify-between items-center p-4 bg-gradient-to-r from-pink-50 to-purple-50 rounded-lg mb-4">
-                        <div class="flex items-center">
-                            <div class="bg-pink-100 p-2 rounded-full mr-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-gray-800">Branding Certificate</h4>
-                                <p class="text-sm text-gray-600">Verifiable digital certificate</p>
-                            </div>
-                        </div>
-                        <span class="font-bold text-pink-600">$24.99</span>
-                    </div>
-                    
-                    <!-- This is a demo payment form -->
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Card Number</label>
-                            <input type="text" placeholder="1234 5678 9012 3456" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500">
-                        </div>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Expiry Date</label>
-                                <input type="text" placeholder="MM/YY" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">CVC</label>
-                                <input type="text" placeholder="123" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500">
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Name on Card</label>
-                            <input type="text" placeholder="John Doe" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                            <input type="email" placeholder="your@email.com" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500">
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="text-center">
-                    <button id="process-payment" class="btn w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white font-medium py-3 px-8 rounded-lg">
-                        Pay $24.99 and Get Certificate
-                    </button>
-                    <p class="text-xs text-gray-500 mt-4">This is a demo payment form. No actual payment will be processed.</p>
                 </div>
             </div>
         </div>
 
         <!-- Certificate Screen -->
-        <div id="certificate-screen" class="hidden">
-            <div class="max-w-4xl mx-auto">
-                <div id="confetti-container" class="fixed inset-0 pointer-events-none"></div>
-                
-                <div class="certificate p-8 md:p-12 rounded-xl mb-8">
-                    <div class="border-pattern absolute inset-4 rounded-lg opacity-10 pointer-events-none"></div>
-                    
-                    <div class="text-center mb-8 relative">
-                        <div class="inline-block">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-pink-600 mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path>
-                            </svg>
-                        </div>
-                        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-4">Certificate of Achievement</h2>
-                        <p class="text-gray-600 mt-2">in Branding</p>
-                    </div>
-                    
-                    <div class="text-center mb-8">
-                        <p class="text-gray-600 mb-2">This certifies that</p>
-                        <h3 id="certificate-name" class="text-2xl font-bold text-pink-600 mb-2">John Doe</h3>
-                        <p class="text-gray-600">has successfully completed the</p>
-                        <h4 class="text-xl font-semibold text-gray-800 my-2">Branding Skills Assessment</h4>
-                        <p class="text-gray-600 mb-2">with a score of</p>
-                        <div class="inline-block bg-gradient-to-r from-pink-100 to-purple-100 px-4 py-2 rounded-full">
-                            <span id="certificate-score" class="text-xl font-bold text-pink-600">85%</span>
-                        </div>
-                    </div>
-                    
-                    <div class="mb-8">
-                        <div class="grid grid-cols-5 gap-4 text-center">
-                            <div>
-                                <div class="bg-pink-100 p-2 rounded-full w-12 h-12 mx-auto mb-2 flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+        <div id="certificate-screen" class="hidden min-h-screen bg-gray-100 p-4 md:p-8 flex flex-col items-center justify-center">
+            <div class="mb-6 text-center">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800">Your Certificate is Ready!</h2>
+                <p class="text-gray-600">Your certificate has been generated and will download automatically</p>
+            </div>
+            
+            <!-- Certificate Preview -->
+            <div id="certificate" class="w-full max-w-5xl certificate-border rounded-lg shadow-xl">
+                <div class="certificate-inner-border rounded-lg">
+                    <div class="certificate-content p-8 rounded-lg">
+                        <div class="watermark">SKILLEXA</div>
+                        
+                        <div class="flex justify-between items-start mb-6 relative z-10">
+                            <!-- Logo placeholder -->
+                            <div class="w-24 h-24 bg-gray-200 rounded flex items-center justify-center">
+                                <span class="text-gray-500 font-bold">SKILLEXA</span>
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <div class="text-right mr-4">
+                                    <h3 class="text-xl font-bold text-gray-800">CERTIFICATE</h3>
+                                    <p class="text-gray-600">OF ACHIEVEMENT</p>
+                                </div>
+                                <div class="w-12 h-12">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" class="w-full h-full">
+                                        <circle cx="48" cy="48" r="46" fill="#8b5cf6"/>
+                                        <path fill="#FFFFFF" d="M41,59.4l-12-12l-4.2,4.2L41,67.8l30.2-30.2l-4.2-4.2L41,59.4z"/>
                                     </svg>
                                 </div>
-                                <p class="text-xs text-gray-600">Identity</p>
-                                <p id="cert-identity" class="text-sm font-medium text-pink-600">85%</p>
-                            </div>
-                            <div>
-                                <div class="bg-pink-100 p-2 rounded-full w-12 h-12 mx-auto mb-2 flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                                    </svg>
-                                </div>
-                                <p class="text-xs text-gray-600">Strategy</p>
-                                <p id="cert-strategy" class="text-sm font-medium text-pink-600">70%</p>
-                            </div>
-                            <div>
-                                <div class="bg-pink-100 p-2 rounded-full w-12 h-12 mx-auto mb-2 flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                    </svg>
-                                </div>
-                                <p class="text-xs text-gray-600">Design</p>
-                                <p id="cert-design" class="text-sm font-medium text-pink-600">90%</p>
-                            </div>
-                            <div>
-                                <div class="bg-pink-100 p-2 rounded-full w-12 h-12 mx-auto mb-2 flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                                    </svg>
-                                </div>
-                                <p class="text-xs text-gray-600">Messaging</p>
-                                <p id="cert-messaging" class="text-sm font-medium text-pink-600">75%</p>
-                            </div>
-                            <div>
-                                <div class="bg-pink-100 p-2 rounded-full w-12 h-12 mx-auto mb-2 flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-                                    </svg>
-                                </div>
-                                <p class="text-xs text-gray-600">Management</p>
-                                <p id="cert-management" class="text-sm font-medium text-pink-600">80%</p>
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="flex justify-between items-end">
-                        <div>
-                            <svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10 25C15 15 25 30 30 20C35 10 45 25 50 15C55 5 65 20 70 10C75 0 85 15 90 5C95 -5 105 10 110 0" stroke="#ec4899" stroke-width="2"/>
-                            </svg>
-                            <div class="h-px w-40 bg-gray-300 mb-2"></div>
-                            <p class="text-sm text-gray-600">Authorized Signature</p>
+                        
+                        <div class="text-center mb-8 relative z-10">
+                            <h2 class="handwriting text-4xl text-gray-800 mb-1">Certificate of Excellence</h2>
+                            <p class="text-gray-600">This certifies that</p>
+                            <h3 id="certificate-name" class="handwriting text-3xl text-gray-800 my-3">John Doe</h3>
+                            <p class="text-gray-600 max-w-lg mx-auto">has successfully completed the Branding Skills Assessment with outstanding performance and is hereby recognized for their achievement.</p>
                         </div>
-                        <div class="text-right">
-                            <p id="certificate-date" class="text-sm text-gray-600">June 15, 2023</p>
-                            <p class="text-sm text-gray-600">Date Issued</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 relative z-10">
+                            <div>
+                                <h4 class="font-bold text-gray-800 mb-2">Assessment Details</h4>
+                                <div class="space-y-2">
+                                    <div class="flex items-center">
+                                        <span class="text-gray-600 w-32">Skill:</span>
+                                        <span class="font-medium text-gray-800">Branding Skills</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-gray-600 w-32">Total Score:</span>
+                                        <span id="certificate-score" class="font-medium text-gray-800">85/100</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-gray-600 w-32">Rank:</span>
+                                        <span id="certificate-rank" class="font-medium text-gray-800">Excellent</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-gray-600 w-32">Date:</span>
+                                        <span id="certificate-date" class="font-medium text-gray-800">May 15, 2024</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-gray-600 w-32">Certificate ID:</span>
+                                        <span id="certificate-id" class="font-medium text-gray-800">SKX-123456</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-bold text-gray-800 mb-2">Performance Breakdown</h4>
+                                <div id="certificate-categories" class="grid grid-cols-2 gap-2">
+                                    <!-- Will be populated dynamically -->
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="absolute bottom-4 right-4">
-                        <div class="flex items-center text-xs text-gray-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                            <span id="certificate-id">ID: BR-2023-12345</span>
+                        
+                        <div class="text-center my-4 relative z-10">
+                            <div class="handwriting text-2xl font-bold text-gray-400">SKILLEXA CERTIFIED 2025</div>
                         </div>
-                    </div>
-                    
-                    <div class="absolute top-8 right-8">
-                        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="40" cy="40" r="38" stroke="#ec4899" stroke-width="2" stroke-dasharray="4 4"/>
-                            <circle cx="40" cy="40" r="30" fill="#fbcfe8" fill-opacity="0.5"/>
-                            <path d="M30 40L36 46L50 32" stroke="#ec4899" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
+                        
+                        <div class="flex justify-between items-end mt-8 relative z-10">
+                            <div class="text-center">
+                                <div class="w-40 border-b border-gray-400 mb-1"></div>
+                                <p class="text-gray-800 font-medium">Jagdeep Kaur I</p>
+                                <p class="text-gray-600 text-sm">Founder</p>
+                            </div>
+                            
+                            <div class="text-center">
+                                <div class="w-40 border-b border-gray-400 mb-1"></div>
+                                <p class="text-gray-800 font-medium">Prajapathi Srushti K</p>
+                                <p class="text-gray-600 text-sm">Co-Founder</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="flex flex-wrap justify-center gap-4">
-                    <button id="download-btn" class="btn bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white font-medium py-3 px-6 rounded-lg flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                        </svg>
-                        Download Certificate
-                    </button>
-                    <button id="share-btn" class="btn bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-3 px-6 rounded-lg flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                        </svg>
-                        Share Certificate
-                    </button>
-                </div>
+            </div>
+            
+            <div class="mt-8">
+                <button id="download-again-btn" class="px-6 py-3 bg-gradient-to-r from-pink-600 to-purple-600 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">
+                    Download Certificate Again
+                </button>
             </div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Quiz data
-            const quizData = [
+            // Quiz questions data
+            const quizQuestions = [
                 {
-                    question: "What is a brand identity?",
+                    category: "Brand Strategy",
+                    question: "What is the primary purpose of a brand strategy?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                          </svg>`,
                     options: [
-                        "The legal name of a company",
-                        "The visual elements that represent a brand, including logo, colors, and typography",
-                        "The advertising budget of a company",
-                        "The CEO of a company"
+                        "To create a roadmap for how, what, where, when and to whom you communicate your brand messages",
+                        "To design a logo and visual identity system",
+                        "To create advertising campaigns that generate immediate sales",
+                        "To reduce marketing expenses by focusing only on digital channels"
                     ],
-                    answer: 1,
-                    category: "Identity"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is the purpose of a brand style guide?",
+                    category: "Brand Strategy",
+                    question: "What is a brand positioning statement?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                          </svg>`,
                     options: [
-                        "To list all company employees",
-                        "To document how the brand elements should be used consistently across all materials",
-                        "To track sales figures",
-                        "To manage customer complaints"
+                        "A clear, concise statement that articulates the target audience, point of difference, and benefit of a brand",
+                        "A legal document that protects the brand's intellectual property",
+                        "A financial forecast of the brand's expected market share",
+                        "A list of all the places where the brand logo will appear"
                     ],
-                    answer: 1,
-                    category: "Identity"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is brand positioning?",
-                    options: [
-                        "The physical location of a company's headquarters",
-                        "How a brand is perceived in the minds of consumers relative to competitors",
-                        "The placement of products on store shelves",
-                        "The ranking of a brand on search engines"
-                    ],
-                    answer: 1,
-                    category: "Strategy"
-                },
-                {
+                    category: "Brand Strategy",
                     question: "What is a brand archetype?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                          </svg>`,
                     options: [
-                        "A personality type assigned to a brand based on universal character types",
-                        "The original founder of a company",
-                        "The first logo design of a brand",
-                        "A type of trademark protection"
+                        "A universal character or symbol that represents fundamental human desires and motivations that a brand embodies",
+                        "The original version of a brand logo before any redesigns",
+                        "The first product ever released by a brand",
+                        "A brand's oldest customer demographic"
                     ],
-                    answer: 0,
-                    category: "Strategy"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is the principle of color psychology in branding?",
+                    category: "Visual Identity",
+                    question: "What is the purpose of a brand style guide?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>`,
                     options: [
-                        "Using as many colors as possible to attract attention",
-                        "Avoiding the use of color in branding materials",
-                        "Understanding how different colors evoke different emotions and associations",
-                        "Only using black and white for professional brands"
+                        "To document standards for how the brand is visually and verbally presented to maintain consistency across all channels",
+                        "To provide fashion advice for employees representing the brand",
+                        "To restrict creative expression in marketing materials",
+                        "To outline the company's dress code policy"
                     ],
-                    answer: 2,
-                    category: "Design"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is the difference between a logo and a brand?",
+                    category: "Visual Identity",
+                    question: "What is color psychology in branding?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>`,
                     options: [
-                        "They are the same thing",
-                        "A logo is a visual symbol while a brand encompasses the entire identity and perception of a company",
-                        "A brand is only for large corporations while a logo is for small businesses",
-                        "A logo is digital while a brand is print-based"
+                        "The study of how colors affect human emotions and behaviors, used strategically to evoke specific feelings about a brand",
+                        "A technique to make logos appear larger than they actually are",
+                        "The process of changing brand colors seasonally to stay trendy",
+                        "A method of using colors to hide negative aspects of a product"
                     ],
-                    answer: 1,
-                    category: "Identity"
+                    correctAnswer: 0
                 },
                 {
+                    category: "Visual Identity",
+                    question: "What is the difference between a wordmark and a pictorial mark in logo design?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>`,
+                    options: [
+                        "A wordmark is a logo based on the company name styled with distinctive typography, while a pictorial mark is an icon or symbol that represents the brand",
+                        "A wordmark is used for international brands, while a pictorial mark is only for local businesses",
+                        "A wordmark is temporary, while a pictorial mark is permanent",
+                        "A wordmark is for digital use, while a pictorial mark is for print materials"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Brand Messaging",
                     question: "What is a brand voice?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                          </svg>`,
                     options: [
-                        "The spokesperson for a company",
-                        "The consistent tone and language style used in all brand communications",
-                        "The audio jingle used in advertisements",
-                        "The volume level of commercials"
+                        "The distinct personality and tone a brand uses in all its communications that reflects its values and resonates with its audience",
+                        "The spokesperson or celebrity who represents the brand in commercials",
+                        "The volume level of advertisements",
+                        "The jingle or sound effect used in radio advertisements"
                     ],
-                    answer: 1,
-                    category: "Messaging"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is a brand promise?",
+                    category: "Brand Messaging",
+                    question: "What is a value proposition in branding?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                          </svg>`,
                     options: [
-                        "A legal guarantee on products",
-                        "The commitment a brand makes to its customers about what they can expect",
-                        "A promotional discount",
-                        "A warranty period"
+                        "A clear statement that explains how your product solves customers' problems, delivers specific benefits, and tells the ideal customer why they should buy from you instead of the competition",
+                        "The monetary value of a brand as listed on financial statements",
+                        "The discount offered to first-time customers",
+                        "The charitable donations a company makes each year"
                     ],
-                    answer: 1,
-                    category: "Strategy"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is brand equity?",
+                    category: "Brand Messaging",
+                    question: "What is brand storytelling?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                          </svg>`,
                     options: [
-                        "The financial value of a brand's assets",
-                        "The total value of a brand beyond its physical assets, including consumer perception and recognition",
-                        "The amount of money spent on advertising",
-                        "The number of employees in a company"
+                        "Using narrative techniques to connect your brand to customers, with a focus on linking what you stand for to the values you share with your customers",
+                        "Creating fictional characters to represent your brand in advertisements",
+                        "Exaggerating product features to make them sound more impressive",
+                        "Writing the history of the company for the 'About Us' page"
                     ],
-                    answer: 1,
-                    category: "Management"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is a brand extension?",
-                    options: [
-                        "Extending a company's working hours",
-                        "Using an established brand name for a new product or service category",
-                        "Expanding office space",
-                        "Extending a promotional campaign"
-                    ],
-                    answer: 1,
-                    category: "Management"
-                },
-                {
-                    question: "What is the purpose of a tagline in branding?",
-                    options: [
-                        "To provide legal protection for a brand",
-                        "To list ingredients in a product",
-                        "To capture the brand essence and positioning in a memorable phrase",
-                        "To name the CEO of the company"
-                    ],
-                    answer: 2,
-                    category: "Messaging"
-                },
-                {
-                    question: "What is brand consistency?",
-                    options: [
-                        "Using the same supplier for all products",
-                        "Maintaining the same brand elements and messaging across all touchpoints",
-                        "Keeping the same price for all products",
-                        "Never changing the company logo"
-                    ],
-                    answer: 1,
-                    category: "Management"
-                },
-                {
+                    category: "Brand Experience",
                     question: "What is a brand touchpoint?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>`,
                     options: [
-                        "The physical location where customers can touch products",
-                        "Any moment where a customer interacts with or experiences a brand",
-                        "The contact information for a company",
-                        "A touchscreen device used for marketing"
+                        "Any moment when a customer or potential customer comes into contact with your brand—before, during, or after they purchase something from you",
+                        "The physical location where customers can touch product samples",
+                        "The point in a sales pitch when you ask for the sale",
+                        "The part of a logo that customers find most memorable"
                     ],
-                    answer: 1,
-                    category: "Management"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is the difference between serif and sans-serif fonts in branding?",
+                    category: "Brand Experience",
+                    question: "What is customer journey mapping in branding?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>`,
                     options: [
-                        "Serif fonts have small lines at the ends of characters, while sans-serif fonts do not",
-                        "Serif fonts are only for digital use, while sans-serif fonts are for print",
-                        "Sans-serif fonts are illegal to use in branding",
-                        "Serif fonts are colored, while sans-serif fonts are black and white"
+                        "The process of visualizing the complete experience a customer has with your brand from initial awareness through purchase and beyond",
+                        "Creating physical maps showing the locations of all your customers",
+                        "Tracking where customers go within a retail store",
+                        "Planning the fastest delivery routes for your products"
                     ],
-                    answer: 0,
-                    category: "Design"
+                    correctAnswer: 0
                 },
                 {
+                    category: "Brand Experience",
+                    question: "What is experiential branding?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>`,
+                    options: [
+                        "A strategy that focuses on creating immersive experiences that allow customers to interact with and experience a brand in a tangible, memorable way",
+                        "Using celebrities to endorse products based on their personal experiences",
+                        "Requiring employees to use company products in their personal lives",
+                        "Offering free samples of products to first-time customers"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Digital Branding",
+                    question: "What is a social media brand strategy?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                          </svg>`,
+                    options: [
+                        "A plan that outlines how a brand will use social media platforms to achieve specific business goals while maintaining brand consistency",
+                        "Posting as frequently as possible on all available social media platforms",
+                        "Hiring influencers with the most followers regardless of brand fit",
+                        "Creating viral content that may not relate to your brand values"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Digital Branding",
+                    question: "What is responsive branding?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                          </svg>`,
+                    options: [
+                        "Creating flexible brand assets that adapt to different digital contexts and screen sizes while maintaining brand recognition",
+                        "Changing your brand identity based on customer complaints",
+                        "Responding to all social media comments within 24 hours",
+                        "Altering your brand values to match current trends"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Digital Branding",
+                    question: "What is content marketing in the context of branding?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                          </svg>`,
+                    options: [
+                        "A strategic approach focused on creating and distributing valuable, relevant content to attract and engage a target audience, ultimately driving profitable customer action while building brand authority",
+                        "Creating as much content as possible to improve search engine rankings",
+                        "Copying successful content from competitors",
+                        "Paying for sponsored articles that directly promote your products"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Brand Management",
+                    question: "What is brand equity?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                          </svg>`,
+                    options: [
+                        "The commercial value that derives from consumer perception of the brand name rather than the product or service itself",
+                        "The amount of money invested in creating the brand logo and visual identity",
+                        "The percentage of market share a brand holds",
+                        "The number of years a brand has existed"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Brand Management",
+                    question: "What is brand dilution?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                          </svg>`,
+                    options: [
+                        "The weakening of a brand's value and impact due to inconsistent use, over-extension, or actions that contradict the brand's established values",
+                        "Adding water to a product to reduce manufacturing costs",
+                        "Reducing advertising spending during economic downturns",
+                        "Decreasing the price of products to increase sales volume"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Brand Management",
                     question: "What is a brand audit?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                          </svg>`,
                     options: [
-                        "A financial review of a company",
-                        "A systematic examination of a brand's current position, including strengths and weaknesses",
-                        "A legal inspection of trademark documents",
-                        "A quality check of products"
+                        "A comprehensive examination of a brand's current position, including its strengths, weaknesses, and how it relates to competitors",
+                        "A financial review conducted by accountants to ensure proper tax reporting",
+                        "A quality control check of products before they leave the factory",
+                        "A security assessment of the company's digital assets"
                     ],
-                    answer: 1,
-                    category: "Management"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is a brand persona?",
+                    category: "Brand Strategy",
+                    question: "What is a brand extension strategy?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                          </svg>`,
                     options: [
-                        "The CEO of a company",
-                        "A fictional character used in advertisements",
-                        "A human personality attributed to a brand to make it more relatable",
-                        "The customer service representative"
+                        "Using an established brand name to launch a new product in a different category",
+                        "Expanding a business to new geographic locations",
+                        "Extending the warranty period on existing products",
+                        "Making the logo larger on all marketing materials"
                     ],
-                    answer: 2,
-                    category: "Strategy"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is the purpose of a mood board in branding?",
+                    category: "Visual Identity",
+                    question: "What is the purpose of a brand's visual hierarchy?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>`,
                     options: [
-                        "To track employee moods in the workplace",
-                        "To collect visual references that convey the desired look and feel of a brand",
-                        "To display sales targets",
-                        "To post company announcements"
+                        "To organize visual elements in order of importance to guide viewers' attention and create a clear, effective communication flow",
+                        "To establish which executives have the final say on design decisions",
+                        "To determine which products should be featured most prominently in stores",
+                        "To rank the importance of different social media platforms"
                     ],
-                    answer: 1,
-                    category: "Design"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is brand differentiation?",
+                    category: "Brand Messaging",
+                    question: "What is a tagline in branding?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                          </svg>`,
                     options: [
-                        "Selling different products under different brand names",
-                        "The process of making a brand stand out from competitors through unique attributes",
-                        "Changing a logo regularly",
-                        "Having different prices for the same product"
+                        "A memorable phrase that captures the essence of a brand's promise and positioning",
+                        "The legal disclaimer required at the end of advertisements",
+                        "The price tag attached to products",
+                        "The hashtag used in social media campaigns"
                     ],
-                    answer: 1,
-                    category: "Strategy"
-                },
-                {
-                    question: "What is a brand story?",
-                    options: [
-                        "A fictional tale used in advertising",
-                        "The narrative that communicates the history, purpose, and values of a brand",
-                        "A press release about a new product",
-                        "A customer testimonial"
-                    ],
-                    answer: 1,
-                    category: "Messaging"
-                },
-                {
-                    question: "What is the golden ratio in design?",
-                    options: [
-                        "A mathematical ratio (approximately 1:1.618) often used in design for aesthetic harmony",
-                        "The ratio of gold to other metals in jewelry",
-                        "The ideal ratio of text to images in advertising",
-                        "The perfect amount of gold color to use in a logo"
-                    ],
-                    answer: 0,
-                    category: "Design"
-                },
-                {
-                    question: "What is a brand ambassador?",
-                    options: [
-                        "A diplomatic representative of a country",
-                        "A person who is paid to represent and promote a brand positively",
-                        "The delivery person for a company",
-                        "The receptionist at a company headquarters"
-                    ],
-                    answer: 1,
-                    category: "Management"
-                },
-                {
-                    question: "What is the purpose of a brand mission statement?",
-                    options: [
-                        "To list all products and services",
-                        "To articulate the brand's purpose and reason for existence",
-                        "To provide contact information",
-                        "To describe the manufacturing process"
-                    ],
-                    answer: 1,
-                    category: "Strategy"
-                },
-                {
-                    question: "What is visual hierarchy in branding?",
-                    options: [
-                        "The organizational chart of a design department",
-                        "The arrangement of visual elements to show their order of importance",
-                        "The ranking of brands by visual appeal",
-                        "The history of a logo's evolution"
-                    ],
-                    answer: 1,
-                    category: "Design"
-                },
-                {
-                    question: "What is a brand value proposition?",
-                    options: [
-                        "The financial value of a brand",
-                        "A statement that explains how a brand solves customer problems, delivers benefits, and why customers should choose it over competitors",
-                        "The price of products or services",
-                        "The company's stock market value"
-                    ],
-                    answer: 1,
-                    category: "Messaging"
-                },
-                {
-                    question: "What is the difference between a monogram logo and a wordmark?",
-                    options: [
-                        "A monogram uses initials or letters, while a wordmark is the full company name styled as a logo",
-                        "A monogram is for luxury brands, while a wordmark is for budget brands",
-                        "A monogram is digital, while a wordmark is print-only",
-                        "A monogram is colored, while a wordmark is black and white"
-                    ],
-                    answer: 0,
-                    category: "Design"
+                    correctAnswer: 0
                 }
             ];
 
+            // Variables to track quiz state
+            let currentUser = {
+                name: "",
+                email: ""
+            };
+            let currentQuestionIndex = 0;
+            let userAnswers = new Array(quizQuestions.length).fill(null);
+            let quizTimer;
+            let timeRemaining = 10 * 60; // 10 minutes in seconds
+
             // DOM elements
-            const welcomeScreen = document.getElementById('welcome-screen');
+            const loginScreen = document.getElementById('login-screen');
+            const categoryPreview = document.getElementById('category-preview');
             const quizScreen = document.getElementById('quiz-screen');
             const resultsScreen = document.getElementById('results-screen');
-            const paymentModal = document.getElementById('payment-modal');
             const certificateScreen = document.getElementById('certificate-screen');
             
-            const startBtn = document.getElementById('start-btn');
+            const loginForm = document.getElementById('login-form');
+            const startQuizBtn = document.getElementById('start-quiz-btn');
             const prevBtn = document.getElementById('prev-btn');
             const nextBtn = document.getElementById('next-btn');
-            const skipBtn = document.getElementById('skip-btn');
-            const paymentBtn = document.getElementById('payment-btn');
-            const closePaymentBtn = document.getElementById('close-payment');
-            const processPaymentBtn = document.getElementById('process-payment');
-            const downloadBtn = document.getElementById('download-btn');
-            const shareBtn = document.getElementById('share-btn');
+            const simulatePaymentBtn = document.getElementById('simulate-payment-btn');
+            const downloadAgainBtn = document.getElementById('download-again-btn');
             
-            const currentQuestionEl = document.getElementById('current-question');
-            const questionTextEl = document.getElementById('question-text');
-            const optionsContainerEl = document.getElementById('options-container');
-            const progressFillEl = document.getElementById('progress-fill');
-            const timerEl = document.getElementById('timer');
-            const questionNavEl = document.getElementById('question-nav');
-            
-            // Quiz state
-            let currentQuestion = 0;
-            let score = 0;
-            let userAnswers = Array(quizData.length).fill(null);
-            let timerInterval;
-            let timeLeft = 30 * 60; // 30 minutes in seconds
-            
-            // Start quiz
-            startBtn.addEventListener('click', function() {
-                welcomeScreen.classList.add('hidden');
+            const questionContainer = document.getElementById('question-container');
+            const questionIcon = document.getElementById('question-icon');
+            const questionText = document.getElementById('question-text');
+            const optionsContainer = document.getElementById('options-container');
+            const currentQuestionElement = document.getElementById('current-question');
+            const progressPercentElement = document.getElementById('progress-percent');
+            const progressBarElement = document.getElementById('progress-bar');
+            const timerElement = document.getElementById('timer');
+            const timerBarElement = document.getElementById('timer-bar');
+
+            // Event listeners
+            loginForm.addEventListener('submit', handleLogin);
+            startQuizBtn.addEventListener('click', startQuiz);
+            prevBtn.addEventListener('click', showPreviousQuestion);
+            nextBtn.addEventListener('click', handleNextQuestion);
+            simulatePaymentBtn.addEventListener('click', handlePayment);
+            downloadAgainBtn.addEventListener('click', downloadCertificate);
+
+            // Functions
+            function handleLogin(e) {
+                e.preventDefault();
+                currentUser.name = document.getElementById('fullName').value;
+                currentUser.email = document.getElementById('email').value;
+                
+                // Store user info in localStorage
+                localStorage.setItem('userName', currentUser.name);
+                localStorage.setItem('userEmail', currentUser.email);
+                
+                // Show category preview
+                loginScreen.classList.add('hidden');
+                categoryPreview.classList.remove('hidden');
+            }
+
+            function startQuiz() {
+                categoryPreview.classList.add('hidden');
                 quizScreen.classList.remove('hidden');
-                loadQuestion(currentQuestion);
-                createQuestionNav();
+                
+                // Start the timer
                 startTimer();
-            });
-            
-            // Create question navigation
-            function createQuestionNav() {
-                questionNavEl.innerHTML = '';
                 
-                for (let i = 0; i < quizData.length; i++) {
-                    const navBtn = document.createElement('button');
-                    navBtn.className = `w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${i === currentQuestion ? 'bg-pink-600 text-white' : userAnswers[i] !== null ? 'bg-pink-100 text-pink-800' : 'bg-gray-200 text-gray-600'}`;
-                    navBtn.textContent = i + 1;
-                    
-                    navBtn.addEventListener('click', function() {
-                        currentQuestion = i;
-                        loadQuestion(currentQuestion);
-                        updateQuestionNav();
-                    });
-                    
-                    questionNavEl.appendChild(navBtn);
-                }
+                // Show first question
+                showQuestion(0);
+                updateQuizProgress();
             }
-            
-            // Update question navigation
-            function updateQuestionNav() {
-                const navBtns = questionNavEl.querySelectorAll('button');
-                
-                navBtns.forEach((btn, i) => {
-                    btn.className = `w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${i === currentQuestion ? 'bg-pink-600 text-white' : userAnswers[i] !== null ? 'bg-pink-100 text-pink-800' : 'bg-gray-200 text-gray-600'}`;
-                });
-            }
-            
-            // Load question
-            function loadQuestion(index) {
-                const question = quizData[index];
-                questionTextEl.textContent = question.question;
-                currentQuestionEl.textContent = index + 1;
-                
-                // Update progress bar
-                const progress = ((index + 1) / quizData.length) * 100;
-                progressFillEl.style.width = `${progress}%`;
-                
-                // Clear previous options
-                optionsContainerEl.innerHTML = '';
-                
-                // Add options with animation
-                question.options.forEach((option, i) => {
-                    const optionBtn = document.createElement('button');
-                    optionBtn.className = `option-btn w-full text-left p-4 rounded-lg slide-in ${userAnswers[index] === i ? 'selected' : ''}`;
-                    optionBtn.style.animationDelay = `${i * 0.1}s`;
-                    optionBtn.innerHTML = `
-                        <div class="flex items-center">
-                            <div class="w-6 h-6 rounded-full border-2 border-gray-300 flex items-center justify-center mr-3 ${userAnswers[index] === i ? 'bg-pink-600 border-pink-600' : ''}">
-                                ${userAnswers[index] === i ? '<div class="w-2 h-2 rounded-full bg-white"></div>' : ''}
-                            </div>
-                            <span>${option}</span>
-                        </div>
-                    `;
-                    
-                    optionBtn.addEventListener('click', function() {
-                        selectOption(index, i);
-                    });
-                    
-                    optionsContainerEl.appendChild(optionBtn);
-                });
-                
-                // Update button states
-                prevBtn.disabled = index === 0;
-                prevBtn.classList.toggle('opacity-50', index === 0);
-                
-                if (index === quizData.length - 1) {
-                    nextBtn.textContent = 'Finish';
-                    nextBtn.innerHTML = 'Finish <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>';
-                } else {
-                    nextBtn.textContent = 'Next';
-                    nextBtn.innerHTML = 'Next <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>';
-                }
-            }
-            
-            // Select option
-            function selectOption(questionIndex, optionIndex) {
-                userAnswers[questionIndex] = optionIndex;
-                loadQuestion(questionIndex);
-                updateQuestionNav();
-            }
-            
-            // Navigation
-            prevBtn.addEventListener('click', function() {
-                if (currentQuestion > 0) {
-                    currentQuestion--;
-                    loadQuestion(currentQuestion);
-                    updateQuestionNav();
-                }
-            });
-            
-            nextBtn.addEventListener('click', function() {
-                if (currentQuestion < quizData.length - 1) {
-                    currentQuestion++;
-                    loadQuestion(currentQuestion);
-                    updateQuestionNav();
-                } else {
-                    finishQuiz();
-                }
-            });
-            
-            skipBtn.addEventListener('click', function() {
-                if (currentQuestion < quizData.length - 1) {
-                    currentQuestion++;
-                    loadQuestion(currentQuestion);
-                    updateQuestionNav();
-                } else {
-                    finishQuiz();
-                }
-            });
-            
-            // Timer
+
             function startTimer() {
-                timerInterval = setInterval(function() {
-                    timeLeft--;
+                updateTimerDisplay();
+                quizTimer = setInterval(() => {
+                    timeRemaining--;
+                    updateTimerDisplay();
                     
-                    const minutes = Math.floor(timeLeft / 60);
-                    const seconds = timeLeft % 60;
-                    
-                    timerEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                    
-                    if (timeLeft <= 300) { // 5 minutes left
-                        timerEl.classList.add('text-red-600', 'timer-warning');
-                    }
-                    
-                    if (timeLeft <= 0) {
-                        clearInterval(timerInterval);
-                        finishQuiz();
+                    if (timeRemaining <= 0) {
+                        clearInterval(quizTimer);
+                        submitQuiz();
                     }
                 }, 1000);
             }
-            
-            // Finish quiz
-            function finishQuiz() {
-                clearInterval(timerInterval);
+
+            function updateTimerDisplay() {
+                const minutes = Math.floor(timeRemaining / 60);
+                const seconds = timeRemaining % 60;
+                timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
                 
-                // Calculate score
-                score = 0;
-                userAnswers.forEach((answer, index) => {
-                    if (answer === quizData[index].answer) {
-                        score++;
-                    }
+                // Update timer bar
+                const percentRemaining = (timeRemaining / (15 * 60)) * 100;
+                timerBarElement.style.width = `${percentRemaining}%`;
+                
+                // Change color based on time remaining
+                if (percentRemaining > 60) {
+                    timerBarElement.className = 'timer-bar bg-gradient-to-r from-amber-500 to-emerald-400 h-2 rounded-full';
+                } else if (percentRemaining > 30) {
+                    timerBarElement.className = 'timer-bar bg-gradient-to-r from-yellow-400 to-orange-400 h-2 rounded-full';
+                } else {
+                    timerBarElement.className = 'timer-bar bg-gradient-to-r from-red-500 to-pink-400 h-2 rounded-full';
+                }
+            }
+
+            function showQuestion(index) {
+                const question = quizQuestions[index];
+                
+                // Update question content
+                questionIcon.innerHTML = question.icon;
+                questionText.textContent = question.question;
+                
+                // Clear previous options
+                optionsContainer.innerHTML = '';
+                
+                // Add new options
+                question.options.forEach((option, i) => {
+                    const optionElement = document.createElement('div');
+                    optionElement.className = `quiz-option p-4 border border-white border-opacity-20 rounded-lg cursor-pointer transition-colors ${userAnswers[index] === i ? 'selected' : ''}`;
+                    optionElement.innerHTML = `
+                        <div class="flex items-center">
+                            <div class="w-6 h-6 rounded-full border-2 border-white border-opacity-60 flex items-center justify-center mr-3">
+                                ${userAnswers[index] === i ? '<div class="w-3 h-3 rounded-full bg-amber-400"></div>' : ''}
+                            </div>
+                            <span class="text-white">${option}</span>
+                        </div>
+                    `;
+                    
+                    optionElement.addEventListener('click', () => {
+                        // Remove selected class from all options
+                        document.querySelectorAll('.quiz-option').forEach(opt => {
+                            opt.classList.remove('selected');
+                            opt.querySelector('.w-6').innerHTML = '';
+                        });
+                        
+                        // Add selected class to clicked option
+                        optionElement.classList.add('selected');
+                        optionElement.querySelector('.w-6').innerHTML = '<div class="w-3 h-3 rounded-full bg-amber-400"></div>';
+                        
+                        // Save answer
+                        userAnswers[index] = i;
+                        
+                        // Enable next button if it was disabled
+                        nextBtn.disabled = false;
+                    });
+                    
+                    optionsContainer.appendChild(optionElement);
                 });
                 
-                const scorePercentage = Math.round((score / quizData.length) * 100);
+                // Update current question index
+                currentQuestionIndex = index;
                 
-                // Calculate category scores
-                const categories = {
-                    "Identity": { correct: 0, total: 0 },
-                    "Strategy": { correct: 0, total: 0 },
-                    "Design": { correct: 0, total: 0 },
-                    "Messaging": { correct: 0, total: 0 },
-                    "Management": { correct: 0, total: 0 }
-                };
+                // Update navigation buttons
+                prevBtn.disabled = index === 0;
+                nextBtn.textContent = index === quizQuestions.length - 1 ? 'Submit' : 'Next';
                 
-                quizData.forEach((question, index) => {
-                    const category = question.category;
-                    if (categories[category]) {
-                        categories[category].total++;
-                        if (userAnswers[index] === question.answer) {
-                            categories[category].correct++;
-                        }
-                    }
-                });
+                // Disable next button if no answer selected
+                nextBtn.disabled = userAnswers[index] === null;
                 
-                // Calculate category percentages
-                const categoryScores = {};
-                for (const [category, data] of Object.entries(categories)) {
-                    if (data.total > 0) {
-                        categoryScores[category] = Math.round((data.correct / data.total) * 100);
-                    } else {
-                        categoryScores[category] = 0;
-                    }
+                // Update progress indicators
+                currentQuestionElement.textContent = index + 1;
+                const progressPercent = Math.round(((index + 1) / quizQuestions.length) * 100);
+                progressPercentElement.textContent = progressPercent;
+                progressBarElement.style.width = `${progressPercent}%`;
+                
+                // Add animation
+                questionContainer.classList.remove('scale-in');
+                void questionContainer.offsetWidth; // Trigger reflow
+                questionContainer.classList.add('scale-in');
+            }
+
+            function showPreviousQuestion() {
+                if (currentQuestionIndex > 0) {
+                    showQuestion(currentQuestionIndex - 1);
                 }
-                
-                // Find strengths and areas for improvement
-                const strengths = [];
-                const improvements = [];
-                
-                for (const [category, percentage] of Object.entries(categoryScores)) {
-                    if (percentage >= 80) {
-                        strengths.push(`${category} (${percentage}% correct)`);
-                    } else if (percentage < 70) {
-                        improvements.push(`${category} (${percentage}% correct)`);
-                    }
-                }
-                
-                // Update results screen
-                document.getElementById('score-percentage').textContent = `${scorePercentage}%`;
-                document.getElementById('correct-answers').textContent = score;
-                
-                const minutes = Math.floor((30 * 60 - timeLeft) / 60);
-                const seconds = (30 * 60 - timeLeft) % 60;
-                document.getElementById('time-taken').textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                
-                // Set result message based on score
-                const resultMessage = document.getElementById('result-message');
-                if (scorePercentage >= 80) {
-                    resultMessage.textContent = 'Excellent! You have strong branding skills.';
-                } else if (scorePercentage >= 60) {
-                    resultMessage.textContent = 'Good job! You have solid branding skills.';
+            }
+
+            function handleNextQuestion() {
+                if (currentQuestionIndex < quizQuestions.length - 1) {
+                    showQuestion(currentQuestionIndex + 1);
                 } else {
-                    resultMessage.textContent = 'You have completed the assessment. There\'s room for improvement in your branding skills.';
+                    submitQuiz();
                 }
+            }
+
+            function updateQuizProgress() {
+                const answeredCount = userAnswers.filter(answer => answer !== null).length;
+                const progressPercent = Math.round((answeredCount / quizQuestions.length) * 100);
+                progressPercentElement.textContent = progressPercent;
+                progressBarElement.style.width = `${progressPercent}%`;
+            }
+
+            function submitQuiz() {
+                // Stop the timer
+                clearInterval(quizTimer);
                 
-                // Update strengths and improvements
-                const strengthsEl = document.getElementById('strengths');
-                strengthsEl.innerHTML = '';
+                // Calculate results
+                const results = calculateResults();
                 
-                if (strengths.length > 0) {
-                    strengths.forEach(strength => {
-                        const div = document.createElement('div');
-                        div.className = 'flex items-start mb-2';
-                        div.innerHTML = `
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span>${strength}</span>
-                        `;
-                        strengthsEl.appendChild(div);
-                    });
-                } else {
-                    strengthsEl.innerHTML = '<p class="text-gray-500">Keep practicing to develop your branding strengths!</p>';
-                }
+                // Display results
+                displayResults(results);
                 
-                const improvementsEl = document.getElementById('improvements');
-                improvementsEl.innerHTML = '';
-                
-                if (improvements.length > 0) {
-                    improvements.forEach(improvement => {
-                        const div = document.createElement('div');
-                        div.className = 'flex items-start mb-2';
-                        div.innerHTML = `
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                            </svg>
-                            <span>${improvement}</span>
-                        `;
-                        improvementsEl.appendChild(div);
-                    });
-                } else {
-                    improvementsEl.innerHTML = '<p class="text-gray-500">Great job! No significant areas for improvement.</p>';
-                }
-                
-                // Update skill bars
-                document.getElementById('identity-score').textContent = `${categoryScores.Identity}%`;
-                document.getElementById('identity-bar').style.width = `${categoryScores.Identity}%`;
-                
-                document.getElementById('strategy-score').textContent = `${categoryScores.Strategy}%`;
-                document.getElementById('strategy-bar').style.width = `${categoryScores.Strategy}%`;
-                
-                document.getElementById('design-score').textContent = `${categoryScores.Design}%`;
-                document.getElementById('design-bar').style.width = `${categoryScores.Design}%`;
-                
-                document.getElementById('messaging-score').textContent = `${categoryScores.Messaging}%`;
-                document.getElementById('messaging-bar').style.width = `${categoryScores.Messaging}%`;
-                
-                document.getElementById('management-score').textContent = `${categoryScores.Management}%`;
-                document.getElementById('management-bar').style.width = `${categoryScores.Management}%`;
-                
-                // Show results screen
+                // Hide quiz screen and show results screen
                 quizScreen.classList.add('hidden');
                 resultsScreen.classList.remove('hidden');
             }
-            
-            // Payment modal
-            paymentBtn.addEventListener('click', function() {
-                paymentModal.classList.remove('hidden');
-            });
-            
-            closePaymentBtn.addEventListener('click', function() {
-                paymentModal.classList.add('hidden');
-            });
-            
-            processPaymentBtn.addEventListener('click', function() {
-                paymentModal.classList.add('hidden');
-                resultsScreen.classList.add('hidden');
-                certificateScreen.classList.remove('hidden');
-                
-                // Set certificate details
-                const scorePercentage = Math.round((score / quizData.length) * 100);
-                document.getElementById('certificate-score').textContent = `${scorePercentage}%`;
-                
-                // Calculate category scores for certificate
-                const categories = {
-                    "Identity": { correct: 0, total: 0 },
-                    "Strategy": { correct: 0, total: 0 },
-                    "Design": { correct: 0, total: 0 },
-                    "Messaging": { correct: 0, total: 0 },
-                    "Management": { correct: 0, total: 0 }
-                };
-                
-                quizData.forEach((question, index) => {
-                    const category = question.category;
-                    if (categories[category]) {
-                        categories[category].total++;
-                        if (userAnswers[index] === question.answer) {
-                            categories[category].correct++;
-                        }
+
+            function calculateResults() {
+                // Calculate total score
+                let totalCorrect = 0;
+                userAnswers.forEach((answer, index) => {
+                    if (answer === quizQuestions[index].correctAnswer) {
+                        totalCorrect++;
                     }
                 });
                 
-                // Calculate category percentages for certificate
-                for (const [category, data] of Object.entries(categories)) {
-                    if (data.total > 0) {
-                        const percentage = Math.round((data.correct / data.total) * 100);
-                        const categoryId = category.toLowerCase();
-                        document.getElementById(`cert-${categoryId}`).textContent = `${percentage}%`;
-                    } else {
-                        const categoryId = category.toLowerCase();
-                        document.getElementById(`cert-${categoryId}`).textContent = '0%';
+                const totalScore = Math.round((totalCorrect / quizQuestions.length) * 100);
+                
+                // Calculate category scores
+                const categories = {};
+                quizQuestions.forEach((question, index) => {
+                    const category = question.category;
+                    if (!categories[category]) {
+                        categories[category] = {
+                            total: 0,
+                            correct: 0
+                        };
                     }
-                }
-                
-                const today = new Date();
-                const options = { year: 'numeric', month: 'long', day: 'numeric' };
-                document.getElementById('certificate-date').textContent = today.toLocaleDateString('en-US', options);
-                
-                document.getElementById('certificate-id').textContent = `ID: BR-${today.getFullYear()}-${Math.floor(10000 + Math.random() * 90000)}`;
-                
-                // Create confetti effect
-                createConfetti();
-            });
-            
-            // Create confetti effect
-            function createConfetti() {
-                const confettiContainer = document.getElementById('confetti-container');
-                const colors = ['#ec4899', '#db2777', '#be185d', '#fbcfe8', '#ffffff'];
-                
-                for (let i = 0; i < 150; i++) {
-                    const confetti = document.createElement('div');
-                    confetti.className = 'confetti';
-                    confetti.style.left = `${Math.random() * 100}%`;
-                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                    confetti.style.width = `${Math.random() * 10 + 5}px`;
-                    confetti.style.height = `${Math.random() * 10 + 5}px`;
-                    confetti.style.opacity = '1';
-                    confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
-                    confetti.style.animationDelay = `${Math.random() * 2}s`;
                     
-                    confettiContainer.appendChild(confetti);
+                    categories[category].total++;
+                    if (userAnswers[index] === question.correctAnswer) {
+                        categories[category].correct++;
+                    }
+                });
+                
+                // Convert to percentages and ratings
+                const categoryResults = {};
+                Object.keys(categories).forEach(category => {
+                    const score = Math.round((categories[category].correct / categories[category].total) * 100);
+                    let rating;
+                    let icon;
+                    
+                    if (score >= 90) {
+                        rating = 'Excellent';
+                        icon = '🏆';
+                    } else if (score >= 75) {
+                        rating = 'Good';
+                        icon = '👍';
+                    } else if (score >= 60) {
+                        rating = 'Satisfactory';
+                        icon = '👌';
+                    } else {
+                        rating = 'Needs Improvement';
+                        icon = '📝';
+                    }
+                    
+                    categoryResults[category] = {
+                        score,
+                        rating,
+                        icon
+                    };
+                });
+                
+                // Determine overall rating
+                let overallRating;
+                if (totalScore >= 90) {
+                    overallRating = 'Excellent';
+                } else if (totalScore >= 75) {
+                    overallRating = 'Good';
+                } else if (totalScore >= 60) {
+                    overallRating = 'Satisfactory';
+                } else {
+                    overallRating = 'Needs Improvement';
                 }
+                
+                return {
+                    totalScore,
+                    totalCorrect,
+                    totalQuestions: quizQuestions.length,
+                    categoryResults,
+                    overallRating
+                };
             }
-            
-            // Certificate actions
-            downloadBtn.addEventListener('click', function() {
-                alert('Certificate download started! (This is a demo feature)');
-            });
-            
-            shareBtn.addEventListener('click', function() {
-                alert('Share options opened! (This is a demo feature)');
-            });
+
+            function displayResults(results) {
+                // Update total score
+                document.getElementById('total-score').textContent = results.totalScore;
+                document.getElementById('max-score').textContent = '100';
+                
+                // Update score gauge
+                const scoreCircle = document.getElementById('score-circle');
+                const circumference = 2 * Math.PI * 45; // 2πr
+                const offset = circumference - (results.totalScore / 100) * circumference;
+                scoreCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+                scoreCircle.style.strokeDashoffset = offset;
+                
+                // Set color based on score
+                if (results.totalScore >= 90) {
+                    scoreCircle.style.stroke = '#10B981'; // Green
+                } else if (results.totalScore >= 75) {
+                    scoreCircle.style.stroke = '#3B82F6'; // Blue
+                } else if (results.totalScore >= 60) {
+                    scoreCircle.style.stroke = '#F59E0B'; // Yellow
+                } else {
+                    scoreCircle.style.stroke = '#EF4444'; // Red
+                }
+                
+                document.getElementById('score-percentage').textContent = `${results.totalScore}%`;
+                
+                // Update category results
+                const categoryResultsContainer = document.getElementById('category-results');
+                categoryResultsContainer.innerHTML = '';
+                
+                Object.keys(results.categoryResults).forEach(category => {
+                    const result = results.categoryResults[category];
+                    const categoryElement = document.createElement('div');
+                    
+                    // Set background color based on rating
+                    let bgColor;
+                    if (result.rating === 'Excellent') {
+                        bgColor = 'bg-gradient-to-br from-green-500 to-emerald-600';
+                    } else if (result.rating === 'Good') {
+                        bgColor = 'bg-gradient-to-br from-blue-500 to-indigo-600';
+                    } else if (result.rating === 'Satisfactory') {
+                        bgColor = 'bg-gradient-to-br from-yellow-400 to-orange-500';
+                    } else {
+                        bgColor = 'bg-gradient-to-br from-red-500 to-pink-600';
+                    }
+                    
+                    categoryElement.className = `${bgColor} rounded-lg p-4 text-white`;
+                    categoryElement.innerHTML = `
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h4 class="font-medium">${category}</h4>
+                                <p class="text-sm text-white text-opacity-90">${result.rating}</p>
+                            </div>
+                            <div class="text-2xl">${result.icon}</div>
+                        </div>
+                        <div class="mt-2 w-full bg-white bg-opacity-30 rounded-full h-2">
+                            <div class="bg-white h-2 rounded-full" style="width: ${result.score}%"></div>
+                        </div>
+                        <div class="text-right mt-1 text-sm">${result.score}%</div>
+                    `;
+                    
+                    categoryResultsContainer.appendChild(categoryElement);
+                });
+                
+                // Store results for certificate generation
+                localStorage.setItem('quizResults', JSON.stringify(results));
+            }
+
+            function handlePayment() {
+                // In a real app, this would handle actual payment processing
+                // For this demo, we'll simulate a successful payment
+                
+                // Hide results screen and show certificate screen
+                resultsScreen.classList.add('hidden');
+                certificateScreen.classList.remove('hidden');
+                
+                // Generate certificate
+                generateCertificate();
+                
+                // Download certificate automatically
+                setTimeout(downloadCertificate, 1000);
+            }
+
+            function generateCertificate() {
+                // Get user info and results
+                const userName = localStorage.getItem('userName') || 'John Doe';
+                const results = JSON.parse(localStorage.getItem('quizResults')) || {
+                    totalScore: 85,
+                    overallRating: 'Good',
+                    categoryResults: {}
+                };
+                
+                // Generate certificate ID
+                const certificateId = 'SKX-' + Math.floor(100000 + Math.random() * 900000);
+                
+                // Get current date
+                const currentDate = new Date().toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                
+                // Update certificate content
+                document.getElementById('certificate-name').textContent = userName;
+                document.getElementById('certificate-score').textContent = `${results.totalScore}/100`;
+                document.getElementById('certificate-rank').textContent = results.overallRating;
+                document.getElementById('certificate-date').textContent = currentDate;
+                document.getElementById('certificate-id').textContent = certificateId;
+                
+                // Update category results
+                const certificateCategoriesContainer = document.getElementById('certificate-categories');
+                certificateCategoriesContainer.innerHTML = '';
+                
+                Object.keys(results.categoryResults).forEach(category => {
+                    const result = results.categoryResults[category];
+                    const categoryElement = document.createElement('div');
+                    categoryElement.className = 'flex items-center mb-1';
+                    categoryElement.innerHTML = `
+                        <span class="mr-2">${result.icon}</span>
+                        <span class="text-sm">${category}: <span class="font-medium">${result.rating}</span></span>
+                    `;
+                    
+                    certificateCategoriesContainer.appendChild(categoryElement);
+                });
+            }
+
+            function downloadCertificate() {
+                const certificate = document.getElementById('certificate');
+                
+                // Use html2canvas to capture the certificate as an image
+                html2canvas(certificate, {
+                    scale: 2,
+                    logging: false,
+                    useCORS: true
+                }).then(canvas => {
+                    const imgData = canvas.toDataURL('image/png');
+                    
+                    // Create PDF using jsPDF
+                    const { jsPDF } = window.jspdf;
+                    const pdf = new jsPDF({
+                        orientation: 'landscape',
+                        unit: 'mm',
+                        format: 'a4'
+                    });
+                    
+                    const imgProps = pdf.getImageProperties(imgData);
+                    const pdfWidth = pdf.internal.pageSize.getWidth();
+                    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+                    
+                    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                    
+                    // Download the PDF
+                    const userName = localStorage.getItem('userName') || 'User';
+                    const fileName = `${userName.replace(/\s+/g, '_')}_Branding_Skills_Certificate.pdf`;
+                    pdf.save(fileName);
+                });
+            }
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'965d413356117f0f',t:'MTc1MzYzMTAzMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'967e700a14ac8510',t:'MTc1Mzk3ODk3OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>

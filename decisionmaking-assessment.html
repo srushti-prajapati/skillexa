@@ -353,7 +353,7 @@
                     <svg class="w-5 h-5 text-sky-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
-                    <span id="timer" class="font-semibold text-gray-800">00:45</span>
+                    <span id="timer" class="font-semibold text-gray-800">10:00</span>
                 </div>
             </div>
             
@@ -852,7 +852,7 @@
             let currentQuestion = 0;
             let userAnswers = Array(questions.length).fill(null);
             let timer;
-            let timeLeft = 45;
+            let timeRemaining = 10 * 60; // 10 minutes in seconds
             let userData = {
                 name: '',
                 email: '',

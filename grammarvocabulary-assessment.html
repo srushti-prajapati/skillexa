@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Photography Skills Assessment | Skillexa</title>
+    <title>Grammar & Vocabulary Skills Assessment | Skillexa</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -16,11 +16,11 @@
         .handwriting {
             font-family: 'Dancing Script', cursive;
         }
-        .gilded-twilight-gradient {
-            background: linear-gradient(135deg, #614385 0%, #516395 100%);
+        .obsidian-gold-dust-gradient {
+            background: linear-gradient(135deg, #111111 0%, #333333 50%, #8B7D3A 100%);
         }
-        .blush-amour-gradient {
-            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+        .amethyst-pearl-gradient {
+            background: linear-gradient(135deg, #2D1F4D 0%, #4A3A7A 50%, #7A5E9A 100%);
         }
         .category-card {
             transition: all 0.3s ease;
@@ -90,11 +90,20 @@
         .glow-text {
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
         }
-        .twilight-glow-text {
-            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #614385, 0 0 20px #614385;
+        .gold-glow-text {
+            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #8B7D3A, 0 0 20px #8B7D3A;
         }
-        .blush-glow {
-            text-shadow: 0 0 5px #ff758c, 0 0 10px #ff758c, 0 0 15px #ff758c, 0 0 20px #ff758c;
+        .shimmer {
+            background: linear-gradient(90deg, 
+                rgba(255,255,255,0) 0%, 
+                rgba(255,255,255,0.2) 50%, 
+                rgba(255,255,255,0) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
         }
     </style>
 </head>
@@ -102,112 +111,112 @@
     <!-- Main Container -->
     <div id="app" class="min-h-screen w-full">
         <!-- Login Screen -->
-        <div id="login-screen" class="min-h-screen gilded-twilight-gradient flex flex-col items-center justify-center px-4 py-12">
+        <div id="login-screen" class="min-h-screen obsidian-gold-dust-gradient flex flex-col items-center justify-center px-4 py-12">
             <div class="w-full max-w-md bg-white bg-opacity-10 backdrop-blur-sm rounded-xl shadow-lg p-8 fade-in">
-                <h1 class="text-3xl font-bold text-center mb-8 text-white twilight-glow-text">Photography Skills Assessment</h1>
+                <h1 class="text-3xl font-bold text-center mb-8 text-white gold-glow-text">Grammar & Vocabulary Skills Assessment</h1>
                 <form id="login-form" class="space-y-6">
                     <div>
                         <label for="fullName" class="block text-sm font-medium text-white mb-1">Full Name</label>
-                        <input type="text" id="fullName" required class="w-full px-4 py-2 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400 text-white placeholder-white placeholder-opacity-70">
+                        <input type="text" id="fullName" required class="w-full px-4 py-2 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-400 text-white placeholder-white placeholder-opacity-70">
                     </div>
                     <div>
                         <label for="email" class="block text-sm font-medium text-white mb-1">Email Address</label>
-                        <input type="email" id="email" required class="w-full px-4 py-2 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400 text-white placeholder-white placeholder-opacity-70">
+                        <input type="email" id="email" required class="w-full px-4 py-2 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-400 text-white placeholder-white placeholder-opacity-70">
                     </div>
-                    <button type="submit" class="w-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white py-2 rounded-md font-medium hover:opacity-90 transition-opacity">Start Assessment</button>
+                    <button type="submit" class="w-full bg-gradient-to-r from-amber-600 to-amber-800 text-white py-2 rounded-md font-medium hover:opacity-90 transition-opacity">Start Assessment</button>
                 </form>
             </div>
         </div>
 
         <!-- Category Preview Screen -->
-        <div id="category-preview" class="hidden min-h-screen gilded-twilight-gradient flex flex-col items-center justify-center px-4 py-12">
+        <div id="category-preview" class="hidden min-h-screen obsidian-gold-dust-gradient flex flex-col items-center justify-center px-4 py-12">
             <div class="w-full max-w-4xl text-center mb-10 fade-in">
-                <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 twilight-glow-text">Photography Skills Assessment</h1>
+                <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 gold-glow-text">Grammar & Vocabulary Skills Assessment</h1>
                 <p class="text-xl text-white text-opacity-90">Explore the key areas we'll be evaluating</p>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl mb-10">
-                <!-- Category 1: Composition -->
+                <!-- Category 1: Grammar Rules -->
                 <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.1s">
                     <div class="flex items-center mb-4">
-                        <div class="bg-gradient-to-br from-indigo-400 to-blue-500 p-3 rounded-full mr-4">
+                        <div class="bg-gradient-to-br from-amber-400 to-amber-600 p-3 rounded-full mr-4">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold">Composition</h3>
+                        <h3 class="text-xl font-bold">Grammar Rules</h3>
                     </div>
-                    <p class="text-white text-opacity-90">Understanding framing, rule of thirds, leading lines, and other principles that create visually compelling and balanced photographs.</p>
+                    <p class="text-white text-opacity-90">Understanding of fundamental English grammar principles including parts of speech, sentence structure, tenses, and proper punctuation usage.</p>
                 </div>
                 
-                <!-- Category 2: Technical Knowledge -->
+                <!-- Category 2: Vocabulary Range -->
                 <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.2s">
                     <div class="flex items-center mb-4">
-                        <div class="bg-gradient-to-br from-purple-400 to-pink-500 p-3 rounded-full mr-4">
+                        <div class="bg-gradient-to-br from-blue-400 to-blue-600 p-3 rounded-full mr-4">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold">Technical Knowledge</h3>
+                        <h3 class="text-xl font-bold">Vocabulary Range</h3>
                     </div>
-                    <p class="text-white text-opacity-90">Mastery of camera settings, exposure triangle (aperture, shutter speed, ISO), and understanding how they affect the final image.</p>
+                    <p class="text-white text-opacity-90">Breadth and depth of English vocabulary knowledge, including common and advanced words, synonyms, antonyms, and contextual word usage.</p>
                 </div>
                 
-                <!-- Category 3: Lighting -->
+                <!-- Category 3: Word Usage -->
                 <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.3s">
                     <div class="flex items-center mb-4">
-                        <div class="bg-gradient-to-br from-yellow-400 to-orange-500 p-3 rounded-full mr-4">
+                        <div class="bg-gradient-to-br from-green-400 to-green-600 p-3 rounded-full mr-4">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold">Lighting</h3>
+                        <h3 class="text-xl font-bold">Word Usage</h3>
                     </div>
-                    <p class="text-white text-opacity-90">Understanding natural and artificial light sources, quality of light, direction, and how to manipulate lighting to enhance photographic subjects.</p>
+                    <p class="text-white text-opacity-90">Ability to use words appropriately in context, including collocations, phrasal verbs, idioms, and expressions in various situations.</p>
                 </div>
                 
-                <!-- Category 4: Post-Processing -->
+                <!-- Category 4: Sentence Construction -->
                 <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.4s">
                     <div class="flex items-center mb-4">
-                        <div class="bg-gradient-to-br from-green-400 to-emerald-500 p-3 rounded-full mr-4">
+                        <div class="bg-gradient-to-br from-purple-400 to-purple-600 p-3 rounded-full mr-4">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold">Post-Processing</h3>
+                        <h3 class="text-xl font-bold">Sentence Construction</h3>
                     </div>
-                    <p class="text-white text-opacity-90">Skills in editing software like Lightroom and Photoshop, understanding color correction, retouching, and enhancing images while maintaining natural appearance.</p>
+                    <p class="text-white text-opacity-90">Skill in forming grammatically correct and coherent sentences with proper structure, clarity, and logical flow.</p>
                 </div>
                 
-                <!-- Category 5: Creative Vision -->
+                <!-- Category 5: Error Identification -->
                 <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.5s">
                     <div class="flex items-center mb-4">
-                        <div class="bg-gradient-to-br from-blue-400 to-cyan-500 p-3 rounded-full mr-4">
+                        <div class="bg-gradient-to-br from-red-400 to-red-600 p-3 rounded-full mr-4">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold">Creative Vision</h3>
+                        <h3 class="text-xl font-bold">Error Identification</h3>
                     </div>
-                    <p class="text-white text-opacity-90">Ability to see and capture unique perspectives, develop a personal style, and tell stories through imagery that evokes emotion and connection.</p>
+                    <p class="text-white text-opacity-90">Ability to identify and correct grammatical errors, inappropriate word choices, and structural problems in written English.</p>
                 </div>
                 
-                <!-- Category 6: Specialized Techniques -->
+                <!-- Category 6: Contextual Comprehension -->
                 <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.6s">
                     <div class="flex items-center mb-4">
-                        <div class="bg-gradient-to-br from-red-400 to-pink-500 p-3 rounded-full mr-4">
+                        <div class="bg-gradient-to-br from-pink-400 to-pink-600 p-3 rounded-full mr-4">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold">Specialized Techniques</h3>
+                        <h3 class="text-xl font-bold">Contextual Comprehension</h3>
                     </div>
-                    <p class="text-white text-opacity-90">Knowledge of specific photography genres and their techniques, such as portrait, landscape, macro, street, wildlife, or architectural photography.</p>
+                    <p class="text-white text-opacity-90">Understanding how words and phrases change meaning based on context, including figurative language, tone, and cultural references.</p>
                 </div>
             </div>
             
             <div class="w-full max-w-md text-center fade-in">
-                <button id="start-quiz-btn" class="px-8 py-3 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-full font-medium text-lg hover:bg-opacity-90 transition-opacity shadow-lg">
+                <button id="start-quiz-btn" class="px-8 py-3 bg-gradient-to-r from-amber-600 to-amber-800 text-white rounded-full font-medium text-lg hover:bg-opacity-90 transition-opacity shadow-lg shimmer">
                     Start 20-Question Assessment
                 </button>
                 <p class="text-white text-opacity-90 mt-4">You'll have 15 minutes to complete all questions</p>
@@ -215,11 +224,11 @@
         </div>
 
         <!-- Quiz Screen -->
-        <div id="quiz-screen" class="hidden min-h-screen blush-amour-gradient flex flex-col">
+        <div id="quiz-screen" class="hidden min-h-screen amethyst-pearl-gradient flex flex-col">
             <!-- Quiz Header -->
             <div class="p-4 md:p-6 flex flex-col md:flex-row justify-between items-center">
                 <div class="mb-4 md:mb-0">
-                    <h2 class="text-2xl font-bold text-white">Photography Skills Assessment</h2>
+                    <h2 class="text-2xl font-bold text-white">Grammar & Vocabulary Skills Assessment</h2>
                     <p class="text-white text-opacity-80">Answer each question to the best of your ability</p>
                 </div>
                 <div class="flex flex-col items-end">
@@ -230,7 +239,7 @@
                         <span id="timer" class="text-white font-medium">15:00</span>
                     </div>
                     <div class="w-full bg-white bg-opacity-30 rounded-full h-2">
-                        <div id="timer-bar" class="timer-bar bg-gradient-to-r from-purple-500 to-indigo-400 h-2 rounded-full" style="width: 100%"></div>
+                        <div id="timer-bar" class="timer-bar bg-gradient-to-r from-purple-400 to-pink-400 h-2 rounded-full" style="width: 100%"></div>
                     </div>
                 </div>
             </div>
@@ -242,19 +251,19 @@
                     <span class="text-sm text-white text-opacity-80"><span id="progress-percent">5</span>% Complete</span>
                 </div>
                 <div class="w-full bg-white bg-opacity-30 rounded-full h-2">
-                    <div id="progress-bar" class="progress-bar bg-gradient-to-r from-purple-500 to-indigo-400 h-2 rounded-full" style="width: 5%"></div>
+                    <div id="progress-bar" class="progress-bar bg-gradient-to-r from-purple-400 to-pink-400 h-2 rounded-full" style="width: 5%"></div>
                 </div>
             </div>
             
             <!-- Quiz Content -->
             <div class="flex-grow flex items-center justify-center p-4 md:p-6">
                 <div id="question-container" class="w-full max-w-3xl bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 md:p-8 shadow-lg scale-in">
-                    <div id="question-icon" class="mx-auto mb-6 bg-gradient-to-br from-purple-500 to-indigo-400 w-16 h-16 rounded-full flex items-center justify-center">
+                    <div id="question-icon" class="mx-auto mb-6 bg-gradient-to-br from-purple-500 to-pink-400 w-16 h-16 rounded-full flex items-center justify-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
                     </div>
-                    <h3 id="question-text" class="text-xl md:text-2xl font-medium text-white text-center mb-8">What is the rule of thirds in photography composition?</h3>
+                    <h3 id="question-text" class="text-xl md:text-2xl font-medium text-white text-center mb-8">Which sentence uses the past perfect tense correctly?</h3>
                     
                     <div id="options-container" class="space-y-4">
                         <!-- Options will be dynamically generated -->
@@ -265,15 +274,15 @@
             <!-- Quiz Navigation -->
             <div class="p-4 md:p-6 flex justify-between">
                 <button id="prev-btn" class="px-6 py-2 bg-white bg-opacity-10 text-white rounded-lg font-medium hover:bg-opacity-20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Previous</button>
-                <button id="next-btn" class="px-6 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">Next</button>
+                <button id="next-btn" class="px-6 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">Next</button>
             </div>
         </div>
 
         <!-- Results Screen -->
-        <div id="results-screen" class="hidden min-h-screen gilded-twilight-gradient flex flex-col">
+        <div id="results-screen" class="hidden min-h-screen obsidian-gold-dust-gradient flex flex-col">
             <div class="p-4 md:p-6">
-                <h2 class="text-2xl md:text-3xl font-bold text-white text-center twilight-glow-text">Your Assessment Results</h2>
-                <p class="text-white text-opacity-80 text-center mb-8">Here's how you performed in the Photography Skills Assessment</p>
+                <h2 class="text-2xl md:text-3xl font-bold text-white text-center gold-glow-text">Your Assessment Results</h2>
+                <p class="text-white text-opacity-80 text-center mb-8">Here's how you performed in the Grammar & Vocabulary Skills Assessment</p>
                 
                 <div class="w-full max-w-4xl mx-auto bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 md:p-8 shadow-lg mb-8">
                     <div class="flex flex-col md:flex-row items-center justify-between mb-8">
@@ -327,7 +336,7 @@
                     </div>
                     
                     <!-- Simulated payment button for demo purposes -->
-                    <button id="simulate-payment-btn" class="w-full px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">
+                    <button id="simulate-payment-btn" class="w-full px-6 py-3 bg-gradient-to-r from-amber-600 to-amber-800 text-white rounded-lg font-medium hover:opacity-90 transition-opacity shimmer">
                         Simulate Payment (Demo)
                     </button>
                 </div>
@@ -371,7 +380,7 @@
                             <h2 class="handwriting text-4xl text-gray-800 mb-1">Certificate of Excellence</h2>
                             <p class="text-gray-600">This certifies that</p>
                             <h3 id="certificate-name" class="handwriting text-3xl text-gray-800 my-3">John Doe</h3>
-                            <p class="text-gray-600 max-w-lg mx-auto">has successfully completed the Photography Skills Assessment with outstanding performance and is hereby recognized for their achievement.</p>
+                            <p class="text-gray-600 max-w-lg mx-auto">has successfully completed the Grammar & Vocabulary Skills Assessment with outstanding performance and is hereby recognized for their achievement.</p>
                         </div>
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 relative z-10">
@@ -380,7 +389,7 @@
                                 <div class="space-y-2">
                                     <div class="flex items-center">
                                         <span class="text-gray-600 w-32">Skill:</span>
-                                        <span class="font-medium text-gray-800">Photography</span>
+                                        <span class="font-medium text-gray-800">Grammar & Vocabulary</span>
                                     </div>
                                     <div class="flex items-center">
                                         <span class="text-gray-600 w-32">Total Score:</span>
@@ -431,7 +440,7 @@
             </div>
             
             <div class="mt-8">
-                <button id="download-again-btn" class="px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">
+                <button id="download-again-btn" class="px-6 py-3 bg-gradient-to-r from-amber-600 to-amber-800 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">
                     Download Certificate Again
                 </button>
             </div>
@@ -443,298 +452,298 @@
             // Quiz questions data
             const quizQuestions = [
                 {
-                    category: "Composition",
-                    question: "What is the rule of thirds in photography composition?",
+                    category: "Grammar Rules",
+                    question: "Which sentence uses the past perfect tense correctly?",
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                           </svg>`,
                     options: [
-                        "A compositional guideline that divides the frame into nine equal parts with two horizontal and two vertical lines, placing key elements along these lines or at their intersections for a more balanced and engaging composition",
-                        "A rule stating that only one-third of the image should be in focus",
-                        "A principle requiring that all photos must include exactly three subjects",
-                        "A guideline that limits photography to using only three colors"
+                        "By the time she arrived, the meeting had already started",
+                        "By the time she arrived, the meeting already started",
+                        "By the time she arrived, the meeting has already started",
+                        "By the time she arrived, the meeting was already starting"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    category: "Composition",
-                    question: "What is 'leading lines' in photographic composition?",
+                    category: "Grammar Rules",
+                    question: "Which sentence contains a split infinitive?",
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                           </svg>`,
                     options: [
-                        "Lines within an image that guide the viewer's eye toward the main subject or through the frame, creating visual flow and interest",
-                        "The first lines of text in a photo caption",
-                        "The ropes used to mark boundaries for photographers at events",
-                        "The lines photographers must stand behind when shooting"
+                        "She decided to quickly finish her homework",
+                        "She decided to finish her homework quickly",
+                        "She quickly decided to finish her homework",
+                        "She decided quickly to finish her homework"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    category: "Composition",
-                    question: "What is negative space in photography?",
+                    category: "Grammar Rules",
+                    question: "Which sentence uses the subjunctive mood correctly?",
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                           </svg>`,
                     options: [
-                        "The empty or unoccupied areas around the main subject that help define and emphasize the subject while creating a sense of balance and visual breathing room",
-                        "Areas of a photo that are underexposed or too dark",
-                        "Parts of an image that convey negative emotions",
-                        "Spaces in a photo that must be cropped out"
+                        "The teacher insisted that he submit his assignment on time",
+                        "The teacher insisted that he submits his assignment on time",
+                        "The teacher insisted that he submitted his assignment on time",
+                        "The teacher insisted that he would submit his assignment on time"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    category: "Technical Knowledge",
-                    question: "What is aperture in photography?",
+                    category: "Vocabulary Range",
+                    question: "Which word is a synonym for 'ubiquitous'?",
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                           </svg>`,
                     options: [
-                        "The opening in a lens through which light passes, measured in f-stops (like f/2.8, f/8), that controls both the amount of light entering the camera and the depth of field in an image",
-                        "The length of time a camera's shutter remains open",
-                        "The sensitivity of a camera's sensor to light",
-                        "The total amount of light in a scene"
+                        "Omnipresent",
+                        "Rare",
+                        "Unique",
+                        "Specific"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    category: "Technical Knowledge",
-                    question: "What does ISO refer to in digital photography?",
+                    category: "Vocabulary Range",
+                    question: "What is the meaning of the word 'ephemeral'?",
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                           </svg>`,
                     options: [
-                        "A measure of a digital camera sensor's sensitivity to light, where higher ISO values increase sensitivity but may introduce more noise or grain to the image",
-                        "International Standards Organization, which certifies camera quality",
-                        "Image Stabilization Option, a feature that reduces camera shake",
-                        "Internal Shutter Operation, the mechanism that controls shutter speed"
+                        "Lasting for a very short time",
+                        "Extremely important",
+                        "Visually stunning",
+                        "Deeply emotional"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    category: "Technical Knowledge",
-                    question: "What is shutter speed in photography?",
+                    category: "Vocabulary Range",
+                    question: "Which word is an antonym for 'frugal'?",
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                           </svg>`,
                     options: [
-                        "The length of time a camera's shutter remains open to expose the sensor to light, affecting both exposure and the appearance of motion in an image",
-                        "The speed at which a camera can take consecutive photos",
-                        "How quickly a camera can focus on a subject",
-                        "The rate at which images are processed by the camera"
+                        "Extravagant",
+                        "Careful",
+                        "Economical",
+                        "Thrifty"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    category: "Lighting",
-                    question: "What is 'golden hour' in photography?",
+                    category: "Word Usage",
+                    question: "Which sentence uses the idiom correctly?",
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                           </svg>`,
                     options: [
-                        "The period shortly after sunrise or before sunset when daylight is redder, softer, and more diffused, creating warm, dimensional light ideal for photography",
-                        "The time when photographers charge their highest rates",
-                        "A camera setting that adds a golden tint to photos",
-                        "The maximum time a camera can remain on before overheating"
+                        "The new employee was thrown in at the deep end on his first day",
+                        "The new employee was thrown at the deep end on his first day",
+                        "The new employee was thrown in the deep end on his first day",
+                        "The new employee was thrown to the deep end on his first day"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    category: "Lighting",
-                    question: "What is the difference between hard and soft light in photography?",
+                    category: "Word Usage",
+                    question: "Which phrasal verb is used correctly in this sentence?",
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                           </svg>`,
                     options: [
-                        "Hard light creates strong, defined shadows and high contrast (like direct sunlight), while soft light produces gentle, diffused shadows and lower contrast (like light on an overcast day)",
-                        "Hard light requires expensive equipment while soft light can be achieved with basic gear",
-                        "Hard light is used for outdoor photography while soft light is only for indoor shoots",
-                        "Hard light is brighter than soft light"
+                        "She had to put up with a lot of noise from her neighbors",
+                        "She had to put on with a lot of noise from her neighbors",
+                        "She had to put in with a lot of noise from her neighbors",
+                        "She had to put over with a lot of noise from her neighbors"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    category: "Lighting",
-                    question: "What is a reflector used for in photography?",
+                    category: "Word Usage",
+                    question: "Which collocation is correct?",
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                           </svg>`,
                     options: [
-                        "A tool that bounces existing light onto a subject to fill in shadows, add highlights, or modify the quality of light without requiring additional light sources",
-                        "A device that protects the camera lens from unwanted light",
-                        "A mirror used to help subjects see themselves during a photoshoot",
-                        "A tool that measures the amount of light in a scene"
+                        "Make a decision",
+                        "Do a decision",
+                        "Take a decision",
+                        "Have a decision"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    category: "Post-Processing",
-                    question: "What is white balance in photography and editing?",
+                    category: "Sentence Construction",
+                    question: "Which sentence is grammatically correct?",
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
                           </svg>`,
                     options: [
-                        "The adjustment of colors in an image to accurately represent white under different lighting conditions, ensuring that colors appear natural rather than having an unwanted color cast",
-                        "A technique to make all whites in an image perfectly bright",
-                        "The process of balancing exposure between highlights and shadows",
-                        "A filter that makes all colors appear whiter and brighter"
+                        "Neither the students nor the teacher was able to solve the problem",
+                        "Neither the students nor the teacher were able to solve the problem",
+                        "Neither the students nor the teacher is able to solve the problem",
+                        "Neither the students nor the teacher are able to solve the problem"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    category: "Post-Processing",
-                    question: "What is the difference between destructive and non-destructive editing?",
+                    category: "Sentence Construction",
+                    question: "Which sentence has the correct parallel structure?",
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
                           </svg>`,
                     options: [
-                        "Destructive editing permanently alters the original image data, while non-destructive editing preserves the original and applies changes as separate layers or instructions that can be modified or removed later",
-                        "Destructive editing damages the camera while non-destructive editing is safe for equipment",
-                        "Destructive editing creates dramatic effects while non-destructive editing makes subtle changes",
-                        "Destructive editing is faster while non-destructive editing takes longer to process"
+                        "She likes swimming, hiking, and to ride bicycles",
+                        "She likes swimming, hiking, and riding bicycles",
+                        "She likes to swim, hiking, and to ride bicycles",
+                        "She likes to swim, to hike, and riding bicycles"
+                    ],
+                    correctAnswer: 1
+                },
+                {
+                    category: "Sentence Construction",
+                    question: "Which sentence uses a dangling modifier?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                          </svg>`,
+                    options: [
+                        "Walking down the street, the birds were singing loudly",
+                        "The birds were singing loudly as I walked down the street",
+                        "Walking down the street, I heard the birds singing loudly",
+                        "As I walked down the street, the birds were singing loudly"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    category: "Post-Processing",
-                    question: "What is the purpose of adjustment layers in photo editing?",
+                    category: "Error Identification",
+                    question: "Which sentence contains a grammatical error?",
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                           </svg>`,
                     options: [
-                        "To apply color and tonal adjustments to an image without permanently altering the original pixels, allowing for flexible, non-destructive editing that can be modified or removed at any time",
-                        "To add physical layers of filters to a camera lens",
-                        "To separate different parts of an image for printing on different paper types",
-                        "To create 3D effects by stacking multiple images"
+                        "Between you and I, this project is going to fail",
+                        "Between you and me, this project is going to fail",
+                        "This project is going to fail, between you and me",
+                        "This project, between you and me, is going to fail"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    category: "Creative Vision",
-                    question: "What is meant by 'photographic eye' or 'visual literacy'?",
+                    category: "Error Identification",
+                    question: "Which sentence uses punctuation correctly?",
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                           </svg>`,
                     options: [
-                        "The ability to recognize compelling visual elements, compositions, and moments worth capturing, developed through practice and studying great photography",
-                        "A special contact lens designed for photographers",
-                        "The ability to see in low light conditions",
-                        "A camera feature that automatically detects good photo opportunities"
+                        "She bought apples, oranges, and bananas at the store",
+                        "She bought apples, oranges and bananas at the store",
+                        "She bought apples oranges, and bananas at the store",
+                        "She bought apples, oranges, and, bananas at the store"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    category: "Creative Vision",
-                    question: "What is visual storytelling in photography?",
+                    category: "Error Identification",
+                    question: "Which sentence contains a misplaced modifier?",
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                           </svg>`,
                     options: [
-                        "The art of creating images that convey narratives, emotions, or messages without relying on words, using visual elements to engage viewers and communicate ideas",
-                        "Taking photos while reading a story aloud",
-                        "Adding text captions to all photographs",
-                        "A technique where multiple photos are arranged in a storyboard format"
+                        "She almost drove the entire distance without stopping",
+                        "She drove almost the entire distance without stopping",
+                        "She drove the entire distance without almost stopping",
+                        "She drove the entire distance almost without stopping"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    category: "Creative Vision",
-                    question: "What is the concept of 'decisive moment' in photography?",
+                    category: "Contextual Comprehension",
+                    question: "In the sentence 'The bank was steep and slippery,' what does 'bank' most likely refer to?",
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                           </svg>`,
                     options: [
-                        "The precise instant when all elements in a scene come together perfectly to create a meaningful and powerful image, coined by photographer Henri Cartier-Bresson",
-                        "The moment when a photographer decides which camera to purchase",
-                        "The exact time of day when lighting is perfect for photography",
-                        "The point when a photographer decides to end a photoshoot"
+                        "The side of a river or lake",
+                        "A financial institution",
+                        "A row of similar objects",
+                        "A place to store money"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    category: "Specialized Techniques",
-                    question: "What is depth of field in photography?",
+                    category: "Contextual Comprehension",
+                    question: "What does the idiom 'to have cold feet' mean in this sentence: 'He got cold feet before his presentation'?",
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                           </svg>`,
                     options: [
-                        "The zone of acceptable sharpness in an image, from foreground to background, which can be shallow (subject in focus, background blurred) or deep (everything in focus), primarily controlled by aperture",
-                        "The maximum distance a photographer can be from their subject",
-                        "The number of photos that can fit on a memory card",
-                        "The distance between a camera and its tripod"
+                        "To become nervous or afraid to do something",
+                        "To have poor circulation in the extremities",
+                        "To be unprepared for an event",
+                        "To feel physically cold due to anxiety"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    category: "Specialized Techniques",
-                    question: "What is bracketing in photography?",
+                    category: "Contextual Comprehension",
+                    question: "In the sentence 'Her cutting remark silenced the room,' what type of figurative language is used?",
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                           </svg>`,
                     options: [
-                        "The technique of taking multiple shots of the same scene at different exposure settings to ensure at least one has optimal exposure or to combine them later (as in HDR photography)",
-                        "Using brackets to mount cameras in difficult positions",
-                        "A method of organizing photos in categories",
-                        "A framing technique that places subjects between two objects"
+                        "Metaphor",
+                        "Simile",
+                        "Hyperbole",
+                        "Personification"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    category: "Specialized Techniques",
-                    question: "What is macro photography?",
+                    category: "Grammar Rules",
+                    question: "Which sentence correctly uses the conditional tense?",
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                           </svg>`,
                     options: [
-                        "Extreme close-up photography that captures tiny subjects at life-size or greater magnification, revealing details not visible to the naked eye",
-                        "Taking photos of large subjects from a distance",
-                        "A technique used exclusively for landscape photography",
-                        "Photography that uses macro lenses to make small objects appear normal-sized"
+                        "If I had known about the party, I would have attended",
+                        "If I had known about the party, I would attend",
+                        "If I had known about the party, I will have attended",
+                        "If I would have known about the party, I would have attended"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    category: "Composition",
-                    question: "What is the 'golden ratio' in photographic composition?",
+                    category: "Vocabulary Range",
+                    question: "Which word best completes this sentence: 'The detective found several _____ at the crime scene'?",
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                           </svg>`,
                     options: [
-                        "A mathematical ratio (approximately 1:1.618) that creates a naturally pleasing composition when used to position elements within a frame, often visualized as a spiral",
-                        "A rule stating that gold-colored objects should always be the main subject",
-                        "The ideal ratio of light to shadow in a photograph",
-                        "A composition technique that requires exactly 61.8% of the frame to be filled"
+                        "Clues",
+                        "Hints",
+                        "Evidences",
+                        "Proofs"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    category: "Technical Knowledge",
-                    question: "What is the difference between RAW and JPEG file formats in photography?",
+                    category: "Word Usage",
+                    question: "Which sentence uses the word 'literally' correctly?",
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                           </svg>`,
                     options: [
-                        "RAW files contain all the unprocessed data captured by the camera sensor, offering maximum editing flexibility but requiring processing, while JPEGs are compressed, processed files ready for immediate use but with less editing latitude",
-                        "RAW files are smaller than JPEGs and load faster",
-                        "RAW files are for amateur photographers while professionals only use JPEG",
-                        "RAW files can only be viewed on cameras while JPEGs can be viewed on computers"
+                        "The book was so heavy that I was literally carrying a ton of bricks",
+                        "I was literally dying of laughter during the comedy show",
+                        "She was literally walking on air after receiving the good news",
+                        "The temperature literally dropped below freezing overnight"
                     ],
-                    correctAnswer: 0
-                },
-                {
-                    category: "Lighting",
-                    question: "What is the purpose of a softbox in photography lighting?",
-                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                          </svg>`,
-                    options: [
-                        "To diffuse and soften light from a flash or continuous light source, creating gentle shadows and more flattering illumination for subjects",
-                        "To store photography equipment safely",
-                        "To block unwanted light from entering the frame",
-                        "To make lights portable for outdoor photography"
-                    ],
-                    correctAnswer: 0
+                    correctAnswer: 3
                 }
             ];
 
@@ -831,7 +840,7 @@
                 
                 // Change color based on time remaining
                 if (percentRemaining > 60) {
-                    timerBarElement.className = 'timer-bar bg-gradient-to-r from-purple-500 to-indigo-400 h-2 rounded-full';
+                    timerBarElement.className = 'timer-bar bg-gradient-to-r from-purple-400 to-pink-400 h-2 rounded-full';
                 } else if (percentRemaining > 30) {
                     timerBarElement.className = 'timer-bar bg-gradient-to-r from-yellow-400 to-orange-400 h-2 rounded-full';
                 } else {
@@ -1170,11 +1179,11 @@
                     
                     // Download the PDF
                     const userName = localStorage.getItem('userName') || 'User';
-                    const fileName = `${userName.replace(/\s+/g, '_')}_Photography_Certificate.pdf`;
+                    const fileName = `${userName.replace(/\s+/g, '_')}_Grammar_Vocabulary_Certificate.pdf`;
                     pdf.save(fileName);
                 });
             }
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'968eedebf33c7fa7',t:'MTc1NDE1MTkwNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'968ef44590787f7d',t:'MTc1NDE1MjE2Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>

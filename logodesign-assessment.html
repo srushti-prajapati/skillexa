@@ -3,1824 +3,1183 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logo Design Skills Assessment</title>
+    <title>Logo Design Skills Assessment | Skillexa</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            overflow-x: hidden;
         }
-        .assessment-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
+        .handwriting {
+            font-family: 'Dancing Script', cursive;
         }
-        .progress-bar {
-            height: 8px;
-            background: #e9ecef;
-            border-radius: 4px;
-            overflow: hidden;
+        .golden-plum-gradient {
+            background: linear-gradient(135deg, #8e2de2 0%, #e6b980 100%);
         }
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #f43f5e, #ec4899);
-            transition: width 0.3s ease;
+        .ivory-gold-smoke-gradient {
+            background: linear-gradient(135deg, #fffcf2 0%, #cda349 50%, #2c2c2c 100%);
         }
-        .btn {
+        .category-card {
             transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
         }
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(244, 63, 94, 0.2);
-        }
-        .option-btn {
-            transition: all 0.2s ease;
-            border: 2px solid #e5e7eb;
-        }
-        .option-btn:hover {
-            border-color: #f43f5e;
-            background-color: #fff1f2;
-        }
-        .option-btn.selected {
-            border-color: #f43f5e;
-            background-color: #fff1f2;
-        }
-        .option-btn.correct {
-            border-color: #10b981;
-            background-color: #d1fae5;
-        }
-        .option-btn.incorrect {
-            border-color: #ef4444;
-            background-color: #fee2e2;
-        }
-        .certificate {
-            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-            border: 2px solid #f43f5e;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            position: relative;
-            overflow: hidden;
-        }
-        .certificate::before {
-            content: '';
-            position: absolute;
-            top: -50px;
-            left: -50px;
-            width: 200px;
-            height: 200px;
-            background: linear-gradient(135deg, rgba(244, 63, 94, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
-            border-radius: 50%;
-        }
-        .certificate::after {
-            content: '';
-            position: absolute;
-            bottom: -50px;
-            right: -50px;
-            width: 200px;
-            height: 200px;
-            background: linear-gradient(135deg, rgba(244, 63, 94, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
-            border-radius: 50%;
-        }
-        .badge {
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        .confetti {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #f43f5e;
-            opacity: 0;
-        }
-        @keyframes fall {
-            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(1000px) rotate(360deg); opacity: 0; }
-        }
-        .timer-warning {
-            animation: blink 1s infinite;
-        }
-        @keyframes blink {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-        .floating {
-            animation: floating 3s ease-in-out infinite;
-        }
-        @keyframes floating {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-        .scale-in {
-            animation: scaleIn 0.5s ease-out forwards;
-            transform-origin: center;
-        }
-        @keyframes scaleIn {
-            0% { transform: scale(0.8); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        .slide-in {
-            animation: slideIn 0.5s ease-out forwards;
-        }
-        @keyframes slideIn {
-            0% { transform: translateX(-20px); opacity: 0; }
-            100% { transform: translateX(0); opacity: 1; }
+        .category-card:hover {
+            transform: translateY(-5px);
         }
         .fade-in {
-            animation: fadeIn 0.5s ease-out forwards;
+            animation: fadeIn 0.8s ease-in;
+        }
+        .slide-in {
+            animation: slideIn 0.8s ease-out;
+        }
+        .scale-in {
+            animation: scaleIn 0.5s ease-out;
         }
         @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
-        .rotate-in {
-            animation: rotateIn 0.5s ease-out forwards;
+        @keyframes slideIn {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
-        @keyframes rotateIn {
-            0% { transform: rotate(-10deg) scale(0.9); opacity: 0; }
-            100% { transform: rotate(0deg) scale(1); opacity: 1; }
+        @keyframes scaleIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
-        .category-icon {
-            transition: all 0.3s ease;
+        .certificate-border {
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            padding: 10px;
         }
-        .category-card:hover .category-icon {
-            transform: translateY(-5px);
+        .certificate-inner-border {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            padding: 5px;
         }
-        .skill-bar {
-            height: 8px;
-            background: #e9ecef;
-            border-radius: 4px;
+        .certificate-content {
+            background: white;
+            position: relative;
             overflow: hidden;
         }
-        .skill-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #f43f5e, #ec4899);
-            transition: width 1s ease;
-        }
-        .border-pattern {
-            background-image: repeating-linear-gradient(45deg, #f43f5e 0, #f43f5e 1px, transparent 0, transparent 50%);
-            background-size: 10px 10px;
-        }
-        .design-icon {
-            filter: drop-shadow(0 4px 3px rgba(0, 0, 0, 0.07));
-        }
-        .chart-bar {
-            transition: height 1s ease;
-        }
-        .gradient-text {
-            background: linear-gradient(90deg, #f43f5e, #ec4899);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .color-swatch {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 5px;
-        }
-        .design-pattern {
-            position: absolute;
-            opacity: 0.05;
-            z-index: 0;
-        }
-        .welcome-pattern-1 {
-            top: 10%;
-            left: 5%;
-            width: 150px;
-            height: 150px;
-            background: radial-gradient(circle, #f43f5e 10%, transparent 11%),
-                        radial-gradient(circle at bottom left, #ec4899 10%, transparent 11%),
-                        radial-gradient(circle at bottom right, #f43f5e 10%, transparent 11%),
-                        radial-gradient(circle at top left, #ec4899 10%, transparent 11%);
-            background-size: 30px 30px;
-            transform: rotate(15deg);
-        }
-        .welcome-pattern-2 {
-            bottom: 10%;
-            right: 5%;
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(45deg, #f43f5e 25%, transparent 25%),
-                        linear-gradient(-45deg, #ec4899 25%, transparent 25%),
-                        linear-gradient(45deg, transparent 75%, #f43f5e 75%),
-                        linear-gradient(-45deg, transparent 75%, #ec4899 75%);
-            background-size: 20px 20px;
-            transform: rotate(-10deg);
-        }
-        .certificate-seal {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 100px;
-            height: 100px;
-        }
-        .certificate-seal-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            animation: rotate 20s linear infinite;
-        }
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .certificate-ribbon {
-            position: absolute;
-            bottom: -10px;
-            right: 30px;
-            width: 40px;
-            height: 60px;
-            background: linear-gradient(90deg, #f43f5e, #ec4899);
-            clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%);
-        }
-        .certificate-ribbon::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.2);
-            clip-path: polygon(0 0, 50% 50%, 100% 0, 100% 20%, 50% 70%, 0 20%);
-        }
-        .logo-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-        }
-        .logo-example {
-            aspect-ratio: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-        .logo-example:hover {
-            transform: scale(1.05);
-        }
-        .color-theory-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
-        }
-        .color-box {
-            aspect-ratio: 1;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-        .color-box:hover {
-            transform: scale(1.1);
-        }
-        .typography-example {
-            padding: 15px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-        .typography-example:hover {
-            transform: translateY(-5px);
-        }
-        .design-principle {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        .design-principle-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            flex-shrink: 0;
-        }
-        .logo-animation {
-            animation: logoReveal 4s infinite ease-in-out;
-            transform-origin: center;
-        }
-        @keyframes logoReveal {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-        .pen-animation {
-            animation: draw 3s infinite ease-in-out;
-        }
-        @keyframes draw {
-            0% { transform: translateX(0) rotate(0deg); }
-            25% { transform: translateX(20px) rotate(5deg); }
-            50% { transform: translateX(0) rotate(0deg); }
-            75% { transform: translateX(-20px) rotate(-5deg); }
-            100% { transform: translateX(0) rotate(0deg); }
-        }
-        .color-wheel {
-            position: relative;
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background: conic-gradient(
-                #f43f5e 0deg 60deg,
-                #fb7185 60deg 120deg,
-                #fda4af 120deg 180deg,
-                #ec4899 180deg 240deg,
-                #d946ef 240deg 300deg,
-                #c026d3 300deg 360deg
-            );
-            margin: 0 auto;
-        }
-        .color-wheel::after {
-            content: '';
+        .watermark {
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
-            width: 30px;
-            height: 30px;
-            background: white;
-            border-radius: 50%;
+            transform: translate(-50%, -50%) rotate(-30deg);
+            font-size: 100px;
+            color: rgba(0,0,0,0.05);
+            font-weight: bold;
+            white-space: nowrap;
+            z-index: 0;
         }
-        .quote-marks {
-            font-size: 60px;
-            line-height: 1;
-            font-family: Georgia, serif;
-            color: rgba(244, 63, 94, 0.2);
-            position: absolute;
+        .timer-bar {
+            transition: width 1s linear;
         }
-        .quote-left {
-            top: 10px;
-            left: 10px;
+        .progress-bar {
+            transition: width 0.5s ease;
         }
-        .quote-right {
-            bottom: 10px;
-            right: 10px;
+        .quiz-option:hover {
+            background-color: rgba(255, 255, 255, 0.1);
         }
-        .grid-animation {
-            animation: gridPulse 10s linear infinite;
-            transform-origin: center;
+        .quiz-option.selected {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-color: #ffffff;
         }
-        @keyframes gridPulse {
-            0%, 100% { opacity: 0.7; }
-            50% { opacity: 1; }
+        .glow-text {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
         }
-        .theme-icon-pulse {
-            animation: themePulse 3s ease-in-out infinite;
+        .golden-glow-text {
+            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #e6b980, 0 0 20px #e6b980;
         }
-        @keyframes themePulse {
-            0%, 100% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.1); opacity: 1; }
-        }
-        .spacing-animation {
-            animation: spacing 4s ease-in-out infinite;
-        }
-        @keyframes spacing {
-            0%, 100% { letter-spacing: normal; }
-            50% { letter-spacing: 2px; }
-        }
-        .golden-ratio {
-            position: relative;
-            width: 100px;
-            height: 100px;
-            margin: 0 auto;
-        }
-        .golden-ratio-box {
-            position: absolute;
-            border: 2px solid #f43f5e;
-            border-radius: 4px;
-        }
-        .golden-ratio-box-1 {
-            width: 100px;
-            height: 100px;
-            top: 0;
-            left: 0;
-        }
-        .golden-ratio-box-2 {
-            width: 62px;
-            height: 62px;
-            top: 0;
-            right: 0;
-        }
-        .golden-ratio-box-3 {
-            width: 38px;
-            height: 38px;
-            bottom: 0;
-            left: 0;
-        }
-        .golden-ratio-box-4 {
-            width: 24px;
-            height: 24px;
-            bottom: 38px;
-            left: 0;
-        }
-        .golden-ratio-spiral {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-        }
-        .golden-ratio-spiral path {
-            fill: none;
-            stroke: #ec4899;
-            stroke-width: 2;
+        .ivory-glow {
+            text-shadow: 0 0 5px #fffcf2, 0 0 10px #fffcf2, 0 0 15px #fffcf2, 0 0 20px #fffcf2;
         }
     </style>
 </head>
-<body class="min-h-screen py-8 px-4">
-    <div id="app">
-        <!-- Welcome Screen -->
-        <div id="welcome-screen" class="assessment-container p-8 relative">
-            <div class="design-pattern welcome-pattern-1"></div>
-            <div class="design-pattern welcome-pattern-2"></div>
+<body>
+    <!-- Main Container -->
+    <div id="app" class="min-h-screen w-full">
+        <!-- Login Screen -->
+        <div id="login-screen" class="min-h-screen golden-plum-gradient flex flex-col items-center justify-center px-4 py-12">
+            <div class="w-full max-w-md bg-white bg-opacity-10 backdrop-blur-sm rounded-xl shadow-lg p-8 fade-in">
+                <h1 class="text-3xl font-bold text-center mb-8 text-white golden-glow-text">Logo Design Skills Assessment</h1>
+                <form id="login-form" class="space-y-6">
+                    <div>
+                        <label for="fullName" class="block text-sm font-medium text-white mb-1">Full Name</label>
+                        <input type="text" id="fullName" required class="w-full px-4 py-2 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400 text-white placeholder-white placeholder-opacity-70">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-white mb-1">Email Address</label>
+                        <input type="email" id="email" required class="w-full px-4 py-2 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400 text-white placeholder-white placeholder-opacity-70">
+                    </div>
+                    <button type="submit" class="w-full bg-gradient-to-r from-purple-500 to-amber-500 text-white py-2 rounded-md font-medium hover:opacity-90 transition-opacity">Start Assessment</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Category Preview Screen -->
+        <div id="category-preview" class="hidden min-h-screen golden-plum-gradient flex flex-col items-center justify-center px-4 py-12">
+            <div class="w-full max-w-4xl text-center mb-10 fade-in">
+                <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 golden-glow-text">Logo Design Skills Assessment</h1>
+                <p class="text-xl text-white text-opacity-90">Explore the key areas we'll be evaluating</p>
+            </div>
             
-            <div class="text-center mb-8 relative z-10">
-                <div class="inline-block p-4 bg-gradient-to-br from-rose-100 to-pink-100 rounded-full mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 design-icon logo-animation" viewBox="0 0 24 24" fill="none" stroke="url(#gradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <defs>
-                            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#f43f5e" />
-                                <stop offset="100%" stop-color="#ec4899" />
-                            </linearGradient>
-                        </defs>
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
-                    </svg>
-                </div>
-                <h1 class="text-3xl font-bold mb-2">Logo Design Skills Assessment</h1>
-                <p class="text-gray-600 mb-6">Test your logo design abilities with 25 questions and earn a professional certificate</p>
-                
-                <div class="flex flex-wrap justify-center gap-6 mb-8">
-                    <div class="flex items-center">
-                        <div class="bg-rose-100 p-2 rounded-full mr-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </div>
-                        <span class="text-gray-700">30 minutes</span>
-                    </div>
-                    <div class="flex items-center">
-                        <div class="bg-rose-100 p-2 rounded-full mr-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </div>
-                        <span class="text-gray-700">25 questions</span>
-                    </div>
-                    <div class="flex items-center">
-                        <div class="bg-rose-100 p-2 rounded-full mr-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                        </div>
-                        <span class="text-gray-700">Certificate on completion</span>
-                    </div>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
-                    <div class="category-card bg-white p-5 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
-                        <div class="category-icon bg-gradient-to-br from-rose-100 to-pink-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl mb-10">
+                <!-- Category 1: Visual Elements -->
+                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.1s">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gradient-to-br from-amber-400 to-orange-500 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
                         </div>
-                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Composition</h3>
-                        <p class="text-gray-600 text-sm text-center">Balance & visual hierarchy</p>
+                        <h3 class="text-xl font-bold">Visual Elements</h3>
                     </div>
-                    <div class="category-card bg-white p-5 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
-                        <div class="category-icon bg-gradient-to-br from-rose-100 to-pink-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-                            </svg>
-                        </div>
-                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Color Theory</h3>
-                        <p class="text-gray-600 text-sm text-center">Effective color usage</p>
-                    </div>
-                    <div class="category-card bg-white p-5 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
-                        <div class="category-icon bg-gradient-to-br from-rose-100 to-pink-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-rose-600 spacing-animation" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
-                            </svg>
-                        </div>
-                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Typography</h3>
-                        <p class="text-gray-600 text-sm text-center">Font selection & styling</p>
-                    </div>
-                    <div class="category-card bg-white p-5 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
-                        <div class="category-icon bg-gradient-to-br from-rose-100 to-pink-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-rose-600 grid-animation" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-                            </svg>
-                        </div>
-                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Brand Identity</h3>
-                        <p class="text-gray-600 text-sm text-center">Brand alignment & values</p>
-                    </div>
-                    <div class="category-card bg-white p-5 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
-                        <div class="category-icon bg-gradient-to-br from-rose-100 to-pink-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-rose-600 theme-icon-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                            </svg>
-                        </div>
-                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Design Principles</h3>
-                        <p class="text-gray-600 text-sm text-center">Fundamentals of design</p>
-                    </div>
+                    <p class="text-white text-opacity-90">Understanding of shape, color, typography, and composition principles that create visually appealing and balanced logo designs.</p>
                 </div>
                 
-                <div class="bg-gradient-to-r from-rose-50 to-pink-50 p-6 rounded-lg mb-8 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-32 h-32 -mt-10 -mr-10 bg-rose-100 rounded-full opacity-50"></div>
-                    <div class="absolute bottom-0 left-0 w-24 h-24 -mb-8 -ml-8 bg-pink-100 rounded-full opacity-50"></div>
-                    <h3 class="font-semibold text-rose-800 mb-3 relative z-10">Why Take This Assessment?</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 relative z-10">
-                        <div class="flex items-start">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-rose-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span class="text-gray-700 text-sm">Identify your logo design strengths</span>
-                        </div>
-                        <div class="flex items-start">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-rose-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span class="text-gray-700 text-sm">Discover areas for improvement</span>
-                        </div>
-                        <div class="flex items-start">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-rose-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span class="text-gray-700 text-sm">Earn a professional certificate</span>
-                        </div>
-                        <div class="flex items-start">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-rose-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span class="text-gray-700 text-sm">Enhance your design career profile</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 mb-8">
+                <!-- Category 2: Brand Identity -->
+                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.2s">
                     <div class="flex items-center mb-4">
-                        <div class="bg-amber-100 p-2 rounded-full mr-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        <div class="bg-gradient-to-br from-purple-400 to-pink-500 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                             </svg>
                         </div>
-                        <h3 class="font-semibold text-gray-800">How It Works</h3>
+                        <h3 class="text-xl font-bold">Brand Identity</h3>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="flex flex-col items-center text-center">
-                            <div class="bg-gradient-to-br from-rose-100 to-pink-100 w-10 h-10 rounded-full flex items-center justify-center mb-3">
-                                <span class="font-bold text-rose-600">1</span>
-                            </div>
-                            <h4 class="font-medium text-gray-800 mb-1">Complete Assessment</h4>
-                            <p class="text-gray-600 text-sm">Answer 25 questions about logo design</p>
-                        </div>
-                        <div class="flex flex-col items-center text-center">
-                            <div class="bg-gradient-to-br from-rose-100 to-pink-100 w-10 h-10 rounded-full flex items-center justify-center mb-3">
-                                <span class="font-bold text-rose-600">2</span>
-                            </div>
-                            <h4 class="font-medium text-gray-800 mb-1">Get Results</h4>
-                            <p class="text-gray-600 text-sm">Receive detailed feedback on your design abilities</p>
-                        </div>
-                        <div class="flex flex-col items-center text-center">
-                            <div class="bg-gradient-to-br from-rose-100 to-pink-100 w-10 h-10 rounded-full flex items-center justify-center mb-3">
-                                <span class="font-bold text-rose-600">3</span>
-                            </div>
-                            <h4 class="font-medium text-gray-800 mb-1">Earn Certificate</h4>
-                            <p class="text-gray-600 text-sm">Get your professional certificate to showcase your skills</p>
-                        </div>
-                    </div>
+                    <p class="text-white text-opacity-90">Ability to translate brand values, personality, and positioning into visual elements that effectively communicate the brand's essence.</p>
                 </div>
                 
-                <div class="relative mb-8 p-6 bg-white rounded-lg shadow-sm border border-gray-100">
-                    <h3 class="font-semibold text-gray-800 mb-4">Logo Design Concepts</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <div class="mb-4">
-                                <h4 class="text-sm font-medium text-gray-700 mb-2">Logo Styles</h4>
-                                <div class="logo-grid">
-                                    <div class="logo-example bg-rose-50">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        </svg>
-                                    </div>
-                                    <div class="logo-example bg-pink-50">
-                                        <span class="text-xl font-bold text-pink-600">Aa</span>
-                                    </div>
-                                    <div class="logo-example bg-rose-50">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-                                        </svg>
-                                    </div>
-                                    <div class="logo-example bg-pink-50">
-                                        <div class="h-10 w-10 rounded-full border-4 border-pink-600"></div>
-                                    </div>
-                                    <div class="logo-example bg-rose-50">
-                                        <div class="flex">
-                                            <span class="text-xl font-bold text-rose-600">A</span>
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-                                            </svg>
-                                        </div>
-                                    </div>
-                                    <div class="logo-example bg-pink-50">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="flex justify-between text-xs text-gray-500 mt-2">
-                                    <span>Pictorial</span>
-                                    <span>Wordmark</span>
-                                    <span>Combination</span>
-                                </div>
-                            </div>
-                            <div class="mb-4">
-                                <h4 class="text-sm font-medium text-gray-700 mb-2">Color Theory</h4>
-                                <div class="color-theory-grid">
-                                    <div class="color-box" style="background-color: #f43f5e;"></div>
-                                    <div class="color-box" style="background-color: #fb7185;"></div>
-                                    <div class="color-box" style="background-color: #fda4af;"></div>
-                                    <div class="color-box" style="background-color: #fecdd3;"></div>
-                                    <div class="color-box" style="background-color: #ffe4e6;"></div>
-                                </div>
-                                <div class="mt-3">
-                                    <div class="color-wheel"></div>
-                                    <p class="text-xs text-center text-gray-500 mt-2">Color Wheel</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <h4 class="text-sm font-medium text-gray-700 mb-2">Typography Examples</h4>
-                            <div class="space-y-3">
-                                <div class="typography-example bg-gray-50">
-                                    <p class="font-serif text-lg text-gray-800">Serif</p>
-                                    <p class="text-xs text-gray-500">Traditional, reliable, respectable</p>
-                                </div>
-                                <div class="typography-example bg-gray-50">
-                                    <p class="font-sans text-lg text-gray-800">Sans-serif</p>
-                                    <p class="text-xs text-gray-500">Modern, clean, minimal</p>
-                                </div>
-                                <div class="typography-example bg-gray-50">
-                                    <p class="font-mono text-lg text-gray-800">Monospace</p>
-                                    <p class="text-xs text-gray-500">Technical, precise, functional</p>
-                                </div>
-                            </div>
-                            <div class="mt-4">
-                                <h4 class="text-sm font-medium text-gray-700 mb-2">Design Principles</h4>
-                                <div class="space-y-3">
-                                    <div class="design-principle">
-                                        <div class="design-principle-icon bg-rose-100">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <p class="font-medium text-gray-800">Balance</p>
-                                            <p class="text-xs text-gray-500">Visual equilibrium in a design</p>
-                                        </div>
-                                    </div>
-                                    <div class="design-principle">
-                                        <div class="design-principle-icon bg-rose-100">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <p class="font-medium text-gray-800">Hierarchy</p>
-                                            <p class="text-xs text-gray-500">Organizing elements by importance</p>
-                                        </div>
-                                    </div>
-                                    <div class="design-principle">
-                                        <div class="design-principle-icon bg-rose-100">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <p class="font-medium text-gray-800">Alignment</p>
-                                            <p class="text-xs text-gray-500">Creating order and organization</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-6">
-                        <h4 class="text-sm font-medium text-gray-700 mb-2">Golden Ratio in Logo Design</h4>
-                        <div class="golden-ratio">
-                            <div class="golden-ratio-box golden-ratio-box-1"></div>
-                            <div class="golden-ratio-box golden-ratio-box-2"></div>
-                            <div class="golden-ratio-box golden-ratio-box-3"></div>
-                            <div class="golden-ratio-box golden-ratio-box-4"></div>
-                            <svg class="golden-ratio-spiral" viewBox="0 0 100 100">
-                                <path d="M100,0 C100,55.23 55.23,100 0,100 L0,62 C34.25,62 62,34.25 62,0 L100,0 Z" />
+                <!-- Category 3: Technical Proficiency -->
+                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.3s">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gradient-to-br from-blue-400 to-cyan-500 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                             </svg>
                         </div>
-                        <p class="text-xs text-center text-gray-500 mt-2">Golden Ratio (1:1.618)</p>
+                        <h3 class="text-xl font-bold">Technical Proficiency</h3>
                     </div>
+                    <p class="text-white text-opacity-90">Knowledge of design software, file formats, resolution requirements, and technical considerations for logo implementation across various media.</p>
                 </div>
                 
-                <div class="flex justify-center">
-                    <button id="start-btn" class="btn bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 text-white font-medium py-3 px-8 rounded-lg flex items-center">
-                        Start Assessment
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                        </svg>
-                    </button>
+                <!-- Category 4: Conceptual Thinking -->
+                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.4s">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gradient-to-br from-green-400 to-emerald-500 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold">Conceptual Thinking</h3>
+                    </div>
+                    <p class="text-white text-opacity-90">Skill in developing creative concepts and ideas that effectively communicate brand messages through symbolic representation and visual metaphors.</p>
                 </div>
+                
+                <!-- Category 5: Adaptability -->
+                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.5s">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gradient-to-br from-red-400 to-rose-500 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold">Adaptability</h3>
+                    </div>
+                    <p class="text-white text-opacity-90">Understanding of how logos need to function across different platforms, sizes, and applications while maintaining visual integrity and recognition.</p>
+                </div>
+                
+                <!-- Category 6: Market Awareness -->
+                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.6s">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gradient-to-br from-yellow-400 to-amber-500 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold">Market Awareness</h3>
+                    </div>
+                    <p class="text-white text-opacity-90">Knowledge of industry trends, competitor branding, and target audience preferences to create logos that are both distinctive and appropriate for the market.</p>
+                </div>
+            </div>
+            
+            <div class="w-full max-w-md text-center fade-in">
+                <button id="start-quiz-btn" class="px-8 py-3 bg-gradient-to-r from-purple-500 to-amber-500 text-white rounded-full font-medium text-lg hover:bg-opacity-90 transition-opacity shadow-lg">
+                    Start 20-Question Assessment
+                </button>
+                <p class="text-white text-opacity-90 mt-4">You'll have 15 minutes to complete all questions</p>
             </div>
         </div>
 
         <!-- Quiz Screen -->
-        <div id="quiz-screen" class="assessment-container hidden">
-            <div class="p-6 bg-gradient-to-r from-rose-50 to-pink-50 border-b border-rose-100">
-                <div class="flex justify-between items-center mb-4">
-                    <div>
-                        <h2 class="text-xl font-semibold text-gray-800">Logo Design Assessment</h2>
-                        <p class="text-gray-600 text-sm">Question <span id="current-question">1</span> of 25</p>
-                    </div>
-                    <div class="bg-white px-4 py-2 rounded-lg shadow-sm flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-rose-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div id="quiz-screen" class="hidden min-h-screen ivory-gold-smoke-gradient flex flex-col">
+            <!-- Quiz Header -->
+            <div class="p-4 md:p-6 flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h2 class="text-2xl font-bold text-white">Logo Design Skills Assessment</h2>
+                    <p class="text-white text-opacity-80">Answer each question to the best of your ability</p>
+                </div>
+                <div class="flex flex-col items-end">
+                    <div class="flex items-center mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <span id="timer" class="font-medium">30:00</span>
+                        <span id="timer" class="text-white font-medium">15:00</span>
                     </div>
-                </div>
-                <div class="progress-bar">
-                    <div id="progress-fill" class="progress-fill" style="width: 4%"></div>
+                    <div class="w-full bg-white bg-opacity-30 rounded-full h-2">
+                        <div id="timer-bar" class="timer-bar bg-gradient-to-r from-amber-500 to-purple-400 h-2 rounded-full" style="width: 100%"></div>
+                    </div>
                 </div>
             </div>
             
-            <div class="p-8">
-                <h3 id="question-text" class="text-xl font-medium text-gray-800 mb-6">Loading question...</h3>
-                
-                <div id="options-container" class="space-y-4 mb-8">
-                    <!-- Options will be inserted here -->
+            <!-- Quiz Progress -->
+            <div class="px-4 md:px-6 py-2">
+                <div class="flex justify-between items-center mb-1">
+                    <span class="text-sm text-white text-opacity-80">Question <span id="current-question">1</span> of 20</span>
+                    <span class="text-sm text-white text-opacity-80"><span id="progress-percent">5</span>% Complete</span>
                 </div>
-                
-                <div class="flex justify-between">
-                    <button id="prev-btn" class="btn bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-2 px-6 rounded-lg flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                <div class="w-full bg-white bg-opacity-30 rounded-full h-2">
+                    <div id="progress-bar" class="progress-bar bg-gradient-to-r from-amber-500 to-purple-400 h-2 rounded-full" style="width: 5%"></div>
+                </div>
+            </div>
+            
+            <!-- Quiz Content -->
+            <div class="flex-grow flex items-center justify-center p-4 md:p-6">
+                <div id="question-container" class="w-full max-w-3xl bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 md:p-8 shadow-lg scale-in">
+                    <div id="question-icon" class="mx-auto mb-6 bg-gradient-to-br from-amber-500 to-purple-400 w-16 h-16 rounded-full flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
-                        Previous
-                    </button>
-                    <div class="flex space-x-2">
-                        <button id="skip-btn" class="btn bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-4 rounded-lg">
-                            Skip
-                        </button>
-                        <button id="next-btn" class="btn bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 text-white font-medium py-2 px-6 rounded-lg flex items-center">
-                            Next
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                            </svg>
-                        </button>
+                    </div>
+                    <h3 id="question-text" class="text-xl md:text-2xl font-medium text-white text-center mb-8">What is the primary purpose of negative space in logo design?</h3>
+                    
+                    <div id="options-container" class="space-y-4">
+                        <!-- Options will be dynamically generated -->
                     </div>
                 </div>
             </div>
             
-            <div class="p-4 bg-gray-50 border-t border-gray-100">
-                <div class="flex flex-wrap gap-2 justify-center" id="question-nav">
-                    <!-- Question navigation buttons will be inserted here -->
-                </div>
+            <!-- Quiz Navigation -->
+            <div class="p-4 md:p-6 flex justify-between">
+                <button id="prev-btn" class="px-6 py-2 bg-white bg-opacity-10 text-white rounded-lg font-medium hover:bg-opacity-20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Previous</button>
+                <button id="next-btn" class="px-6 py-2 bg-gradient-to-r from-amber-500 to-purple-500 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">Next</button>
             </div>
         </div>
 
         <!-- Results Screen -->
-        <div id="results-screen" class="assessment-container hidden">
-            <div class="p-8 text-center">
-                <div id="score-badge" class="badge w-32 h-32 rounded-full bg-gradient-to-r from-rose-100 to-pink-100 flex items-center justify-center mx-auto mb-6">
-                    <div class="text-center">
-                        <span id="score-percentage" class="block text-3xl font-bold gradient-text">85%</span>
-                        <span class="text-sm text-gray-600">Score</span>
+        <div id="results-screen" class="hidden min-h-screen golden-plum-gradient flex flex-col">
+            <div class="p-4 md:p-6">
+                <h2 class="text-2xl md:text-3xl font-bold text-white text-center golden-glow-text">Your Assessment Results</h2>
+                <p class="text-white text-opacity-80 text-center mb-8">Here's how you performed in the Logo Design Skills Assessment</p>
+                
+                <div class="w-full max-w-4xl mx-auto bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 md:p-8 shadow-lg mb-8">
+                    <div class="flex flex-col md:flex-row items-center justify-between mb-8">
+                        <div class="mb-6 md:mb-0">
+                            <h3 class="text-xl text-white mb-2">Total Score</h3>
+                            <div class="text-5xl font-bold text-white glow-text"><span id="total-score">0</span>/<span id="max-score">100</span></div>
+                        </div>
+                        <div class="w-full md:w-auto">
+                            <div id="score-gauge" class="w-40 h-40 mx-auto relative">
+                                <svg class="w-full h-full" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="45" fill="none" stroke="#ffffff33" stroke-width="10" />
+                                    <circle id="score-circle" cx="50" cy="50" r="45" fill="none" stroke-width="10" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="283" transform="rotate(-90 50 50)" />
+                                </svg>
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <span id="score-percentage" class="text-2xl font-bold text-white glow-text">0%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-xl text-white mb-4">Performance by Category</h3>
+                    <div id="category-results" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <!-- Category results will be dynamically generated -->
                     </div>
                 </div>
                 
-                <h2 class="text-2xl font-bold text-gray-800 mb-2">Assessment Complete!</h2>
-                <p id="result-message" class="text-gray-600 mb-6">Great job! You've completed the assessment.</p>
-                
-                <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
-                    <h3 class="font-semibold text-gray-800 mb-4">Performance Summary</h3>
-                    <div class="grid grid-cols-2 gap-4 mb-6">
-                        <div class="bg-gradient-to-r from-rose-50 to-pink-50 p-4 rounded-lg">
-                            <div class="text-2xl font-bold gradient-text mb-1"><span id="correct-answers">21</span>/25</div>
-                            <div class="text-sm text-gray-600">Correct Answers</div>
-                        </div>
-                        <div class="bg-gradient-to-r from-rose-50 to-pink-50 p-4 rounded-lg">
-                            <div class="text-2xl font-bold gradient-text mb-1"><span id="time-taken">15:45</span></div>
-                            <div class="text-sm text-gray-600">Time Taken</div>
-                        </div>
-                    </div>
+                <div class="w-full max-w-md mx-auto bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 shadow-lg text-center">
+                    <h3 class="text-xl text-white mb-4 glow-text">Get Your Certificate</h3>
+                    <p class="text-white text-opacity-80 mb-6">Complete the payment to receive your official Skillexa certification</p>
                     
                     <div class="mb-6">
-                        <div class="flex items-center mb-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-rose-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        <div id="qr-code" class="w-48 h-48 mx-auto bg-white p-4 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="w-full h-full">
+                                <!-- Simple QR code SVG representation -->
+                                <rect x="10" y="10" width="80" height="80" fill="none" stroke="black" stroke-width="1" />
+                                <g fill="black">
+                                    <!-- QR code pattern - simplified representation -->
+                                    <rect x="20" y="20" width="20" height="20" />
+                                    <rect x="60" y="20" width="20" height="20" />
+                                    <rect x="20" y="60" width="20" height="20" />
+                                    <rect x="40" y="40" width="20" height="20" />
+                                    <rect x="65" y="65" width="10" height="10" />
+                                    <rect x="25" y="45" width="10" height="10" />
+                                    <rect x="45" y="25" width="10" height="10" />
+                                    <rect x="65" y="45" width="10" height="10" />
+                                    <rect x="45" y="65" width="10" height="10" />
+                                </g>
                             </svg>
-                            <h4 class="font-medium text-gray-700">Your Design Strengths</h4>
                         </div>
-                        <div id="strengths" class="text-sm text-gray-600 bg-gray-50 p-4 rounded-lg">
-                            <!-- Strengths will be inserted here -->
-                        </div>
+                        <p class="text-white text-opacity-80 mt-2">Scan to pay via UPI</p>
                     </div>
                     
-                    <div class="mb-6">
-                        <div class="flex items-center mb-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                            </svg>
-                            <h4 class="font-medium text-gray-700">Areas for Growth</h4>
-                        </div>
-                        <div id="improvements" class="text-sm text-gray-600 bg-gray-50 p-4 rounded-lg">
-                            <!-- Areas for improvement will be inserted here -->
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <h4 class="font-medium text-gray-700 mb-3">Knowledge Area Breakdown</h4>
-                        <div class="space-y-4">
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-sm text-gray-600">Composition</span>
-                                    <span id="composition-score" class="text-sm font-medium text-rose-600">85%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div id="composition-bar" class="skill-fill" style="width: 85%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-sm text-gray-600">Color Theory</span>
-                                    <span id="color-score" class="text-sm font-medium text-rose-600">70%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div id="color-bar" class="skill-fill" style="width: 70%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-sm text-gray-600">Typography</span>
-                                    <span id="typography-score" class="text-sm font-medium text-rose-600">90%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div id="typography-bar" class="skill-fill" style="width: 90%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-sm text-gray-600">Brand Identity</span>
-                                    <span id="brand-score" class="text-sm font-medium text-rose-600">75%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div id="brand-bar" class="skill-fill" style="width: 75%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-sm text-gray-600">Design Principles</span>
-                                    <span id="principles-score" class="text-sm font-medium text-rose-600">80%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div id="principles-bar" class="skill-fill" style="width: 80%"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-gradient-to-r from-rose-50 to-pink-50 p-6 rounded-lg mb-8 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-32 h-32 -mt-10 -mr-10 bg-rose-100 rounded-full opacity-30"></div>
-                    <div class="relative z-10">
-                        <h3 class="font-semibold text-gray-800 mb-3">Next Steps</h3>
-                        <p class="text-gray-600 text-sm mb-4">Get your professional certificate to showcase your logo design skills!</p>
-                        <ul class="text-sm text-gray-600 space-y-2">
-                            <li class="flex items-start">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-rose-600 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                                </svg>
-                                <span>Verifiable digital certificate</span>
-                            </li>
-                            <li class="flex items-start">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-rose-600 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                </svg>
-                                <span>Add to your LinkedIn profile</span>
-                            </li>
-                            <li class="flex items-start">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-rose-600 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                </svg>
-                                <span>Download as PDF</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="flex justify-center">
-                    <button id="payment-btn" class="btn bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 text-white font-medium py-3 px-8 rounded-lg flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-                        </svg>
-                        Get Your Certificate ($24.99)
+                    <!-- Simulated payment button for demo purposes -->
+                    <button id="simulate-payment-btn" class="w-full px-6 py-3 bg-gradient-to-r from-amber-500 to-purple-500 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">
+                        Simulate Payment (Demo)
                     </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Payment Modal -->
-        <div id="payment-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-            <div class="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full mx-4 scale-in">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-xl font-bold text-gray-800">Payment Details</h3>
-                    <button id="close-payment" class="text-gray-400 hover:text-gray-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
-                
-                <div class="mb-6">
-                    <div class="flex justify-between items-center p-4 bg-gradient-to-r from-rose-50 to-pink-50 rounded-lg mb-4">
-                        <div class="flex items-center">
-                            <div class="bg-rose-100 p-2 rounded-full mr-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-gray-800">Logo Design Certificate</h4>
-                                <p class="text-sm text-gray-600">Verifiable digital certificate</p>
-                            </div>
-                        </div>
-                        <span class="font-bold text-rose-600">$24.99</span>
-                    </div>
-                    
-                    <!-- This is a demo payment form -->
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Card Number</label>
-                            <input type="text" placeholder="1234 5678 9012 3456" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500">
-                        </div>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Expiry Date</label>
-                                <input type="text" placeholder="MM/YY" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">CVC</label>
-                                <input type="text" placeholder="123" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500">
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Name on Card</label>
-                            <input type="text" placeholder="John Doe" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                            <input type="email" placeholder="your@email.com" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500">
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="text-center">
-                    <button id="process-payment" class="btn w-full bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 text-white font-medium py-3 px-8 rounded-lg">
-                        Pay $24.99 and Get Certificate
-                    </button>
-                    <p class="text-xs text-gray-500 mt-4">This is a demo payment form. No actual payment will be processed.</p>
                 </div>
             </div>
         </div>
 
         <!-- Certificate Screen -->
-        <div id="certificate-screen" class="hidden">
-            <div class="max-w-4xl mx-auto">
-                <div id="confetti-container" class="fixed inset-0 pointer-events-none"></div>
-                
-                <div class="certificate p-8 md:p-12 rounded-xl mb-8">
-                    <div class="border-pattern absolute inset-4 rounded-lg opacity-10 pointer-events-none"></div>
-                    
-                    <div class="certificate-seal">
-                        <div class="certificate-seal-inner">
-                            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="50" cy="50" r="45" fill="none" stroke="#f43f5e" stroke-width="2" />
-                                <circle cx="50" cy="50" r="35" fill="none" stroke="#ec4899" stroke-width="2" stroke-dasharray="4 2" />
-                                <path d="M50 20 L53 35 L68 35 L56 45 L60 60 L50 50 L40 60 L44 45 L32 35 L47 35 Z" fill="#fff1f2" stroke="#f43f5e" stroke-width="1" />
-                            </svg>
+        <div id="certificate-screen" class="hidden min-h-screen bg-gray-100 p-4 md:p-8 flex flex-col items-center justify-center">
+            <div class="mb-6 text-center">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800">Your Certificate is Ready!</h2>
+                <p class="text-gray-600">Your certificate has been generated and will download automatically</p>
+            </div>
+            
+            <!-- Certificate Preview -->
+            <div id="certificate" class="w-full max-w-5xl certificate-border rounded-lg shadow-xl">
+                <div class="certificate-inner-border rounded-lg">
+                    <div class="certificate-content p-8 rounded-lg">
+                        <div class="watermark">SKILLEXA</div>
+                        
+                        <div class="flex justify-between items-start mb-6 relative z-10">
+                            <!-- Logo placeholder -->
+                            <div class="w-24 h-24 bg-gray-200 rounded flex items-center justify-center">
+                                <span class="text-gray-500 font-bold">SKILLEXA</span>
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <div class="text-right mr-4">
+                                    <h3 class="text-xl font-bold text-gray-800">CERTIFICATE</h3>
+                                    <p class="text-gray-600">OF ACHIEVEMENT</p>
+                                </div>
+                                <div class="w-12 h-12">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" class="w-full h-full">
+                                        <circle cx="48" cy="48" r="46" fill="#8b5cf6"/>
+                                        <path fill="#FFFFFF" d="M41,59.4l-12-12l-4.2,4.2L41,67.8l30.2-30.2l-4.2-4.2L41,59.4z"/>
+                                    </svg>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="text-center mb-8 relative">
-                        <div class="inline-block">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto logo-animation" viewBox="0 0 24 24" fill="none" stroke="url(#cert-gradient)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
-                                <defs>
-                                    <linearGradient id="cert-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" stop-color="#f43f5e" />
-                                        <stop offset="100%" stop-color="#ec4899" />
-                                    </linearGradient>
-                                </defs>
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
-                            </svg>
+                        
+                        <div class="text-center mb-8 relative z-10">
+                            <h2 class="handwriting text-4xl text-gray-800 mb-1">Certificate of Excellence</h2>
+                            <p class="text-gray-600">This certifies that</p>
+                            <h3 id="certificate-name" class="handwriting text-3xl text-gray-800 my-3">John Doe</h3>
+                            <p class="text-gray-600 max-w-lg mx-auto">has successfully completed the Logo Design Skills Assessment with outstanding performance and is hereby recognized for their achievement.</p>
                         </div>
-                        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-4">Certificate of Achievement</h2>
-                        <p class="text-gray-600 mt-2">in Logo Design</p>
-                    </div>
-                    
-                    <div class="text-center mb-8">
-                        <p class="text-gray-600 mb-2">This certifies that</p>
-                        <h3 id="certificate-name" class="text-2xl font-bold gradient-text mb-2">John Doe</h3>
-                        <p class="text-gray-600">has successfully completed the</p>
-                        <h4 class="text-xl font-semibold text-gray-800 my-2">Logo Design Skills Assessment</h4>
-                        <p class="text-gray-600 mb-2">with a score of</p>
-                        <div class="inline-block bg-gradient-to-r from-rose-100 to-pink-100 px-4 py-2 rounded-full">
-                            <span id="certificate-score" class="text-xl font-bold gradient-text">85%</span>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 relative z-10">
+                            <div>
+                                <h4 class="font-bold text-gray-800 mb-2">Assessment Details</h4>
+                                <div class="space-y-2">
+                                    <div class="flex items-center">
+                                        <span class="text-gray-600 w-32">Skill:</span>
+                                        <span class="font-medium text-gray-800">Logo Design</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-gray-600 w-32">Total Score:</span>
+                                        <span id="certificate-score" class="font-medium text-gray-800">85/100</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-gray-600 w-32">Rank:</span>
+                                        <span id="certificate-rank" class="font-medium text-gray-800">Excellent</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-gray-600 w-32">Date:</span>
+                                        <span id="certificate-date" class="font-medium text-gray-800">May 15, 2024</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-gray-600 w-32">Certificate ID:</span>
+                                        <span id="certificate-id" class="font-medium text-gray-800">SKX-123456</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-bold text-gray-800 mb-2">Performance Breakdown</h4>
+                                <div id="certificate-categories" class="grid grid-cols-2 gap-2">
+                                    <!-- Will be populated dynamically -->
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="mb-8">
-                        <div class="grid grid-cols-5 gap-4 text-center">
-                            <div>
-                                <div class="bg-rose-100 p-2 rounded-full w-12 h-12 mx-auto mb-2 flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                    </svg>
-                                </div>
-                                <p class="text-xs text-gray-600">Composition</p>
-                                <p id="cert-composition" class="text-sm font-medium text-rose-600">85%</p>
+                        
+                        <div class="text-center my-4 relative z-10">
+                            <div class="handwriting text-2xl font-bold text-gray-400">SKILLEXA CERTIFIED 2025</div>
+                        </div>
+                        
+                        <div class="flex justify-between items-end mt-8 relative z-10">
+                            <div class="text-center">
+                                <div class="w-40 border-b border-gray-400 mb-1"></div>
+                                <p class="text-gray-800 font-medium">Jagdeep Kaur I</p>
+                                <p class="text-gray-600 text-sm">Founder</p>
                             </div>
-                            <div>
-                                <div class="bg-rose-100 p-2 rounded-full w-12 h-12 mx-auto mb-2 flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-                                    </svg>
-                                </div>
-                                <p class="text-xs text-gray-600">Color Theory</p>
-                                <p id="cert-color" class="text-sm font-medium text-rose-600">70%</p>
-                            </div>
-                            <div>
-                                <div class="bg-rose-100 p-2 rounded-full w-12 h-12 mx-auto mb-2 flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-rose-600 spacing-animation" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
-                                    </svg>
-                                </div>
-                                <p class="text-xs text-gray-600">Typography</p>
-                                <p id="cert-typography" class="text-sm font-medium text-rose-600">90%</p>
-                            </div>
-                            <div>
-                                <div class="bg-rose-100 p-2 rounded-full w-12 h-12 mx-auto mb-2 flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-rose-600 grid-animation" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-                                    </svg>
-                                </div>
-                                <p class="text-xs text-gray-600">Brand Identity</p>
-                                <p id="cert-brand" class="text-sm font-medium text-rose-600">75%</p>
-                            </div>
-                            <div>
-                                <div class="bg-rose-100 p-2 rounded-full w-12 h-12 mx-auto mb-2 flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-rose-600 theme-icon-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                                    </svg>
-                                </div>
-                                <p class="text-xs text-gray-600">Design Principles</p>
-                                <p id="cert-principles" class="text-sm font-medium text-rose-600">80%</p>
+                            
+                            <div class="text-center">
+                                <div class="w-40 border-b border-gray-400 mb-1"></div>
+                                <p class="text-gray-800 font-medium">Prajapathi Srushti K</p>
+                                <p class="text-gray-600 text-sm">Co-Founder</p>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="flex justify-between items-end">
-                        <div>
-                            <svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10 25C15 15 25 30 30 20C35 10 45 25 50 15C55 5 65 20 70 10C75 0 85 15 90 5C95 -5 105 10 110 0" stroke="url(#signature-gradient)" stroke-width="2"/>
-                                <defs>
-                                    <linearGradient id="signature-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                        <stop offset="0%" stop-color="#f43f5e" />
-                                        <stop offset="100%" stop-color="#ec4899" />
-                                    </linearGradient>
-                                </defs>
-                            </svg>
-                            <div class="h-px w-40 bg-gray-300 mb-2"></div>
-                            <p class="text-sm text-gray-600">Authorized Signature</p>
-                        </div>
-                        <div class="text-right">
-                            <p id="certificate-date" class="text-sm text-gray-600">June 15, 2023</p>
-                            <p class="text-sm text-gray-600">Date Issued</p>
-                        </div>
-                    </div>
-                    
-                    <div class="absolute bottom-4 right-4">
-                        <div class="flex items-center text-xs text-gray-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                            <span id="certificate-id">ID: LOGO-2023-12345</span>
-                        </div>
-                    </div>
-                    
-                    <div class="certificate-ribbon"></div>
                 </div>
-                
-                <div class="flex flex-wrap justify-center gap-4">
-                    <button id="download-btn" class="btn bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 text-white font-medium py-3 px-6 rounded-lg flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                        </svg>
-                        Download Certificate
-                    </button>
-                    <button id="share-btn" class="btn bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-3 px-6 rounded-lg flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                        </svg>
-                        Share Certificate
-                    </button>
-                </div>
+            </div>
+            
+            <div class="mt-8">
+                <button id="download-again-btn" class="px-6 py-3 bg-gradient-to-r from-amber-600 to-purple-600 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">
+                    Download Certificate Again
+                </button>
             </div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Quiz data
-            const quizData = [
+            // Quiz questions data
+            const quizQuestions = [
                 {
-                    question: "What is the primary purpose of a logo?",
+                    category: "Visual Elements",
+                    question: "What is the primary purpose of negative space in logo design?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>`,
                     options: [
-                        "To look pretty",
-                        "To identify a brand and create recognition",
-                        "To include as much information as possible",
-                        "To use all the latest design trends"
+                        "To create additional meaning, visual interest, and memorability by utilizing the empty space between or around design elements",
+                        "To save on printing costs by using less ink",
+                        "To make the logo appear more minimalist and modern",
+                        "To ensure the logo works well on dark backgrounds"
                     ],
-                    answer: 1,
-                    category: "Brand"
+                    correctAnswer: 0
                 },
                 {
-                    question: "Which of the following is NOT a common logo type?",
+                    category: "Visual Elements",
+                    question: "What is the color theory principle that states colors opposite each other on the color wheel create maximum contrast?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>`,
                     options: [
-                        "Wordmark",
-                        "Pictorial mark",
-                        "Abstract mark",
-                        "Narrative mark"
-                    ],
-                    answer: 3,
-                    category: "Composition"
-                },
-                {
-                    question: "What does the term 'kerning' refer to in typography?",
-                    options: [
-                        "The space between lines of text",
-                        "The space between individual letters",
-                        "The thickness of letter strokes",
-                        "The height of lowercase letters"
-                    ],
-                    answer: 1,
-                    category: "Typography"
-                },
-                {
-                    question: "Which color theory term describes colors opposite each other on the color wheel?",
-                    options: [
+                        "Complementary colors",
                         "Analogous colors",
                         "Monochromatic colors",
-                        "Complementary colors",
                         "Triadic colors"
                     ],
-                    answer: 2,
-                    category: "Color"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is the golden ratio approximately equal to?",
-                    options: [
-                        "1:1",
-                        "1:1.414",
-                        "1:1.618",
-                        "1:2"
-                    ],
-                    answer: 2,
-                    category: "Principles"
-                },
-                {
-                    question: "Which file format is best for logos that need to be scaled to different sizes?",
-                    options: [
-                        "JPG",
-                        "PNG",
-                        "SVG",
-                        "GIF"
-                    ],
-                    answer: 2,
-                    category: "Principles"
-                },
-                {
-                    question: "What is negative space in logo design?",
-                    options: [
-                        "Space that uses dark colors",
-                        "Space that creates a negative emotional response",
-                        "The empty space around and between elements of a design",
-                        "Space that contains negative messaging"
-                    ],
-                    answer: 2,
-                    category: "Composition"
-                },
-                {
-                    question: "Which of the following is an example of a serif font?",
-                    options: [
-                        "Arial",
-                        "Times New Roman",
-                        "Helvetica",
-                        "Futura"
-                    ],
-                    answer: 1,
-                    category: "Typography"
-                },
-                {
-                    question: "What does RGB stand for in color theory?",
-                    options: [
-                        "Red, Green, Blue",
-                        "Really Good Brightness",
-                        "Radiant Gradient Blend",
-                        "Realistic Graphic Balance"
-                    ],
-                    answer: 0,
-                    category: "Color"
-                },
-                {
-                    question: "Which design principle refers to the arrangement of elements to create a sense of equilibrium?",
-                    options: [
-                        "Contrast",
-                        "Repetition",
-                        "Balance",
-                        "Alignment"
-                    ],
-                    answer: 2,
-                    category: "Principles"
-                },
-                {
-                    question: "What is a brand style guide?",
-                    options: [
-                        "A fashion magazine for brands",
-                        "A document that defines the visual elements of a brand including logo usage",
-                        "A guide to styling products for photography",
-                        "A list of trending styles for the season"
-                    ],
-                    answer: 1,
-                    category: "Brand"
-                },
-                {
-                    question: "Which of the following is NOT a consideration when designing a logo for digital use?",
-                    options: [
-                        "Scalability",
-                        "Color mode (RGB vs CMYK)",
-                        "File size",
-                        "Paper quality"
-                    ],
-                    answer: 3,
-                    category: "Principles"
-                },
-                {
-                    question: "What is a monogram logo?",
-                    options: [
-                        "A logo that uses only one color",
-                        "A logo that uses only letters",
-                        "A logo that uses initials or a letterform to represent a brand",
-                        "A logo that can only be printed in one size"
-                    ],
-                    answer: 2,
-                    category: "Typography"
-                },
-                {
-                    question: "Which color is often associated with trust and reliability in branding?",
-                    options: [
-                        "Red",
-                        "Yellow",
-                        "Blue",
-                        "Orange"
-                    ],
-                    answer: 2,
-                    category: "Color"
-                },
-                {
-                    question: "What is the term for the visual weight distribution in a logo design?",
-                    options: [
-                        "Harmony",
-                        "Balance",
-                        "Rhythm",
-                        "Proportion"
-                    ],
-                    answer: 1,
-                    category: "Composition"
-                },
-                {
-                    question: "Which of the following is an important consideration when designing a logo for a global brand?",
-                    options: [
-                        "Using as many colors as possible",
-                        "Making it as complex as possible",
-                        "Cultural sensitivity and meaning of symbols in different cultures",
-                        "Always using English text"
-                    ],
-                    answer: 2,
-                    category: "Brand"
-                },
-                {
-                    question: "What is the term for the space between lines of text?",
+                    category: "Visual Elements",
+                    question: "What is the term for the spacing between letters in typography?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>`,
                     options: [
                         "Kerning",
                         "Leading",
                         "Tracking",
-                        "Spacing"
+                        "Baseline"
                     ],
-                    answer: 1,
-                    category: "Typography"
+                    correctAnswer: 0
                 },
                 {
-                    question: "Which color model is used for print design?",
+                    category: "Brand Identity",
+                    question: "What is a 'wordmark' logo?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                          </svg>`,
                     options: [
-                        "RGB",
-                        "HEX",
-                        "CMYK",
-                        "HSL"
+                        "A logo that consists solely of a stylized text representation of a company or brand name without accompanying symbols or icons",
+                        "A logo that combines both text and a symbol",
+                        "A logo that uses only abstract shapes",
+                        "A logo that includes a mascot character"
                     ],
-                    answer: 2,
-                    category: "Color"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is visual hierarchy in logo design?",
+                    category: "Brand Identity",
+                    question: "What is brand positioning in relation to logo design?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                          </svg>`,
                     options: [
-                        "The arrangement of elements in order of importance",
-                        "The historical ranking of logo designs",
-                        "The vertical arrangement of elements",
-                        "The process of designing logos for different management levels"
+                        "How a brand is perceived in relation to competitors and how the logo visually communicates the brand's unique value proposition and market position",
+                        "Where the logo is physically placed on marketing materials",
+                        "The geographic regions where a brand operates",
+                        "The price point of products associated with the logo"
                     ],
-                    answer: 0,
-                    category: "Composition"
+                    correctAnswer: 0
                 },
                 {
-                    question: "Which of the following is NOT a primary color?",
+                    category: "Brand Identity",
+                    question: "What is a brand style guide and why is it important for logo design?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                          </svg>`,
                     options: [
-                        "Red",
-                        "Blue",
-                        "Green",
-                        "Yellow"
+                        "A document that outlines rules for logo usage, color specifications, typography, and other visual elements to ensure consistent brand representation across all applications",
+                        "A catalog of trendy design styles to follow",
+                        "A collection of competitor logos for reference",
+                        "A list of software programs recommended for logo design"
                     ],
-                    answer: 3,
-                    category: "Color"
+                    correctAnswer: 0
                 },
                 {
+                    category: "Technical Proficiency",
+                    question: "Why is vector format preferred for logo design?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          </svg>`,
+                    options: [
+                        "Vector graphics are scalable without loss of quality, allowing logos to be resized for various applications from business cards to billboards while maintaining crisp edges",
+                        "Vector files are always smaller in file size than raster images",
+                        "Vector formats are the only file types accepted by printers",
+                        "Vector graphics load faster on websites"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Technical Proficiency",
+                    question: "What is the CMYK color model used for in logo design?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          </svg>`,
+                    options: [
+                        "For print applications, as it represents colors using cyan, magenta, yellow, and key (black) ink percentages that correspond to the printing process",
+                        "For digital displays only",
+                        "For creating 3D effects in logos",
+                        "For designing logos specifically for social media"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Technical Proficiency",
+                    question: "What is a 'favicon' in relation to logo design?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          </svg>`,
+                    options: [
+                        "A small icon derived from a logo that appears in browser tabs and bookmarks, typically 16×16 or 32×32 pixels in size",
+                        "A large banner version of a logo for website headers",
+                        "A special effect applied to logos in animation",
+                        "A temporary placeholder used during the logo design process"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Conceptual Thinking",
+                    question: "What is a visual metaphor in logo design?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                          </svg>`,
+                    options: [
+                        "A visual element that represents an abstract concept, quality, or idea through symbolic association, helping to communicate brand attributes indirectly",
+                        "Any image used in a logo",
+                        "A direct representation of products or services offered by a company",
+                        "A decorative element added to make a logo more attractive"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Conceptual Thinking",
+                    question: "What is the purpose of a mood board in the logo design process?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                          </svg>`,
+                    options: [
+                        "To collect visual references, colors, textures, and imagery that establish the desired aesthetic direction and emotional tone for the logo design",
+                        "To display the final logo designs for client approval",
+                        "To organize the designer's work schedule",
+                        "To calculate the budget for a design project"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Conceptual Thinking",
+                    question: "What is the 'golden ratio' and how is it applied in logo design?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                          </svg>`,
+                    options: [
+                        "A mathematical ratio (approximately 1:1.618) found in nature that creates aesthetically pleasing proportions when applied to logo elements, spacing, and overall composition",
+                        "A requirement that all logos must contain gold coloring",
+                        "A pricing structure for premium logo design services",
+                        "A rule stating that logos must be rectangular with specific proportions"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Adaptability",
                     question: "What is a responsive logo?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                          </svg>`,
                     options: [
-                        "A logo that changes color when clicked",
-                        "A logo that adapts to different screen sizes and contexts",
-                        "A logo that responds to voice commands",
-                        "A logo that changes with the seasons"
+                        "A logo designed with multiple variations that adapt to different sizes and contexts while maintaining brand recognition, from a detailed version for large formats to simplified versions for small applications",
+                        "A logo that changes colors randomly",
+                        "A logo that moves or animates on digital platforms",
+                        "A logo that automatically updates its design yearly"
                     ],
-                    answer: 1,
-                    category: "Principles"
+                    correctAnswer: 0
                 },
                 {
-                    question: "Which of the following best describes a wordmark logo?",
+                    category: "Adaptability",
+                    question: "Why is it important to test a logo in black and white during the design process?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                          </svg>`,
                     options: [
-                        "A logo that uses an abstract symbol",
-                        "A logo that uses a pictorial element",
-                        "A logo that uses a stylized text or company name",
-                        "A logo that combines text and symbols"
+                        "To ensure the logo works effectively without color dependency, maintains its integrity in single-color applications (like faxes or certain printing situations), and has strong form and contrast",
+                        "Because black and white logos are always more professional",
+                        "To save on color printing costs",
+                        "Because all logos must have a black and white version by law"
                     ],
-                    answer: 2,
-                    category: "Typography"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is brand positioning?",
+                    category: "Adaptability",
+                    question: "What is a logo 'lockup'?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                          </svg>`,
                     options: [
-                        "Where a logo is placed on marketing materials",
-                        "How a brand is perceived in relation to competitors",
-                        "The physical location of brand stores",
-                        "The position of a logo on a website"
+                        "A specific arrangement of the logo elements (symbol, wordmark, tagline) with fixed proportions and spacing that creates a cohesive unit for consistent application",
+                        "A security feature that prevents others from editing the logo file",
+                        "The final approval stage in the logo design process",
+                        "A technique for embedding hidden messages in logos"
                     ],
-                    answer: 1,
-                    category: "Brand"
+                    correctAnswer: 0
                 },
                 {
-                    question: "Which design principle refers to the repetition of visual elements to create unity?",
+                    category: "Market Awareness",
+                    question: "Why is it important to research competitor logos before designing a new logo?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>`,
                     options: [
-                        "Contrast",
-                        "Repetition",
-                        "Alignment",
-                        "Proximity"
+                        "To ensure differentiation and avoid accidental similarity that could cause brand confusion, legal issues, or missed opportunities to stand out in the marketplace",
+                        "To copy successful design elements from competitors",
+                        "To make a logo that looks exactly like competitors but with different colors",
+                        "To determine which design software to use"
                     ],
-                    answer: 1,
-                    category: "Principles"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is the purpose of a logo grid system?",
+                    category: "Market Awareness",
+                    question: "How do cultural differences impact logo design?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>`,
                     options: [
-                        "To create pixel-perfect designs",
-                        "To ensure consistency and proportion in logo design",
-                        "To make logos look more complex",
-                        "To measure the size of a logo"
+                        "Colors, symbols, and shapes can have different meanings across cultures, so understanding these differences is crucial to avoid unintended negative associations or cultural insensitivity in global markets",
+                        "Cultural differences have no impact on logo design",
+                        "Cultural considerations only matter for food-related logos",
+                        "Cultural awareness is only important for logos used in advertising"
                     ],
-                    answer: 1,
-                    category: "Composition"
+                    correctAnswer: 0
+                },
+                {
+                    category: "Market Awareness",
+                    question: "What is 'trend-aware timelessness' in logo design?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>`,
+                    options: [
+                        "The balance between being aware of current design trends while creating a logo with longevity that won't quickly become dated, avoiding extreme trend-following that might require frequent redesigns",
+                        "Designing logos that incorporate retro elements from different time periods",
+                        "Creating logos that automatically update their style every year",
+                        "Using only black and white in logo design to ensure timelessness"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Visual Elements",
+                    question: "What is the principle of 'visual weight' in logo design?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>`,
+                    options: [
+                        "The perceived heaviness or importance of design elements based on their size, color, position, and contrast, which affects how the viewer's eye moves through the logo and what elements receive emphasis",
+                        "The actual physical weight of printed logo materials",
+                        "How much a logo costs to produce based on its complexity",
+                        "A measurement of how many colors are used in a logo"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Brand Identity",
+                    question: "What is a 'logomark' in brand identity?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                          </svg>`,
+                    options: [
+                        "A symbol or icon that represents a brand without including the company name, recognizable on its own through consistent use and association with the brand",
+                        "Any logo that includes text",
+                        "A trademark registration symbol (™ or ®)",
+                        "A logo that can only be used on official documents"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Technical Proficiency",
+                    question: "What is the difference between RGB and CMYK color modes?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          </svg>`,
+                    options: [
+                        "RGB (Red, Green, Blue) is an additive color model used for digital displays, while CMYK (Cyan, Magenta, Yellow, Key/Black) is a subtractive model used for print materials",
+                        "RGB is for black and white designs, while CMYK is for color designs",
+                        "RGB is an outdated color system no longer used in design",
+                        "CMYK is only used for designing logos for the fashion industry"
+                    ],
+                    correctAnswer: 0
                 }
             ];
 
+            // Variables to track quiz state
+            let currentUser = {
+                name: "",
+                email: ""
+            };
+            let currentQuestionIndex = 0;
+            let userAnswers = new Array(quizQuestions.length).fill(null);
+            let quizTimer;
+            let timeRemaining = 15 * 60; // 15 minutes in seconds
+
             // DOM elements
-            const welcomeScreen = document.getElementById('welcome-screen');
+            const loginScreen = document.getElementById('login-screen');
+            const categoryPreview = document.getElementById('category-preview');
             const quizScreen = document.getElementById('quiz-screen');
             const resultsScreen = document.getElementById('results-screen');
-            const paymentModal = document.getElementById('payment-modal');
             const certificateScreen = document.getElementById('certificate-screen');
             
-            const startBtn = document.getElementById('start-btn');
+            const loginForm = document.getElementById('login-form');
+            const startQuizBtn = document.getElementById('start-quiz-btn');
             const prevBtn = document.getElementById('prev-btn');
             const nextBtn = document.getElementById('next-btn');
-            const skipBtn = document.getElementById('skip-btn');
-            const paymentBtn = document.getElementById('payment-btn');
-            const closePaymentBtn = document.getElementById('close-payment');
-            const processPaymentBtn = document.getElementById('process-payment');
-            const downloadBtn = document.getElementById('download-btn');
-            const shareBtn = document.getElementById('share-btn');
+            const simulatePaymentBtn = document.getElementById('simulate-payment-btn');
+            const downloadAgainBtn = document.getElementById('download-again-btn');
             
-            const currentQuestionEl = document.getElementById('current-question');
-            const questionTextEl = document.getElementById('question-text');
-            const optionsContainerEl = document.getElementById('options-container');
-            const progressFillEl = document.getElementById('progress-fill');
-            const timerEl = document.getElementById('timer');
-            const questionNavEl = document.getElementById('question-nav');
-            
-            // Quiz state
-            let currentQuestion = 0;
-            let score = 0;
-            let userAnswers = Array(quizData.length).fill(null);
-            let timerInterval;
-            let timeLeft = 30 * 60; // 30 minutes in seconds
-            
-            // Start quiz
-            startBtn.addEventListener('click', function() {
-                welcomeScreen.classList.add('hidden');
+            const questionContainer = document.getElementById('question-container');
+            const questionIcon = document.getElementById('question-icon');
+            const questionText = document.getElementById('question-text');
+            const optionsContainer = document.getElementById('options-container');
+            const currentQuestionElement = document.getElementById('current-question');
+            const progressPercentElement = document.getElementById('progress-percent');
+            const progressBarElement = document.getElementById('progress-bar');
+            const timerElement = document.getElementById('timer');
+            const timerBarElement = document.getElementById('timer-bar');
+
+            // Event listeners
+            loginForm.addEventListener('submit', handleLogin);
+            startQuizBtn.addEventListener('click', startQuiz);
+            prevBtn.addEventListener('click', showPreviousQuestion);
+            nextBtn.addEventListener('click', handleNextQuestion);
+            simulatePaymentBtn.addEventListener('click', handlePayment);
+            downloadAgainBtn.addEventListener('click', downloadCertificate);
+
+            // Functions
+            function handleLogin(e) {
+                e.preventDefault();
+                currentUser.name = document.getElementById('fullName').value;
+                currentUser.email = document.getElementById('email').value;
+                
+                // Store user info in localStorage
+                localStorage.setItem('userName', currentUser.name);
+                localStorage.setItem('userEmail', currentUser.email);
+                
+                // Show category preview
+                loginScreen.classList.add('hidden');
+                categoryPreview.classList.remove('hidden');
+            }
+
+            function startQuiz() {
+                categoryPreview.classList.add('hidden');
                 quizScreen.classList.remove('hidden');
-                loadQuestion(currentQuestion);
-                createQuestionNav();
+                
+                // Start the timer
                 startTimer();
-            });
-            
-            // Create question navigation
-            function createQuestionNav() {
-                questionNavEl.innerHTML = '';
                 
-                for (let i = 0; i < quizData.length; i++) {
-                    const navBtn = document.createElement('button');
-                    navBtn.className = `w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${i === currentQuestion ? 'bg-gradient-to-r from-rose-600 to-pink-600 text-white' : userAnswers[i] !== null ? 'bg-rose-100 text-rose-800' : 'bg-gray-200 text-gray-600'}`;
-                    navBtn.textContent = i + 1;
-                    
-                    navBtn.addEventListener('click', function() {
-                        currentQuestion = i;
-                        loadQuestion(currentQuestion);
-                        updateQuestionNav();
-                    });
-                    
-                    questionNavEl.appendChild(navBtn);
-                }
+                // Show first question
+                showQuestion(0);
+                updateQuizProgress();
             }
-            
-            // Update question navigation
-            function updateQuestionNav() {
-                const navBtns = questionNavEl.querySelectorAll('button');
-                
-                navBtns.forEach((btn, i) => {
-                    btn.className = `w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${i === currentQuestion ? 'bg-gradient-to-r from-rose-600 to-pink-600 text-white' : userAnswers[i] !== null ? 'bg-rose-100 text-rose-800' : 'bg-gray-200 text-gray-600'}`;
-                });
-            }
-            
-            // Load question
-            function loadQuestion(index) {
-                const question = quizData[index];
-                questionTextEl.textContent = question.question;
-                currentQuestionEl.textContent = index + 1;
-                
-                // Update progress bar
-                const progress = ((index + 1) / quizData.length) * 100;
-                progressFillEl.style.width = `${progress}%`;
-                
-                // Clear previous options
-                optionsContainerEl.innerHTML = '';
-                
-                // Add options with animation
-                question.options.forEach((option, i) => {
-                    const optionBtn = document.createElement('button');
-                    optionBtn.className = `option-btn w-full text-left p-4 rounded-lg slide-in ${userAnswers[index] === i ? 'selected' : ''}`;
-                    optionBtn.style.animationDelay = `${i * 0.1}s`;
-                    optionBtn.innerHTML = `
-                        <div class="flex items-center">
-                            <div class="w-6 h-6 rounded-full border-2 border-gray-300 flex items-center justify-center mr-3 ${userAnswers[index] === i ? 'bg-rose-600 border-rose-600' : ''}">
-                                ${userAnswers[index] === i ? '<div class="w-2 h-2 rounded-full bg-white"></div>' : ''}
-                            </div>
-                            <span>${option}</span>
-                        </div>
-                    `;
-                    
-                    optionBtn.addEventListener('click', function() {
-                        selectOption(index, i);
-                    });
-                    
-                    optionsContainerEl.appendChild(optionBtn);
-                });
-                
-                // Update button states
-                prevBtn.disabled = index === 0;
-                prevBtn.classList.toggle('opacity-50', index === 0);
-                
-                if (index === quizData.length - 1) {
-                    nextBtn.textContent = 'Finish';
-                    nextBtn.innerHTML = 'Finish <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>';
-                } else {
-                    nextBtn.textContent = 'Next';
-                    nextBtn.innerHTML = 'Next <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>';
-                }
-            }
-            
-            // Select option
-            function selectOption(questionIndex, optionIndex) {
-                userAnswers[questionIndex] = optionIndex;
-                loadQuestion(questionIndex);
-                updateQuestionNav();
-            }
-            
-            // Navigation
-            prevBtn.addEventListener('click', function() {
-                if (currentQuestion > 0) {
-                    currentQuestion--;
-                    loadQuestion(currentQuestion);
-                    updateQuestionNav();
-                }
-            });
-            
-            nextBtn.addEventListener('click', function() {
-                if (currentQuestion < quizData.length - 1) {
-                    currentQuestion++;
-                    loadQuestion(currentQuestion);
-                    updateQuestionNav();
-                } else {
-                    finishQuiz();
-                }
-            });
-            
-            skipBtn.addEventListener('click', function() {
-                if (currentQuestion < quizData.length - 1) {
-                    currentQuestion++;
-                    loadQuestion(currentQuestion);
-                    updateQuestionNav();
-                } else {
-                    finishQuiz();
-                }
-            });
-            
-            // Timer
+
             function startTimer() {
-                timerInterval = setInterval(function() {
-                    timeLeft--;
+                updateTimerDisplay();
+                quizTimer = setInterval(() => {
+                    timeRemaining--;
+                    updateTimerDisplay();
                     
-                    const minutes = Math.floor(timeLeft / 60);
-                    const seconds = timeLeft % 60;
-                    
-                    timerEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                    
-                    if (timeLeft <= 300) { // 5 minutes left
-                        timerEl.classList.add('text-red-600', 'timer-warning');
-                    }
-                    
-                    if (timeLeft <= 0) {
-                        clearInterval(timerInterval);
-                        finishQuiz();
+                    if (timeRemaining <= 0) {
+                        clearInterval(quizTimer);
+                        submitQuiz();
                     }
                 }, 1000);
             }
-            
-            // Finish quiz
-            function finishQuiz() {
-                clearInterval(timerInterval);
+
+            function updateTimerDisplay() {
+                const minutes = Math.floor(timeRemaining / 60);
+                const seconds = timeRemaining % 60;
+                timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
                 
-                // Calculate score
-                score = 0;
-                userAnswers.forEach((answer, index) => {
-                    if (answer === quizData[index].answer) {
-                        score++;
-                    }
+                // Update timer bar
+                const percentRemaining = (timeRemaining / (15 * 60)) * 100;
+                timerBarElement.style.width = `${percentRemaining}%`;
+                
+                // Change color based on time remaining
+                if (percentRemaining > 60) {
+                    timerBarElement.className = 'timer-bar bg-gradient-to-r from-amber-500 to-purple-400 h-2 rounded-full';
+                } else if (percentRemaining > 30) {
+                    timerBarElement.className = 'timer-bar bg-gradient-to-r from-yellow-400 to-orange-400 h-2 rounded-full';
+                } else {
+                    timerBarElement.className = 'timer-bar bg-gradient-to-r from-red-600 to-red-400 h-2 rounded-full';
+                }
+            }
+
+            function showQuestion(index) {
+                const question = quizQuestions[index];
+                
+                // Update question content
+                questionIcon.innerHTML = question.icon;
+                questionText.textContent = question.question;
+                
+                // Clear previous options
+                optionsContainer.innerHTML = '';
+                
+                // Add new options
+                question.options.forEach((option, i) => {
+                    const optionElement = document.createElement('div');
+                    optionElement.className = `quiz-option p-4 border border-white border-opacity-20 rounded-lg cursor-pointer transition-colors ${userAnswers[index] === i ? 'selected' : ''}`;
+                    optionElement.innerHTML = `
+                        <div class="flex items-center">
+                            <div class="w-6 h-6 rounded-full border-2 border-white border-opacity-60 flex items-center justify-center mr-3">
+                                ${userAnswers[index] === i ? '<div class="w-3 h-3 rounded-full bg-amber-400"></div>' : ''}
+                            </div>
+                            <span class="text-white">${option}</span>
+                        </div>
+                    `;
+                    
+                    optionElement.addEventListener('click', () => {
+                        // Remove selected class from all options
+                        document.querySelectorAll('.quiz-option').forEach(opt => {
+                            opt.classList.remove('selected');
+                            opt.querySelector('.w-6').innerHTML = '';
+                        });
+                        
+                        // Add selected class to clicked option
+                        optionElement.classList.add('selected');
+                        optionElement.querySelector('.w-6').innerHTML = '<div class="w-3 h-3 rounded-full bg-amber-400"></div>';
+                        
+                        // Save answer
+                        userAnswers[index] = i;
+                        
+                        // Enable next button if it was disabled
+                        nextBtn.disabled = false;
+                    });
+                    
+                    optionsContainer.appendChild(optionElement);
                 });
                 
-                const scorePercentage = Math.round((score / quizData.length) * 100);
+                // Update current question index
+                currentQuestionIndex = index;
                 
-                // Calculate category scores
-                const categories = {
-                    "Composition": { correct: 0, total: 0 },
-                    "Color": { correct: 0, total: 0 },
-                    "Typography": { correct: 0, total: 0 },
-                    "Brand": { correct: 0, total: 0 },
-                    "Principles": { correct: 0, total: 0 }
-                };
+                // Update navigation buttons
+                prevBtn.disabled = index === 0;
+                nextBtn.textContent = index === quizQuestions.length - 1 ? 'Submit' : 'Next';
                 
-                quizData.forEach((question, index) => {
-                    const category = question.category;
-                    if (categories[category]) {
-                        categories[category].total++;
-                        if (userAnswers[index] === question.answer) {
-                            categories[category].correct++;
-                        }
-                    }
-                });
+                // Disable next button if no answer selected
+                nextBtn.disabled = userAnswers[index] === null;
                 
-                // Calculate category percentages
-                const categoryScores = {};
-                for (const [category, data] of Object.entries(categories)) {
-                    if (data.total > 0) {
-                        categoryScores[category] = Math.round((data.correct / data.total) * 100);
-                    } else {
-                        categoryScores[category] = 0;
-                    }
+                // Update progress indicators
+                currentQuestionElement.textContent = index + 1;
+                const progressPercent = Math.round(((index + 1) / quizQuestions.length) * 100);
+                progressPercentElement.textContent = progressPercent;
+                progressBarElement.style.width = `${progressPercent}%`;
+                
+                // Add animation
+                questionContainer.classList.remove('scale-in');
+                void questionContainer.offsetWidth; // Trigger reflow
+                questionContainer.classList.add('scale-in');
+            }
+
+            function showPreviousQuestion() {
+                if (currentQuestionIndex > 0) {
+                    showQuestion(currentQuestionIndex - 1);
                 }
-                
-                // Find strengths and areas for improvement
-                const strengths = [];
-                const improvements = [];
-                
-                for (const [category, percentage] of Object.entries(categoryScores)) {
-                    if (percentage >= 80) {
-                        strengths.push(`${category} (${percentage}% correct)`);
-                    } else if (percentage < 70) {
-                        improvements.push(`${category} (${percentage}% correct)`);
-                    }
-                }
-                
-                // Update results screen
-                document.getElementById('score-percentage').textContent = `${scorePercentage}%`;
-                document.getElementById('correct-answers').textContent = score;
-                
-                const minutes = Math.floor((30 * 60 - timeLeft) / 60);
-                const seconds = (30 * 60 - timeLeft) % 60;
-                document.getElementById('time-taken').textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                
-                // Set result message based on score
-                const resultMessage = document.getElementById('result-message');
-                if (scorePercentage >= 80) {
-                    resultMessage.textContent = 'Excellent! You have strong logo design skills.';
-                } else if (scorePercentage >= 60) {
-                    resultMessage.textContent = 'Good job! You have solid logo design skills.';
+            }
+
+            function handleNextQuestion() {
+                if (currentQuestionIndex < quizQuestions.length - 1) {
+                    showQuestion(currentQuestionIndex + 1);
                 } else {
-                    resultMessage.textContent = 'You have completed the assessment. There\'s room for improvement in your logo design skills.';
+                    submitQuiz();
                 }
+            }
+
+            function updateQuizProgress() {
+                const answeredCount = userAnswers.filter(answer => answer !== null).length;
+                const progressPercent = Math.round((answeredCount / quizQuestions.length) * 100);
+                progressPercentElement.textContent = progressPercent;
+                progressBarElement.style.width = `${progressPercent}%`;
+            }
+
+            function submitQuiz() {
+                // Stop the timer
+                clearInterval(quizTimer);
                 
-                // Update strengths and improvements
-                const strengthsEl = document.getElementById('strengths');
-                strengthsEl.innerHTML = '';
+                // Calculate results
+                const results = calculateResults();
                 
-                if (strengths.length > 0) {
-                    strengths.forEach(strength => {
-                        const div = document.createElement('div');
-                        div.className = 'flex items-start mb-2';
-                        div.innerHTML = `
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span>${strength}</span>
-                        `;
-                        strengthsEl.appendChild(div);
-                    });
-                } else {
-                    strengthsEl.innerHTML = '<p class="text-gray-500">Keep practicing to develop your logo design strengths!</p>';
-                }
+                // Display results
+                displayResults(results);
                 
-                const improvementsEl = document.getElementById('improvements');
-                improvementsEl.innerHTML = '';
-                
-                if (improvements.length > 0) {
-                    improvements.forEach(improvement => {
-                        const div = document.createElement('div');
-                        div.className = 'flex items-start mb-2';
-                        div.innerHTML = `
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                            </svg>
-                            <span>${improvement}</span>
-                        `;
-                        improvementsEl.appendChild(div);
-                    });
-                } else {
-                    improvementsEl.innerHTML = '<p class="text-gray-500">Great job! No significant areas for improvement.</p>';
-                }
-                
-                // Update skill bars
-                document.getElementById('composition-score').textContent = `${categoryScores.Composition}%`;
-                document.getElementById('composition-bar').style.width = `${categoryScores.Composition}%`;
-                
-                document.getElementById('color-score').textContent = `${categoryScores.Color}%`;
-                document.getElementById('color-bar').style.width = `${categoryScores.Color}%`;
-                
-                document.getElementById('typography-score').textContent = `${categoryScores.Typography}%`;
-                document.getElementById('typography-bar').style.width = `${categoryScores.Typography}%`;
-                
-                document.getElementById('brand-score').textContent = `${categoryScores.Brand}%`;
-                document.getElementById('brand-bar').style.width = `${categoryScores.Brand}%`;
-                
-                document.getElementById('principles-score').textContent = `${categoryScores.Principles}%`;
-                document.getElementById('principles-bar').style.width = `${categoryScores.Principles}%`;
-                
-                // Show results screen
+                // Hide quiz screen and show results screen
                 quizScreen.classList.add('hidden');
                 resultsScreen.classList.remove('hidden');
             }
-            
-            // Payment modal
-            paymentBtn.addEventListener('click', function() {
-                paymentModal.classList.remove('hidden');
-            });
-            
-            closePaymentBtn.addEventListener('click', function() {
-                paymentModal.classList.add('hidden');
-            });
-            
-            processPaymentBtn.addEventListener('click', function() {
-                paymentModal.classList.add('hidden');
-                resultsScreen.classList.add('hidden');
-                certificateScreen.classList.remove('hidden');
-                
-                // Set certificate details
-                const scorePercentage = Math.round((score / quizData.length) * 100);
-                document.getElementById('certificate-score').textContent = `${scorePercentage}%`;
-                
-                // Calculate category scores for certificate
-                const categories = {
-                    "Composition": { correct: 0, total: 0 },
-                    "Color": { correct: 0, total: 0 },
-                    "Typography": { correct: 0, total: 0 },
-                    "Brand": { correct: 0, total: 0 },
-                    "Principles": { correct: 0, total: 0 }
-                };
-                
-                quizData.forEach((question, index) => {
-                    const category = question.category;
-                    if (categories[category]) {
-                        categories[category].total++;
-                        if (userAnswers[index] === question.answer) {
-                            categories[category].correct++;
-                        }
+
+            function calculateResults() {
+                // Calculate total score
+                let totalCorrect = 0;
+                userAnswers.forEach((answer, index) => {
+                    if (answer === quizQuestions[index].correctAnswer) {
+                        totalCorrect++;
                     }
                 });
                 
-                // Calculate category percentages for certificate
-                for (const [category, data] of Object.entries(categories)) {
-                    if (data.total > 0) {
-                        const percentage = Math.round((data.correct / data.total) * 100);
-                        const categoryId = category.toLowerCase();
-                        document.getElementById(`cert-${categoryId}`).textContent = `${percentage}%`;
-                    } else {
-                        const categoryId = category.toLowerCase();
-                        document.getElementById(`cert-${categoryId}`).textContent = '0%';
+                const totalScore = Math.round((totalCorrect / quizQuestions.length) * 100);
+                
+                // Calculate category scores
+                const categories = {};
+                quizQuestions.forEach((question, index) => {
+                    const category = question.category;
+                    if (!categories[category]) {
+                        categories[category] = {
+                            total: 0,
+                            correct: 0
+                        };
                     }
-                }
-                
-                const today = new Date();
-                const options = { year: 'numeric', month: 'long', day: 'numeric' };
-                document.getElementById('certificate-date').textContent = today.toLocaleDateString('en-US', options);
-                
-                document.getElementById('certificate-id').textContent = `ID: LOGO-${today.getFullYear()}-${Math.floor(10000 + Math.random() * 90000)}`;
-                
-                // Create confetti effect
-                createConfetti();
-            });
-            
-            // Create confetti effect
-            function createConfetti() {
-                const confettiContainer = document.getElementById('confetti-container');
-                const colors = ['#f43f5e', '#ec4899', '#fb7185', '#fda4af', '#ffffff'];
-                
-                for (let i = 0; i < 150; i++) {
-                    const confetti = document.createElement('div');
-                    confetti.className = 'confetti';
-                    confetti.style.left = `${Math.random() * 100}%`;
-                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                    confetti.style.width = `${Math.random() * 10 + 5}px`;
-                    confetti.style.height = `${Math.random() * 10 + 5}px`;
-                    confetti.style.opacity = '1';
-                    confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
-                    confetti.style.animationDelay = `${Math.random() * 2}s`;
                     
-                    confettiContainer.appendChild(confetti);
+                    categories[category].total++;
+                    if (userAnswers[index] === question.correctAnswer) {
+                        categories[category].correct++;
+                    }
+                });
+                
+                // Convert to percentages and ratings
+                const categoryResults = {};
+                Object.keys(categories).forEach(category => {
+                    const score = Math.round((categories[category].correct / categories[category].total) * 100);
+                    let rating;
+                    let icon;
+                    
+                    if (score >= 90) {
+                        rating = 'Excellent';
+                        icon = '🏆';
+                    } else if (score >= 75) {
+                        rating = 'Good';
+                        icon = '👍';
+                    } else if (score >= 60) {
+                        rating = 'Satisfactory';
+                        icon = '👌';
+                    } else {
+                        rating = 'Needs Improvement';
+                        icon = '📝';
+                    }
+                    
+                    categoryResults[category] = {
+                        score,
+                        rating,
+                        icon
+                    };
+                });
+                
+                // Determine overall rating
+                let overallRating;
+                if (totalScore >= 90) {
+                    overallRating = 'Excellent';
+                } else if (totalScore >= 75) {
+                    overallRating = 'Good';
+                } else if (totalScore >= 60) {
+                    overallRating = 'Satisfactory';
+                } else {
+                    overallRating = 'Needs Improvement';
                 }
+                
+                return {
+                    totalScore,
+                    totalCorrect,
+                    totalQuestions: quizQuestions.length,
+                    categoryResults,
+                    overallRating
+                };
             }
-            
-            // Certificate actions
-            downloadBtn.addEventListener('click', function() {
-                alert('Certificate download started! (This is a demo feature)');
-            });
-            
-            shareBtn.addEventListener('click', function() {
-                alert('Share options opened! (This is a demo feature)');
-            });
+
+            function displayResults(results) {
+                // Update total score
+                document.getElementById('total-score').textContent = results.totalScore;
+                document.getElementById('max-score').textContent = '100';
+                
+                // Update score gauge
+                const scoreCircle = document.getElementById('score-circle');
+                const circumference = 2 * Math.PI * 45; // 2πr
+                const offset = circumference - (results.totalScore / 100) * circumference;
+                scoreCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+                scoreCircle.style.strokeDashoffset = offset;
+                
+                // Set color based on score
+                if (results.totalScore >= 90) {
+                    scoreCircle.style.stroke = '#10B981'; // Green
+                } else if (results.totalScore >= 75) {
+                    scoreCircle.style.stroke = '#3B82F6'; // Blue
+                } else if (results.totalScore >= 60) {
+                    scoreCircle.style.stroke = '#F59E0B'; // Yellow
+                } else {
+                    scoreCircle.style.stroke = '#EF4444'; // Red
+                }
+                
+                document.getElementById('score-percentage').textContent = `${results.totalScore}%`;
+                
+                // Update category results
+                const categoryResultsContainer = document.getElementById('category-results');
+                categoryResultsContainer.innerHTML = '';
+                
+                Object.keys(results.categoryResults).forEach(category => {
+                    const result = results.categoryResults[category];
+                    const categoryElement = document.createElement('div');
+                    
+                    // Set background color based on rating
+                    let bgColor;
+                    if (result.rating === 'Excellent') {
+                        bgColor = 'bg-gradient-to-br from-green-500 to-emerald-600';
+                    } else if (result.rating === 'Good') {
+                        bgColor = 'bg-gradient-to-br from-blue-500 to-indigo-600';
+                    } else if (result.rating === 'Satisfactory') {
+                        bgColor = 'bg-gradient-to-br from-yellow-400 to-orange-500';
+                    } else {
+                        bgColor = 'bg-gradient-to-br from-red-500 to-pink-600';
+                    }
+                    
+                    categoryElement.className = `${bgColor} rounded-lg p-4 text-white`;
+                    categoryElement.innerHTML = `
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h4 class="font-medium">${category}</h4>
+                                <p class="text-sm text-white text-opacity-90">${result.rating}</p>
+                            </div>
+                            <div class="text-2xl">${result.icon}</div>
+                        </div>
+                        <div class="mt-2 w-full bg-white bg-opacity-30 rounded-full h-2">
+                            <div class="bg-white h-2 rounded-full" style="width: ${result.score}%"></div>
+                        </div>
+                        <div class="text-right mt-1 text-sm">${result.score}%</div>
+                    `;
+                    
+                    categoryResultsContainer.appendChild(categoryElement);
+                });
+                
+                // Store results for certificate generation
+                localStorage.setItem('quizResults', JSON.stringify(results));
+            }
+
+            function handlePayment() {
+                // In a real app, this would handle actual payment processing
+                // For this demo, we'll simulate a successful payment
+                
+                // Hide results screen and show certificate screen
+                resultsScreen.classList.add('hidden');
+                certificateScreen.classList.remove('hidden');
+                
+                // Generate certificate
+                generateCertificate();
+                
+                // Download certificate automatically
+                setTimeout(downloadCertificate, 1000);
+            }
+
+            function generateCertificate() {
+                // Get user info and results
+                const userName = localStorage.getItem('userName') || 'John Doe';
+                const results = JSON.parse(localStorage.getItem('quizResults')) || {
+                    totalScore: 85,
+                    overallRating: 'Good',
+                    categoryResults: {}
+                };
+                
+                // Generate certificate ID
+                const certificateId = 'SKX-' + Math.floor(100000 + Math.random() * 900000);
+                
+                // Get current date
+                const currentDate = new Date().toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                
+                // Update certificate content
+                document.getElementById('certificate-name').textContent = userName;
+                document.getElementById('certificate-score').textContent = `${results.totalScore}/100`;
+                document.getElementById('certificate-rank').textContent = results.overallRating;
+                document.getElementById('certificate-date').textContent = currentDate;
+                document.getElementById('certificate-id').textContent = certificateId;
+                
+                // Update category results
+                const certificateCategoriesContainer = document.getElementById('certificate-categories');
+                certificateCategoriesContainer.innerHTML = '';
+                
+                Object.keys(results.categoryResults).forEach(category => {
+                    const result = results.categoryResults[category];
+                    const categoryElement = document.createElement('div');
+                    categoryElement.className = 'flex items-center mb-1';
+                    categoryElement.innerHTML = `
+                        <span class="mr-2">${result.icon}</span>
+                        <span class="text-sm">${category}: <span class="font-medium">${result.rating}</span></span>
+                    `;
+                    
+                    certificateCategoriesContainer.appendChild(categoryElement);
+                });
+            }
+
+            function downloadCertificate() {
+                const certificate = document.getElementById('certificate');
+                
+                // Use html2canvas to capture the certificate as an image
+                html2canvas(certificate, {
+                    scale: 2,
+                    logging: false,
+                    useCORS: true
+                }).then(canvas => {
+                    const imgData = canvas.toDataURL('image/png');
+                    
+                    // Create PDF using jsPDF
+                    const { jsPDF } = window.jspdf;
+                    const pdf = new jsPDF({
+                        orientation: 'landscape',
+                        unit: 'mm',
+                        format: 'a4'
+                    });
+                    
+                    const imgProps = pdf.getImageProperties(imgData);
+                    const pdfWidth = pdf.internal.pageSize.getWidth();
+                    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+                    
+                    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                    
+                    // Download the PDF
+                    const userName = localStorage.getItem('userName') || 'User';
+                    const fileName = `${userName.replace(/\s+/g, '_')}_Logo_Design_Certificate.pdf`;
+                    pdf.save(fileName);
+                });
+            }
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'965d4c63228985a1',t:'MTc1MzYzMTQ4OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'968ef0fa81a4a91d',t:'MTc1NDE1MjAzMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>

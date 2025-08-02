@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Photography Skills Assessment | Skillexa</title>
+    <title>Email Writing Skills Assessment | Skillexa</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -16,11 +16,11 @@
         .handwriting {
             font-family: 'Dancing Script', cursive;
         }
-        .gilded-twilight-gradient {
-            background: linear-gradient(135deg, #614385 0%, #516395 100%);
+        .peach-nectar-gradient {
+            background: linear-gradient(135deg, #FFCBA4 0%, #FF9A76 50%, #FF7B54 100%);
         }
-        .blush-amour-gradient {
-            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+        .mint-rose-gold-gradient {
+            background: linear-gradient(135deg, #E0F2F1 0%, #F8BBD0 50%, #FFAB91 100%);
         }
         .category-card {
             transition: all 0.3s ease;
@@ -90,11 +90,20 @@
         .glow-text {
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
         }
-        .twilight-glow-text {
-            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #614385, 0 0 20px #614385;
+        .peach-glow-text {
+            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #FF9A76, 0 0 20px #FF7B54;
         }
-        .blush-glow {
-            text-shadow: 0 0 5px #ff758c, 0 0 10px #ff758c, 0 0 15px #ff758c, 0 0 20px #ff758c;
+        .shimmer {
+            background: linear-gradient(90deg, 
+                rgba(255,255,255,0) 0%, 
+                rgba(255,255,255,0.2) 50%, 
+                rgba(255,255,255,0) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
         }
     </style>
 </head>
@@ -102,112 +111,112 @@
     <!-- Main Container -->
     <div id="app" class="min-h-screen w-full">
         <!-- Login Screen -->
-        <div id="login-screen" class="min-h-screen gilded-twilight-gradient flex flex-col items-center justify-center px-4 py-12">
+        <div id="login-screen" class="min-h-screen peach-nectar-gradient flex flex-col items-center justify-center px-4 py-12">
             <div class="w-full max-w-md bg-white bg-opacity-10 backdrop-blur-sm rounded-xl shadow-lg p-8 fade-in">
-                <h1 class="text-3xl font-bold text-center mb-8 text-white twilight-glow-text">Photography Skills Assessment</h1>
+                <h1 class="text-3xl font-bold text-center mb-8 text-white peach-glow-text">Email Writing Skills Assessment</h1>
                 <form id="login-form" class="space-y-6">
                     <div>
                         <label for="fullName" class="block text-sm font-medium text-white mb-1">Full Name</label>
-                        <input type="text" id="fullName" required class="w-full px-4 py-2 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400 text-white placeholder-white placeholder-opacity-70">
+                        <input type="text" id="fullName" required class="w-full px-4 py-2 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 text-white placeholder-white placeholder-opacity-70">
                     </div>
                     <div>
                         <label for="email" class="block text-sm font-medium text-white mb-1">Email Address</label>
-                        <input type="email" id="email" required class="w-full px-4 py-2 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400 text-white placeholder-white placeholder-opacity-70">
+                        <input type="email" id="email" required class="w-full px-4 py-2 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 text-white placeholder-white placeholder-opacity-70">
                     </div>
-                    <button type="submit" class="w-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white py-2 rounded-md font-medium hover:opacity-90 transition-opacity">Start Assessment</button>
+                    <button type="submit" class="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-2 rounded-md font-medium hover:opacity-90 transition-opacity">Start Assessment</button>
                 </form>
             </div>
         </div>
 
         <!-- Category Preview Screen -->
-        <div id="category-preview" class="hidden min-h-screen gilded-twilight-gradient flex flex-col items-center justify-center px-4 py-12">
+        <div id="category-preview" class="hidden min-h-screen peach-nectar-gradient flex flex-col items-center justify-center px-4 py-12">
             <div class="w-full max-w-4xl text-center mb-10 fade-in">
-                <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 twilight-glow-text">Photography Skills Assessment</h1>
+                <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 peach-glow-text">Email Writing Skills Assessment</h1>
                 <p class="text-xl text-white text-opacity-90">Explore the key areas we'll be evaluating</p>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl mb-10">
-                <!-- Category 1: Composition -->
+                <!-- Category 1: Email Structure -->
                 <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.1s">
                     <div class="flex items-center mb-4">
-                        <div class="bg-gradient-to-br from-indigo-400 to-blue-500 p-3 rounded-full mr-4">
+                        <div class="bg-gradient-to-br from-blue-400 to-blue-600 p-3 rounded-full mr-4">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold">Composition</h3>
+                        <h3 class="text-xl font-bold">Email Structure</h3>
                     </div>
-                    <p class="text-white text-opacity-90">Understanding framing, rule of thirds, leading lines, and other principles that create visually compelling and balanced photographs.</p>
+                    <p class="text-white text-opacity-90">Ability to organize emails with clear subject lines, greetings, body content, and appropriate closings.</p>
                 </div>
                 
-                <!-- Category 2: Technical Knowledge -->
+                <!-- Category 2: Clarity & Conciseness -->
                 <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.2s">
                     <div class="flex items-center mb-4">
-                        <div class="bg-gradient-to-br from-purple-400 to-pink-500 p-3 rounded-full mr-4">
+                        <div class="bg-gradient-to-br from-green-400 to-green-600 p-3 rounded-full mr-4">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold">Technical Knowledge</h3>
+                        <h3 class="text-xl font-bold">Clarity & Conciseness</h3>
                     </div>
-                    <p class="text-white text-opacity-90">Mastery of camera settings, exposure triangle (aperture, shutter speed, ISO), and understanding how they affect the final image.</p>
+                    <p class="text-white text-opacity-90">Skill in writing clear, direct messages that convey information efficiently without unnecessary words.</p>
                 </div>
                 
-                <!-- Category 3: Lighting -->
+                <!-- Category 3: Tone & Etiquette -->
                 <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.3s">
                     <div class="flex items-center mb-4">
-                        <div class="bg-gradient-to-br from-yellow-400 to-orange-500 p-3 rounded-full mr-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                            </svg>
-                        </div>
-                        <h3 class="text-xl font-bold">Lighting</h3>
-                    </div>
-                    <p class="text-white text-opacity-90">Understanding natural and artificial light sources, quality of light, direction, and how to manipulate lighting to enhance photographic subjects.</p>
-                </div>
-                
-                <!-- Category 4: Post-Processing -->
-                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.4s">
-                    <div class="flex items-center mb-4">
-                        <div class="bg-gradient-to-br from-green-400 to-emerald-500 p-3 rounded-full mr-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-                            </svg>
-                        </div>
-                        <h3 class="text-xl font-bold">Post-Processing</h3>
-                    </div>
-                    <p class="text-white text-opacity-90">Skills in editing software like Lightroom and Photoshop, understanding color correction, retouching, and enhancing images while maintaining natural appearance.</p>
-                </div>
-                
-                <!-- Category 5: Creative Vision -->
-                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.5s">
-                    <div class="flex items-center mb-4">
-                        <div class="bg-gradient-to-br from-blue-400 to-cyan-500 p-3 rounded-full mr-4">
+                        <div class="bg-gradient-to-br from-purple-400 to-purple-600 p-3 rounded-full mr-4">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold">Creative Vision</h3>
+                        <h3 class="text-xl font-bold">Tone & Etiquette</h3>
                     </div>
-                    <p class="text-white text-opacity-90">Ability to see and capture unique perspectives, develop a personal style, and tell stories through imagery that evokes emotion and connection.</p>
+                    <p class="text-white text-opacity-90">Understanding of appropriate tone, formality levels, and professional etiquette in various email contexts.</p>
                 </div>
                 
-                <!-- Category 6: Specialized Techniques -->
-                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.6s">
+                <!-- Category 4: Grammar & Mechanics -->
+                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.4s">
                     <div class="flex items-center mb-4">
-                        <div class="bg-gradient-to-br from-red-400 to-pink-500 p-3 rounded-full mr-4">
+                        <div class="bg-gradient-to-br from-yellow-400 to-yellow-600 p-3 rounded-full mr-4">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold">Specialized Techniques</h3>
+                        <h3 class="text-xl font-bold">Grammar & Mechanics</h3>
                     </div>
-                    <p class="text-white text-opacity-90">Knowledge of specific photography genres and their techniques, such as portrait, landscape, macro, street, wildlife, or architectural photography.</p>
+                    <p class="text-white text-opacity-90">Ability to write with correct grammar, punctuation, spelling, and proper formatting for professional communication.</p>
+                </div>
+                
+                <!-- Category 5: Response Management -->
+                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.5s">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gradient-to-br from-red-400 to-red-600 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold">Response Management</h3>
+                    </div>
+                    <p class="text-white text-opacity-90">Skill in responding appropriately to different types of emails, including inquiries, complaints, and requests.</p>
+                </div>
+                
+                <!-- Category 6: Email Effectiveness -->
+                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.6s">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gradient-to-br from-pink-400 to-pink-600 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold">Email Effectiveness</h3>
+                    </div>
+                    <p class="text-white text-opacity-90">Ability to achieve communication goals through email, including persuasion, information sharing, and relationship building.</p>
                 </div>
             </div>
             
             <div class="w-full max-w-md text-center fade-in">
-                <button id="start-quiz-btn" class="px-8 py-3 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-full font-medium text-lg hover:bg-opacity-90 transition-opacity shadow-lg">
+                <button id="start-quiz-btn" class="px-8 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full font-medium text-lg hover:bg-opacity-90 transition-opacity shadow-lg shimmer">
                     Start 20-Question Assessment
                 </button>
                 <p class="text-white text-opacity-90 mt-4">You'll have 15 minutes to complete all questions</p>
@@ -215,22 +224,22 @@
         </div>
 
         <!-- Quiz Screen -->
-        <div id="quiz-screen" class="hidden min-h-screen blush-amour-gradient flex flex-col">
+        <div id="quiz-screen" class="hidden min-h-screen mint-rose-gold-gradient flex flex-col">
             <!-- Quiz Header -->
             <div class="p-4 md:p-6 flex flex-col md:flex-row justify-between items-center">
                 <div class="mb-4 md:mb-0">
-                    <h2 class="text-2xl font-bold text-white">Photography Skills Assessment</h2>
-                    <p class="text-white text-opacity-80">Answer each question to the best of your ability</p>
+                    <h2 class="text-2xl font-bold text-gray-800">Email Writing Skills Assessment</h2>
+                    <p class="text-gray-600">Answer each question to the best of your ability</p>
                 </div>
                 <div class="flex flex-col items-end">
                     <div class="flex items-center mb-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <span id="timer" class="text-white font-medium">15:00</span>
+                        <span id="timer" class="text-gray-700 font-medium">15:00</span>
                     </div>
-                    <div class="w-full bg-white bg-opacity-30 rounded-full h-2">
-                        <div id="timer-bar" class="timer-bar bg-gradient-to-r from-purple-500 to-indigo-400 h-2 rounded-full" style="width: 100%"></div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div id="timer-bar" class="timer-bar bg-gradient-to-r from-pink-400 to-orange-400 h-2 rounded-full" style="width: 100%"></div>
                     </div>
                 </div>
             </div>
@@ -238,23 +247,23 @@
             <!-- Quiz Progress -->
             <div class="px-4 md:px-6 py-2">
                 <div class="flex justify-between items-center mb-1">
-                    <span class="text-sm text-white text-opacity-80">Question <span id="current-question">1</span> of 20</span>
-                    <span class="text-sm text-white text-opacity-80"><span id="progress-percent">5</span>% Complete</span>
+                    <span class="text-sm text-gray-600">Question <span id="current-question">1</span> of 20</span>
+                    <span class="text-sm text-gray-600"><span id="progress-percent">5</span>% Complete</span>
                 </div>
-                <div class="w-full bg-white bg-opacity-30 rounded-full h-2">
-                    <div id="progress-bar" class="progress-bar bg-gradient-to-r from-purple-500 to-indigo-400 h-2 rounded-full" style="width: 5%"></div>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                    <div id="progress-bar" class="progress-bar bg-gradient-to-r from-pink-400 to-orange-400 h-2 rounded-full" style="width: 5%"></div>
                 </div>
             </div>
             
             <!-- Quiz Content -->
             <div class="flex-grow flex items-center justify-center p-4 md:p-6">
-                <div id="question-container" class="w-full max-w-3xl bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 md:p-8 shadow-lg scale-in">
-                    <div id="question-icon" class="mx-auto mb-6 bg-gradient-to-br from-purple-500 to-indigo-400 w-16 h-16 rounded-full flex items-center justify-center">
+                <div id="question-container" class="w-full max-w-3xl bg-white bg-opacity-80 backdrop-blur-sm rounded-xl p-6 md:p-8 shadow-lg scale-in">
+                    <div id="question-icon" class="mx-auto mb-6 bg-gradient-to-br from-pink-500 to-orange-400 w-16 h-16 rounded-full flex items-center justify-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                         </svg>
                     </div>
-                    <h3 id="question-text" class="text-xl md:text-2xl font-medium text-white text-center mb-8">What is the rule of thirds in photography composition?</h3>
+                    <h3 id="question-text" class="text-xl md:text-2xl font-medium text-gray-800 text-center mb-8">Which of the following is the most effective subject line for a business email?</h3>
                     
                     <div id="options-container" class="space-y-4">
                         <!-- Options will be dynamically generated -->
@@ -264,16 +273,16 @@
             
             <!-- Quiz Navigation -->
             <div class="p-4 md:p-6 flex justify-between">
-                <button id="prev-btn" class="px-6 py-2 bg-white bg-opacity-10 text-white rounded-lg font-medium hover:bg-opacity-20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Previous</button>
-                <button id="next-btn" class="px-6 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">Next</button>
+                <button id="prev-btn" class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Previous</button>
+                <button id="next-btn" class="px-6 py-2 bg-gradient-to-r from-pink-500 to-orange-500 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">Next</button>
             </div>
         </div>
 
         <!-- Results Screen -->
-        <div id="results-screen" class="hidden min-h-screen gilded-twilight-gradient flex flex-col">
+        <div id="results-screen" class="hidden min-h-screen peach-nectar-gradient flex flex-col">
             <div class="p-4 md:p-6">
-                <h2 class="text-2xl md:text-3xl font-bold text-white text-center twilight-glow-text">Your Assessment Results</h2>
-                <p class="text-white text-opacity-80 text-center mb-8">Here's how you performed in the Photography Skills Assessment</p>
+                <h2 class="text-2xl md:text-3xl font-bold text-white text-center peach-glow-text">Your Assessment Results</h2>
+                <p class="text-white text-opacity-80 text-center mb-8">Here's how you performed in the Email Writing Skills Assessment</p>
                 
                 <div class="w-full max-w-4xl mx-auto bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 md:p-8 shadow-lg mb-8">
                     <div class="flex flex-col md:flex-row items-center justify-between mb-8">
@@ -327,7 +336,7 @@
                     </div>
                     
                     <!-- Simulated payment button for demo purposes -->
-                    <button id="simulate-payment-btn" class="w-full px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">
+                    <button id="simulate-payment-btn" class="w-full px-6 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg font-medium hover:opacity-90 transition-opacity shimmer">
                         Simulate Payment (Demo)
                     </button>
                 </div>
@@ -371,7 +380,7 @@
                             <h2 class="handwriting text-4xl text-gray-800 mb-1">Certificate of Excellence</h2>
                             <p class="text-gray-600">This certifies that</p>
                             <h3 id="certificate-name" class="handwriting text-3xl text-gray-800 my-3">John Doe</h3>
-                            <p class="text-gray-600 max-w-lg mx-auto">has successfully completed the Photography Skills Assessment with outstanding performance and is hereby recognized for their achievement.</p>
+                            <p class="text-gray-600 max-w-lg mx-auto">has successfully completed the Email Writing Skills Assessment with outstanding performance and is hereby recognized for their achievement.</p>
                         </div>
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 relative z-10">
@@ -380,7 +389,7 @@
                                 <div class="space-y-2">
                                     <div class="flex items-center">
                                         <span class="text-gray-600 w-32">Skill:</span>
-                                        <span class="font-medium text-gray-800">Photography</span>
+                                        <span class="font-medium text-gray-800">Email Writing Skills</span>
                                     </div>
                                     <div class="flex items-center">
                                         <span class="text-gray-600 w-32">Total Score:</span>
@@ -431,7 +440,7 @@
             </div>
             
             <div class="mt-8">
-                <button id="download-again-btn" class="px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">
+                <button id="download-again-btn" class="px-6 py-3 bg-gradient-to-r from-pink-600 to-purple-600 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">
                     Download Certificate Again
                 </button>
             </div>
@@ -443,296 +452,310 @@
             // Quiz questions data
             const quizQuestions = [
                 {
-                    category: "Composition",
-                    question: "What is the rule of thirds in photography composition?",
+                    category: "Email Structure",
+                    question: "Which of the following is the most effective subject line for a business email?",
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                           </svg>`,
                     options: [
-                        "A compositional guideline that divides the frame into nine equal parts with two horizontal and two vertical lines, placing key elements along these lines or at their intersections for a more balanced and engaging composition",
-                        "A rule stating that only one-third of the image should be in focus",
-                        "A principle requiring that all photos must include exactly three subjects",
-                        "A guideline that limits photography to using only three colors"
+                        "Meeting Request: Q2 Budget Review - April 15",
+                        "Hey there, can we meet about the budget?",
+                        "URGENT!!! Budget Meeting Required!!!",
+                        "Meeting about the thing we discussed yesterday"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    category: "Composition",
-                    question: "What is 'leading lines' in photographic composition?",
+                    category: "Email Structure",
+                    question: "What is the most appropriate way to begin a formal business email to someone you've never met?",
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                           </svg>`,
                     options: [
-                        "Lines within an image that guide the viewer's eye toward the main subject or through the frame, creating visual flow and interest",
-                        "The first lines of text in a photo caption",
-                        "The ropes used to mark boundaries for photographers at events",
-                        "The lines photographers must stand behind when shooting"
+                        "Dear Mr./Ms. [Last Name],",
+                        "Hey there,",
+                        "Hi [First Name],",
+                        "To Whom It May Concern:"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    category: "Composition",
-                    question: "What is negative space in photography?",
+                    category: "Email Structure",
+                    question: "Which element should appear at the end of a professional email?",
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                           </svg>`,
                     options: [
-                        "The empty or unoccupied areas around the main subject that help define and emphasize the subject while creating a sense of balance and visual breathing room",
-                        "Areas of a photo that are underexposed or too dark",
-                        "Parts of an image that convey negative emotions",
-                        "Spaces in a photo that must be cropped out"
+                        "A professional signature with contact information",
+                        "A personal quote or inspirational message",
+                        "A reminder to respond quickly",
+                        "A list of your job responsibilities"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    category: "Technical Knowledge",
-                    question: "What is aperture in photography?",
+                    category: "Clarity & Conciseness",
+                    question: "Which sentence demonstrates the most concise writing style?",
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                           </svg>`,
                     options: [
-                        "The opening in a lens through which light passes, measured in f-stops (like f/2.8, f/8), that controls both the amount of light entering the camera and the depth of field in an image",
-                        "The length of time a camera's shutter remains open",
-                        "The sensitivity of a camera's sensor to light",
-                        "The total amount of light in a scene"
+                        "Please submit your report by Friday.",
+                        "I was wondering if you might be able to possibly submit your report by the end of the week, which would be Friday.",
+                        "It would be greatly appreciated if you could find the time to complete and submit your report by Friday of this week.",
+                        "As per my previous email, and as discussed in our meeting last week, please ensure your report is submitted by Friday."
                     ],
                     correctAnswer: 0
                 },
                 {
-                    category: "Technical Knowledge",
-                    question: "What does ISO refer to in digital photography?",
+                    category: "Clarity & Conciseness",
+                    question: "Which approach is best for organizing information in a complex email?",
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                           </svg>`,
                     options: [
-                        "A measure of a digital camera sensor's sensitivity to light, where higher ISO values increase sensitivity but may introduce more noise or grain to the image",
-                        "International Standards Organization, which certifies camera quality",
-                        "Image Stabilization Option, a feature that reduces camera shake",
-                        "Internal Shutter Operation, the mechanism that controls shutter speed"
+                        "Use bullet points or numbered lists for key information",
+                        "Write one long paragraph explaining everything in detail",
+                        "Include all information in the subject line",
+                        "Use multiple font colors to highlight different points"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    category: "Technical Knowledge",
-                    question: "What is shutter speed in photography?",
+                    category: "Clarity & Conciseness",
+                    question: "What's the best way to make your main request clear in an email?",
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                           </svg>`,
                     options: [
-                        "The length of time a camera's shutter remains open to expose the sensor to light, affecting both exposure and the appearance of motion in an image",
-                        "The speed at which a camera can take consecutive photos",
-                        "How quickly a camera can focus on a subject",
-                        "The rate at which images are processed by the camera"
+                        "State it clearly in the first paragraph and reiterate it in the closing",
+                        "Mention it casually in the middle of a long paragraph",
+                        "Hint at it throughout the email but never directly state it",
+                        "Save it for the P.S. at the end of the email"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    category: "Lighting",
-                    question: "What is 'golden hour' in photography?",
-                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                          </svg>`,
-                    options: [
-                        "The period shortly after sunrise or before sunset when daylight is redder, softer, and more diffused, creating warm, dimensional light ideal for photography",
-                        "The time when photographers charge their highest rates",
-                        "A camera setting that adds a golden tint to photos",
-                        "The maximum time a camera can remain on before overheating"
-                    ],
-                    correctAnswer: 0
-                },
-                {
-                    category: "Lighting",
-                    question: "What is the difference between hard and soft light in photography?",
-                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                          </svg>`,
-                    options: [
-                        "Hard light creates strong, defined shadows and high contrast (like direct sunlight), while soft light produces gentle, diffused shadows and lower contrast (like light on an overcast day)",
-                        "Hard light requires expensive equipment while soft light can be achieved with basic gear",
-                        "Hard light is used for outdoor photography while soft light is only for indoor shoots",
-                        "Hard light is brighter than soft light"
-                    ],
-                    correctAnswer: 0
-                },
-                {
-                    category: "Lighting",
-                    question: "What is a reflector used for in photography?",
-                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                          </svg>`,
-                    options: [
-                        "A tool that bounces existing light onto a subject to fill in shadows, add highlights, or modify the quality of light without requiring additional light sources",
-                        "A device that protects the camera lens from unwanted light",
-                        "A mirror used to help subjects see themselves during a photoshoot",
-                        "A tool that measures the amount of light in a scene"
-                    ],
-                    correctAnswer: 0
-                },
-                {
-                    category: "Post-Processing",
-                    question: "What is white balance in photography and editing?",
-                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-                          </svg>`,
-                    options: [
-                        "The adjustment of colors in an image to accurately represent white under different lighting conditions, ensuring that colors appear natural rather than having an unwanted color cast",
-                        "A technique to make all whites in an image perfectly bright",
-                        "The process of balancing exposure between highlights and shadows",
-                        "A filter that makes all colors appear whiter and brighter"
-                    ],
-                    correctAnswer: 0
-                },
-                {
-                    category: "Post-Processing",
-                    question: "What is the difference between destructive and non-destructive editing?",
-                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-                          </svg>`,
-                    options: [
-                        "Destructive editing permanently alters the original image data, while non-destructive editing preserves the original and applies changes as separate layers or instructions that can be modified or removed later",
-                        "Destructive editing damages the camera while non-destructive editing is safe for equipment",
-                        "Destructive editing creates dramatic effects while non-destructive editing makes subtle changes",
-                        "Destructive editing is faster while non-destructive editing takes longer to process"
-                    ],
-                    correctAnswer: 0
-                },
-                {
-                    category: "Post-Processing",
-                    question: "What is the purpose of adjustment layers in photo editing?",
-                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-                          </svg>`,
-                    options: [
-                        "To apply color and tonal adjustments to an image without permanently altering the original pixels, allowing for flexible, non-destructive editing that can be modified or removed at any time",
-                        "To add physical layers of filters to a camera lens",
-                        "To separate different parts of an image for printing on different paper types",
-                        "To create 3D effects by stacking multiple images"
-                    ],
-                    correctAnswer: 0
-                },
-                {
-                    category: "Creative Vision",
-                    question: "What is meant by 'photographic eye' or 'visual literacy'?",
+                    category: "Tone & Etiquette",
+                    question: "Which phrase is most appropriate for a professional email requesting information?",
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                           </svg>`,
                     options: [
-                        "The ability to recognize compelling visual elements, compositions, and moments worth capturing, developed through practice and studying great photography",
-                        "A special contact lens designed for photographers",
-                        "The ability to see in low light conditions",
-                        "A camera feature that automatically detects good photo opportunities"
+                        "I would appreciate it if you could provide the quarterly sales figures at your earliest convenience.",
+                        "Send me the sales figures ASAP.",
+                        "I need those sales figures now!!!",
+                        "Just wondering if you might possibly have time to maybe send those sales figures whenever you get a chance?"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    category: "Creative Vision",
-                    question: "What is visual storytelling in photography?",
+                    category: "Tone & Etiquette",
+                    question: "When is it appropriate to use ALL CAPS in a professional email?",
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                           </svg>`,
                     options: [
-                        "The art of creating images that convey narratives, emotions, or messages without relying on words, using visual elements to engage viewers and communicate ideas",
-                        "Taking photos while reading a story aloud",
-                        "Adding text captions to all photographs",
-                        "A technique where multiple photos are arranged in a storyboard format"
+                        "Rarely, such as for acronyms or very brief emphasis",
+                        "When you want to show excitement about something",
+                        "When you need to make sure your message is read",
+                        "When you're frustrated and want to express urgency"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    category: "Creative Vision",
-                    question: "What is the concept of 'decisive moment' in photography?",
+                    category: "Tone & Etiquette",
+                    question: "How should you respond to a frustrating or angry email from a colleague?",
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                           </svg>`,
                     options: [
-                        "The precise instant when all elements in a scene come together perfectly to create a meaningful and powerful image, coined by photographer Henri Cartier-Bresson",
-                        "The moment when a photographer decides which camera to purchase",
-                        "The exact time of day when lighting is perfect for photography",
-                        "The point when a photographer decides to end a photoshoot"
+                        "Wait until you're calm, then respond professionally addressing the issues, not emotions",
+                        "Reply immediately with your own frustrations to defend yourself",
+                        "Forward the email to their supervisor to report their unprofessional behavior",
+                        "Use sarcasm to point out the flaws in their argument"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    category: "Specialized Techniques",
-                    question: "What is depth of field in photography?",
+                    category: "Grammar & Mechanics",
+                    question: "Which sentence demonstrates correct grammar and punctuation?",
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                           </svg>`,
                     options: [
-                        "The zone of acceptable sharpness in an image, from foreground to background, which can be shallow (subject in focus, background blurred) or deep (everything in focus), primarily controlled by aperture",
-                        "The maximum distance a photographer can be from their subject",
-                        "The number of photos that can fit on a memory card",
-                        "The distance between a camera and its tripod"
+                        "We're planning to launch the new product on Tuesday, and we need your feedback by Monday.",
+                        "Were planning to launch the new product on Tuesday, and we need you're feedback by Monday.",
+                        "We're planning to launch the new product on Tuesday and, we need your feedback by Monday.",
+                        "We're planning to launch the new product on Tuesday. And we need your feedback by Monday."
                     ],
                     correctAnswer: 0
                 },
                 {
-                    category: "Specialized Techniques",
-                    question: "What is bracketing in photography?",
+                    category: "Grammar & Mechanics",
+                    question: "Which formatting choice is most appropriate for a professional email?",
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                           </svg>`,
                     options: [
-                        "The technique of taking multiple shots of the same scene at different exposure settings to ensure at least one has optimal exposure or to combine them later (as in HDR photography)",
-                        "Using brackets to mount cameras in difficult positions",
-                        "A method of organizing photos in categories",
-                        "A framing technique that places subjects between two objects"
+                        "Using a standard font like Arial or Calibri in 11-12pt size",
+                        "Using multiple fonts and colors to highlight different points",
+                        "Using a decorative font like Comic Sans to appear friendly",
+                        "Using all italics to give your email a formal appearance"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    category: "Specialized Techniques",
-                    question: "What is macro photography?",
+                    category: "Grammar & Mechanics",
+                    question: "What's the best approach to proofreading an important email?",
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                           </svg>`,
                     options: [
-                        "Extreme close-up photography that captures tiny subjects at life-size or greater magnification, revealing details not visible to the naked eye",
-                        "Taking photos of large subjects from a distance",
-                        "A technique used exclusively for landscape photography",
-                        "Photography that uses macro lenses to make small objects appear normal-sized"
+                        "Write it, take a short break, then read it again before sending",
+                        "Send it immediately after writing to ensure timely delivery",
+                        "Rely solely on spell-check to catch any errors",
+                        "Ask a colleague to write it for you to avoid errors"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    category: "Composition",
-                    question: "What is the 'golden ratio' in photographic composition?",
+                    category: "Response Management",
+                    question: "What's the best approach when responding to a customer complaint email?",
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                           </svg>`,
                     options: [
-                        "A mathematical ratio (approximately 1:1.618) that creates a naturally pleasing composition when used to position elements within a frame, often visualized as a spiral",
-                        "A rule stating that gold-colored objects should always be the main subject",
-                        "The ideal ratio of light to shadow in a photograph",
-                        "A composition technique that requires exactly 61.8% of the frame to be filled"
+                        "Acknowledge the issue, apologize sincerely, and offer a specific solution",
+                        "Explain why the customer is wrong about the situation",
+                        "Forward the complaint to someone else to handle",
+                        "Provide a generic response that could apply to any complaint"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    category: "Technical Knowledge",
-                    question: "What is the difference between RAW and JPEG file formats in photography?",
+                    category: "Response Management",
+                    question: "What's the appropriate timeframe for responding to a business email?",
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                           </svg>`,
                     options: [
-                        "RAW files contain all the unprocessed data captured by the camera sensor, offering maximum editing flexibility but requiring processing, while JPEGs are compressed, processed files ready for immediate use but with less editing latitude",
-                        "RAW files are smaller than JPEGs and load faster",
-                        "RAW files are for amateur photographers while professionals only use JPEG",
-                        "RAW files can only be viewed on cameras while JPEGs can be viewed on computers"
+                        "Within 24 business hours, or send an acknowledgment if more time is needed",
+                        "Whenever you have time to address it fully",
+                        "Immediately, even if you don't have complete information",
+                        "Within a week to show you're carefully considering your response"
                     ],
                     correctAnswer: 0
                 },
                 {
-                    category: "Lighting",
-                    question: "What is the purpose of a softbox in photography lighting?",
+                    category: "Response Management",
+                    question: "When receiving an email with multiple questions, what's the best way to respond?",
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                           </svg>`,
                     options: [
-                        "To diffuse and soften light from a flash or continuous light source, creating gentle shadows and more flattering illumination for subjects",
-                        "To store photography equipment safely",
-                        "To block unwanted light from entering the frame",
-                        "To make lights portable for outdoor photography"
+                        "Address each question clearly, using the same order or numbering system as the original email",
+                        "Answer only the most important question and ignore the rest",
+                        "Send separate emails for each question",
+                        "Summarize all answers in one paragraph without distinguishing between questions"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Email Effectiveness",
+                    question: "What's the most effective way to make an action request in an email?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                          </svg>`,
+                    options: [
+                        "Clearly state what you need, who should do it, and by when",
+                        "Hint that something needs to be done without assigning responsibility",
+                        "Include the request in the middle of a long paragraph about other topics",
+                        "Make the request sound optional even if it's mandatory"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Email Effectiveness",
+                    question: "Which approach is most effective when emailing a busy executive?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                          </svg>`,
+                    options: [
+                        "Be brief, put the most important information first, and have a clear subject line",
+                        "Include all possible details so they have complete information",
+                        "Use a casual tone to build rapport before getting to your point",
+                        "Send multiple follow-up emails to ensure your message is noticed"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Email Effectiveness",
+                    question: "What's the best strategy for following up on an unanswered email?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                          </svg>`,
+                    options: [
+                        "Forward your original email with a polite reminder after an appropriate waiting period",
+                        "Send multiple follow-up emails in the same day until you get a response",
+                        "Call the person immediately to ask if they saw your email",
+                        "Complain to their supervisor about their lack of response"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Email Structure",
+                    question: "What's the best practice for using CC (carbon copy) in professional emails?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                          </svg>`,
+                    options: [
+                        "Include only people who need to be informed but aren't required to take action",
+                        "CC everyone in your department to keep them all informed",
+                        "Use CC instead of To: for all recipients to hide who's responsible for responding",
+                        "CC your supervisor on all emails to show your productivity"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Clarity & Conciseness",
+                    question: "Which approach best helps ensure your email is understood correctly?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>`,
+                    options: [
+                        "Use simple language and provide context for your message",
+                        "Use technical jargon to sound more knowledgeable",
+                        "Write long, detailed explanations covering every possible scenario",
+                        "Use abbreviations and acronyms to keep the email short"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Tone & Etiquette",
+                    question: "What's the most appropriate way to decline a meeting request via email?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>`,
+                    options: [
+                        "Thank them for the invitation, politely decline, and suggest an alternative if possible",
+                        "Simply respond with 'No' to be direct and save time",
+                        "Ignore the request and don't respond",
+                        "Make up an excuse about being busy"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Grammar & Mechanics",
+                    question: "Which email closing is most appropriate for a formal business email?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                          </svg>`,
+                    options: [
+                        "Sincerely,",
+                        "TTYL,",
+                        "Cheers!",
+                        "Later,"
                     ],
                     correctAnswer: 0
                 }
@@ -831,7 +854,7 @@
                 
                 // Change color based on time remaining
                 if (percentRemaining > 60) {
-                    timerBarElement.className = 'timer-bar bg-gradient-to-r from-purple-500 to-indigo-400 h-2 rounded-full';
+                    timerBarElement.className = 'timer-bar bg-gradient-to-r from-pink-400 to-orange-400 h-2 rounded-full';
                 } else if (percentRemaining > 30) {
                     timerBarElement.className = 'timer-bar bg-gradient-to-r from-yellow-400 to-orange-400 h-2 rounded-full';
                 } else {
@@ -852,13 +875,13 @@
                 // Add new options
                 question.options.forEach((option, i) => {
                     const optionElement = document.createElement('div');
-                    optionElement.className = `quiz-option p-4 border border-white border-opacity-20 rounded-lg cursor-pointer transition-colors ${userAnswers[index] === i ? 'selected' : ''}`;
+                    optionElement.className = `quiz-option p-4 border border-gray-300 rounded-lg cursor-pointer transition-colors ${userAnswers[index] === i ? 'selected' : ''}`;
                     optionElement.innerHTML = `
                         <div class="flex items-center">
-                            <div class="w-6 h-6 rounded-full border-2 border-white border-opacity-60 flex items-center justify-center mr-3">
-                                ${userAnswers[index] === i ? '<div class="w-3 h-3 rounded-full bg-purple-400"></div>' : ''}
+                            <div class="w-6 h-6 rounded-full border-2 border-gray-400 flex items-center justify-center mr-3">
+                                ${userAnswers[index] === i ? '<div class="w-3 h-3 rounded-full bg-pink-400"></div>' : ''}
                             </div>
-                            <span class="text-white">${option}</span>
+                            <span class="text-gray-800">${option}</span>
                         </div>
                     `;
                     
@@ -871,7 +894,7 @@
                         
                         // Add selected class to clicked option
                         optionElement.classList.add('selected');
-                        optionElement.querySelector('.w-6').innerHTML = '<div class="w-3 h-3 rounded-full bg-purple-400"></div>';
+                        optionElement.querySelector('.w-6').innerHTML = '<div class="w-3 h-3 rounded-full bg-pink-400"></div>';
                         
                         // Save answer
                         userAnswers[index] = i;
@@ -1170,11 +1193,11 @@
                     
                     // Download the PDF
                     const userName = localStorage.getItem('userName') || 'User';
-                    const fileName = `${userName.replace(/\s+/g, '_')}_Photography_Certificate.pdf`;
+                    const fileName = `${userName.replace(/\s+/g, '_')}_Email_Writing_Certificate.pdf`;
                     pdf.save(fileName);
                 });
             }
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'968eedebf33c7fa7',t:'MTc1NDE1MTkwNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'968ef7fe00e97f7d',t:'MTc1NDE1MjMyMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>

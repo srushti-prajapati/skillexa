@@ -264,7 +264,9 @@
                 <div class="flex flex-col md:flex-row items-start md:items-center">
                     <div class="flex-shrink-0 mb-4 md:mb-0">
                         <div class="w-20 h-20 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white text-2xl font-bold user-avatar">
-                            <!-- Initials will be set by script -->
+                           <h2 id="welcomeName" class="text-xl font-semibold mb-1"></h2>
+<p id="userEmailDisplay" class="text-sm text-gray-500"></p>
+ <!-- Initials will be set by script -->
                         </div>
                     </div>
                     <div class="md:ml-6 flex-grow">
@@ -856,5 +858,47 @@
     }
   });
 </script>
+<script>
+  window.onload = function () {
+    const isPremiumUser = localStorage.getItem("isPremiumUser") === "true";
+
+    const allSkillCards = document.querySelectorAll(".skill-card");
+
+    allSkillCards.forEach((card, index) => {
+      if (isPremiumUser) {
+        // Show all skills
+        card.classList.remove("locked");
+        card.classList.add("unlocked");
+        card.querySelector(".lock-msg")?.remove();
+        card.style.pointerEvents = "auto";
+        card.style.opacity = "1";
+      } else {
+        // Lock skills after first 5
+        if (index >= 5) {
+          card.classList.add("locked");
+          card.classList.remove("unlocked");
+          card.style.pointerEvents = "none";
+          card.style.opacity = "0.5";
+
+          // Add locked label if not already added
+          if (!card.querySelector(".lock-msg")) {
+            const msg = document.createElement("p");
+            msg.className = "lock-msg text-red-500 text-sm mt-1";
+            msg.textContent = "🔒 Premium Only";
+            card.appendChild(msg);
+          }
+        }
+      }
+    });
+
+    // OPTIONAL: Display user's name/email
+    const userData = JSON.parse(localStorage.getItem("skillexa-user"));
+    if (userData) {
+      document.getElementById("welcomeName")?.innerText = `Welcome, ${userData.name || "User"}`;
+      document.getElementById("userEmailDisplay")?.innerText = userData.email || "";
+    }
+  };
+</script>
+
 </body>
 </html>

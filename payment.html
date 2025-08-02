@@ -59,19 +59,19 @@
     </div>
   </div>
 
+  <!-- ✅ SCRIPT UPDATED WITH PREMIUM FLAG -->
   <script>
     let selectedPlan = null;
 
     function selectPlan(plan) {
-  if (plan === "freemium") {
-    const capitalizedPlan = "Freemium";
-    localStorage.setItem("skillexa-user", JSON.stringify({ plan: capitalizedPlan }));
-    localStorage.setItem("plan", capitalizedPlan); // ✅ Important line
-    alert("✅ Freemium Plan Activated! Limited features available.");
-    window.location.href = "dashboard.html";
-  }
-}
-
+      if (plan === "freemium") {
+        const capitalizedPlan = "Freemium";
+        localStorage.setItem("skillexa-user", JSON.stringify({ plan: capitalizedPlan }));
+        localStorage.setItem("plan", capitalizedPlan);
+        alert("✅ Freemium Plan Activated! Limited features available.");
+        window.location.href = "dashboard.html";
+      }
+    }
 
     function showQR(plan) {
       if (plan === "allinone") {
@@ -88,39 +88,45 @@
     }
 
     function confirmPayment() {
-  if (selectedPlan) {
-    const capitalizedPlan = selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1);
-    localStorage.setItem("skillexa-user", JSON.stringify({ plan: capitalizedPlan }));
-    localStorage.setItem("plan", capitalizedPlan); // ✅ Important line
-    alert(`✅ ${capitalizedPlan} Plan Activated!`);
-    closeQR();
-    window.location.href = "dashboard.html";
-  }
-}
+      if (selectedPlan) {
+        const capitalizedPlan = selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1);
+        localStorage.setItem("skillexa-user", JSON.stringify({ plan: capitalizedPlan }));
+        localStorage.setItem("plan", capitalizedPlan);
 
+        // ✅ Add premium flag when applicable
+        if (capitalizedPlan === "Premium") {
+          localStorage.setItem("isPremiumUser", "true");
+        }
+
+        alert(`✅ ${capitalizedPlan} Plan Activated!`);
+        closeQR();
+        window.location.href = "dashboard.html";
+      }
+    }
   </script>
-<footer style="background-color: #1e3a8a; color: white; padding: 40px 20px; text-align: center;">
-  <div style="max-width: 1000px; margin: auto;">
-    <h2 style="margin-bottom: 10px; font-size: 1.6rem;">Skillexa</h2>
-    <p style="margin: 5px 0;">Empowering skill development with AI-powered learning and evaluation.</p>
 
-    <div style="margin: 20px 0;">
-      <p>📧 Email us: <a href="mailto:skillexa@gmail.com" style="color: #dbeafe; text-decoration: underline;">skillexa@gmail.com</a></p>
-      <p>📍 Location: India</p>
+  <!-- Footer -->
+  <footer style="background-color: #1e3a8a; color: white; padding: 40px 20px; text-align: center;">
+    <div style="max-width: 1000px; margin: auto;">
+      <h2 style="margin-bottom: 10px; font-size: 1.6rem;">Skillexa</h2>
+      <p style="margin: 5px 0;">Empowering skill development with AI-powered learning and evaluation.</p>
+
+      <div style="margin: 20px 0;">
+        <p>📧 Email us: <a href="mailto:skillexa@gmail.com" style="color: #dbeafe; text-decoration: underline;">skillexa@gmail.com</a></p>
+        <p>📍 Location: India</p>
+      </div>
+
+      <div style="margin: 30px 0;">
+        <a href="https://www.instagram.com/_skillexa_" target="_blank" style="margin: 0 12px; color: #dbeafe;">📸 Instagram</a> |
+        <a href="https://www.youtube.com/@Skillexaa" target="_blank" style="margin: 0 12px; color: #dbeafe;">▶️ YouTube</a> |
+        <a href="https://www.linkedin.com/in/jagdeep-kaur-i-2b3b632a2" target="_blank" style="margin: 0 12px; color: #dbeafe;">💼 LinkedIn</a> |
+        <a href="https://t.me/your_channel_link" target="_blank" style="margin: 0 12px; color: #dbeafe;">📢 Telegram</a>
+      </div>
+
+      <hr style="border: none; border-top: 1px solid #3b82f6; margin: 30px 0;" />
+
+      <p style="font-size: 0.9rem;">&copy; 2025 Skillexa. All rights reserved.</p>
     </div>
-
-    <div style="margin: 30px 0;">
-      <a href="https://www.instagram.com/_skillexa_" target="_blank" style="margin: 0 12px; color: #dbeafe;">📸 Instagram</a> |
-      <a href="https://www.youtube.com/@Skillexaa" target="_blank" style="margin: 0 12px; color: #dbeafe;">▶️ YouTube</a> |
-      <a href="https://www.linkedin.com/in/jagdeep-kaur-i-2b3b632a2" target="_blank" style="margin: 0 12px; color: #dbeafe;">💼 LinkedIn</a> |
-      <a href="https://t.me/your_channel_link" target="_blank" style="margin: 0 12px; color: #dbeafe;">📢 Telegram</a>
-    </div>
-
-    <hr style="border: none; border-top: 1px solid #3b82f6; margin: 30px 0;" />
-
-    <p style="font-size: 0.9rem;">&copy; 2025 Skillexa. All rights reserved.</p>
-  </div>
-</footer>
-
+  </footer>
 </body>
 </html>

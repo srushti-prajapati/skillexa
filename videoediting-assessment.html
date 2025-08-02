@@ -3,1630 +3,1179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Editing Skills Assessment</title>
+    <title>Video Editing Skills Assessment | Skillexa</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            overflow-x: hidden;
         }
-        .assessment-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
+        .handwriting {
+            font-family: 'Dancing Script', cursive;
         }
-        .progress-bar {
-            height: 8px;
-            background: #e9ecef;
-            border-radius: 4px;
-            overflow: hidden;
+        .indigo-noir-gradient {
+            background: linear-gradient(135deg, #1a1a3a 0%, #0f172a 50%, #312e81 100%);
         }
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #f43f5e, #ec4899);
-            transition: width 0.3s ease;
+        .neon-night-gradient {
+            background: linear-gradient(135deg, #0f0f1a 0%, #1e1b4b 50%, #0f172a 100%);
         }
-        .btn {
+        .category-card {
             transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
         }
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(244, 63, 94, 0.2);
-        }
-        .option-btn {
-            transition: all 0.2s ease;
-            border: 2px solid #e5e7eb;
-        }
-        .option-btn:hover {
-            border-color: #f43f5e;
-            background-color: #fff1f2;
-        }
-        .option-btn.selected {
-            border-color: #f43f5e;
-            background-color: #fff1f2;
-        }
-        .option-btn.correct {
-            border-color: #10b981;
-            background-color: #d1fae5;
-        }
-        .option-btn.incorrect {
-            border-color: #ef4444;
-            background-color: #fee2e2;
-        }
-        .certificate {
-            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-            border: 2px solid #f43f5e;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            position: relative;
-            overflow: hidden;
-        }
-        .certificate::before {
-            content: '';
-            position: absolute;
-            top: -50px;
-            left: -50px;
-            width: 200px;
-            height: 200px;
-            background: linear-gradient(135deg, rgba(244, 63, 94, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
-            border-radius: 50%;
-        }
-        .certificate::after {
-            content: '';
-            position: absolute;
-            bottom: -50px;
-            right: -50px;
-            width: 200px;
-            height: 200px;
-            background: linear-gradient(135deg, rgba(244, 63, 94, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
-            border-radius: 50%;
-        }
-        .badge {
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        .confetti {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #f43f5e;
-            opacity: 0;
-        }
-        @keyframes fall {
-            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(1000px) rotate(360deg); opacity: 0; }
-        }
-        .timer-warning {
-            animation: blink 1s infinite;
-        }
-        @keyframes blink {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-        .floating {
-            animation: floating 3s ease-in-out infinite;
-        }
-        @keyframes floating {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-        .scale-in {
-            animation: scaleIn 0.5s ease-out forwards;
-            transform-origin: center;
-        }
-        @keyframes scaleIn {
-            0% { transform: scale(0.8); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        .slide-in {
-            animation: slideIn 0.5s ease-out forwards;
-        }
-        @keyframes slideIn {
-            0% { transform: translateX(-20px); opacity: 0; }
-            100% { transform: translateX(0); opacity: 1; }
-        }
-        .fade-in {
-            animation: fadeIn 0.5s ease-out forwards;
-        }
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-        .rotate-in {
-            animation: rotateIn 0.5s ease-out forwards;
-        }
-        @keyframes rotateIn {
-            0% { transform: rotate(-10deg) scale(0.9); opacity: 0; }
-            100% { transform: rotate(0deg) scale(1); opacity: 1; }
-        }
-        .category-icon {
-            transition: all 0.3s ease;
-        }
-        .category-card:hover .category-icon {
+        .category-card:hover {
             transform: translateY(-5px);
         }
-        .skill-bar {
-            height: 8px;
-            background: #e9ecef;
-            border-radius: 4px;
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+        .slide-in {
+            animation: slideIn 0.8s ease-out;
+        }
+        .scale-in {
+            animation: scaleIn 0.5s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes scaleIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .certificate-border {
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            padding: 10px;
+        }
+        .certificate-inner-border {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            padding: 5px;
+        }
+        .certificate-content {
+            background: white;
+            position: relative;
             overflow: hidden;
         }
-        .skill-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #f43f5e, #ec4899);
-            transition: width 1s ease;
-        }
-        .border-pattern {
-            background-image: repeating-linear-gradient(45deg, #f43f5e 0, #f43f5e 1px, transparent 0, transparent 50%);
-            background-size: 10px 10px;
-        }
-        .design-icon {
-            filter: drop-shadow(0 4px 3px rgba(0, 0, 0, 0.07));
-        }
-        .chart-bar {
-            transition: height 1s ease;
-        }
-        .gradient-text {
-            background: linear-gradient(90deg, #f43f5e, #ec4899);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .color-swatch {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 5px;
-        }
-        .design-pattern {
+        .watermark {
             position: absolute;
-            opacity: 0.05;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-30deg);
+            font-size: 100px;
+            color: rgba(0,0,0,0.05);
+            font-weight: bold;
+            white-space: nowrap;
             z-index: 0;
         }
-        .welcome-pattern-1 {
-            top: 10%;
-            left: 5%;
-            width: 150px;
-            height: 150px;
-            background: radial-gradient(circle, #f43f5e 10%, transparent 11%),
-                        radial-gradient(circle at bottom left, #ec4899 10%, transparent 11%),
-                        radial-gradient(circle at bottom right, #f43f5e 10%, transparent 11%),
-                        radial-gradient(circle at top left, #ec4899 10%, transparent 11%);
-            background-size: 30px 30px;
-            transform: rotate(15deg);
+        .timer-bar {
+            transition: width 1s linear;
         }
-        .welcome-pattern-2 {
-            bottom: 10%;
-            right: 5%;
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(45deg, #f43f5e 25%, transparent 25%),
-                        linear-gradient(-45deg, #ec4899 25%, transparent 25%),
-                        linear-gradient(45deg, transparent 75%, #f43f5e 75%),
-                        linear-gradient(-45deg, transparent 75%, #ec4899 75%);
-            background-size: 20px 20px;
-            transform: rotate(-10deg);
+        .progress-bar {
+            transition: width 0.5s ease;
         }
-        .certificate-seal {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 100px;
-            height: 100px;
+        .quiz-option:hover {
+            background-color: rgba(255, 255, 255, 0.1);
         }
-        .certificate-seal-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            animation: rotate 20s linear infinite;
+        .quiz-option.selected {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-color: #ffffff;
         }
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .glow-text {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
         }
-        .certificate-ribbon {
-            position: absolute;
-            bottom: -10px;
-            right: 30px;
-            width: 40px;
-            height: 60px;
-            background: linear-gradient(90deg, #f43f5e, #ec4899);
-            clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%);
+        .indigo-glow-text {
+            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #4338ca, 0 0 20px #4338ca;
         }
-        .certificate-ribbon::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.2);
-            clip-path: polygon(0 0, 50% 50%, 100% 0, 100% 20%, 50% 70%, 0 20%);
-        }
-        .timeline-pattern {
-            background-image: 
-                linear-gradient(to right, #e5e7eb 1px, transparent 1px),
-                linear-gradient(to bottom, #e5e7eb 1px, transparent 1px);
-            background-size: 20px 20px;
-        }
-        .video-frame {
-            position: relative;
-            border: 2px solid #f43f5e;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        .video-frame::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(244, 63, 94, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
-        }
-        .video-controls {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 24px;
-            background: rgba(0, 0, 0, 0.7);
-            display: flex;
-            align-items: center;
-            padding: 0 8px;
-        }
-        .video-timeline {
-            flex-grow: 1;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 2px;
-            margin: 0 8px;
-            position: relative;
-        }
-        .video-progress {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 60%;
-            background: #f43f5e;
-            border-radius: 2px;
-        }
-        .video-play-btn {
-            width: 16px;
-            height: 16px;
-            background: white;
-            clip-path: polygon(0 0, 0 100%, 100% 50%);
-        }
-        .timeline-marker {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background: #f43f5e;
-            border-radius: 50%;
-            top: -2px;
-        }
-        .timeline-marker-1 {
-            left: 20%;
-        }
-        .timeline-marker-2 {
-            left: 45%;
-        }
-        .timeline-marker-3 {
-            left: 75%;
-        }
-        .video-clip {
-            position: relative;
-            height: 40px;
-            background: rgba(244, 63, 94, 0.2);
-            border: 1px solid #f43f5e;
-            border-radius: 4px;
-            margin-bottom: 4px;
-        }
-        .video-clip-handle {
-            position: absolute;
-            top: 0;
-            width: 4px;
-            height: 100%;
-            background: #f43f5e;
-            cursor: ew-resize;
-        }
-        .video-clip-handle-left {
-            left: 0;
-            border-radius: 4px 0 0 4px;
-        }
-        .video-clip-handle-right {
-            right: 0;
-            border-radius: 0 4px 4px 0;
-        }
-        .waveform {
-            width: 100%;
-            height: 20px;
-            display: flex;
-            align-items: center;
-        }
-        .waveform-bar {
-            flex-grow: 1;
-            height: 100%;
-            background: rgba(244, 63, 94, 0.1);
-            margin: 0 1px;
-            position: relative;
-        }
-        .waveform-bar::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: var(--height);
-            background: rgba(244, 63, 94, 0.5);
+        .neon-glow {
+            text-shadow: 0 0 5px #6366f1, 0 0 10px #6366f1, 0 0 15px #6366f1, 0 0 20px #6366f1;
         }
     </style>
 </head>
-<body class="min-h-screen py-8 px-4">
-    <div id="app">
-        <!-- Welcome Screen -->
-        <div id="welcome-screen" class="assessment-container p-8 relative">
-            <div class="design-pattern welcome-pattern-1"></div>
-            <div class="design-pattern welcome-pattern-2"></div>
+<body>
+    <!-- Main Container -->
+    <div id="app" class="min-h-screen w-full">
+        <!-- Login Screen -->
+        <div id="login-screen" class="min-h-screen indigo-noir-gradient flex flex-col items-center justify-center px-4 py-12">
+            <div class="w-full max-w-md bg-white bg-opacity-10 backdrop-blur-sm rounded-xl shadow-lg p-8 fade-in">
+                <h1 class="text-3xl font-bold text-center mb-8 text-white indigo-glow-text">Video Editing Skills Assessment</h1>
+                <form id="login-form" class="space-y-6">
+                    <div>
+                        <label for="fullName" class="block text-sm font-medium text-white mb-1">Full Name</label>
+                        <input type="text" id="fullName" required class="w-full px-4 py-2 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400 text-white placeholder-white placeholder-opacity-70">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-white mb-1">Email Address</label>
+                        <input type="email" id="email" required class="w-full px-4 py-2 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400 text-white placeholder-white placeholder-opacity-70">
+                    </div>
+                    <button type="submit" class="w-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white py-2 rounded-md font-medium hover:opacity-90 transition-opacity">Start Assessment</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Category Preview Screen -->
+        <div id="category-preview" class="hidden min-h-screen indigo-noir-gradient flex flex-col items-center justify-center px-4 py-12">
+            <div class="w-full max-w-4xl text-center mb-10 fade-in">
+                <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 indigo-glow-text">Video Editing Skills Assessment</h1>
+                <p class="text-xl text-white text-opacity-90">Explore the key areas we'll be evaluating</p>
+            </div>
             
-            <div class="text-center mb-8 relative z-10">
-                <div class="inline-block p-4 bg-gradient-to-br from-rose-100 to-pink-100 rounded-full mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 design-icon" viewBox="0 0 24 24" fill="none" stroke="url(#gradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <defs>
-                            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#f43f5e" />
-                                <stop offset="100%" stop-color="#ec4899" />
-                            </linearGradient>
-                        </defs>
-                        <path d="M23 7l-7 5 7 5V7z"></path>
-                        <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
-                    </svg>
-                </div>
-                <h1 class="text-3xl font-bold mb-2">Video Editing Skills Assessment</h1>
-                <p class="text-gray-600 mb-6">Test your video editing abilities with 25 questions and earn a professional certificate</p>
-                
-                <div class="flex flex-wrap justify-center gap-6 mb-8">
-                    <div class="flex items-center">
-                        <div class="bg-rose-100 p-2 rounded-full mr-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </div>
-                        <span class="text-gray-700">30 minutes</span>
-                    </div>
-                    <div class="flex items-center">
-                        <div class="bg-rose-100 p-2 rounded-full mr-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </div>
-                        <span class="text-gray-700">25 questions</span>
-                    </div>
-                    <div class="flex items-center">
-                        <div class="bg-rose-100 p-2 rounded-full mr-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                        </div>
-                        <span class="text-gray-700">Certificate on completion</span>
-                    </div>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
-                    <div class="category-card bg-white p-5 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
-                        <div class="category-icon bg-gradient-to-br from-rose-100 to-pink-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                            </svg>
-                        </div>
-                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Editing Techniques</h3>
-                        <p class="text-gray-600 text-sm text-center">Cuts, trims & sequences</p>
-                    </div>
-                    <div class="category-card bg-white p-5 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
-                        <div class="category-icon bg-gradient-to-br from-rose-100 to-pink-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-                            </svg>
-                        </div>
-                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Color Grading</h3>
-                        <p class="text-gray-600 text-sm text-center">Color theory & correction</p>
-                    </div>
-                    <div class="category-card bg-white p-5 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
-                        <div class="category-icon bg-gradient-to-br from-rose-100 to-pink-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
-                            </svg>
-                        </div>
-                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Transitions</h3>
-                        <p class="text-gray-600 text-sm text-center">Smooth scene changes</p>
-                    </div>
-                    <div class="category-card bg-white p-5 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
-                        <div class="category-icon bg-gradient-to-br from-rose-100 to-pink-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.536a5 5 0 001.414 1.414m0 0l-2.828 2.828a1 1 0 01-1.414 0l-.707-.707a1 1 0 010-1.414L5.88 14.828m9.9-9.9l2.828-2.828a1 1 0 011.414 0l.707.707a1 1 0 010 1.414L17.9 7.05m-9.9 9.9a9 9 0 010-12.728" />
-                            </svg>
-                        </div>
-                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Audio Editing</h3>
-                        <p class="text-gray-600 text-sm text-center">Sound mixing & effects</p>
-                    </div>
-                    <div class="category-card bg-white p-5 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
-                        <div class="category-icon bg-gradient-to-br from-rose-100 to-pink-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl mb-10">
+                <!-- Category 1: Video Composition -->
+                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.1s">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gradient-to-br from-indigo-400 to-blue-500 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
                             </svg>
                         </div>
-                        <h3 class="font-semibold text-gray-800 mb-2 text-center">Motion Graphics</h3>
-                        <p class="text-gray-600 text-sm text-center">Animation & effects</p>
+                        <h3 class="text-xl font-bold">Video Composition</h3>
                     </div>
+                    <p class="text-white text-opacity-90">Understanding framing, rule of thirds, visual storytelling, and creating compelling shot sequences that engage viewers.</p>
                 </div>
                 
-                <div class="bg-gradient-to-r from-rose-50 to-pink-50 p-6 rounded-lg mb-8 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-32 h-32 -mt-10 -mr-10 bg-rose-100 rounded-full opacity-50"></div>
-                    <div class="absolute bottom-0 left-0 w-24 h-24 -mb-8 -ml-8 bg-pink-100 rounded-full opacity-50"></div>
-                    <h3 class="font-semibold text-rose-800 mb-3 relative z-10">Why Take This Assessment?</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 relative z-10">
-                        <div class="flex items-start">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-rose-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span class="text-gray-700 text-sm">Identify your video editing strengths</span>
-                        </div>
-                        <div class="flex items-start">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-rose-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span class="text-gray-700 text-sm">Discover areas for improvement</span>
-                        </div>
-                        <div class="flex items-start">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-rose-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span class="text-gray-700 text-sm">Earn a professional certificate</span>
-                        </div>
-                        <div class="flex items-start">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-rose-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span class="text-gray-700 text-sm">Enhance your video editing career profile</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 mb-8">
+                <!-- Category 2: Editing Techniques -->
+                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.2s">
                     <div class="flex items-center mb-4">
-                        <div class="bg-amber-100 p-2 rounded-full mr-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        <div class="bg-gradient-to-br from-purple-400 to-pink-500 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                             </svg>
                         </div>
-                        <h3 class="font-semibold text-gray-800">How It Works</h3>
+                        <h3 class="text-xl font-bold">Editing Techniques</h3>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="flex flex-col items-center text-center">
-                            <div class="bg-gradient-to-br from-rose-100 to-pink-100 w-10 h-10 rounded-full flex items-center justify-center mb-3">
-                                <span class="font-bold text-rose-600">1</span>
-                            </div>
-                            <h4 class="font-medium text-gray-800 mb-1">Complete Assessment</h4>
-                            <p class="text-gray-600 text-sm">Answer 25 questions about video editing</p>
-                        </div>
-                        <div class="flex flex-col items-center text-center">
-                            <div class="bg-gradient-to-br from-rose-100 to-pink-100 w-10 h-10 rounded-full flex items-center justify-center mb-3">
-                                <span class="font-bold text-rose-600">2</span>
-                            </div>
-                            <h4 class="font-medium text-gray-800 mb-1">Get Results</h4>
-                            <p class="text-gray-600 text-sm">Receive detailed feedback on your video editing abilities</p>
-                        </div>
-                        <div class="flex flex-col items-center text-center">
-                            <div class="bg-gradient-to-br from-rose-100 to-pink-100 w-10 h-10 rounded-full flex items-center justify-center mb-3">
-                                <span class="font-bold text-rose-600">3</span>
-                            </div>
-                            <h4 class="font-medium text-gray-800 mb-1">Earn Certificate</h4>
-                            <p class="text-gray-600 text-sm">Get your professional certificate to showcase your skills</p>
-                        </div>
-                    </div>
+                    <p class="text-white text-opacity-90">Mastering cuts, transitions, pacing, and rhythm to create smooth, professional edits that enhance the narrative flow.</p>
                 </div>
                 
-                <div class="flex justify-center">
-                    <button id="start-btn" class="btn bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 text-white font-medium py-3 px-8 rounded-lg flex items-center">
-                        Start Assessment
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                        </svg>
-                    </button>
+                <!-- Category 3: Color Grading -->
+                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.3s">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gradient-to-br from-yellow-400 to-orange-500 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold">Color Grading</h3>
+                    </div>
+                    <p class="text-white text-opacity-90">Applying color correction and stylistic color treatments to establish mood, atmosphere, and visual consistency.</p>
                 </div>
+                
+                <!-- Category 4: Audio Editing -->
+                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.4s">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gradient-to-br from-green-400 to-emerald-500 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.536a5 5 0 001.414 1.414m2.828-9.9a9 9 0 012.828-2.828" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold">Audio Editing</h3>
+                    </div>
+                    <p class="text-white text-opacity-90">Balancing sound levels, removing noise, adding music and sound effects to create an immersive audio experience.</p>
+                </div>
+                
+                <!-- Category 5: Motion Graphics -->
+                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.5s">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gradient-to-br from-blue-400 to-cyan-500 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold">Motion Graphics</h3>
+                    </div>
+                    <p class="text-white text-opacity-90">Creating animated text, titles, lower thirds, and visual elements that enhance the video's message and branding.</p>
+                </div>
+                
+                <!-- Category 6: Software Proficiency -->
+                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.6s">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gradient-to-br from-red-400 to-pink-500 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold">Software Proficiency</h3>
+                    </div>
+                    <p class="text-white text-opacity-90">Knowledge of industry-standard editing software like Premiere Pro, Final Cut, DaVinci Resolve, and their tools and workflows.</p>
+                </div>
+            </div>
+            
+            <div class="w-full max-w-md text-center fade-in">
+                <button id="start-quiz-btn" class="px-8 py-3 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-full font-medium text-lg hover:bg-opacity-90 transition-opacity shadow-lg">
+                    Start 20-Question Assessment
+                </button>
+                <p class="text-white text-opacity-90 mt-4">You'll have 15 minutes to complete all questions</p>
             </div>
         </div>
 
         <!-- Quiz Screen -->
-        <div id="quiz-screen" class="assessment-container hidden">
-            <div class="p-6 bg-gradient-to-r from-rose-50 to-pink-50 border-b border-rose-100">
-                <div class="flex justify-between items-center mb-4">
-                    <div>
-                        <h2 class="text-xl font-semibold text-gray-800">Video Editing Assessment</h2>
-                        <p class="text-gray-600 text-sm">Question <span id="current-question">1</span> of 25</p>
-                    </div>
-                    <div class="bg-white px-4 py-2 rounded-lg shadow-sm flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-rose-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div id="quiz-screen" class="hidden min-h-screen neon-night-gradient flex flex-col">
+            <!-- Quiz Header -->
+            <div class="p-4 md:p-6 flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h2 class="text-2xl font-bold text-white">Video Editing Skills Assessment</h2>
+                    <p class="text-white text-opacity-80">Answer each question to the best of your ability</p>
+                </div>
+                <div class="flex flex-col items-end">
+                    <div class="flex items-center mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <span id="timer" class="font-medium">30:00</span>
+                        <span id="timer" class="text-white font-medium">15:00</span>
                     </div>
-                </div>
-                <div class="progress-bar">
-                    <div id="progress-fill" class="progress-fill" style="width: 4%"></div>
+                    <div class="w-full bg-white bg-opacity-30 rounded-full h-2">
+                        <div id="timer-bar" class="timer-bar bg-gradient-to-r from-indigo-500 to-purple-400 h-2 rounded-full" style="width: 100%"></div>
+                    </div>
                 </div>
             </div>
             
-            <div class="p-8">
-                <h3 id="question-text" class="text-xl font-medium text-gray-800 mb-6">Loading question...</h3>
-                
-                <div id="options-container" class="space-y-4 mb-8">
-                    <!-- Options will be inserted here -->
+            <!-- Quiz Progress -->
+            <div class="px-4 md:px-6 py-2">
+                <div class="flex justify-between items-center mb-1">
+                    <span class="text-sm text-white text-opacity-80">Question <span id="current-question">1</span> of 20</span>
+                    <span class="text-sm text-white text-opacity-80"><span id="progress-percent">5</span>% Complete</span>
                 </div>
-                
-                <div class="flex justify-between">
-                    <button id="prev-btn" class="btn bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-2 px-6 rounded-lg flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                <div class="w-full bg-white bg-opacity-30 rounded-full h-2">
+                    <div id="progress-bar" class="progress-bar bg-gradient-to-r from-indigo-500 to-purple-400 h-2 rounded-full" style="width: 5%"></div>
+                </div>
+            </div>
+            
+            <!-- Quiz Content -->
+            <div class="flex-grow flex items-center justify-center p-4 md:p-6">
+                <div id="question-container" class="w-full max-w-3xl bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 md:p-8 shadow-lg scale-in">
+                    <div id="question-icon" class="mx-auto mb-6 bg-gradient-to-br from-indigo-500 to-purple-400 w-16 h-16 rounded-full flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
                         </svg>
-                        Previous
-                    </button>
-                    <div class="flex space-x-2">
-                        <button id="skip-btn" class="btn bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-4 rounded-lg">
-                            Skip
-                        </button>
-                        <button id="next-btn" class="btn bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 text-white font-medium py-2 px-6 rounded-lg flex items-center">
-                            Next
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                            </svg>
-                        </button>
+                    </div>
+                    <h3 id="question-text" class="text-xl md:text-2xl font-medium text-white text-center mb-8">What is the rule of thirds in video composition?</h3>
+                    
+                    <div id="options-container" class="space-y-4">
+                        <!-- Options will be dynamically generated -->
                     </div>
                 </div>
             </div>
             
-            <div class="p-4 bg-gray-50 border-t border-gray-100">
-                <div class="flex flex-wrap gap-2 justify-center" id="question-nav">
-                    <!-- Question navigation buttons will be inserted here -->
-                </div>
+            <!-- Quiz Navigation -->
+            <div class="p-4 md:p-6 flex justify-between">
+                <button id="prev-btn" class="px-6 py-2 bg-white bg-opacity-10 text-white rounded-lg font-medium hover:bg-opacity-20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Previous</button>
+                <button id="next-btn" class="px-6 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">Next</button>
             </div>
         </div>
 
         <!-- Results Screen -->
-        <div id="results-screen" class="assessment-container hidden">
-            <div class="p-8 text-center">
-                <div id="score-badge" class="badge w-32 h-32 rounded-full bg-gradient-to-r from-rose-100 to-pink-100 flex items-center justify-center mx-auto mb-6">
-                    <div class="text-center">
-                        <span id="score-percentage" class="block text-3xl font-bold gradient-text">85%</span>
-                        <span class="text-sm text-gray-600">Score</span>
+        <div id="results-screen" class="hidden min-h-screen indigo-noir-gradient flex flex-col">
+            <div class="p-4 md:p-6">
+                <h2 class="text-2xl md:text-3xl font-bold text-white text-center indigo-glow-text">Your Assessment Results</h2>
+                <p class="text-white text-opacity-80 text-center mb-8">Here's how you performed in the Video Editing Skills Assessment</p>
+                
+                <div class="w-full max-w-4xl mx-auto bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 md:p-8 shadow-lg mb-8">
+                    <div class="flex flex-col md:flex-row items-center justify-between mb-8">
+                        <div class="mb-6 md:mb-0">
+                            <h3 class="text-xl text-white mb-2">Total Score</h3>
+                            <div class="text-5xl font-bold text-white glow-text"><span id="total-score">0</span>/<span id="max-score">100</span></div>
+                        </div>
+                        <div class="w-full md:w-auto">
+                            <div id="score-gauge" class="w-40 h-40 mx-auto relative">
+                                <svg class="w-full h-full" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="45" fill="none" stroke="#ffffff33" stroke-width="10" />
+                                    <circle id="score-circle" cx="50" cy="50" r="45" fill="none" stroke-width="10" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="283" transform="rotate(-90 50 50)" />
+                                </svg>
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <span id="score-percentage" class="text-2xl font-bold text-white glow-text">0%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-xl text-white mb-4">Performance by Category</h3>
+                    <div id="category-results" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <!-- Category results will be dynamically generated -->
                     </div>
                 </div>
                 
-                <h2 class="text-2xl font-bold text-gray-800 mb-2">Assessment Complete!</h2>
-                <p id="result-message" class="text-gray-600 mb-6">Great job! You've completed the assessment.</p>
-                
-                <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
-                    <h3 class="font-semibold text-gray-800 mb-4">Performance Summary</h3>
-                    <div class="grid grid-cols-2 gap-4 mb-6">
-                        <div class="bg-gradient-to-r from-rose-50 to-pink-50 p-4 rounded-lg">
-                            <div class="text-2xl font-bold gradient-text mb-1"><span id="correct-answers">21</span>/25</div>
-                            <div class="text-sm text-gray-600">Correct Answers</div>
-                        </div>
-                        <div class="bg-gradient-to-r from-rose-50 to-pink-50 p-4 rounded-lg">
-                            <div class="text-2xl font-bold gradient-text mb-1"><span id="time-taken">15:45</span></div>
-                            <div class="text-sm text-gray-600">Time Taken</div>
-                        </div>
-                    </div>
+                <div class="w-full max-w-md mx-auto bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 shadow-lg text-center">
+                    <h3 class="text-xl text-white mb-4 glow-text">Get Your Certificate</h3>
+                    <p class="text-white text-opacity-80 mb-6">Complete the payment to receive your official Skillexa certification</p>
                     
                     <div class="mb-6">
-                        <div class="flex items-center mb-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-rose-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        <div id="qr-code" class="w-48 h-48 mx-auto bg-white p-4 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="w-full h-full">
+                                <!-- Simple QR code SVG representation -->
+                                <rect x="10" y="10" width="80" height="80" fill="none" stroke="black" stroke-width="1" />
+                                <g fill="black">
+                                    <!-- QR code pattern - simplified representation -->
+                                    <rect x="20" y="20" width="20" height="20" />
+                                    <rect x="60" y="20" width="20" height="20" />
+                                    <rect x="20" y="60" width="20" height="20" />
+                                    <rect x="40" y="40" width="20" height="20" />
+                                    <rect x="65" y="65" width="10" height="10" />
+                                    <rect x="25" y="45" width="10" height="10" />
+                                    <rect x="45" y="25" width="10" height="10" />
+                                    <rect x="65" y="45" width="10" height="10" />
+                                    <rect x="45" y="65" width="10" height="10" />
+                                </g>
                             </svg>
-                            <h4 class="font-medium text-gray-700">Your Video Editing Strengths</h4>
                         </div>
-                        <div id="strengths" class="text-sm text-gray-600 bg-gray-50 p-4 rounded-lg">
-                            <!-- Strengths will be inserted here -->
-                        </div>
+                        <p class="text-white text-opacity-80 mt-2">Scan to pay via UPI</p>
                     </div>
                     
-                    <div class="mb-6">
-                        <div class="flex items-center mb-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                            </svg>
-                            <h4 class="font-medium text-gray-700">Areas for Growth</h4>
-                        </div>
-                        <div id="improvements" class="text-sm text-gray-600 bg-gray-50 p-4 rounded-lg">
-                            <!-- Areas for improvement will be inserted here -->
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <h4 class="font-medium text-gray-700 mb-3">Knowledge Area Breakdown</h4>
-                        <div class="space-y-4">
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-sm text-gray-600">Editing Techniques</span>
-                                    <span id="editing-score" class="text-sm font-medium text-rose-600">85%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div id="editing-bar" class="skill-fill" style="width: 85%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-sm text-gray-600">Color Grading</span>
-                                    <span id="color-score" class="text-sm font-medium text-rose-600">70%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div id="color-bar" class="skill-fill" style="width: 70%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-sm text-gray-600">Transitions</span>
-                                    <span id="transitions-score" class="text-sm font-medium text-rose-600">90%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div id="transitions-bar" class="skill-fill" style="width: 90%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-sm text-gray-600">Audio Editing</span>
-                                    <span id="audio-score" class="text-sm font-medium text-rose-600">75%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div id="audio-bar" class="skill-fill" style="width: 75%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-sm text-gray-600">Motion Graphics</span>
-                                    <span id="motion-score" class="text-sm font-medium text-rose-600">80%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div id="motion-bar" class="skill-fill" style="width: 80%"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-gradient-to-r from-rose-50 to-pink-50 p-6 rounded-lg mb-8 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-32 h-32 -mt-10 -mr-10 bg-rose-100 rounded-full opacity-30"></div>
-                    <div class="relative z-10">
-                        <h3 class="font-semibold text-gray-800 mb-3">Next Steps</h3>
-                        <p class="text-gray-600 text-sm mb-4">Get your professional certificate to showcase your video editing skills!</p>
-                        <ul class="text-sm text-gray-600 space-y-2">
-                            <li class="flex items-start">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-rose-600 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                                </svg>
-                                <span>Verifiable digital certificate</span>
-                            </li>
-                            <li class="flex items-start">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-rose-600 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                </svg>
-                                <span>Add to your LinkedIn profile</span>
-                            </li>
-                            <li class="flex items-start">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-rose-600 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                </svg>
-                                <span>Download as PDF</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="flex justify-center">
-                    <button id="payment-btn" class="btn bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 text-white font-medium py-3 px-8 rounded-lg flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-                        </svg>
-                        Get Your Certificate ($24.99)
+                    <!-- Simulated payment button for demo purposes -->
+                    <button id="simulate-payment-btn" class="w-full px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">
+                        Simulate Payment (Demo)
                     </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Payment Modal -->
-        <div id="payment-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-            <div class="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full mx-4 scale-in">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-xl font-bold text-gray-800">Payment Details</h3>
-                    <button id="close-payment" class="text-gray-400 hover:text-gray-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
-                
-                <div class="mb-6">
-                    <div class="flex justify-between items-center p-4 bg-gradient-to-r from-rose-50 to-pink-50 rounded-lg mb-4">
-                        <div class="flex items-center">
-                            <div class="bg-rose-100 p-2 rounded-full mr-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-gray-800">Video Editing Certificate</h4>
-                                <p class="text-sm text-gray-600">Verifiable digital certificate</p>
-                            </div>
-                        </div>
-                        <span class="font-bold text-rose-600">$24.99</span>
-                    </div>
-                    
-                    <!-- This is a demo payment form -->
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Card Number</label>
-                            <input type="text" placeholder="1234 5678 9012 3456" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500">
-                        </div>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Expiry Date</label>
-                                <input type="text" placeholder="MM/YY" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">CVC</label>
-                                <input type="text" placeholder="123" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500">
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Name on Card</label>
-                            <input type="text" placeholder="John Doe" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                            <input type="email" placeholder="your@email.com" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500">
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="text-center">
-                    <button id="process-payment" class="btn w-full bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 text-white font-medium py-3 px-8 rounded-lg">
-                        Pay $24.99 and Get Certificate
-                    </button>
-                    <p class="text-xs text-gray-500 mt-4">This is a demo payment form. No actual payment will be processed.</p>
                 </div>
             </div>
         </div>
 
         <!-- Certificate Screen -->
-        <div id="certificate-screen" class="hidden">
-            <div class="max-w-4xl mx-auto">
-                <div id="confetti-container" class="fixed inset-0 pointer-events-none"></div>
-                
-                <div class="certificate p-8 md:p-12 rounded-xl mb-8">
-                    <div class="border-pattern absolute inset-4 rounded-lg opacity-10 pointer-events-none"></div>
-                    
-                    <div class="certificate-seal">
-                        <div class="certificate-seal-inner">
-                            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="50" cy="50" r="45" fill="none" stroke="#f43f5e" stroke-width="2" />
-                                <circle cx="50" cy="50" r="35" fill="none" stroke="#ec4899" stroke-width="2" stroke-dasharray="4 2" />
-                                <path d="M50 20 L53 35 L68 35 L56 45 L60 60 L50 50 L40 60 L44 45 L32 35 L47 35 Z" fill="#fff1f2" stroke="#f43f5e" stroke-width="1" />
-                            </svg>
+        <div id="certificate-screen" class="hidden min-h-screen bg-gray-100 p-4 md:p-8 flex flex-col items-center justify-center">
+            <div class="mb-6 text-center">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800">Your Certificate is Ready!</h2>
+                <p class="text-gray-600">Your certificate has been generated and will download automatically</p>
+            </div>
+            
+            <!-- Certificate Preview -->
+            <div id="certificate" class="w-full max-w-5xl certificate-border rounded-lg shadow-xl">
+                <div class="certificate-inner-border rounded-lg">
+                    <div class="certificate-content p-8 rounded-lg">
+                        <div class="watermark">SKILLEXA</div>
+                        
+                        <div class="flex justify-between items-start mb-6 relative z-10">
+                            <!-- Logo placeholder -->
+                            <div class="w-24 h-24 bg-gray-200 rounded flex items-center justify-center">
+                                <span class="text-gray-500 font-bold">SKILLEXA</span>
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <div class="text-right mr-4">
+                                    <h3 class="text-xl font-bold text-gray-800">CERTIFICATE</h3>
+                                    <p class="text-gray-600">OF ACHIEVEMENT</p>
+                                </div>
+                                <div class="w-12 h-12">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" class="w-full h-full">
+                                        <circle cx="48" cy="48" r="46" fill="#8b5cf6"/>
+                                        <path fill="#FFFFFF" d="M41,59.4l-12-12l-4.2,4.2L41,67.8l30.2-30.2l-4.2-4.2L41,59.4z"/>
+                                    </svg>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="text-center mb-8 relative">
-                        <div class="inline-block">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto" viewBox="0 0 24 24" fill="none" stroke="url(#cert-gradient)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
-                                <defs>
-                                    <linearGradient id="cert-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" stop-color="#f43f5e" />
-                                        <stop offset="100%" stop-color="#ec4899" />
-                                    </linearGradient>
-                                </defs>
-                                <path d="M23 7l-7 5 7 5V7z"></path>
-                                <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
-                            </svg>
+                        
+                        <div class="text-center mb-8 relative z-10">
+                            <h2 class="handwriting text-4xl text-gray-800 mb-1">Certificate of Excellence</h2>
+                            <p class="text-gray-600">This certifies that</p>
+                            <h3 id="certificate-name" class="handwriting text-3xl text-gray-800 my-3">John Doe</h3>
+                            <p class="text-gray-600 max-w-lg mx-auto">has successfully completed the Video Editing Skills Assessment with outstanding performance and is hereby recognized for their achievement.</p>
                         </div>
-                        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-4">Certificate of Achievement</h2>
-                        <p class="text-gray-600 mt-2">in Video Editing</p>
-                    </div>
-                    
-                    <div class="text-center mb-8">
-                        <p class="text-gray-600 mb-2">This certifies that</p>
-                        <h3 id="certificate-name" class="text-2xl font-bold gradient-text mb-2">John Doe</h3>
-                        <p class="text-gray-600">has successfully completed the</p>
-                        <h4 class="text-xl font-semibold text-gray-800 my-2">Video Editing Skills Assessment</h4>
-                        <p class="text-gray-600 mb-2">with a score of</p>
-                        <div class="inline-block bg-gradient-to-r from-rose-100 to-pink-100 px-4 py-2 rounded-full">
-                            <span id="certificate-score" class="text-xl font-bold gradient-text">85%</span>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 relative z-10">
+                            <div>
+                                <h4 class="font-bold text-gray-800 mb-2">Assessment Details</h4>
+                                <div class="space-y-2">
+                                    <div class="flex items-center">
+                                        <span class="text-gray-600 w-32">Skill:</span>
+                                        <span class="font-medium text-gray-800">Video Editing</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-gray-600 w-32">Total Score:</span>
+                                        <span id="certificate-score" class="font-medium text-gray-800">85/100</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-gray-600 w-32">Rank:</span>
+                                        <span id="certificate-rank" class="font-medium text-gray-800">Excellent</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-gray-600 w-32">Date:</span>
+                                        <span id="certificate-date" class="font-medium text-gray-800">May 15, 2024</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-gray-600 w-32">Certificate ID:</span>
+                                        <span id="certificate-id" class="font-medium text-gray-800">SKX-123456</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-bold text-gray-800 mb-2">Performance Breakdown</h4>
+                                <div id="certificate-categories" class="grid grid-cols-2 gap-2">
+                                    <!-- Will be populated dynamically -->
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="mb-8">
-                        <div class="grid grid-cols-5 gap-4 text-center">
-                            <div>
-                                <div class="bg-rose-100 p-2 rounded-full w-12 h-12 mx-auto mb-2 flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                    </svg>
-                                </div>
-                                <p class="text-xs text-gray-600">Editing Techniques</p>
-                                <p id="cert-editing" class="text-sm font-medium text-rose-600">85%</p>
+                        
+                        <div class="text-center my-4 relative z-10">
+                            <div class="handwriting text-2xl font-bold text-gray-400">SKILLEXA CERTIFIED 2025</div>
+                        </div>
+                        
+                        <div class="flex justify-between items-end mt-8 relative z-10">
+                            <div class="text-center">
+                                <div class="w-40 border-b border-gray-400 mb-1"></div>
+                                <p class="text-gray-800 font-medium">Jagdeep Kaur I</p>
+                                <p class="text-gray-600 text-sm">Founder</p>
                             </div>
-                            <div>
-                                <div class="bg-rose-100 p-2 rounded-full w-12 h-12 mx-auto mb-2 flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-                                    </svg>
-                                </div>
-                                <p class="text-xs text-gray-600">Color Grading</p>
-                                <p id="cert-color" class="text-sm font-medium text-rose-600">70%</p>
-                            </div>
-                            <div>
-                                <div class="bg-rose-100 p-2 rounded-full w-12 h-12 mx-auto mb-2 flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
-                                    </svg>
-                                </div>
-                                <p class="text-xs text-gray-600">Transitions</p>
-                                <p id="cert-transitions" class="text-sm font-medium text-rose-600">90%</p>
-                            </div>
-                            <div>
-                                <div class="bg-rose-100 p-2 rounded-full w-12 h-12 mx-auto mb-2 flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.536a5 5 0 001.414 1.414m0 0l-2.828 2.828a1 1 0 01-1.414 0l-.707-.707a1 1 0 010-1.414L5.88 14.828m9.9-9.9l2.828-2.828a1 1 0 011.414 0l.707.707a1 1 0 010 1.414L17.9 7.05m-9.9 9.9a9 9 0 010-12.728" />
-                                    </svg>
-                                </div>
-                                <p class="text-xs text-gray-600">Audio Editing</p>
-                                <p id="cert-audio" class="text-sm font-medium text-rose-600">75%</p>
-                            </div>
-                            <div>
-                                <div class="bg-rose-100 p-2 rounded-full w-12 h-12 mx-auto mb-2 flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
-                                    </svg>
-                                </div>
-                                <p class="text-xs text-gray-600">Motion Graphics</p>
-                                <p id="cert-motion" class="text-sm font-medium text-rose-600">80%</p>
+                            
+                            <div class="text-center">
+                                <div class="w-40 border-b border-gray-400 mb-1"></div>
+                                <p class="text-gray-800 font-medium">Prajapathi Srushti K</p>
+                                <p class="text-gray-600 text-sm">Co-Founder</p>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="flex justify-between items-end">
-                        <div>
-                            <svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10 25C15 15 25 30 30 20C35 10 45 25 50 15C55 5 65 20 70 10C75 0 85 15 90 5C95 -5 105 10 110 0" stroke="url(#signature-gradient)" stroke-width="2"/>
-                                <defs>
-                                    <linearGradient id="signature-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                        <stop offset="0%" stop-color="#f43f5e" />
-                                        <stop offset="100%" stop-color="#ec4899" />
-                                    </linearGradient>
-                                </defs>
-                            </svg>
-                            <div class="h-px w-40 bg-gray-300 mb-2"></div>
-                            <p class="text-sm text-gray-600">Authorized Signature</p>
-                        </div>
-                        <div class="text-right">
-                            <p id="certificate-date" class="text-sm text-gray-600">June 15, 2023</p>
-                            <p class="text-sm text-gray-600">Date Issued</p>
-                        </div>
-                    </div>
-                    
-                    <div class="absolute bottom-4 right-4">
-                        <div class="flex items-center text-xs text-gray-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                            <span id="certificate-id">ID: VIDEO-2023-12345</span>
-                        </div>
-                    </div>
-                    
-                    <div class="certificate-ribbon"></div>
                 </div>
-                
-                <div class="flex flex-wrap justify-center gap-4">
-                    <button id="download-btn" class="btn bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 text-white font-medium py-3 px-6 rounded-lg flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                        </svg>
-                        Download Certificate
-                    </button>
-                    <button id="share-btn" class="btn bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-3 px-6 rounded-lg flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                        </svg>
-                        Share Certificate
-                    </button>
-                </div>
+            </div>
+            
+            <div class="mt-8">
+                <button id="download-again-btn" class="px-6 py-3 bg-gradient-to-r from-pink-600 to-purple-600 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">
+                    Download Certificate Again
+                </button>
             </div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Quiz data
-            const quizData = [
+            // Quiz questions data
+            const quizQuestions = [
                 {
-                    question: "What is the primary purpose of video editing?",
+                    category: "Video Composition",
+                    question: "What is the rule of thirds in video composition?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+                          </svg>`,
                     options: [
-                        "To make videos longer",
-                        "To arrange and manipulate video shots to create a cohesive story",
-                        "To add special effects to every scene",
-                        "To increase video resolution"
+                        "A compositional guideline that divides the frame into nine equal parts with two horizontal and two vertical lines, placing key elements along these lines or at their intersections",
+                        "A rule stating that only one-third of the frame should contain the subject",
+                        "A technique where you must include exactly three subjects in every shot",
+                        "A principle that requires filming three takes of every scene"
                     ],
-                    answer: 1,
-                    category: "Editing"
+                    correctAnswer: 0
                 },
                 {
+                    category: "Video Composition",
+                    question: "What is the purpose of establishing shots in video editing?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+                          </svg>`,
+                    options: [
+                        "To orient viewers to the location, setting, or context of a scene before moving into more detailed shots",
+                        "To establish the credibility of the filmmaker",
+                        "To test camera settings before filming the actual scene",
+                        "To establish copyright for the footage being shot"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Video Composition",
+                    question: "What is the 180-degree rule in filmmaking?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+                          </svg>`,
+                    options: [
+                        "A guideline that keeps the camera on one side of an imaginary line between two subjects to maintain consistent spatial relationships and screen direction",
+                        "A rule stating that the camera must rotate 180 degrees between shots",
+                        "A principle requiring all scenes to be filmed with exactly 180-degree field of view",
+                        "A technique where the camera must capture a half-circle around the subject"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Editing Techniques",
                     question: "What is a J-cut in video editing?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                          </svg>`,
                     options: [
-                        "A cut where the audio from the next scene starts before the video",
-                        "A cut that forms a J-shape on the timeline",
-                        "A cut that jumps between two scenes rapidly",
-                        "A cut that gradually fades to black"
+                        "A transition where the audio from the next scene begins before the video cuts to it, allowing the audience to hear what's coming before they see it",
+                        "A cut shaped like the letter J when viewed in an editing timeline",
+                        "A technique where the camera follows a J-shaped movement path",
+                        "A cut that must be performed exactly 10 frames from the previous cut"
                     ],
-                    answer: 0,
-                    category: "Editing"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What does 'color grading' refer to in video editing?",
+                    category: "Editing Techniques",
+                    question: "What is the purpose of a montage in video editing?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                          </svg>`,
                     options: [
-                        "Organizing video clips by color",
-                        "The process of altering and enhancing the color of a video",
-                        "Removing all color to create black and white footage",
-                        "Adding colored text overlays"
+                        "To compress time by showing a series of shots that represent a longer sequence of events, often set to music to convey development or transformation",
+                        "To slow down the pace of the video to create tension",
+                        "To showcase the editor's technical skills with complex transitions",
+                        "To fill time when there isn't enough footage for a scene"
                     ],
-                    answer: 1,
-                    category: "Color"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is the 180-degree rule in film editing?",
+                    category: "Editing Techniques",
+                    question: "What is the concept of 'cutting on action' in video editing?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                          </svg>`,
                     options: [
-                        "All camera shots must be taken from a 180-degree angle",
-                        "The camera should rotate 180 degrees during a scene",
-                        "A guideline that keeps the camera on one side of an imaginary line between subjects",
-                        "Videos should be exactly 180 seconds long"
+                        "Making a cut during a subject's movement or action to create a smoother, less noticeable transition between shots",
+                        "Only cutting footage when there is significant action happening on screen",
+                        "Removing all scenes without action to keep the video fast-paced",
+                        "Using action movie techniques in other genres of video"
                     ],
-                    answer: 2,
-                    category: "Editing"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is a 'dissolve' transition?",
+                    category: "Color Grading",
+                    question: "What is the difference between color correction and color grading?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                          </svg>`,
                     options: [
-                        "When one scene gradually fades into another",
-                        "When a scene breaks into pieces",
-                        "When a scene rotates out of frame",
-                        "When a scene quickly cuts to black"
+                        "Color correction is the technical process of fixing exposure and white balance issues to make footage look natural, while color grading is the creative process of establishing a specific look or mood through color manipulation",
+                        "Color correction is for amateur videos, while color grading is only for professional productions",
+                        "Color correction is done in camera, while color grading is done in post-production",
+                        "Color correction is for black and white footage, while color grading is for color footage"
                     ],
-                    answer: 0,
-                    category: "Transitions"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is the purpose of 'normalization' in audio editing for video?",
+                    category: "Color Grading",
+                    question: "What is a LUT in color grading?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                          </svg>`,
                     options: [
-                        "To make all audio sound the same",
-                        "To remove all background noise",
-                        "To adjust the volume of audio to a standard level",
-                        "To synchronize audio with video"
+                        "Look-Up Table - a preset file that transforms the color and tone of footage by remapping RGB values, allowing for consistent color treatments across multiple clips",
+                        "Light Under Tone - a technique for brightening shadows in dark footage",
+                        "Luminance Unified Treatment - a method for ensuring consistent brightness across scenes",
+                        "Layered Underlying Tint - a way to add subtle color tints to specific areas of the frame"
                     ],
-                    answer: 2,
-                    category: "Audio"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What does 'keyframing' refer to in motion graphics?",
+                    category: "Color Grading",
+                    question: "What is the purpose of a color grade with a 'teal and orange' look?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                          </svg>`,
                     options: [
-                        "The most important frames in a video",
-                        "Setting specific points where animation properties are defined",
-                        "The first frame of every scene",
-                        "A technique to lock the camera position"
+                        "To create visual contrast by pushing shadows toward teal/blue and highlights toward orange/amber, making skin tones pop against backgrounds and creating a cinematic look",
+                        "To mimic the colors of water and fire for action sequences",
+                        "To follow a popular trend without any specific visual purpose",
+                        "To correct for the natural blue tint of digital camera sensors"
                     ],
-                    answer: 1,
-                    category: "Motion"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is the difference between RGB and CMYK color models?",
+                    category: "Audio Editing",
+                    question: "What is the purpose of 'room tone' in audio editing for video?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.536a5 5 0 001.414 1.414m2.828-9.9a9 9 0 012.828-2.828" />
+                          </svg>`,
                     options: [
-                        "RGB is for video, CMYK is for print",
-                        "RGB uses 3 colors, CMYK uses 4 colors",
-                        "RGB is additive, CMYK is subtractive",
-                        "All of the above"
+                        "A recording of the ambient sound in a location when no one is speaking, used to fill gaps in dialogue editing and maintain audio consistency",
+                        "A technique to make dialogue sound more reverberant and room-like",
+                        "The process of adjusting audio levels to match the size of the room shown on screen",
+                        "A special effect that makes outdoor scenes sound like they were recorded indoors"
                     ],
-                    answer: 3,
-                    category: "Color"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is a 'jump cut'?",
+                    category: "Audio Editing",
+                    question: "What is the purpose of audio normalization in video editing?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.536a5 5 0 001.414 1.414m2.828-9.9a9 9 0 012.828-2.828" />
+                          </svg>`,
                     options: [
-                        "A transition where the subject appears to jump across the screen",
-                        "A cut between two sequential shots of the same subject with a noticeable difference in framing",
-                        "A cut that jumps forward in time",
-                        "A cut that uses a jumping animation"
+                        "To adjust the overall volume of audio clips so that the peak amplitude reaches a target level, helping to maintain consistent volume levels throughout a video",
+                        "To make all sounds in a video equally loud regardless of their original recording levels",
+                        "To remove all abnormal sounds from the audio track",
+                        "To convert stereo audio to mono for better compatibility"
                     ],
-                    answer: 1,
-                    category: "Editing"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is the purpose of a 'wipe' transition?",
+                    category: "Audio Editing",
+                    question: "What is a 'fade out' in audio editing?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.536a5 5 0 001.414 1.414m2.828-9.9a9 9 0 012.828-2.828" />
+                          </svg>`,
                     options: [
-                        "To clean up the video frame",
-                        "To gradually reveal the next scene by moving a line across the screen",
-                        "To remove unwanted elements from a scene",
-                        "To create a blurry effect between scenes"
+                        "A gradual decrease in audio volume over time, typically used at the end of a scene or music track to create a smooth transition",
+                        "A technique where high frequencies are gradually removed from the audio",
+                        "The process of removing an actor's voice from a scene",
+                        "A method of making background sounds less noticeable during dialogue"
                     ],
-                    answer: 1,
-                    category: "Transitions"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is 'foley' in audio editing?",
+                    category: "Motion Graphics",
+                    question: "What are lower thirds in video production?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                          </svg>`,
                     options: [
-                        "A type of background music",
-                        "The reproduction of everyday sound effects added in post-production",
-                        "A technique to remove echo",
-                        "Voice-over narration"
+                        "Graphic elements that appear in the lower third of the screen, typically displaying information such as a person's name, title, or location",
+                        "The bottom third of a video frame that must always be kept clear of important visual elements",
+                        "A technique where only one-third of the screen shows motion graphics",
+                        "Graphics that appear for exactly one-third of the video's duration"
                     ],
-                    answer: 1,
-                    category: "Audio"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What does 'rendering' mean in video editing?",
+                    category: "Motion Graphics",
+                    question: "What is keyframing in motion graphics?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                          </svg>`,
                     options: [
-                        "Drawing storyboards for a video",
-                        "The process of finalizing edits and exporting the video",
-                        "Adding special effects to a scene",
-                        "Converting video from one format to another"
+                        "The process of setting specific values for properties (like position, scale, or opacity) at specific points in time, with the software automatically calculating the in-between values to create animation",
+                        "Using a special key to unlock premium animation features in editing software",
+                        "The technique of highlighting the most important frame in a sequence",
+                        "A method of securing motion graphics with encryption"
                     ],
-                    answer: 1,
-                    category: "Editing"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is 'chroma keying' used for?",
+                    category: "Motion Graphics",
+                    question: "What is the purpose of easing in animation?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                          </svg>`,
                     options: [
-                        "Adjusting the color temperature of a scene",
-                        "Removing a specific color from a video to create transparency",
-                        "Adding color to black and white footage",
-                        "Creating a color grading preset"
+                        "To make animations look more natural by gradually accelerating or decelerating objects rather than moving at a constant speed",
+                        "To reduce the file size of animated elements",
+                        "To simplify complex animations for faster rendering",
+                        "To make animations easier to edit after they've been created"
                     ],
-                    answer: 1,
-                    category: "Color"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is a 'match cut'?",
+                    category: "Software Proficiency",
+                    question: "What is the primary function of Adobe Premiere Pro?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                          </svg>`,
                     options: [
-                        "A cut where two visually similar elements are matched across scenes",
-                        "A cut that matches the audio perfectly",
-                        "A cut that creates a perfect loop",
-                        "A cut that matches the color grading between scenes"
+                        "A non-linear video editing software used for editing, color correction, audio editing, and exporting video projects",
+                        "A 3D animation program for creating animated characters",
+                        "A tool specifically designed for audio mixing and mastering",
+                        "A software used primarily for photo editing and manipulation"
                     ],
-                    answer: 0,
-                    category: "Transitions"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is 'EQ' in audio editing?",
+                    category: "Software Proficiency",
+                    question: "What is the purpose of DaVinci Resolve's 'nodes' system?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                          </svg>`,
                     options: [
-                        "Equal Quality - a measure of audio clarity",
-                        "Equalization - adjusting the balance between frequency components",
-                        "Echo Quotient - the amount of echo in audio",
-                        "Editing Queue - the order of audio clips"
+                        "To provide a non-linear approach to color grading where each node represents a separate color operation that can be adjusted independently and built upon in a tree-like structure",
+                        "To connect different computers for network rendering",
+                        "To organize project files into separate folders",
+                        "To link audio and video files together"
                     ],
-                    answer: 1,
-                    category: "Audio"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is 'tweening' in motion graphics?",
+                    category: "Software Proficiency",
+                    question: "What is the purpose of proxies in video editing workflows?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                          </svg>`,
                     options: [
-                        "Adding text between scenes",
-                        "Creating intermediate frames between two keyframes",
-                        "Adjusting the speed of a clip",
-                        "Adding a teen-focused filter"
+                        "Lower-resolution, compressed versions of original footage that are used during editing to reduce system load and improve performance, while the final export uses the original high-quality files",
+                        "Stand-in actors used during filming before the main talent arrives",
+                        "Temporary files that are deleted after the project is complete",
+                        "Backup copies of project files stored on remote servers"
                     ],
-                    answer: 1,
-                    category: "Motion"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is the 'rule of thirds' in video composition?",
+                    category: "Video Composition",
+                    question: "What is the purpose of the 'golden ratio' in composition?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+                          </svg>`,
                     options: [
-                        "Dividing a scene into three equal parts",
-                        "Using only three colors in a scene",
-                        "A guideline that places subjects at the intersection of a 3x3 grid",
-                        "Limiting scenes to three seconds"
+                        "A mathematical ratio (approximately 1:1.618) that creates aesthetically pleasing compositions when used to determine the placement of elements within the frame",
+                        "A requirement that all videos must be filmed using gold-colored filters",
+                        "A rule stating that the most expensive prop should appear in the center of the frame",
+                        "A principle that the most important scene should occur exactly 61.8% into the video"
                     ],
-                    answer: 2,
-                    category: "Editing"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is 'LUT' in color grading?",
+                    category: "Editing Techniques",
+                    question: "What is 'match cutting' in film editing?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                          </svg>`,
                     options: [
-                        "Light Under Tone - a lighting technique",
-                        "Look-Up Table - a preset for color transformation",
-                        "Luminance Unified Treatment - a brightness adjustment",
-                        "Linear Undertone - a color theory concept"
+                        "A cut between two different scenes where visual elements are matched for a smooth transition, such as matching the shape, action, or subject across the cut",
+                        "The process of ensuring that lighting matches between different shots of the same scene",
+                        "Cutting footage to match the beat of the background music",
+                        "A technique where two editors compete to create the best cut of a scene"
                     ],
-                    answer: 1,
-                    category: "Color"
+                    correctAnswer: 0
                 },
                 {
-                    question: "What is a 'cross dissolve' transition?",
+                    category: "Color Grading",
+                    question: "What is the purpose of a 'vignette' effect in color grading?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                          </svg>`,
                     options: [
-                        "A transition where scenes cross over each other",
-                        "A transition where one scene gradually fades out while another fades in",
-                        "A transition that creates an X shape",
-                        "A transition that dissolves from the center outward"
+                        "To darken the edges of the frame to draw the viewer's attention to the center of the image and create a more focused, dramatic, or vintage look",
+                        "To create a bright halo around the main subject",
+                        "To add a film grain effect to digital footage",
+                        "To correct for lens distortion in wide-angle shots"
                     ],
-                    answer: 1,
-                    category: "Transitions"
-                },
-                {
-                    question: "What is 'compression' in audio editing?",
-                    options: [
-                        "Making the audio file size smaller",
-                        "Reducing the dynamic range of audio signals",
-                        "Combining multiple audio tracks",
-                        "Shortening the duration of audio"
-                    ],
-                    answer: 1,
-                    category: "Audio"
-                },
-                {
-                    question: "What is 'easing' in motion graphics animation?",
-                    options: [
-                        "Making animations slower",
-                        "Gradually reducing the opacity of elements",
-                        "Adjusting the acceleration and deceleration of animations",
-                        "Simplifying complex animations"
-                    ],
-                    answer: 2,
-                    category: "Motion"
-                },
-                {
-                    question: "What is 'B-roll' footage?",
-                    options: [
-                        "Backup footage in case the main footage is damaged",
-                        "Secondary footage that supplements the main footage",
-                        "Footage shot in black and white",
-                        "Footage shot below sea level"
-                    ],
-                    answer: 1,
-                    category: "Editing"
-                },
-                {
-                    question: "What is 'white balance' in video color correction?",
-                    options: [
-                        "Ensuring all whites in the scene are perfectly white",
-                        "Balancing the amount of white space in a frame",
-                        "Adjusting the color temperature to make whites appear neutral",
-                        "Adding white borders to a video"
-                    ],
-                    answer: 2,
-                    category: "Color"
-                },
-                {
-                    question: "What is a 'morph cut' transition?",
-                    options: [
-                        "A cut that transforms one shape into another",
-                        "A cut that blends two similar shots to hide a jump cut",
-                        "A cut that changes the aspect ratio",
-                        "A cut that adds a morphing effect to text"
-                    ],
-                    answer: 1,
-                    category: "Transitions"
-                },
-                {
-                    question: "What is 'ADR' in audio editing for video?",
-                    options: [
-                        "Audio Digital Remastering",
-                        "Automated Dynamic Range",
-                        "Additional Dialogue Recording",
-                        "Audio Distortion Reduction"
-                    ],
-                    answer: 2,
-                    category: "Audio"
+                    correctAnswer: 0
                 }
             ];
 
+            // Variables to track quiz state
+            let currentUser = {
+                name: "",
+                email: ""
+            };
+            let currentQuestionIndex = 0;
+            let userAnswers = new Array(quizQuestions.length).fill(null);
+            let quizTimer;
+            let timeRemaining = 15 * 60; // 15 minutes in seconds
+
             // DOM elements
-            const welcomeScreen = document.getElementById('welcome-screen');
+            const loginScreen = document.getElementById('login-screen');
+            const categoryPreview = document.getElementById('category-preview');
             const quizScreen = document.getElementById('quiz-screen');
             const resultsScreen = document.getElementById('results-screen');
-            const paymentModal = document.getElementById('payment-modal');
             const certificateScreen = document.getElementById('certificate-screen');
             
-            const startBtn = document.getElementById('start-btn');
+            const loginForm = document.getElementById('login-form');
+            const startQuizBtn = document.getElementById('start-quiz-btn');
             const prevBtn = document.getElementById('prev-btn');
             const nextBtn = document.getElementById('next-btn');
-            const skipBtn = document.getElementById('skip-btn');
-            const paymentBtn = document.getElementById('payment-btn');
-            const closePaymentBtn = document.getElementById('close-payment');
-            const processPaymentBtn = document.getElementById('process-payment');
-            const downloadBtn = document.getElementById('download-btn');
-            const shareBtn = document.getElementById('share-btn');
+            const simulatePaymentBtn = document.getElementById('simulate-payment-btn');
+            const downloadAgainBtn = document.getElementById('download-again-btn');
             
-            const currentQuestionEl = document.getElementById('current-question');
-            const questionTextEl = document.getElementById('question-text');
-            const optionsContainerEl = document.getElementById('options-container');
-            const progressFillEl = document.getElementById('progress-fill');
-            const timerEl = document.getElementById('timer');
-            const questionNavEl = document.getElementById('question-nav');
-            
-            // Quiz state
-            let currentQuestion = 0;
-            let score = 0;
-            let userAnswers = Array(quizData.length).fill(null);
-            let timerInterval;
-            let timeLeft = 30 * 60; // 30 minutes in seconds
-            
-            // Start quiz
-            startBtn.addEventListener('click', function() {
-                welcomeScreen.classList.add('hidden');
+            const questionContainer = document.getElementById('question-container');
+            const questionIcon = document.getElementById('question-icon');
+            const questionText = document.getElementById('question-text');
+            const optionsContainer = document.getElementById('options-container');
+            const currentQuestionElement = document.getElementById('current-question');
+            const progressPercentElement = document.getElementById('progress-percent');
+            const progressBarElement = document.getElementById('progress-bar');
+            const timerElement = document.getElementById('timer');
+            const timerBarElement = document.getElementById('timer-bar');
+
+            // Event listeners
+            loginForm.addEventListener('submit', handleLogin);
+            startQuizBtn.addEventListener('click', startQuiz);
+            prevBtn.addEventListener('click', showPreviousQuestion);
+            nextBtn.addEventListener('click', handleNextQuestion);
+            simulatePaymentBtn.addEventListener('click', handlePayment);
+            downloadAgainBtn.addEventListener('click', downloadCertificate);
+
+            // Functions
+            function handleLogin(e) {
+                e.preventDefault();
+                currentUser.name = document.getElementById('fullName').value;
+                currentUser.email = document.getElementById('email').value;
+                
+                // Store user info in localStorage
+                localStorage.setItem('userName', currentUser.name);
+                localStorage.setItem('userEmail', currentUser.email);
+                
+                // Show category preview
+                loginScreen.classList.add('hidden');
+                categoryPreview.classList.remove('hidden');
+            }
+
+            function startQuiz() {
+                categoryPreview.classList.add('hidden');
                 quizScreen.classList.remove('hidden');
-                loadQuestion(currentQuestion);
-                createQuestionNav();
+                
+                // Start the timer
                 startTimer();
-            });
-            
-            // Create question navigation
-            function createQuestionNav() {
-                questionNavEl.innerHTML = '';
                 
-                for (let i = 0; i < quizData.length; i++) {
-                    const navBtn = document.createElement('button');
-                    navBtn.className = `w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${i === currentQuestion ? 'bg-gradient-to-r from-rose-600 to-pink-600 text-white' : userAnswers[i] !== null ? 'bg-rose-100 text-rose-800' : 'bg-gray-200 text-gray-600'}`;
-                    navBtn.textContent = i + 1;
-                    
-                    navBtn.addEventListener('click', function() {
-                        currentQuestion = i;
-                        loadQuestion(currentQuestion);
-                        updateQuestionNav();
-                    });
-                    
-                    questionNavEl.appendChild(navBtn);
-                }
+                // Show first question
+                showQuestion(0);
+                updateQuizProgress();
             }
-            
-            // Update question navigation
-            function updateQuestionNav() {
-                const navBtns = questionNavEl.querySelectorAll('button');
-                
-                navBtns.forEach((btn, i) => {
-                    btn.className = `w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${i === currentQuestion ? 'bg-gradient-to-r from-rose-600 to-pink-600 text-white' : userAnswers[i] !== null ? 'bg-rose-100 text-rose-800' : 'bg-gray-200 text-gray-600'}`;
-                });
-            }
-            
-            // Load question
-            function loadQuestion(index) {
-                const question = quizData[index];
-                questionTextEl.textContent = question.question;
-                currentQuestionEl.textContent = index + 1;
-                
-                // Update progress bar
-                const progress = ((index + 1) / quizData.length) * 100;
-                progressFillEl.style.width = `${progress}%`;
-                
-                // Clear previous options
-                optionsContainerEl.innerHTML = '';
-                
-                // Add options with animation
-                question.options.forEach((option, i) => {
-                    const optionBtn = document.createElement('button');
-                    optionBtn.className = `option-btn w-full text-left p-4 rounded-lg slide-in ${userAnswers[index] === i ? 'selected' : ''}`;
-                    optionBtn.style.animationDelay = `${i * 0.1}s`;
-                    optionBtn.innerHTML = `
-                        <div class="flex items-center">
-                            <div class="w-6 h-6 rounded-full border-2 border-gray-300 flex items-center justify-center mr-3 ${userAnswers[index] === i ? 'bg-rose-600 border-rose-600' : ''}">
-                                ${userAnswers[index] === i ? '<div class="w-2 h-2 rounded-full bg-white"></div>' : ''}
-                            </div>
-                            <span>${option}</span>
-                        </div>
-                    `;
-                    
-                    optionBtn.addEventListener('click', function() {
-                        selectOption(index, i);
-                    });
-                    
-                    optionsContainerEl.appendChild(optionBtn);
-                });
-                
-                // Update button states
-                prevBtn.disabled = index === 0;
-                prevBtn.classList.toggle('opacity-50', index === 0);
-                
-                if (index === quizData.length - 1) {
-                    nextBtn.textContent = 'Finish';
-                    nextBtn.innerHTML = 'Finish <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>';
-                } else {
-                    nextBtn.textContent = 'Next';
-                    nextBtn.innerHTML = 'Next <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>';
-                }
-            }
-            
-            // Select option
-            function selectOption(questionIndex, optionIndex) {
-                userAnswers[questionIndex] = optionIndex;
-                loadQuestion(questionIndex);
-                updateQuestionNav();
-            }
-            
-            // Navigation
-            prevBtn.addEventListener('click', function() {
-                if (currentQuestion > 0) {
-                    currentQuestion--;
-                    loadQuestion(currentQuestion);
-                    updateQuestionNav();
-                }
-            });
-            
-            nextBtn.addEventListener('click', function() {
-                if (currentQuestion < quizData.length - 1) {
-                    currentQuestion++;
-                    loadQuestion(currentQuestion);
-                    updateQuestionNav();
-                } else {
-                    finishQuiz();
-                }
-            });
-            
-            skipBtn.addEventListener('click', function() {
-                if (currentQuestion < quizData.length - 1) {
-                    currentQuestion++;
-                    loadQuestion(currentQuestion);
-                    updateQuestionNav();
-                } else {
-                    finishQuiz();
-                }
-            });
-            
-            // Timer
+
             function startTimer() {
-                timerInterval = setInterval(function() {
-                    timeLeft--;
+                updateTimerDisplay();
+                quizTimer = setInterval(() => {
+                    timeRemaining--;
+                    updateTimerDisplay();
                     
-                    const minutes = Math.floor(timeLeft / 60);
-                    const seconds = timeLeft % 60;
-                    
-                    timerEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                    
-                    if (timeLeft <= 300) { // 5 minutes left
-                        timerEl.classList.add('text-red-600', 'timer-warning');
-                    }
-                    
-                    if (timeLeft <= 0) {
-                        clearInterval(timerInterval);
-                        finishQuiz();
+                    if (timeRemaining <= 0) {
+                        clearInterval(quizTimer);
+                        submitQuiz();
                     }
                 }, 1000);
             }
-            
-            // Finish quiz
-            function finishQuiz() {
-                clearInterval(timerInterval);
+
+            function updateTimerDisplay() {
+                const minutes = Math.floor(timeRemaining / 60);
+                const seconds = timeRemaining % 60;
+                timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
                 
-                // Calculate score
-                score = 0;
-                userAnswers.forEach((answer, index) => {
-                    if (answer === quizData[index].answer) {
-                        score++;
-                    }
+                // Update timer bar
+                const percentRemaining = (timeRemaining / (15 * 60)) * 100;
+                timerBarElement.style.width = `${percentRemaining}%`;
+                
+                // Change color based on time remaining
+                if (percentRemaining > 60) {
+                    timerBarElement.className = 'timer-bar bg-gradient-to-r from-indigo-500 to-purple-400 h-2 rounded-full';
+                } else if (percentRemaining > 30) {
+                    timerBarElement.className = 'timer-bar bg-gradient-to-r from-yellow-400 to-orange-400 h-2 rounded-full';
+                } else {
+                    timerBarElement.className = 'timer-bar bg-gradient-to-r from-red-600 to-red-400 h-2 rounded-full';
+                }
+            }
+
+            function showQuestion(index) {
+                const question = quizQuestions[index];
+                
+                // Update question content
+                questionIcon.innerHTML = question.icon;
+                questionText.textContent = question.question;
+                
+                // Clear previous options
+                optionsContainer.innerHTML = '';
+                
+                // Add new options
+                question.options.forEach((option, i) => {
+                    const optionElement = document.createElement('div');
+                    optionElement.className = `quiz-option p-4 border border-white border-opacity-20 rounded-lg cursor-pointer transition-colors ${userAnswers[index] === i ? 'selected' : ''}`;
+                    optionElement.innerHTML = `
+                        <div class="flex items-center">
+                            <div class="w-6 h-6 rounded-full border-2 border-white border-opacity-60 flex items-center justify-center mr-3">
+                                ${userAnswers[index] === i ? '<div class="w-3 h-3 rounded-full bg-indigo-400"></div>' : ''}
+                            </div>
+                            <span class="text-white">${option}</span>
+                        </div>
+                    `;
+                    
+                    optionElement.addEventListener('click', () => {
+                        // Remove selected class from all options
+                        document.querySelectorAll('.quiz-option').forEach(opt => {
+                            opt.classList.remove('selected');
+                            opt.querySelector('.w-6').innerHTML = '';
+                        });
+                        
+                        // Add selected class to clicked option
+                        optionElement.classList.add('selected');
+                        optionElement.querySelector('.w-6').innerHTML = '<div class="w-3 h-3 rounded-full bg-indigo-400"></div>';
+                        
+                        // Save answer
+                        userAnswers[index] = i;
+                        
+                        // Enable next button if it was disabled
+                        nextBtn.disabled = false;
+                    });
+                    
+                    optionsContainer.appendChild(optionElement);
                 });
                 
-                const scorePercentage = Math.round((score / quizData.length) * 100);
+                // Update current question index
+                currentQuestionIndex = index;
                 
-                // Calculate category scores
-                const categories = {
-                    "Editing": { correct: 0, total: 0 },
-                    "Color": { correct: 0, total: 0 },
-                    "Transitions": { correct: 0, total: 0 },
-                    "Audio": { correct: 0, total: 0 },
-                    "Motion": { correct: 0, total: 0 }
-                };
+                // Update navigation buttons
+                prevBtn.disabled = index === 0;
+                nextBtn.textContent = index === quizQuestions.length - 1 ? 'Submit' : 'Next';
                 
-                quizData.forEach((question, index) => {
-                    const category = question.category;
-                    if (categories[category]) {
-                        categories[category].total++;
-                        if (userAnswers[index] === question.answer) {
-                            categories[category].correct++;
-                        }
-                    }
-                });
+                // Disable next button if no answer selected
+                nextBtn.disabled = userAnswers[index] === null;
                 
-                // Calculate category percentages
-                const categoryScores = {};
-                for (const [category, data] of Object.entries(categories)) {
-                    if (data.total > 0) {
-                        categoryScores[category] = Math.round((data.correct / data.total) * 100);
-                    } else {
-                        categoryScores[category] = 0;
-                    }
+                // Update progress indicators
+                currentQuestionElement.textContent = index + 1;
+                const progressPercent = Math.round(((index + 1) / quizQuestions.length) * 100);
+                progressPercentElement.textContent = progressPercent;
+                progressBarElement.style.width = `${progressPercent}%`;
+                
+                // Add animation
+                questionContainer.classList.remove('scale-in');
+                void questionContainer.offsetWidth; // Trigger reflow
+                questionContainer.classList.add('scale-in');
+            }
+
+            function showPreviousQuestion() {
+                if (currentQuestionIndex > 0) {
+                    showQuestion(currentQuestionIndex - 1);
                 }
-                
-                // Find strengths and areas for improvement
-                const strengths = [];
-                const improvements = [];
-                
-                for (const [category, percentage] of Object.entries(categoryScores)) {
-                    if (percentage >= 80) {
-                        strengths.push(`${category} (${percentage}% correct)`);
-                    } else if (percentage < 70) {
-                        improvements.push(`${category} (${percentage}% correct)`);
-                    }
-                }
-                
-                // Update results screen
-                document.getElementById('score-percentage').textContent = `${scorePercentage}%`;
-                document.getElementById('correct-answers').textContent = score;
-                
-                const minutes = Math.floor((30 * 60 - timeLeft) / 60);
-                const seconds = (30 * 60 - timeLeft) % 60;
-                document.getElementById('time-taken').textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                
-                // Set result message based on score
-                const resultMessage = document.getElementById('result-message');
-                if (scorePercentage >= 80) {
-                    resultMessage.textContent = 'Excellent! You have strong video editing skills.';
-                } else if (scorePercentage >= 60) {
-                    resultMessage.textContent = 'Good job! You have solid video editing skills.';
+            }
+
+            function handleNextQuestion() {
+                if (currentQuestionIndex < quizQuestions.length - 1) {
+                    showQuestion(currentQuestionIndex + 1);
                 } else {
-                    resultMessage.textContent = 'You have completed the assessment. There\'s room for improvement in your video editing skills.';
+                    submitQuiz();
                 }
+            }
+
+            function updateQuizProgress() {
+                const answeredCount = userAnswers.filter(answer => answer !== null).length;
+                const progressPercent = Math.round((answeredCount / quizQuestions.length) * 100);
+                progressPercentElement.textContent = progressPercent;
+                progressBarElement.style.width = `${progressPercent}%`;
+            }
+
+            function submitQuiz() {
+                // Stop the timer
+                clearInterval(quizTimer);
                 
-                // Update strengths and improvements
-                const strengthsEl = document.getElementById('strengths');
-                strengthsEl.innerHTML = '';
+                // Calculate results
+                const results = calculateResults();
                 
-                if (strengths.length > 0) {
-                    strengths.forEach(strength => {
-                        const div = document.createElement('div');
-                        div.className = 'flex items-start mb-2';
-                        div.innerHTML = `
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span>${strength}</span>
-                        `;
-                        strengthsEl.appendChild(div);
-                    });
-                } else {
-                    strengthsEl.innerHTML = '<p class="text-gray-500">Keep practicing to develop your video editing strengths!</p>';
-                }
+                // Display results
+                displayResults(results);
                 
-                const improvementsEl = document.getElementById('improvements');
-                improvementsEl.innerHTML = '';
-                
-                if (improvements.length > 0) {
-                    improvements.forEach(improvement => {
-                        const div = document.createElement('div');
-                        div.className = 'flex items-start mb-2';
-                        div.innerHTML = `
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                            </svg>
-                            <span>${improvement}</span>
-                        `;
-                        improvementsEl.appendChild(div);
-                    });
-                } else {
-                    improvementsEl.innerHTML = '<p class="text-gray-500">Great job! No significant areas for improvement.</p>';
-                }
-                
-                // Update skill bars
-                document.getElementById('editing-score').textContent = `${categoryScores.Editing}%`;
-                document.getElementById('editing-bar').style.width = `${categoryScores.Editing}%`;
-                
-                document.getElementById('color-score').textContent = `${categoryScores.Color}%`;
-                document.getElementById('color-bar').style.width = `${categoryScores.Color}%`;
-                
-                document.getElementById('transitions-score').textContent = `${categoryScores.Transitions}%`;
-                document.getElementById('transitions-bar').style.width = `${categoryScores.Transitions}%`;
-                
-                document.getElementById('audio-score').textContent = `${categoryScores.Audio}%`;
-                document.getElementById('audio-bar').style.width = `${categoryScores.Audio}%`;
-                
-                document.getElementById('motion-score').textContent = `${categoryScores.Motion}%`;
-                document.getElementById('motion-bar').style.width = `${categoryScores.Motion}%`;
-                
-                // Show results screen
+                // Hide quiz screen and show results screen
                 quizScreen.classList.add('hidden');
                 resultsScreen.classList.remove('hidden');
             }
-            
-            // Payment modal
-            paymentBtn.addEventListener('click', function() {
-                paymentModal.classList.remove('hidden');
-            });
-            
-            closePaymentBtn.addEventListener('click', function() {
-                paymentModal.classList.add('hidden');
-            });
-            
-            processPaymentBtn.addEventListener('click', function() {
-                paymentModal.classList.add('hidden');
-                resultsScreen.classList.add('hidden');
-                certificateScreen.classList.remove('hidden');
-                
-                // Set certificate details
-                const scorePercentage = Math.round((score / quizData.length) * 100);
-                document.getElementById('certificate-score').textContent = `${scorePercentage}%`;
-                
-                // Calculate category scores for certificate
-                const categories = {
-                    "Editing": { correct: 0, total: 0 },
-                    "Color": { correct: 0, total: 0 },
-                    "Transitions": { correct: 0, total: 0 },
-                    "Audio": { correct: 0, total: 0 },
-                    "Motion": { correct: 0, total: 0 }
-                };
-                
-                quizData.forEach((question, index) => {
-                    const category = question.category;
-                    if (categories[category]) {
-                        categories[category].total++;
-                        if (userAnswers[index] === question.answer) {
-                            categories[category].correct++;
-                        }
+
+            function calculateResults() {
+                // Calculate total score
+                let totalCorrect = 0;
+                userAnswers.forEach((answer, index) => {
+                    if (answer === quizQuestions[index].correctAnswer) {
+                        totalCorrect++;
                     }
                 });
                 
-                // Calculate category percentages for certificate
-                for (const [category, data] of Object.entries(categories)) {
-                    if (data.total > 0) {
-                        const percentage = Math.round((data.correct / data.total) * 100);
-                        const categoryId = category.toLowerCase();
-                        document.getElementById(`cert-${categoryId}`).textContent = `${percentage}%`;
-                    } else {
-                        const categoryId = category.toLowerCase();
-                        document.getElementById(`cert-${categoryId}`).textContent = '0%';
+                const totalScore = Math.round((totalCorrect / quizQuestions.length) * 100);
+                
+                // Calculate category scores
+                const categories = {};
+                quizQuestions.forEach((question, index) => {
+                    const category = question.category;
+                    if (!categories[category]) {
+                        categories[category] = {
+                            total: 0,
+                            correct: 0
+                        };
                     }
-                }
-                
-                const today = new Date();
-                const options = { year: 'numeric', month: 'long', day: 'numeric' };
-                document.getElementById('certificate-date').textContent = today.toLocaleDateString('en-US', options);
-                
-                document.getElementById('certificate-id').textContent = `ID: VIDEO-${today.getFullYear()}-${Math.floor(10000 + Math.random() * 90000)}`;
-                
-                // Create confetti effect
-                createConfetti();
-            });
-            
-            // Create confetti effect
-            function createConfetti() {
-                const confettiContainer = document.getElementById('confetti-container');
-                const colors = ['#f43f5e', '#ec4899', '#fb7185', '#f9a8d4', '#ffffff'];
-                
-                for (let i = 0; i < 150; i++) {
-                    const confetti = document.createElement('div');
-                    confetti.className = 'confetti';
-                    confetti.style.left = `${Math.random() * 100}%`;
-                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                    confetti.style.width = `${Math.random() * 10 + 5}px`;
-                    confetti.style.height = `${Math.random() * 10 + 5}px`;
-                    confetti.style.opacity = '1';
-                    confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
-                    confetti.style.animationDelay = `${Math.random() * 2}s`;
                     
-                    confettiContainer.appendChild(confetti);
+                    categories[category].total++;
+                    if (userAnswers[index] === question.correctAnswer) {
+                        categories[category].correct++;
+                    }
+                });
+                
+                // Convert to percentages and ratings
+                const categoryResults = {};
+                Object.keys(categories).forEach(category => {
+                    const score = Math.round((categories[category].correct / categories[category].total) * 100);
+                    let rating;
+                    let icon;
+                    
+                    if (score >= 90) {
+                        rating = 'Excellent';
+                        icon = '🏆';
+                    } else if (score >= 75) {
+                        rating = 'Good';
+                        icon = '👍';
+                    } else if (score >= 60) {
+                        rating = 'Satisfactory';
+                        icon = '👌';
+                    } else {
+                        rating = 'Needs Improvement';
+                        icon = '📝';
+                    }
+                    
+                    categoryResults[category] = {
+                        score,
+                        rating,
+                        icon
+                    };
+                });
+                
+                // Determine overall rating
+                let overallRating;
+                if (totalScore >= 90) {
+                    overallRating = 'Excellent';
+                } else if (totalScore >= 75) {
+                    overallRating = 'Good';
+                } else if (totalScore >= 60) {
+                    overallRating = 'Satisfactory';
+                } else {
+                    overallRating = 'Needs Improvement';
                 }
+                
+                return {
+                    totalScore,
+                    totalCorrect,
+                    totalQuestions: quizQuestions.length,
+                    categoryResults,
+                    overallRating
+                };
             }
-            
-            // Certificate actions
-            downloadBtn.addEventListener('click', function() {
-                alert('Certificate download started! (This is a demo feature)');
-            });
-            
-            shareBtn.addEventListener('click', function() {
-                alert('Share options opened! (This is a demo feature)');
-            });
+
+            function displayResults(results) {
+                // Update total score
+                document.getElementById('total-score').textContent = results.totalScore;
+                document.getElementById('max-score').textContent = '100';
+                
+                // Update score gauge
+                const scoreCircle = document.getElementById('score-circle');
+                const circumference = 2 * Math.PI * 45; // 2πr
+                const offset = circumference - (results.totalScore / 100) * circumference;
+                scoreCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+                scoreCircle.style.strokeDashoffset = offset;
+                
+                // Set color based on score
+                if (results.totalScore >= 90) {
+                    scoreCircle.style.stroke = '#10B981'; // Green
+                } else if (results.totalScore >= 75) {
+                    scoreCircle.style.stroke = '#3B82F6'; // Blue
+                } else if (results.totalScore >= 60) {
+                    scoreCircle.style.stroke = '#F59E0B'; // Yellow
+                } else {
+                    scoreCircle.style.stroke = '#EF4444'; // Red
+                }
+                
+                document.getElementById('score-percentage').textContent = `${results.totalScore}%`;
+                
+                // Update category results
+                const categoryResultsContainer = document.getElementById('category-results');
+                categoryResultsContainer.innerHTML = '';
+                
+                Object.keys(results.categoryResults).forEach(category => {
+                    const result = results.categoryResults[category];
+                    const categoryElement = document.createElement('div');
+                    
+                    // Set background color based on rating
+                    let bgColor;
+                    if (result.rating === 'Excellent') {
+                        bgColor = 'bg-gradient-to-br from-green-500 to-emerald-600';
+                    } else if (result.rating === 'Good') {
+                        bgColor = 'bg-gradient-to-br from-blue-500 to-indigo-600';
+                    } else if (result.rating === 'Satisfactory') {
+                        bgColor = 'bg-gradient-to-br from-yellow-400 to-orange-500';
+                    } else {
+                        bgColor = 'bg-gradient-to-br from-red-500 to-pink-600';
+                    }
+                    
+                    categoryElement.className = `${bgColor} rounded-lg p-4 text-white`;
+                    categoryElement.innerHTML = `
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h4 class="font-medium">${category}</h4>
+                                <p class="text-sm text-white text-opacity-90">${result.rating}</p>
+                            </div>
+                            <div class="text-2xl">${result.icon}</div>
+                        </div>
+                        <div class="mt-2 w-full bg-white bg-opacity-30 rounded-full h-2">
+                            <div class="bg-white h-2 rounded-full" style="width: ${result.score}%"></div>
+                        </div>
+                        <div class="text-right mt-1 text-sm">${result.score}%</div>
+                    `;
+                    
+                    categoryResultsContainer.appendChild(categoryElement);
+                });
+                
+                // Store results for certificate generation
+                localStorage.setItem('quizResults', JSON.stringify(results));
+            }
+
+            function handlePayment() {
+                // In a real app, this would handle actual payment processing
+                // For this demo, we'll simulate a successful payment
+                
+                // Hide results screen and show certificate screen
+                resultsScreen.classList.add('hidden');
+                certificateScreen.classList.remove('hidden');
+                
+                // Generate certificate
+                generateCertificate();
+                
+                // Download certificate automatically
+                setTimeout(downloadCertificate, 1000);
+            }
+
+            function generateCertificate() {
+                // Get user info and results
+                const userName = localStorage.getItem('userName') || 'John Doe';
+                const results = JSON.parse(localStorage.getItem('quizResults')) || {
+                    totalScore: 85,
+                    overallRating: 'Good',
+                    categoryResults: {}
+                };
+                
+                // Generate certificate ID
+                const certificateId = 'SKX-' + Math.floor(100000 + Math.random() * 900000);
+                
+                // Get current date
+                const currentDate = new Date().toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                
+                // Update certificate content
+                document.getElementById('certificate-name').textContent = userName;
+                document.getElementById('certificate-score').textContent = `${results.totalScore}/100`;
+                document.getElementById('certificate-rank').textContent = results.overallRating;
+                document.getElementById('certificate-date').textContent = currentDate;
+                document.getElementById('certificate-id').textContent = certificateId;
+                
+                // Update category results
+                const certificateCategoriesContainer = document.getElementById('certificate-categories');
+                certificateCategoriesContainer.innerHTML = '';
+                
+                Object.keys(results.categoryResults).forEach(category => {
+                    const result = results.categoryResults[category];
+                    const categoryElement = document.createElement('div');
+                    categoryElement.className = 'flex items-center mb-1';
+                    categoryElement.innerHTML = `
+                        <span class="mr-2">${result.icon}</span>
+                        <span class="text-sm">${category}: <span class="font-medium">${result.rating}</span></span>
+                    `;
+                    
+                    certificateCategoriesContainer.appendChild(categoryElement);
+                });
+            }
+
+            function downloadCertificate() {
+                const certificate = document.getElementById('certificate');
+                
+                // Use html2canvas to capture the certificate as an image
+                html2canvas(certificate, {
+                    scale: 2,
+                    logging: false,
+                    useCORS: true
+                }).then(canvas => {
+                    const imgData = canvas.toDataURL('image/png');
+                    
+                    // Create PDF using jsPDF
+                    const { jsPDF } = window.jspdf;
+                    const pdf = new jsPDF({
+                        orientation: 'landscape',
+                        unit: 'mm',
+                        format: 'a4'
+                    });
+                    
+                    const imgProps = pdf.getImageProperties(imgData);
+                    const pdfWidth = pdf.internal.pageSize.getWidth();
+                    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+                    
+                    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                    
+                    // Download the PDF
+                    const userName = localStorage.getItem('userName') || 'User';
+                    const fileName = `${userName.replace(/\s+/g, '_')}_Video_Editing_Certificate.pdf`;
+                    pdf.save(fileName);
+                });
+            }
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'965d4525e6e435d2',t:'MTc1MzYzMTE5Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'968eec7677b88007',t:'MTc1NDE1MTg0Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
+    

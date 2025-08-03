@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ML & AI Skills Assessment | Skillexa</title>
+    <title>ML-AI Skills Assessment | Skillexa</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -16,17 +16,18 @@
         .handwriting {
             font-family: 'Dancing Script', cursive;
         }
-        .gradient-bg {
-            background: linear-gradient(135deg, #ff9a9e 0%, #000000 100%);
+        .red-yellow-gradient {
+            background: linear-gradient(135deg, #FF416C 0%, #FF4B2B 50%, #FFD700 100%);
         }
-        .quiz-bg {
-            background: linear-gradient(135deg, #8b5cf6 0%, #000000 100%);
+        .black-yellow-gradient {
+            background: linear-gradient(135deg, #000000 0%, #333333 50%, #FFD700 100%);
         }
-        .category-icon {
-            transition: transform 0.3s ease;
+        .category-card {
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
         }
-        .category-icon:hover {
-            transform: scale(1.05);
+        .category-card:hover {
+            transform: translateY(-5px);
         }
         .fade-in {
             animation: fadeIn 0.8s ease-in;
@@ -34,387 +35,412 @@
         .slide-in {
             animation: slideIn 0.8s ease-out;
         }
-        .certificate-border {
-            background: linear-gradient(135deg, #ff9a9e 0%, #8b5cf6 100%);
-            padding: 15px;
-            border-radius: 10px;
-        }
-        .certificate-inner {
-            background: white;
-            border-radius: 5px;
-            position: relative;
-            overflow: hidden;
-        }
-        .certificate-watermark {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(-30deg);
-            font-size: 100px;
-            opacity: 0.05;
-            font-weight: bold;
-            white-space: nowrap;
-            pointer-events: none;
+        .scale-in {
+            animation: scaleIn 0.5s ease-out;
         }
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
         @keyframes slideIn {
-            from { transform: translateY(20px); opacity: 0; }
+            from { transform: translateY(30px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
         }
+        @keyframes scaleIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .certificate-border {
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            padding: 10px;
+        }
+        .certificate-inner-border {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            padding: 5px;
+        }
+        .certificate-content {
+            background: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-30deg);
+            font-size: 100px;
+            color: rgba(0,0,0,0.05);
+            font-weight: bold;
+            white-space: nowrap;
+            z-index: 0;
+        }
+        .timer-bar {
+            transition: width 1s linear;
+        }
         .progress-bar {
-            transition: width 0.3s ease;
+            transition: width 0.5s ease;
         }
-        .radio-button {
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #8b5cf6;
-            border-radius: 50%;
-            outline: none;
-            transition: all 0.2s ease;
+        .quiz-option:hover {
+            background-color: rgba(255, 255, 255, 0.1);
         }
-        .radio-button:checked {
-            border-color: #ff9a9e;
-            background-color: #ff9a9e;
-            box-shadow: 0 0 0 2px rgba(255, 154, 158, 0.3);
+        .quiz-option.selected {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-color: #ffffff;
         }
-        .radio-button:hover {
-            border-color: #ff9a9e;
+        .glow-text {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+        }
+        .shimmer {
+            background: linear-gradient(90deg, 
+                rgba(255,255,255,0) 0%, 
+                rgba(255,255,255,0.2) 50%, 
+                rgba(255,255,255,0) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
         }
     </style>
 </head>
 <body>
-    <!-- Welcome Screen -->
-    <div id="welcome-screen" class="min-h-screen flex flex-col items-center justify-center gradient-bg p-4">
-        <div class="text-center mb-8 fade-in">
-            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Machine Learning & AI</h1>
-            <h2 class="text-2xl md:text-3xl font-semibold text-white mb-6">Skills Assessment</h2>
-            <p class="text-white text-lg md:text-xl max-w-2xl mx-auto">Test your ML & AI knowledge with our comprehensive assessment. Complete 20 questions in 10-15 minutes to evaluate your skills.</p>
-        </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mb-8">
-            <!-- Category 1 -->
-            <div class="category-icon bg-white bg-opacity-90 p-6 rounded-lg shadow-lg slide-in" style="animation-delay: 0.1s">
-                <div class="flex items-center mb-3">
-                    <div class="bg-blue-100 p-3 rounded-full mr-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                        </svg>
+    <!-- Main Container -->
+    <div id="app" class="min-h-screen w-full">
+        <!-- Login Screen -->
+        <div id="login-screen" class="min-h-screen red-yellow-gradient flex flex-col items-center justify-center px-4 py-12">
+            <div class="w-full max-w-md bg-white bg-opacity-10 backdrop-blur-sm rounded-xl shadow-lg p-8 fade-in">
+                <h1 class="text-3xl font-bold text-center mb-8 text-white">ML-AI Skills Assessment</h1>
+                <form id="login-form" class="space-y-6">
+                    <div>
+                        <label for="fullName" class="block text-sm font-medium text-white mb-1">Full Name</label>
+                        <input type="text" id="fullName" required class="w-full px-4 py-2 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400 text-white placeholder-white placeholder-opacity-70">
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-800">ML Fundamentals</h3>
-                </div>
-                <p class="text-gray-600">Test your knowledge of machine learning basics, algorithms, and core concepts.</p>
-            </div>
-            
-            <!-- Category 2 -->
-            <div class="category-icon bg-white bg-opacity-90 p-6 rounded-lg shadow-lg slide-in" style="animation-delay: 0.2s">
-                <div class="flex items-center mb-3">
-                    <div class="bg-green-100 p-3 rounded-full mr-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                        </svg>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-white mb-1">Email Address</label>
+                        <input type="email" id="email" required class="w-full px-4 py-2 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400 text-white placeholder-white placeholder-opacity-70">
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-800">Deep Learning</h3>
-                </div>
-                <p class="text-gray-600">Evaluate your understanding of neural networks, architectures, and training methods.</p>
-            </div>
-            
-            <!-- Category 3 -->
-            <div class="category-icon bg-white bg-opacity-90 p-6 rounded-lg shadow-lg slide-in" style="animation-delay: 0.3s">
-                <div class="flex items-center mb-3">
-                    <div class="bg-purple-100 p-3 rounded-full mr-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-800">NLP & Text Analysis</h3>
-                </div>
-                <p class="text-gray-600">Test your knowledge of natural language processing techniques and applications.</p>
-            </div>
-            
-            <!-- Category 4 -->
-            <div class="category-icon bg-white bg-opacity-90 p-6 rounded-lg shadow-lg slide-in" style="animation-delay: 0.4s">
-                <div class="flex items-center mb-3">
-                    <div class="bg-yellow-100 p-3 rounded-full mr-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-800">Data Preprocessing</h3>
-                </div>
-                <p class="text-gray-600">Evaluate your skills in data cleaning, transformation, and feature engineering.</p>
-            </div>
-            
-            <!-- Category 5 -->
-            <div class="category-icon bg-white bg-opacity-90 p-6 rounded-lg shadow-lg slide-in" style="animation-delay: 0.5s">
-                <div class="flex items-center mb-3">
-                    <div class="bg-red-100 p-3 rounded-full mr-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-800">Computer Vision</h3>
-                </div>
-                <p class="text-gray-600">Test your knowledge of image processing, object detection, and visual recognition.</p>
-            </div>
-            
-            <!-- Category 6 -->
-            <div class="category-icon bg-white bg-opacity-90 p-6 rounded-lg shadow-lg slide-in" style="animation-delay: 0.6s">
-                <div class="flex items-center mb-3">
-                    <div class="bg-pink-100 p-3 rounded-full mr-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-800">Model Deployment</h3>
-                </div>
-                <p class="text-gray-600">Evaluate your understanding of ML model deployment, scaling, and monitoring.</p>
+                    <button type="submit" class="w-full bg-gradient-to-r from-yellow-500 to-red-500 text-white py-2 rounded-md font-medium hover:opacity-90 transition-opacity">Start Assessment</button>
+                </form>
             </div>
         </div>
-        
-        <button id="start-quiz-btn" class="bg-white text-pink-500 hover:bg-pink-50 font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 text-lg">
-            Start Assessment
-        </button>
-    </div>
 
-    <!-- Quiz Screen -->
-    <div id="quiz-screen" class="min-h-screen quiz-bg p-4 hidden">
-        <div class="max-w-3xl mx-auto bg-white bg-opacity-95 rounded-lg shadow-xl p-6 my-8">
-            <!-- Quiz Header -->
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold text-gray-800">ML & AI Skills Assessment</h2>
-                <div class="text-lg font-semibold text-gray-700">
-                    Question <span id="current-question">1</span>/20
+        <!-- Category Preview Screen -->
+        <div id="category-preview" class="hidden min-h-screen red-yellow-gradient flex flex-col items-center justify-center px-4 py-12">
+            <div class="w-full max-w-4xl text-center mb-10 fade-in">
+                <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">ML-AI Skills Assessment</h1>
+                <p class="text-xl text-white text-opacity-90">Explore the key areas we'll be evaluating</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl mb-10">
+                <!-- Category 1: Machine Learning Fundamentals -->
+                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.1s">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gradient-to-br from-blue-400 to-blue-600 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold">ML Fundamentals</h3>
+                    </div>
+                    <p class="text-white text-opacity-90">Core concepts of machine learning algorithms, models, and statistical foundations.</p>
                 </div>
-            </div>
-            
-            <!-- Progress Bar -->
-            <div class="w-full bg-gray-200 rounded-full h-2.5 mb-6">
-                <div id="progress-bar" class="bg-gradient-to-r from-pink-500 to-purple-500 h-2.5 rounded-full progress-bar" style="width: 5%"></div>
-            </div>
-            
-            <!-- Timer -->
-            <div class="flex justify-end mb-4">
-                <div class="bg-gray-100 px-4 py-2 rounded-lg">
-                    <span class="font-medium text-gray-700">Time Remaining: </span>
-                    <span id="timer" class="font-bold text-pink-600">10:00</span>
-                </div>
-            </div>
-            
-            <!-- Question Container -->
-            <div id="question-container" class="mb-8">
-                <!-- Question will be inserted here -->
-            </div>
-            
-            <!-- Navigation Buttons -->
-            <div class="flex justify-between">
-                <button id="prev-btn" class="bg-gray-200 text-gray-700 py-2 px-6 rounded-lg hover:bg-gray-300 transition duration-300 disabled:opacity-50" disabled>Previous</button>
-                <button id="next-btn" class="bg-gradient-to-r from-pink-500 to-purple-500 text-white py-2 px-6 rounded-lg hover:opacity-90 transition duration-300">Next</button>
-                <button id="submit-btn" class="bg-green-600 text-white py-2 px-6 rounded-lg hover:bg-green-700 transition duration-300 hidden">Submit</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Results Screen -->
-    <div id="results-screen" class="min-h-screen gradient-bg p-4 hidden">
-        <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-xl p-6 my-8">
-            <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">Assessment Results</h2>
-            
-            <!-- Overall Score -->
-            <div class="text-center mb-8">
-                <div class="text-5xl font-bold text-pink-600 mb-2">
-                    <span id="total-score">0</span>/20
-                </div>
-                <p class="text-xl text-gray-600">Total Score</p>
-            </div>
-            
-            <!-- Category Performance -->
-            <h3 class="text-xl font-semibold text-gray-700 mb-4">Performance by Category</h3>
-            <div id="category-results" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-                <!-- Category results will be inserted here -->
-            </div>
-            
-            <!-- Payment Section -->
-            <div class="border-t pt-6 mt-6">
-                <h3 class="text-xl font-semibold text-gray-800 mb-4 text-center">Get Your Certificate</h3>
-                <p class="text-gray-600 text-center mb-6">Complete your payment to receive your personalized ML & AI Skills Certificate</p>
                 
-                <div class="flex flex-col md:flex-row items-center justify-center gap-8">
-                    <div class="text-center">
-                        <p class="font-medium text-gray-700 mb-2">Scan QR Code to Pay</p>
-                        <!-- QR Code SVG -->
-                        <div class="bg-white p-4 rounded-lg shadow-md inline-block">
-                            <svg class="w-48 h-48" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                                <!-- QR Code pattern -->
-                                <rect x="0" y="0" width="200" height="200" fill="white"/>
-                                <g fill="#000000">
-                                    <!-- QR Code squares pattern -->
-                                    <rect x="20" y="20" width="40" height="40"/>
-                                    <rect x="140" y="20" width="40" height="40"/>
-                                    <rect x="20" y="140" width="40" height="40"/>
-                                    <rect x="30" y="30" width="20" height="20" fill="white"/>
-                                    <rect x="150" y="30" width="20" height="20" fill="white"/>
-                                    <rect x="30" y="150" width="20" height="20" fill="white"/>
-                                    <rect x="70" y="20" width="10" height="10"/>
-                                    <rect x="90" y="20" width="10" height="10"/>
-                                    <rect x="120" y="20" width="10" height="10"/>
-                                    <rect x="20" y="70" width="10" height="10"/>
-                                    <rect x="40" y="70" width="10" height="10"/>
-                                    <rect x="60" y="70" width="10" height="10"/>
-                                    <rect x="80" y="70" width="10" height="10"/>
-                                    <rect x="100" y="70" width="10" height="10"/>
-                                    <rect x="120" y="70" width="10" height="10"/>
-                                    <rect x="170" y="70" width="10" height="10"/>
-                                    <rect x="20" y="90" width="10" height="10"/>
-                                    <rect x="60" y="90" width="10" height="10"/>
-                                    <rect x="100" y="90" width="10" height="10"/>
-                                    <rect x="140" y="90" width="10" height="10"/>
-                                    <rect x="170" y="90" width="10" height="10"/>
-                                    <rect x="20" y="110" width="10" height="10"/>
-                                    <rect x="40" y="110" width="10" height="10"/>
-                                    <rect x="80" y="110" width="10" height="10"/>
-                                    <rect x="120" y="110" width="10" height="10"/>
-                                    <rect x="140" y="110" width="10" height="10"/>
-                                    <rect x="170" y="110" width="10" height="10"/>
-                                    <rect x="70" y="140" width="10" height="10"/>
-                                    <rect x="90" y="140" width="10" height="10"/>
-                                    <rect x="110" y="140" width="10" height="10"/>
-                                    <rect x="130" y="140" width="10" height="10"/>
-                                    <rect x="150" y="140" width="10" height="10"/>
-                                    <rect x="170" y="140" width="10" height="10"/>
-                                    <rect x="70" y="160" width="10" height="10"/>
-                                    <rect x="110" y="160" width="10" height="10"/>
-                                    <rect x="150" y="160" width="10" height="10"/>
-                                    <rect x="170" y="160" width="10" height="10"/>
-                                    <rect x="90" y="170" width="10" height="10"/>
-                                    <rect x="130" y="170" width="10" height="10"/>
-                                </g>
-                                <!-- UPI Logo -->
-                                <g transform="translate(85, 85) scale(0.15)">
-                                    <path d="M100,0 C155.228,0 200,44.772 200,100 C200,155.228 155.228,200 100,200 C44.772,200 0,155.228 0,100 C0,44.772 44.772,0 100,0 Z" fill="#097939"/>
-                                    <path d="M130,50 L70,150 L40,110 L60,110 L70,125 L110,50 L130,50 Z" fill="white"/>
+                <!-- Category 2: Data Preprocessing -->
+                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.2s">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gradient-to-br from-green-400 to-green-600 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold">Data Preprocessing</h3>
+                    </div>
+                    <p class="text-white text-opacity-90">Techniques for cleaning, transforming, and preparing data for machine learning models.</p>
+                </div>
+                
+                <!-- Category 3: Model Evaluation -->
+                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.3s">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gradient-to-br from-purple-400 to-purple-600 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold">Model Evaluation</h3>
+                    </div>
+                    <p class="text-white text-opacity-90">Methods to assess model performance, validation techniques, and metrics interpretation.</p>
+                </div>
+                
+                <!-- Category 4: Deep Learning -->
+                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.4s">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gradient-to-br from-yellow-400 to-yellow-600 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold">Deep Learning</h3>
+                    </div>
+                    <p class="text-white text-opacity-90">Neural networks, architectures, and applications in various domains like vision and NLP.</p>
+                </div>
+                
+                <!-- Category 5: AI Ethics -->
+                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.5s">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gradient-to-br from-red-400 to-red-600 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold">AI Ethics</h3>
+                    </div>
+                    <p class="text-white text-opacity-90">Ethical considerations, bias detection, fairness, and responsible AI development.</p>
+                </div>
+                
+                <!-- Category 6: MLOps -->
+                <div class="category-card bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 text-white shadow-lg slide-in" style="animation-delay: 0.6s">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gradient-to-br from-pink-400 to-pink-600 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold">MLOps</h3>
+                    </div>
+                    <p class="text-white text-opacity-90">Machine learning operations, deployment, monitoring, and maintenance of ML systems.</p>
+                </div>
+            </div>
+            
+            <div class="w-full max-w-md text-center fade-in">
+                <button id="start-quiz-btn" class="px-8 py-3 bg-gradient-to-r from-yellow-500 to-red-500 text-white rounded-full font-medium text-lg hover:bg-opacity-90 transition-opacity shadow-lg shimmer">
+                    Start 20-Question Assessment
+                </button>
+                <p class="text-white text-opacity-90 mt-4">You'll have 10 minutes to complete all questions</p>
+            </div>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="hidden min-h-screen black-yellow-gradient flex flex-col">
+            <!-- Quiz Header -->
+            <div class="p-4 md:p-6 flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h2 class="text-2xl font-bold text-white">ML-AI Skills Assessment</h2>
+                    <p class="text-gray-300">Answer each question to the best of your ability</p>
+                </div>
+                <div class="flex flex-col items-end">
+                    <div class="flex items-center mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span id="timer" class="text-gray-300 font-medium">10:00</span>
+                    </div>
+                    <div class="w-full bg-gray-700 rounded-full h-2">
+                        <div id="timer-bar" class="timer-bar bg-gradient-to-r from-yellow-400 to-red-400 h-2 rounded-full" style="width: 100%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quiz Progress -->
+            <div class="px-4 md:px-6 py-2">
+                <div class="flex justify-between items-center mb-1">
+                    <span class="text-sm text-gray-300">Question <span id="current-question">1</span> of 20</span>
+                    <span class="text-sm text-gray-300"><span id="progress-percent">5</span>% Complete</span>
+                </div>
+                <div class="w-full bg-gray-700 rounded-full h-2">
+                    <div id="progress-bar" class="progress-bar bg-gradient-to-r from-yellow-400 to-red-400 h-2 rounded-full" style="width: 5%"></div>
+                </div>
+            </div>
+            
+            <!-- Quiz Content -->
+            <div class="flex-grow flex items-center justify-center p-4 md:p-6">
+                <div id="question-container" class="w-full max-w-3xl bg-gray-800 bg-opacity-80 backdrop-blur-sm rounded-xl p-6 md:p-8 shadow-lg scale-in">
+                    <div id="question-icon" class="mx-auto mb-6 bg-gradient-to-br from-yellow-500 to-red-400 w-16 h-16 rounded-full flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                        </svg>
+                    </div>
+                    <h3 id="question-text" class="text-xl md:text-2xl font-medium text-white text-center mb-8">Which of the following best describes supervised learning?</h3>
+                    
+                    <div id="options-container" class="space-y-4">
+                        <!-- Options will be dynamically generated -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quiz Navigation -->
+            <div class="p-4 md:p-6 flex justify-between">
+                <button id="prev-btn" class="px-6 py-2 bg-gray-700 text-gray-300 rounded-lg font-medium hover:bg-gray-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Previous</button>
+                <button id="next-btn" class="px-6 py-2 bg-gradient-to-r from-yellow-500 to-red-500 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">Next</button>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="hidden min-h-screen red-yellow-gradient flex flex-col">
+            <div class="p-4 md:p-6">
+                <h2 class="text-2xl md:text-3xl font-bold text-white text-center">Your Assessment Results</h2>
+                <p class="text-white text-opacity-80 text-center mb-8">Here's how you performed in the ML-AI Skills Assessment</p>
+                
+                <div class="w-full max-w-4xl mx-auto bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 md:p-8 shadow-lg mb-8">
+                    <div class="flex flex-col md:flex-row items-center justify-between mb-8">
+                        <div class="mb-6 md:mb-0">
+                            <h3 class="text-xl text-white mb-2">Total Score</h3>
+                            <div class="text-5xl font-bold text-white glow-text"><span id="total-score">0</span>/<span id="max-score">100</span></div>
+                        </div>
+                        <div class="w-full md:w-auto">
+                            <div id="score-gauge" class="w-40 h-40 mx-auto relative">
+                                <svg class="w-full h-full" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="45" fill="none" stroke="#ffffff33" stroke-width="10" />
+                                    <circle id="score-circle" cx="50" cy="50" r="45" fill="none" stroke-width="10" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="283" transform="rotate(-90 50 50)" />
+                                </svg>
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <span id="score-percentage" class="text-2xl font-bold text-white glow-text">0%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-xl text-white mb-4">Performance by Category</h3>
+                    <div id="category-results" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <!-- Category results will be dynamically generated -->
+                    </div>
+                </div>
+                
+                <div class="w-full max-w-md mx-auto bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 shadow-lg text-center">
+                    <h3 class="text-xl text-white mb-4 glow-text">Get Your Certificate</h3>
+                    <p class="text-white text-opacity-80 mb-6">Complete the payment to receive your official Skillexa certification</p>
+                    
+                    <div class="mb-6">
+                        <div id="qr-code" class="w-48 h-48 mx-auto bg-white p-4 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="w-full h-full">
+                                <!-- Simple QR code SVG representation -->
+                                <rect x="10" y="10" width="80" height="80" fill="none" stroke="black" stroke-width="1" />
+                                <g fill="black">
+                                    <!-- QR code pattern - simplified representation -->
+                                    <rect x="20" y="20" width="20" height="20" />
+                                    <rect x="60" y="20" width="20" height="20" />
+                                    <rect x="20" y="60" width="20" height="20" />
+                                    <rect x="40" y="40" width="20" height="20" />
+                                    <rect x="65" y="65" width="10" height="10" />
+                                    <rect x="25" y="45" width="10" height="10" />
+                                    <rect x="45" y="25" width="10" height="10" />
+                                    <rect x="65" y="45" width="10" height="10" />
+                                    <rect x="45" y="65" width="10" height="10" />
                                 </g>
                             </svg>
-                            <p class="mt-2 text-sm text-gray-500">UPI ID: skillexa@upi</p>
                         </div>
+                        <p class="text-white text-opacity-80 mt-2">Scan to pay via UPI</p>
                     </div>
                     
-                    <div class="text-center md:text-left">
-                        <p class="font-medium text-gray-700 mb-4">Enter your details for the certificate</p>
-                        <div class="space-y-4">
-                            <div>
-                                <label for="full-name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-                                <input type="text" id="full-name" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500" placeholder="Enter your full name">
-                            </div>
-                            <div>
-                                <label for="transaction-id" class="block text-sm font-medium text-gray-700 mb-1">Transaction ID (Optional)</label>
-                                <input type="text" id="transaction-id" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-pink-500 focus:border-pink-500" placeholder="Enter UPI transaction ID">
-                            </div>
-                            <button id="generate-certificate-btn" class="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white py-3 px-6 rounded-lg hover:opacity-90 transition duration-300 font-medium">
-                                Generate Certificate
-                            </button>
-                        </div>
-                    </div>
+                    <!-- Simulated payment button for demo purposes -->
+                    <button id="simulate-payment-btn" class="w-full px-6 py-3 bg-gradient-to-r from-yellow-500 to-red-500 text-white rounded-lg font-medium hover:opacity-90 transition-opacity shimmer">
+                        Simulate Payment (Demo)
+                    </button>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Certificate Preview -->
-    <div id="certificate-preview" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 hidden z-50">
-        <div class="bg-white rounded-lg shadow-2xl p-6 max-w-5xl w-full max-h-[90vh] overflow-auto">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-bold text-gray-800">Certificate Preview</h3>
-                <button id="close-preview-btn" class="text-gray-500 hover:text-gray-700">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
+        <!-- Certificate Screen -->
+        <div id="certificate-screen" class="hidden min-h-screen bg-gray-100 p-4 md:p-8 flex flex-col items-center justify-center">
+            <div class="mb-6 text-center">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800">Your Certificate is Ready!</h2>
+                <p class="text-gray-600">Your certificate has been generated and will download automatically</p>
             </div>
             
-            <!-- Certificate Container -->
-            <div id="certificate-container" class="certificate-border">
-                <div class="certificate-inner p-8">
-                    <!-- Watermark -->
-                    <div class="certificate-watermark">SKILLEXA</div>
-                    
-                    <!-- Certificate Content -->
-                    <div class="relative z-10">
-                        <!-- Header -->
-                        <div class="flex justify-between items-start mb-6">
-                            <div class="flex items-center">
-                                <!-- Logo placeholder -->
-                                <div class="w-16 h-16 rounded-md overflow-hidden mr-3 shadow-md">
+            <!-- Certificate Preview -->
+            <div id="certificate" class="w-full max-w-5xl certificate-border rounded-lg shadow-xl">
+                <div class="certificate-inner-border rounded-lg">
+                    <div class="certificate-content p-8 rounded-lg">
+                        <div class="watermark">SKILLEXA</div>
+                        
+                        <div class="flex justify-between items-start mb-6 relative z-10">
+                            <!-- Logo placeholder -->
+                           <div class="w-16 h-16 rounded-md overflow-hidden mr-3 shadow-md">
                             <img src="assets/logo.jpg" alt="Skillexa Logo" class="w-full h-full object-cover" />
                             </div>
-
                             <div class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                                </svg>
-                                <span class="ml-2 font-medium text-gray-700">Verified</span>
+                                <div class="text-right mr-4">
+                                    <h3 class="text-xl font-bold text-gray-800">CERTIFICATE</h3>
+                                    <p class="text-gray-600">OF ACHIEVEMENT</p>
+                                </div>
+                                <div class="w-12 h-12">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" class="w-full h-full">
+                                        <circle cx="48" cy="48" r="46" fill="#8b5cf6"/>
+                                        <path fill="#FFFFFF" d="M41,59.4l-12-12l-4.2,4.2L41,67.8l30.2-30.2l-4.2-4.2L41,59.4z"/>
+                                    </svg>
+                                </div>
                             </div>
                         </div>
                         
-                        <!-- Certificate Title -->
-                        <div class="text-center mb-8">
-                            <h1 class="text-4xl handwriting font-bold text-gray-800 mb-2">Certificate of Achievement</h1>
-                            <p class="text-lg text-gray-600">This certifies that</p>
-                            <p id="certificate-name" class="text-3xl handwriting font-bold text-pink-600 my-3">John Doe</p>
-                            <p class="text-lg text-gray-600">has successfully completed the</p>
-                            <p class="text-2xl font-bold text-gray-800 mt-2">Machine Learning & AI Skills Assessment</p>
+                        <div class="text-center mb-8 relative z-10">
+                            <h2 class="handwriting text-4xl text-gray-800 mb-1">Certificate of Excellence</h2>
+                            <p class="text-gray-600">This certifies that</p>
+                            <h3 id="certificate-name" class="handwriting text-3xl text-gray-800 my-3">John Doe</h3>
+                            <p class="text-gray-600 max-w-lg mx-auto">has successfully completed the ML-AI Skills Assessment with outstanding performance and is hereby recognized for their achievement.</p>
                         </div>
                         
-                        <!-- Certificate Details -->
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                            <div class="bg-gray-50 p-4 rounded-lg">
-                                <h3 class="font-semibold text-gray-700 mb-2">Assessment Results</h3>
-                                <p class="text-gray-800">Total Score: <span id="certificate-score" class="font-bold text-pink-600">16/20</span></p>
-                                <p class="text-gray-800">Rank: <span id="certificate-rank" class="font-bold text-purple-600">Excellent</span></p>
-                                <p class="text-gray-800">Date: <span id="certificate-date" class="font-medium">June 15, 2023</span></p>
-                                <p class="text-gray-800">Certificate ID: <span id="certificate-id" class="font-medium">SKX-123456</span></p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 relative z-10">
+                            <div>
+                                <h4 class="font-bold text-gray-800 mb-2">Assessment Details</h4>
+                                <div class="space-y-2">
+                                    <div class="flex items-center">
+                                        <span class="text-gray-600 w-32">Skill:</span>
+                                        <span class="font-medium text-gray-800">ML-AI Skills</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-gray-600 w-32">Total Score:</span>
+                                        <span id="certificate-score" class="font-medium text-gray-800">85/100</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-gray-600 w-32">Rank:</span>
+                                        <span id="certificate-rank" class="font-medium text-gray-800">Excellent</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-gray-600 w-32">Date:</span>
+                                        <span id="certificate-date" class="font-medium text-gray-800">May 15, 2024</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-gray-600 w-32">Certificate ID:</span>
+                                        <span id="certificate-id" class="font-medium text-gray-800">SKX-123456</span>
+                                    </div>
+                                </div>
                             </div>
                             
-                            <div class="bg-gray-50 p-4 rounded-lg">
-                                <h3 class="font-semibold text-gray-700 mb-2">Category Performance</h3>
+                            <div>
+                                <h4 class="font-bold text-gray-800 mb-2">Performance Breakdown</h4>
                                 <div id="certificate-categories" class="grid grid-cols-2 gap-2">
-                                    <!-- Categories will be inserted here -->
+                                    <!-- Will be populated dynamically -->
                                 </div>
                             </div>
                         </div>
                         
-                        <!-- Certificate Footer -->
-                        <div class="mt-12">
-                            <div class="text-center mb-6">
-                                <p class="text-xl font-bold text-gray-700">SKILLEXA CERTIFIED 2025</p>
+                        <div class="text-center my-4 relative z-10">
+                            <div class="handwriting text-2xl font-bold text-gray-400">SKILLEXA CERTIFIED 2025</div>
+                        </div>
+                        
+                        <div class="flex justify-between items-end mt-8 relative z-10">
+                            <div class="text-center"> 
+                                <img src="assets/images/khushi.png" alt="Signature" class="mx-auto mb-2" style="height: 30px; contain;" />
+                             
+                                <div class="w-40 border-b border-gray-400 mb-1"></div>
+                                <p class="text-gray-800 font-medium">Jagdeep Kaur I</p>
+                                <p class="text-gray-600 text-sm">Founder</p>
                             </div>
                             
-                            <div class="flex justify-between items-center">
-                                <div class="text-center">
-                             <img src="assets/images/khushi.png" alt="Signature" class="mx-auto mb-2" style="height: 30px; contain;" />
-                                    <div class="border-b border-gray-400 w-40 mx-auto mb-2"></div>
-                                    <p class="font-medium text-gray-700">Jagdeep Kaur I</p>
-                                    <p class="text-sm text-gray-600">Founder</p>
-                                </div>
-                                
-                                <div class="text-center">
-                                <img src="assets/images/srushti.jpg" alt="Signature" class="mx-auto mb-2" style="height: 30px; contain;" />    
-                                    <div class="border-b border-gray-400 w-40 mx-auto mb-2"></div>
-                                    <p class="font-medium text-gray-700">Prajapati Srushti K</p>
-                                    <p class="text-sm text-gray-600">Co-Founder</p>
-                                </div>
+                            <div class="text-center">
+                                 <img src="assets/images/srushti.jpg" alt="Signature" class="mx-auto mb-2" style="height: 30px; contain;" />
+                             
+                                <div class="w-40 border-b border-gray-400 mb-1"></div>
+                                <p class="text-gray-800 font-medium">Prajapati Srushti K</p>
+                                <p class="text-gray-600 text-sm">Co-Founder</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <div class="mt-6 flex justify-center">
-                <button id="download-certificate-btn" class="bg-green-600 text-white py-3 px-8 rounded-lg hover:bg-green-700 transition duration-300 font-medium">
+            <div class="mt-8">
+                <button id="download-again-btn" class="px-6 py-3 bg-gradient-to-r from-yellow-500 to-red-500 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">
                     Download Certificate
                 </button>
             </div>
@@ -422,607 +448,761 @@
     </div>
 
     <script>
-        // Quiz data
-        const quizData = [
-            {
-                question: "Which of the following is NOT a type of machine learning?",
-                category: "ML Fundamentals",
-                options: [
-                    "Supervised Learning",
-                    "Unsupervised Learning",
-                    "Reinforcement Learning",
-                    "Descriptive Learning"
-                ],
-                correctAnswer: 3
-            },
-            {
-                question: "What is the purpose of the activation function in neural networks?",
-                category: "Deep Learning",
-                options: [
-                    "To initialize weights",
-                    "To introduce non-linearity",
-                    "To normalize input data",
-                    "To reduce overfitting"
-                ],
-                correctAnswer: 1
-            },
-            {
-                question: "Which technique is used to prevent overfitting in neural networks?",
-                category: "Deep Learning",
-                options: [
-                    "Gradient Descent",
-                    "Backpropagation",
-                    "Dropout",
-                    "Batch Normalization"
-                ],
-                correctAnswer: 2
-            },
-            {
-                question: "What does TF-IDF stand for in NLP?",
-                category: "NLP & Text Analysis",
-                options: [
-                    "Text Frequency - Inverse Document Frequency",
-                    "Term Frequency - Inverse Document Frequency",
-                    "Term Finding - Information Document Format",
-                    "Text Format - Inverse Data Function"
-                ],
-                correctAnswer: 1
-            },
-            {
-                question: "Which of the following is NOT a step in data preprocessing?",
-                category: "Data Preprocessing",
-                options: [
-                    "Data Cleaning",
-                    "Feature Engineering",
-                    "Model Evaluation",
-                    "Data Transformation"
-                ],
-                correctAnswer: 2
-            },
-            {
-                question: "What is the main purpose of Principal Component Analysis (PCA)?",
-                category: "Data Preprocessing",
-                options: [
-                    "Feature selection",
-                    "Dimensionality reduction",
-                    "Data cleaning",
-                    "Model training"
-                ],
-                correctAnswer: 1
-            },
-            {
-                question: "Which architecture is commonly used for image classification tasks?",
-                category: "Computer Vision",
-                options: [
-                    "Recurrent Neural Networks (RNN)",
-                    "Long Short-Term Memory (LSTM)",
-                    "Convolutional Neural Networks (CNN)",
-                    "Generative Adversarial Networks (GAN)"
-                ],
-                correctAnswer: 2
-            },
-            {
-                question: "What is the purpose of tokenization in NLP?",
-                category: "NLP & Text Analysis",
-                options: [
-                    "To convert text into numerical values",
-                    "To break text into smaller units like words or sentences",
-                    "To remove stop words from text",
-                    "To identify the sentiment of text"
-                ],
-                correctAnswer: 1
-            },
-            {
-                question: "Which of the following is NOT a common loss function for regression problems?",
-                category: "ML Fundamentals",
-                options: [
-                    "Mean Squared Error (MSE)",
-                    "Mean Absolute Error (MAE)",
-                    "Cross-Entropy Loss",
-                    "Root Mean Squared Error (RMSE)"
-                ],
-                correctAnswer: 2
-            },
-            {
-                question: "What is the purpose of Docker in ML model deployment?",
-                category: "Model Deployment",
-                options: [
-                    "To train models faster",
-                    "To create consistent environments for deployment",
-                    "To visualize model performance",
-                    "To collect training data"
-                ],
-                correctAnswer: 1
-            },
-            {
-                question: "Which technique is used to handle imbalanced datasets?",
-                category: "Data Preprocessing",
-                options: [
-                    "Normalization",
-                    "Feature scaling",
-                    "Oversampling/Undersampling",
-                    "Dimensionality reduction"
-                ],
-                correctAnswer: 2
-            },
-            {
-                question: "What is the vanishing gradient problem in deep learning?",
-                category: "Deep Learning",
-                options: [
-                    "When gradients become too large during training",
-                    "When gradients become extremely small during training",
-                    "When the model has too many parameters",
-                    "When the learning rate is too high"
-                ],
-                correctAnswer: 1
-            },
-            {
-                question: "Which of the following is an example of transfer learning?",
-                category: "Deep Learning",
-                options: [
-                    "Training a model from scratch",
-                    "Using a pre-trained model and fine-tuning it for a new task",
-                    "Combining multiple models into an ensemble",
-                    "Creating a new neural network architecture"
-                ],
-                correctAnswer: 1
-            },
-            {
-                question: "What is the purpose of YOLO in computer vision?",
-                category: "Computer Vision",
-                options: [
-                    "Image classification",
-                    "Image generation",
-                    "Object detection",
-                    "Image segmentation"
-                ],
-                correctAnswer: 2
-            },
-            {
-                question: "Which of the following is NOT a common metric for classification models?",
-                category: "ML Fundamentals",
-                options: [
-                    "Precision",
-                    "Recall",
-                    "F1 Score",
-                    "Mean Squared Error"
-                ],
-                correctAnswer: 3
-            },
-            {
-                question: "What is the purpose of A/B testing in model deployment?",
-                category: "Model Deployment",
-                options: [
-                    "To compare the performance of two different models",
-                    "To test if a model works on different hardware",
-                    "To check if a model is overfitting",
-                    "To validate training data"
-                ],
-                correctAnswer: 0
-            },
-            {
-                question: "Which technique is used to extract features from text data?",
-                category: "NLP & Text Analysis",
-                options: [
-                    "Convolutional Neural Networks",
-                    "Word Embeddings",
-                    "Principal Component Analysis",
-                    "K-means Clustering"
-                ],
-                correctAnswer: 1
-            },
-            {
-                question: "What is the purpose of data augmentation in computer vision?",
-                category: "Computer Vision",
-                options: [
-                    "To reduce the size of the dataset",
-                    "To increase the diversity of training data",
-                    "To normalize pixel values",
-                    "To extract features from images"
-                ],
-                correctAnswer: 1
-            },
-            {
-                question: "Which of the following is a common way to monitor deployed ML models?",
-                category: "Model Deployment",
-                options: [
-                    "Increasing the model size",
-                    "Tracking prediction drift",
-                    "Using more GPUs",
-                    "Adding more layers to the model"
-                ],
-                correctAnswer: 1
-            },
-            {
-                question: "What is the purpose of attention mechanisms in deep learning?",
-                category: "Deep Learning",
-                options: [
-                    "To reduce training time",
-                    "To focus on relevant parts of the input data",
-                    "To prevent overfitting",
-                    "To initialize model weights"
-                ],
-                correctAnswer: 1
-            }
-        ];
+        document.addEventListener('DOMContentLoaded', function() {
+            // Quiz questions data
+            const quizQuestions = [
+                {
+                    category: "ML Fundamentals",
+                    question: "Which of the following best describes supervised learning?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                          </svg>`,
+                    options: [
+                        "Learning where the model is trained on labeled data",
+                        "Learning without any training data",
+                        "Learning where the model explores on its own",
+                        "Learning where only input data is provided without labels"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "ML Fundamentals",
+                    question: "What is the bias-variance tradeoff in machine learning?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                          </svg>`,
+                    options: [
+                        "The balance between underfitting and overfitting a model",
+                        "The tradeoff between model complexity and training time",
+                        "The balance between training and testing datasets",
+                        "The tradeoff between model accuracy and interpretability"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "ML Fundamentals",
+                    question: "Which algorithm is most suitable for classification tasks?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                          </svg>`,
+                    options: [
+                        "Logistic Regression",
+                        "Linear Regression",
+                        "K-means Clustering",
+                        "Principal Component Analysis"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Data Preprocessing",
+                    question: "What is feature scaling used for in data preprocessing?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                          </svg>`,
+                    options: [
+                        "Normalizing features to have similar scales",
+                        "Increasing the number of features",
+                        "Removing outliers from the dataset",
+                        "Converting categorical variables to numerical"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Data Preprocessing",
+                    question: "What is one-hot encoding used for?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                          </svg>`,
+                    options: [
+                        "Converting categorical variables into binary vectors",
+                        "Normalizing numerical features",
+                        "Reducing dimensionality of data",
+                        "Handling missing values in a dataset"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Data Preprocessing",
+                    question: "Which technique is best for handling missing values in a dataset?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                          </svg>`,
+                    options: [
+                        "Imputation (mean, median, or mode)",
+                        "Removing all rows with missing values",
+                        "Ignoring the missing values",
+                        "Replacing with random values"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Model Evaluation",
+                    question: "What does the ROC curve represent in model evaluation?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                          </svg>`,
+                    options: [
+                        "The tradeoff between true positive rate and false positive rate",
+                        "The relationship between precision and recall",
+                        "The model's accuracy over time",
+                        "The computational efficiency of the model"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Model Evaluation",
+                    question: "What is cross-validation used for?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                          </svg>`,
+                    options: [
+                        "Assessing model performance on different subsets of data",
+                        "Comparing different machine learning algorithms",
+                        "Speeding up model training",
+                        "Reducing model complexity"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Model Evaluation",
+                    question: "Which metric is most appropriate for evaluating imbalanced classification problems?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                          </svg>`,
+                    options: [
+                        "F1 Score",
+                        "Accuracy",
+                        "Mean Squared Error",
+                        "R-squared"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Deep Learning",
+                    question: "What is a neural network activation function?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                          </svg>`,
+                    options: [
+                        "A function that determines the output of a neuron based on its inputs",
+                        "A function that initializes neural network weights",
+                        "A function that determines the learning rate",
+                        "A function that calculates the loss"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Deep Learning",
+                    question: "What is backpropagation in neural networks?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                          </svg>`,
+                    options: [
+                        "An algorithm to calculate gradients and update weights",
+                        "A technique to initialize neural network weights",
+                        "A method to add more layers to a network",
+                        "A process to reduce the number of features"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Deep Learning",
+                    question: "What is a Convolutional Neural Network (CNN) primarily used for?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                          </svg>`,
+                    options: [
+                        "Image processing and computer vision tasks",
+                        "Natural language processing",
+                        "Time series analysis",
+                        "Reinforcement learning"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "AI Ethics",
+                    question: "What is algorithmic bias?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                          </svg>`,
+                    options: [
+                        "Systematic errors in AI systems that create unfair outcomes for certain groups",
+                        "Errors in the mathematical formulation of algorithms",
+                        "The tendency of algorithms to prefer simple solutions",
+                        "The computational cost of running complex algorithms"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "AI Ethics",
+                    question: "What is 'explainable AI'?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                          </svg>`,
+                    options: [
+                        "AI systems that can explain their decisions and actions to humans",
+                        "AI systems that can learn from human explanations",
+                        "AI systems that are easy to implement",
+                        "AI systems that require minimal computational resources"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "AI Ethics",
+                    question: "What is 'data privacy' in the context of AI?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                          </svg>`,
+                    options: [
+                        "Protecting personal data used to train and operate AI systems",
+                        "Keeping AI algorithms proprietary",
+                        "Limiting access to AI systems",
+                        "Encrypting AI model parameters"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "MLOps",
+                    question: "What is the primary goal of MLOps?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                          </svg>`,
+                    options: [
+                        "Streamlining the deployment, monitoring, and maintenance of ML models in production",
+                        "Creating more complex machine learning algorithms",
+                        "Reducing the cost of training machine learning models",
+                        "Eliminating the need for data scientists"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "MLOps",
+                    question: "What is model versioning in MLOps?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                          </svg>`,
+                    options: [
+                        "Tracking different iterations of ML models to manage changes and rollbacks",
+                        "Creating multiple copies of the same model",
+                        "Comparing different machine learning algorithms",
+                        "Updating the software version of ML libraries"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "MLOps",
+                    question: "What is model drift in the context of MLOps?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                          </svg>`,
+                    options: [
+                        "The degradation of model performance over time as data patterns change",
+                        "The physical movement of models between servers",
+                        "The process of changing machine learning frameworks",
+                        "The transition from development to production environments"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "ML Fundamentals",
+                    question: "What is ensemble learning in machine learning?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                          </svg>`,
+                    options: [
+                        "Combining multiple models to improve performance",
+                        "Training a single model on multiple datasets",
+                        "Using multiple processors to train a model faster",
+                        "Creating a sequence of models that learn from each other"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Deep Learning",
+                    question: "What is transfer learning in deep learning?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                          </svg>`,
+                    options: [
+                        "Using knowledge from one task to improve performance on a related task",
+                        "Transferring models between different computing environments",
+                        "Moving data between different storage systems",
+                        "Converting models between different frameworks"
+                    ],
+                    correctAnswer: 0
+                },
+                {
+                    category: "Data Preprocessing",
+                    question: "What is the purpose of feature selection in machine learning?",
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                          </svg>`,
+                    options: [
+                        "Identifying the most relevant features to improve model performance and reduce complexity",
+                        "Creating new features from existing ones",
+                        "Scaling features to have the same range",
+                        "Converting numerical features to categorical"
+                    ],
+                    correctAnswer: 0
+                }
+            ];
 
-        // Global variables
-        let currentQuestion = 0;
-        let userAnswers = new Array(quizData.length).fill(null);
-        let timerInterval;
-        let timeRemaining = 10 * 60; // 10 minutes in seconds
+            // Variables to track quiz state
+            let currentUser = {
+                name: "",
+                email: ""
+            };
+            let currentQuestionIndex = 0;
+            let userAnswers = new Array(quizQuestions.length).fill(null);
+            let quizTimer;
+            let timeRemaining = 10 * 60; // 10 minutes in seconds
 
-        // DOM elements
-        const welcomeScreen = document.getElementById('welcome-screen');
-        const quizScreen = document.getElementById('quiz-screen');
-        const resultsScreen = document.getElementById('results-screen');
-        const certificatePreview = document.getElementById('certificate-preview');
-        const questionContainer = document.getElementById('question-container');
-        const progressBar = document.getElementById('progress-bar');
-        const currentQuestionSpan = document.getElementById('current-question');
-        const timerSpan = document.getElementById('timer');
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
-        const submitBtn = document.getElementById('submit-btn');
-
-        // Event listeners
-        document.getElementById('start-quiz-btn').addEventListener('click', startQuiz);
-        prevBtn.addEventListener('click', goToPreviousQuestion);
-        nextBtn.addEventListener('click', goToNextQuestion);
-        submitBtn.addEventListener('click', submitQuiz);
-        document.getElementById('generate-certificate-btn').addEventListener('click', showCertificate);
-        document.getElementById('close-preview-btn').addEventListener('click', hideCertificate);
-        document.getElementById('download-certificate-btn').addEventListener('click', downloadCertificate);
-
-        // Start the quiz
-        function startQuiz() {
-            welcomeScreen.classList.add('hidden');
-            quizScreen.classList.remove('hidden');
-            loadQuestion(currentQuestion);
-            startTimer();
-        }
-
-        // Load a question
-        function loadQuestion(index) {
-            const question = quizData[index];
-            currentQuestionSpan.textContent = index + 1;
-            progressBar.style.width = `${((index + 1) / quizData.length) * 100}%`;
+            // DOM elements
+            const loginScreen = document.getElementById('login-screen');
+            const categoryPreview = document.getElementById('category-preview');
+            const quizScreen = document.getElementById('quiz-screen');
+            const resultsScreen = document.getElementById('results-screen');
+            const certificateScreen = document.getElementById('certificate-screen');
             
-            // Update navigation buttons
-            prevBtn.disabled = index === 0;
-            if (index === quizData.length - 1) {
-                nextBtn.classList.add('hidden');
-                submitBtn.classList.remove('hidden');
-            } else {
-                nextBtn.classList.remove('hidden');
-                submitBtn.classList.add('hidden');
-            }
+            const loginForm = document.getElementById('login-form');
+            const startQuizBtn = document.getElementById('start-quiz-btn');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const simulatePaymentBtn = document.getElementById('simulate-payment-btn');
+            const downloadAgainBtn = document.getElementById('download-again-btn');
             
-            // Create question HTML
-            let questionHTML = `
-                <div class="mb-6">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2">${question.question}</h3>
-                    <p class="text-sm text-gray-500">Category: ${question.category}</p>
-                </div>
-                <div class="space-y-4">
-            `;
-            
-            // Add options
-            question.options.forEach((option, optionIndex) => {
-                const isChecked = userAnswers[index] === optionIndex;
-                questionHTML += `
-                    <div class="flex items-center p-3 ${isChecked ? 'bg-purple-50 border border-purple-200' : 'bg-gray-50 border border-gray-200'} rounded-lg hover:bg-purple-50 transition-colors">
-                        <input type="radio" name="question-${index}" id="option-${index}-${optionIndex}" 
-                            class="radio-button" value="${optionIndex}" ${isChecked ? 'checked' : ''}>
-                        <label for="option-${index}-${optionIndex}" class="ml-3 text-gray-700 cursor-pointer flex-grow">
-                            ${option}
-                        </label>
-                    </div>
-                `;
-            });
-            
-            questionHTML += `</div>`;
-            questionContainer.innerHTML = questionHTML;
-            
-            // Add event listeners to radio buttons
-            document.querySelectorAll(`input[name="question-${index}"]`).forEach(radio => {
-                radio.addEventListener('change', (e) => {
-                    userAnswers[index] = parseInt(e.target.value);
-                    
-                    // Update styling for selected option
-                    document.querySelectorAll(`input[name="question-${index}"]`).forEach((r, i) => {
-                        const parentDiv = r.parentElement;
-                        if (i === parseInt(e.target.value)) {
-                            parentDiv.classList.add('bg-purple-50', 'border-purple-200');
-                            parentDiv.classList.remove('bg-gray-50', 'border-gray-200');
-                        } else {
-                            parentDiv.classList.remove('bg-purple-50', 'border-purple-200');
-                            parentDiv.classList.add('bg-gray-50', 'border-gray-200');
-                        }
-                    });
-                });
-            });
-        }
+            const questionContainer = document.getElementById('question-container');
+            const questionIcon = document.getElementById('question-icon');
+            const questionText = document.getElementById('question-text');
+            const optionsContainer = document.getElementById('options-container');
+            const currentQuestionElement = document.getElementById('current-question');
+            const progressPercentElement = document.getElementById('progress-percent');
+            const progressBarElement = document.getElementById('progress-bar');
+            const timerElement = document.getElementById('timer');
+            const timerBarElement = document.getElementById('timer-bar');
 
-        // Navigate to previous question
-        function goToPreviousQuestion() {
-            if (currentQuestion > 0) {
-                currentQuestion--;
-                loadQuestion(currentQuestion);
-            }
-        }
+            // Event listeners
+            loginForm.addEventListener('submit', handleLogin);
+            startQuizBtn.addEventListener('click', startQuiz);
+            prevBtn.addEventListener('click', showPreviousQuestion);
+            nextBtn.addEventListener('click', handleNextQuestion);
+            simulatePaymentBtn.addEventListener('click', handlePayment);
+            downloadAgainBtn.addEventListener('click', downloadCertificate);
 
-        // Navigate to next question
-        function goToNextQuestion() {
-            if (currentQuestion < quizData.length - 1) {
-                currentQuestion++;
-                loadQuestion(currentQuestion);
-            }
-        }
-
-        // Start the timer
-        function startTimer() {
-            updateTimerDisplay();
-            timerInterval = setInterval(() => {
-                timeRemaining--;
-                updateTimerDisplay();
+            // Functions
+            function handleLogin(e) {
+                e.preventDefault();
+                currentUser.name = document.getElementById('fullName').value;
+                currentUser.email = document.getElementById('email').value;
                 
-                if (timeRemaining <= 0) {
-                    clearInterval(timerInterval);
+                // Store user info in localStorage
+                localStorage.setItem('userName', currentUser.name);
+                localStorage.setItem('userEmail', currentUser.email);
+                
+                // Show category preview
+                loginScreen.classList.add('hidden');
+                categoryPreview.classList.remove('hidden');
+            }
+
+            function startQuiz() {
+                categoryPreview.classList.add('hidden');
+                quizScreen.classList.remove('hidden');
+                
+                // Start the timer
+                startTimer();
+                
+                // Show first question
+                showQuestion(0);
+                updateQuizProgress();
+            }
+
+            function startTimer() {
+                updateTimerDisplay();
+                quizTimer = setInterval(() => {
+                    timeRemaining--;
+                    updateTimerDisplay();
+                    
+                    if (timeRemaining <= 0) {
+                        clearInterval(quizTimer);
+                        submitQuiz();
+                    }
+                }, 1000);
+            }
+
+            function updateTimerDisplay() {
+                const minutes = Math.floor(timeRemaining / 60);
+                const seconds = timeRemaining % 60;
+                timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                // Update timer bar
+                const percentRemaining = (timeRemaining / (10 * 60)) * 100;
+                timerBarElement.style.width = `${percentRemaining}%`;
+                
+                // Change color based on time remaining
+                if (percentRemaining > 60) {
+                    timerBarElement.className = 'timer-bar bg-gradient-to-r from-yellow-400 to-red-400 h-2 rounded-full';
+                } else if (percentRemaining > 30) {
+                    timerBarElement.className = 'timer-bar bg-gradient-to-r from-yellow-400 to-orange-400 h-2 rounded-full';
+                } else {
+                    timerBarElement.className = 'timer-bar bg-gradient-to-r from-red-600 to-red-400 h-2 rounded-full';
+                }
+            }
+
+            function showQuestion(index) {
+                const question = quizQuestions[index];
+                
+                // Update question content
+                questionIcon.innerHTML = question.icon;
+                questionText.textContent = question.question;
+                
+                // Clear previous options
+                optionsContainer.innerHTML = '';
+                
+                // Add new options
+                question.options.forEach((option, i) => {
+                    const optionElement = document.createElement('div');
+                    optionElement.className = `quiz-option p-4 border border-gray-600 rounded-lg cursor-pointer transition-colors ${userAnswers[index] === i ? 'selected' : ''}`;
+                    optionElement.innerHTML = `
+                        <div class="flex items-center">
+                            <div class="w-6 h-6 rounded-full border-2 border-gray-400 flex items-center justify-center mr-3">
+                                ${userAnswers[index] === i ? '<div class="w-3 h-3 rounded-full bg-yellow-400"></div>' : ''}
+                            </div>
+                            <span class="text-white">${option}</span>
+                        </div>
+                    `;
+                    
+                    optionElement.addEventListener('click', () => {
+                        // Remove selected class from all options
+                        document.querySelectorAll('.quiz-option').forEach(opt => {
+                            opt.classList.remove('selected');
+                            opt.querySelector('.w-6').innerHTML = '';
+                        });
+                        
+                        // Add selected class to clicked option
+                        optionElement.classList.add('selected');
+                        optionElement.querySelector('.w-6').innerHTML = '<div class="w-3 h-3 rounded-full bg-yellow-400"></div>';
+                        
+                        // Save answer
+                        userAnswers[index] = i;
+                        
+                        // Enable next button if it was disabled
+                        nextBtn.disabled = false;
+                    });
+                    
+                    optionsContainer.appendChild(optionElement);
+                });
+                
+                // Update current question index
+                currentQuestionIndex = index;
+                
+                // Update navigation buttons
+                prevBtn.disabled = index === 0;
+                nextBtn.textContent = index === quizQuestions.length - 1 ? 'Submit' : 'Next';
+                
+                // Disable next button if no answer selected
+                nextBtn.disabled = userAnswers[index] === null;
+                
+                // Update progress indicators
+                currentQuestionElement.textContent = index + 1;
+                const progressPercent = Math.round(((index + 1) / quizQuestions.length) * 100);
+                progressPercentElement.textContent = progressPercent;
+                progressBarElement.style.width = `${progressPercent}%`;
+                
+                // Add animation
+                questionContainer.classList.remove('scale-in');
+                void questionContainer.offsetWidth; // Trigger reflow
+                questionContainer.classList.add('scale-in');
+            }
+
+            function showPreviousQuestion() {
+                if (currentQuestionIndex > 0) {
+                    showQuestion(currentQuestionIndex - 1);
+                }
+            }
+
+            function handleNextQuestion() {
+                if (currentQuestionIndex < quizQuestions.length - 1) {
+                    showQuestion(currentQuestionIndex + 1);
+                } else {
                     submitQuiz();
                 }
-            }, 1000);
-        }
-
-        // Update timer display
-        function updateTimerDisplay() {
-            const minutes = Math.floor(timeRemaining / 60);
-            const seconds = timeRemaining % 60;
-            timerSpan.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            
-            // Change color when time is running out
-            if (timeRemaining < 60) {
-                timerSpan.classList.add('text-red-600');
-                timerSpan.classList.add('animate-pulse');
             }
-        }
 
-        // Submit the quiz
-        function submitQuiz() {
-            clearInterval(timerInterval);
-            quizScreen.classList.add('hidden');
-            resultsScreen.classList.remove('hidden');
-            
-            // Calculate results
-            const results = calculateResults();
-            displayResults(results);
-        }
-
-        // Calculate quiz results
-        function calculateResults() {
-            let totalCorrect = 0;
-            const categoryResults = {};
-            
-            quizData.forEach((question, index) => {
-                const category = question.category;
-                const isCorrect = userAnswers[index] === question.correctAnswer;
-                
-                if (isCorrect) totalCorrect++;
-                
-                if (!categoryResults[category]) {
-                    categoryResults[category] = {
-                        total: 0,
-                        correct: 0
-                    };
-                }
-                
-                categoryResults[category].total++;
-                if (isCorrect) categoryResults[category].correct++;
-            });
-            
-            return {
-                totalScore: totalCorrect,
-                categoryResults: categoryResults
-            };
-        }
-
-        // Display quiz results
-        function displayResults(results) {
-            document.getElementById('total-score').textContent = `${results.totalScore}`;
-            
-            const categoryResultsContainer = document.getElementById('category-results');
-            categoryResultsContainer.innerHTML = '';
-            
-            // Category icons mapping
-            const categoryIcons = {
-                'ML Fundamentals': '📊',
-                'Deep Learning': '🧠',
-                'NLP & Text Analysis': '📝',
-                'Data Preprocessing': '🔍',
-                'Computer Vision': '👁️',
-                'Model Deployment': '🚀'
-            };
-            
-            // Performance ratings
-            const getPerformanceRating = (correct, total) => {
-                const percentage = (correct / total) * 100;
-                if (percentage >= 80) return 'Excellent';
-                if (percentage >= 60) return 'Good';
-                if (percentage >= 40) return 'Average';
-                return 'Needs Improvement';
-            };
-            
-            // Performance colors
-            const getPerformanceColor = (rating) => {
-                switch (rating) {
-                    case 'Excellent': return 'bg-green-100 text-green-800';
-                    case 'Good': return 'bg-blue-100 text-blue-800';
-                    case 'Average': return 'bg-yellow-100 text-yellow-800';
-                    case 'Needs Improvement': return 'bg-red-100 text-red-800';
-                    default: return 'bg-gray-100 text-gray-800';
-                }
-            };
-            
-            // Add category results
-            Object.entries(results.categoryResults).forEach(([category, data]) => {
-                const rating = getPerformanceRating(data.correct, data.total);
-                const colorClass = getPerformanceColor(rating);
-                
-                categoryResultsContainer.innerHTML += `
-                    <div class="bg-white rounded-lg shadow p-4 flex items-start">
-                        <div class="text-3xl mr-3">${categoryIcons[category] || '📝'}</div>
-                        <div>
-                            <h4 class="font-medium text-gray-800">${category}</h4>
-                            <div class="flex items-center mt-1">
-                                <span class="text-sm ${colorClass} px-2 py-1 rounded-full font-medium">${rating}</span>
-                                <span class="ml-2 text-sm text-gray-600">${data.correct}/${data.total}</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        // Show certificate preview
-        function showCertificate() {
-            const fullName = document.getElementById('full-name').value.trim();
-            if (!fullName) {
-                alert('Please enter your full name for the certificate.');
-                return;
+            function updateQuizProgress() {
+                const answeredCount = userAnswers.filter(answer => answer !== null).length;
+                const progressPercent = Math.round((answeredCount / quizQuestions.length) * 100);
+                progressPercentElement.textContent = progressPercent;
+                progressBarElement.style.width = `${progressPercent}%`;
             }
-            
-            certificatePreview.classList.remove('hidden');
-            
-            // Set certificate details
-            document.getElementById('certificate-name').textContent = fullName;
-            
-            const results = calculateResults();
-            document.getElementById('certificate-score').textContent = `${results.totalScore}/20`;
-            
-            // Determine rank based on score
-            let rank = 'Beginner';
-            if (results.totalScore >= 18) rank = 'Expert';
-            else if (results.totalScore >= 15) rank = 'Advanced';
-            else if (results.totalScore >= 10) rank = 'Intermediate';
-            
-            document.getElementById('certificate-rank').textContent = rank;
-            
-            // Set current date
-            const currentDate = new Date();
-            const formattedDate = currentDate.toLocaleDateString('en-US', { 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
-            });
-            document.getElementById('certificate-date').textContent = formattedDate;
-            
-            // Generate certificate ID
-            const certificateId = 'SKX-' + Math.floor(100000 + Math.random() * 900000);
-            document.getElementById('certificate-id').textContent = certificateId;
-            
-            // Add category results to certificate
-            const certificateCategories = document.getElementById('certificate-categories');
-            certificateCategories.innerHTML = '';
-            
-            // Category icons mapping
-            const categoryIcons = {
-                'ML Fundamentals': '📊',
-                'Deep Learning': '🧠',
-                'NLP & Text Analysis': '📝',
-                'Data Preprocessing': '🔍',
-                'Computer Vision': '👁️',
-                'Model Deployment': '🚀'
-            };
-            
-            // Performance ratings
-            const getPerformanceRating = (correct, total) => {
-                const percentage = (correct / total) * 100;
-                if (percentage >= 80) return 'Excellent';
-                if (percentage >= 60) return 'Good';
-                if (percentage >= 40) return 'Average';
-                return 'Needs Improvement';
-            };
-            
-            Object.entries(results.categoryResults).forEach(([category, data]) => {
-                const rating = getPerformanceRating(data.correct, data.total);
-                
-                certificateCategories.innerHTML += `
-                    <div class="flex items-center">
-                        <span class="mr-1">${categoryIcons[category] || '📝'}</span>
-                        <span class="text-sm">${category.split(' ')[0]}: ${rating}</span>
-                    </div>
-                `;
-            });
-        }
 
-        // Hide certificate preview
-        function hideCertificate() {
-            certificatePreview.classList.add('hidden');
-        }
-
-        // Download certificate as PDF
-        function downloadCertificate() {
-            const { jsPDF } = window.jspdf;
-            const certificateContainer = document.getElementById('certificate-container');
-            
-            // Show loading state
-            const downloadBtn = document.getElementById('download-certificate-btn');
-            const originalBtnText = downloadBtn.textContent;
-            downloadBtn.textContent = 'Generating PDF...';
-            downloadBtn.disabled = true;
-            
-            // Use html2canvas to capture the certificate
-            html2canvas(certificateContainer, {
-                scale: 2,
-                logging: false,
-                useCORS: true
-            }).then(canvas => {
-                const imgData = canvas.toDataURL('image/png');
+            function submitQuiz() {
+                // Stop the timer
+                clearInterval(quizTimer);
                 
-                // Create PDF in A4 landscape
-                const pdf = new jsPDF({
-                    orientation: 'landscape',
-                    unit: 'mm',
-                    format: 'a4'
+                // Calculate results
+                const results = calculateResults();
+                
+                // Display results
+                displayResults(results);
+                
+                // Hide quiz screen and show results screen
+                quizScreen.classList.add('hidden');
+                resultsScreen.classList.remove('hidden');
+            }
+
+            function calculateResults() {
+                // Calculate total score
+                let totalCorrect = 0;
+                userAnswers.forEach((answer, index) => {
+                    if (answer === quizQuestions[index].correctAnswer) {
+                        totalCorrect++;
+                    }
                 });
                 
-                const pdfWidth = pdf.internal.pageSize.getWidth();
-                const pdfHeight = pdf.internal.pageSize.getHeight();
+                const totalScore = Math.round((totalCorrect / quizQuestions.length) * 100);
                 
-                // Calculate ratio to fit the image properly
-                const canvasRatio = canvas.width / canvas.height;
-                const pageRatio = pdfWidth / pdfHeight;
+                // Calculate category scores
+                const categories = {};
+                quizQuestions.forEach((question, index) => {
+                    const category = question.category;
+                    if (!categories[category]) {
+                        categories[category] = {
+                            total: 0,
+                            correct: 0
+                        };
+                    }
+                    
+                    categories[category].total++;
+                    if (userAnswers[index] === question.correctAnswer) {
+                        categories[category].correct++;
+                    }
+                });
                 
-                let imgWidth, imgHeight;
+                // Convert to percentages and ratings
+                const categoryResults = {};
+                Object.keys(categories).forEach(category => {
+                    const score = Math.round((categories[category].correct / categories[category].total) * 100);
+                    let rating;
+                    let icon;
+                    
+                    if (score >= 90) {
+                        rating = 'Excellent';
+                        icon = '🏆';
+                    } else if (score >= 75) {
+                        rating = 'Good';
+                        icon = '👍';
+                    } else if (score >= 60) {
+                        rating = 'Satisfactory';
+                        icon = '👌';
+                    } else {
+                        rating = 'Needs Improvement';
+                        icon = '📝';
+                    }
+                    
+                    categoryResults[category] = {
+                        score,
+                        rating,
+                        icon
+                    };
+                });
                 
-                if (canvasRatio > pageRatio) {
-                    // Image is wider than the page ratio
-                    imgWidth = pdfWidth;
-                    imgHeight = imgWidth / canvasRatio;
+                // Determine overall rating
+                let overallRating;
+                if (totalScore >= 90) {
+                    overallRating = 'Excellent';
+                } else if (totalScore >= 75) {
+                    overallRating = 'Good';
+                } else if (totalScore >= 60) {
+                    overallRating = 'Satisfactory';
                 } else {
-                    // Image is taller than the page ratio
-                    imgHeight = pdfHeight;
-                    imgWidth = imgHeight * canvasRatio;
+                    overallRating = 'Needs Improvement';
                 }
                 
-                // Center the image on the page
-                const x = (pdfWidth - imgWidth) / 2;
-                const y = (pdfHeight - imgHeight) / 2;
+                return {
+                    totalScore,
+                    totalCorrect,
+                    totalQuestions: quizQuestions.length,
+                    categoryResults,
+                    overallRating
+                };
+            }
+
+            function displayResults(results) {
+                // Update total score
+                document.getElementById('total-score').textContent = results.totalScore;
+                document.getElementById('max-score').textContent = '100';
                 
-                pdf.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight);
+                // Update score gauge
+                const scoreCircle = document.getElementById('score-circle');
+                const circumference = 2 * Math.PI * 45; // 2πr
+                const offset = circumference - (results.totalScore / 100) * circumference;
+                scoreCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+                scoreCircle.style.strokeDashoffset = offset;
                 
-                // Get user's name for the filename
-                const fullName = document.getElementById('full-name').value.trim().replace(/\s+/g, '_');
-                const filename = `${fullName}_ML_AI_Certificate.pdf`;
+                // Set color based on score
+                if (results.totalScore >= 90) {
+                    scoreCircle.style.stroke = '#10B981'; // Green
+                } else if (results.totalScore >= 75) {
+                    scoreCircle.style.stroke = '#3B82F6'; // Blue
+                } else if (results.totalScore >= 60) {
+                    scoreCircle.style.stroke = '#F59E0B'; // Yellow
+                } else {
+                    scoreCircle.style.stroke = '#EF4444'; // Red
+                }
                 
-                // Download the PDF
-                pdf.save(filename);
+                document.getElementById('score-percentage').textContent = `${results.totalScore}%`;
                 
-                // Reset button state
-                downloadBtn.textContent = originalBtnText;
-                downloadBtn.disabled = false;
-            });
-        }
+                // Update category results
+                const categoryResultsContainer = document.getElementById('category-results');
+                categoryResultsContainer.innerHTML = '';
+                
+                Object.keys(results.categoryResults).forEach(category => {
+                    const result = results.categoryResults[category];
+                    const categoryElement = document.createElement('div');
+                    
+                    // Set background color based on rating
+                    let bgColor;
+                    if (result.rating === 'Excellent') {
+                        bgColor = 'bg-gradient-to-br from-green-500 to-emerald-600';
+                    } else if (result.rating === 'Good') {
+                        bgColor = 'bg-gradient-to-br from-blue-500 to-indigo-600';
+                    } else if (result.rating === 'Satisfactory') {
+                        bgColor = 'bg-gradient-to-br from-yellow-400 to-orange-500';
+                    } else {
+                        bgColor = 'bg-gradient-to-br from-red-500 to-pink-600';
+                    }
+                    
+                    categoryElement.className = `${bgColor} rounded-lg p-4 text-white`;
+                    categoryElement.innerHTML = `
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h4 class="font-medium">${category}</h4>
+                                <p class="text-sm text-white text-opacity-90">${result.rating}</p>
+                            </div>
+                            <div class="text-2xl">${result.icon}</div>
+                        </div>
+                        <div class="mt-2 w-full bg-white bg-opacity-30 rounded-full h-2">
+                            <div class="bg-white h-2 rounded-full" style="width: ${result.score}%"></div>
+                        </div>
+                        <div class="text-right mt-1 text-sm">${result.score}%</div>
+                    `;
+                    
+                    categoryResultsContainer.appendChild(categoryElement);
+                });
+                
+                // Store results for certificate generation
+                localStorage.setItem('quizResults', JSON.stringify(results));
+            }
+
+            function handlePayment() {
+                // In a real app, this would handle actual payment processing
+                // For this demo, we'll simulate a successful payment
+                
+                // Hide results screen and show certificate screen
+                resultsScreen.classList.add('hidden');
+                certificateScreen.classList.remove('hidden');
+                
+                // Generate certificate
+                generateCertificate();
+                
+                // Download certificate automatically
+                setTimeout(downloadCertificate, 1000);
+            }
+
+            function generateCertificate() {
+                // Get user info and results
+                const userName = localStorage.getItem('userName') || 'John Doe';
+                const results = JSON.parse(localStorage.getItem('quizResults')) || {
+                    totalScore: 85,
+                    overallRating: 'Good',
+                    categoryResults: {}
+                };
+                
+                // Generate certificate ID
+                const certificateId = 'SKX-' + Math.floor(100000 + Math.random() * 900000);
+                
+                // Get current date
+                const currentDate = new Date().toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                
+                // Update certificate content
+                document.getElementById('certificate-name').textContent = userName;
+                document.getElementById('certificate-score').textContent = `${results.totalScore}/100`;
+                document.getElementById('certificate-rank').textContent = results.overallRating;
+                document.getElementById('certificate-date').textContent = currentDate;
+                document.getElementById('certificate-id').textContent = certificateId;
+                
+                // Update category results
+                const certificateCategoriesContainer = document.getElementById('certificate-categories');
+                certificateCategoriesContainer.innerHTML = '';
+                
+                Object.keys(results.categoryResults).forEach(category => {
+                    const result = results.categoryResults[category];
+                    const categoryElement = document.createElement('div');
+                    categoryElement.className = 'flex items-center mb-1';
+                    categoryElement.innerHTML = `
+                        <span class="mr-2">${result.icon}</span>
+                        <span class="text-sm">${category}: <span class="font-medium">${result.rating}</span></span>
+                    `;
+                    
+                    certificateCategoriesContainer.appendChild(categoryElement);
+                });
+            }
+
+            function downloadCertificate() {
+                // Make sure jsPDF is properly loaded
+                if (typeof window.jspdf === 'undefined') {
+                    console.error('jsPDF library not loaded properly');
+                    alert('PDF generation library not loaded. Please try again or check your internet connection.');
+                    return;
+                }
+
+                const certificate = document.getElementById('certificate');
+                
+                // Use html2canvas with proper settings
+                html2canvas(certificate, {
+                    scale: 2, // Higher scale for better quality
+                    logging: true, // Enable logging for debugging
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: null
+                }).then(function(canvas) {
+                    try {
+                        const imgData = canvas.toDataURL('image/png');
+                        
+                        // Create PDF using jsPDF
+                        const { jsPDF } = window.jspdf;
+                        const pdf = new jsPDF({
+                            orientation: 'landscape',
+                            unit: 'mm',
+                            format: 'a4'
+                        });
+                        
+                        const pdfWidth = pdf.internal.pageSize.getWidth();
+                        const pdfHeight = pdf.internal.pageSize.getHeight();
+                        
+                        // Add image to PDF, fitting to page
+                        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                
+                        // Download the PDF
+                        const userName = localStorage.getItem('userName') || 'User';
+                        const fileName = `${userName.replace(/\s+/g, '_')}_ML_AI_Certificate.pdf`;
+                        pdf.save(fileName);
+                        
+                        console.log('Certificate downloaded successfully');
+                    } catch (error) {
+                        console.error('Error generating PDF:', error);
+                        alert('There was an error generating your certificate. Please try again.');
+                    }
+                }).catch(function(error) {
+                    console.error('Error capturing certificate:', error);
+                    alert('There was an error capturing your certificate. Please try again.');
+                });
+            }
+        });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9681e899d5513a15',t:'MTc1NDAxNTM3NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9696846422ff858d',t:'MTc1NDIzMTQ3MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>

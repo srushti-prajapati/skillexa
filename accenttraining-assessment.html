@@ -338,9 +338,15 @@
                     </div>
                     
                     <!-- Simulated payment button for demo purposes -->
-                    <button id="simulate-payment-btn" class="w-full px-6 py-3 bg-gradient-to-r from-yellow-600 to-amber-500 text-white rounded-lg font-medium hover:opacity-90 transition-opacity shimmer">
-                        Simulate Payment (Demo)
-                    </button>
+                    <button id="simulate-payment-btn" class="w-full px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">
+  Simulate Payment
+</button>
+<script>
+    document.getElementById("simulate-payment-btn").addEventListener("click", () => {
+  localStorage.setItem("paymentStatus", "paid"); // ✅ simulate successful payment
+  handlePayment();
+});
+
                 </div>
             </div>
         </div>

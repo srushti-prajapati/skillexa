@@ -1152,7 +1152,7 @@
                     const { jsPDF } = window.jspdf;
                     const pdf = new jsPDF({
                         orientation: 'landscape',
-                        unit: 'cm',
+                        unit: 'mm',
                         format: 'a4'
                     });
                     
@@ -1180,17 +1180,35 @@
 
   function downloadCertificateAsPDF() {
     const certificate = document.getElementById("certificate");
-    const pdf = new jsPDF('l', 'pt', 'a4');
-    html2canvas(certificate).then(canvas => {
-      const imgData = canvas.toDataURL('image/png');
-      const imgProps = pdf.getImageProperties(imgData);
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-      const xOffset = (pdfWidth - imgProps.width * (pdfWidth / imgProps.width)) / 2;
-      const yOffset = 20;
 
-      pdf.addImage(imgData, 'PNG', xOffset, yOffset, pdfWidth, pdfHeight);
-      pdf.save("communication-certificate.pdf");
+    html2canvas(certificate, { scale: 2, useCORS: true }).then(canvas => {
+      const imgData = canvas.toDataURL("image/png");
+
+      const pdf = new jsPDF({
+        orientation: "landscape",
+        unit: "mm",
+        format: "a4"
+      });
+
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+
+      const imgProps = pdf.getImageProperties(imgData);
+      const imgWidth = imgProps.width;
+      const imgHeight = imgProps.height;
+
+      const scaleRatio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+      const finalWidth = imgWidth * scaleRatio;
+      const finalHeight = imgHeight * scaleRatio;
+
+      const xOffset = (pdfWidth - finalWidth) / 2;
+      const yOffset = (pdfHeight - finalHeight) / 2;
+
+      pdf.addImage(imgData, 'PNG', xOffset, yOffset, finalWidth, finalHeight);
+
+      const userName = localStorage.getItem("userName") || "User";
+      const fileName = `${userName.replace(/\s+/g, "_")}_Communication_Skills_Certificate.pdf`;
+      pdf.save(fileName);
     });
   }
 
@@ -1204,5 +1222,6 @@
 
   document.getElementById("download-again-btn").addEventListener("click", downloadCertificateAsPDF);
 </script>
+
 </body>
 </html>

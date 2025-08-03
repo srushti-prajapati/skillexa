@@ -97,7 +97,8 @@
     import {
       getAuth,
       createUserWithEmailAndPassword,
-      signInWithEmailAndPassword
+      signInWithEmailAndPassword,
+      updateProfile
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
     const firebaseConfig = {
@@ -118,7 +119,7 @@
       document.getElementById("signupBox").classList.toggle("hidden");
     };
 
-    // Signup logic
+    // Signup
     document.getElementById("signupForm").addEventListener("submit", async (e) => {
       e.preventDefault();
 
@@ -134,15 +135,15 @@
 
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
+        await updateProfile(userCredential.user, { displayName: name });
 
         localStorage.setItem("skillexa-user", JSON.stringify({
-        name: name,
-        email: user.email,
-        plan: "Freemium" 
+          name: name,
+          email: email,
+          plan: "Freemium"
         }));
         localStorage.setItem("plan", "Freemium");
-        
+
         alert("Signup successful!");
         window.location.href = "dashboard.html";
       } catch (err) {
@@ -150,7 +151,7 @@
       }
     });
 
-    // Login logic
+    // Login
     document.getElementById("loginForm").addEventListener("submit", async (e) => {
       e.preventDefault();
 
@@ -162,17 +163,25 @@
         const user = userCredential.user;
 
         localStorage.setItem("skillexa-user", JSON.stringify({
-        name: user.displayName || "User",
-        email: user.email,
-        plan: "Freemium"
+          name: user.displayName || "User",
+          email: user.email,
+          plan: "Freemium"
         }));
         localStorage.setItem("plan", "Freemium");
-
 
         alert("Login successful!");
         window.location.href = "dashboard.html";
       } catch (err) {
-        alert("Login failed: " + err.message);
+        console.error("Login Error:", err.code, err.message);
+        if (err.code === "auth/user-not-found") {
+          alert("❌ No user found. Please sign up.");
+        } else if (err.code === "auth/wrong-password") {
+          alert("❌ Wrong password.");
+        } else if (err.code === "auth/invalid-email") {
+          alert("❌ Invalid email format.");
+        } else {
+          alert("❌ Login failed: " + err.message);
+        }
       }
     });
   </script>

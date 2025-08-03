@@ -832,7 +832,7 @@
                 timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
                 
                 // Update timer bar
-                const percentRemaining = (timeRemaining / (15 * 60)) * 100;
+                const percentRemaining = (timeRemaining / (10 * 60)) * 100;
                 timerBarElement.style.width = `${percentRemaining}%`;
                 
                 // Change color based on time remaining

@@ -220,7 +220,7 @@
                 <button id="start-quiz-btn" class="px-8 py-3 bg-gradient-to-r from-yellow-600 to-amber-500 text-white rounded-full font-medium text-lg hover:bg-opacity-90 transition-opacity shadow-lg shimmer">
                     Start 20-Question Assessment
                 </button>
-                <p class="text-white text-opacity-90 mt-4">You'll have 15 minutes to complete all questions</p>
+                <p class="text-white text-opacity-90 mt-4">You'll have 10 minutes to complete all questions</p>
             </div>
         </div>
 
@@ -845,7 +845,7 @@
                 timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
                 
                 // Update timer bar
-                const percentRemaining = (timeRemaining / (15 * 60)) * 100;
+                const percentRemaining = (timeRemaining / (10 * 60)) * 100;
                 timerBarElement.style.width = `${percentRemaining}%`;
                 
                 // Change color based on time remaining

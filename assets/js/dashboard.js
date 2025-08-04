@@ -7,7 +7,9 @@ if (!localStorage.getItem("name")) {
 }
   // Get user data from localStorage
   const userName = localStorage.getItem("name") || "User";
-    const isPremium = localStorage.getItem("isPremiumUser") === "true";
+  const userData = JSON.parse(localStorage.getItem("skillexa-user"));
+const isPremium = userData?.plan === "Premium"; // Ensure capital 'P'
+
   const userPlan = localStorage.getItem("plan") || "Free";
 
   // Show name and plan on dashboard

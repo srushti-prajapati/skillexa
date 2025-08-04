@@ -86,7 +86,24 @@
       document.getElementById('qrModal').classList.remove('active');
       selectedPlan = null;
     }
-function confirmPayment() {
+
+    function confirmPayment() {
+      if (selectedPlan) {
+        const capitalizedPlan = selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1);
+        localStorage.setItem("skillexa-user", JSON.stringify({ plan: capitalizedPlan }));
+        localStorage.setItem("plan", capitalizedPlan);
+
+        // ✅ Add premium flag when applicable
+        if (capitalizedPlan === "Premium") {
+          localStorage.setItem("isPremiumUser", "true");
+        }
+
+        alert(`✅ ${capitalizedPlan} Plan Activated!`);
+        closeQR();
+        window.location.href = "dashboard.html";
+      }
+    }
+    function confirmPayment() {
   if (selectedPlan) {
     const capitalizedPlan = selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1);
 
@@ -114,7 +131,7 @@ function confirmPayment() {
     window.location.href = "dashboard.html";
   }
 }
-    }
+
   </script>
 
   <!-- Footer -->

@@ -86,22 +86,34 @@
       document.getElementById('qrModal').classList.remove('active');
       selectedPlan = null;
     }
+function confirmPayment() {
+  if (selectedPlan) {
+    const capitalizedPlan = selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1);
 
-    function confirmPayment() {
-      if (selectedPlan) {
-        const capitalizedPlan = selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1);
-        localStorage.setItem("skillexa-user", JSON.stringify({ plan: capitalizedPlan }));
-        localStorage.setItem("plan", capitalizedPlan);
+    let userData = JSON.parse(localStorage.getItem("skillexa-user"));
 
-        // ✅ Add premium flag when applicable
-        if (capitalizedPlan === "Premium") {
-          localStorage.setItem("isPremiumUser", "true");
-        }
+    if (!userData) {
+      alert("User not logged in!");
+      return;
+    }
 
-        alert(`✅ ${capitalizedPlan} Plan Activated!`);
-        closeQR();
-        window.location.href = "dashboard.html";
-      }
+    // ✅ Update only the plan field
+    userData.plan = capitalizedPlan;
+
+    // ✅ Save updated object back
+    localStorage.setItem("skillexa-user", JSON.stringify(userData));
+
+    // ✅ Optional compatibility (legacy keys)
+    localStorage.setItem("plan", capitalizedPlan);
+    if (capitalizedPlan === "Premium") {
+      localStorage.setItem("isPremiumUser", "true");
+    }
+
+    alert(`✅ ${capitalizedPlan} Plan Activated!`);
+    closeQR();
+    window.location.href = "dashboard.html";
+  }
+}
     }
   </script>
 

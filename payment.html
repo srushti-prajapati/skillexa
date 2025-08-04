@@ -47,17 +47,24 @@
     </div>
 
   </div>
+<!-- QR Modal -->
+<div id="qrModal" class="modal fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50 hidden">
+  <div class="bg-white p-6 rounded-xl text-center relative">
+    <h3 class="text-xl font-semibold mb-4">Scan to Pay</h3>
+    <img src="assets/images/pay799-qr.jpg" alt="QR Code" class="w-48 h-48 mx-auto mb-4" />
+    <p class="mb-2 text-gray-600">Scan the QR using any UPI app</p>
 
-  <!-- QR Modal -->
-  <div id="qrModal" class="modal fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
-    <div class="bg-white p-6 rounded-xl text-center relative">
-      <h3 class="text-xl font-semibold mb-4">Scan to Pay</h3>
-      <img src="assets/images/pay799-qr.jpg" alt="QR Code" class="w-48 h-48 mx-auto mb-4" />
-      <p class="mb-2 text-gray-600">Scan the QR using any UPI app</p>
-      <button onclick="confirmPayment()" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-full mt-2">Mark as Paid</button>
-      <button onclick="closeQR()" class="absolute top-2 right-4 text-red-500 text-xl font-bold">&times;</button>
-    </div>
+    <!-- Disabled initially -->
+    <button id="markPaidBtn" onclick="confirmPayment()" 
+      class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-full mt-2 opacity-50 cursor-not-allowed" 
+      disabled>
+      Mark as Paid
+    </button>
+
+    <button onclick="closeQR()" class="absolute top-2 right-4 text-red-500 text-xl font-bold">&times;</button>
   </div>
+</div>
+
 
   <!-- ✅ SCRIPT UPDATED WITH PREMIUM FLAG -->
   <script>
@@ -73,14 +80,29 @@
       }
     }
 
-    function showQR(plan) {
-      if (plan === "allinone") {
-        alert("🚫 All-in-One Plan is Coming Soon!");
-        return;
-      }
-      selectedPlan = plan;
-      document.getElementById('qrModal').classList.add('active');
-    }
+function showQR(plan) {
+  if (plan === "allinone") {
+    alert("🚫 All-in-One Plan is Coming Soon!");
+    return;
+  }
+
+  selectedPlan = plan;
+  const modal = document.getElementById('qrModal');
+  const markBtn = document.getElementById('markPaidBtn');
+
+  // Show the modal
+  modal.classList.add('active');
+
+  // Disable the "Mark as Paid" button
+  markBtn.disabled = true;
+  markBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+  // Enable the button after 60 seconds
+  setTimeout(() => {
+    markBtn.disabled = false;
+    markBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+  }, 60000); // 60 seconds
+}
 
     function closeQR() {
       document.getElementById('qrModal').classList.remove('active');

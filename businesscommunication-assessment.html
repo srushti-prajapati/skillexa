@@ -323,9 +323,10 @@
                     </div>
                     
                     <!-- Simulated payment button for demo purposes -->
-                    <button id="simulate-payment-btn" class="w-full px-6 py-3 bg-gradient-to-r from-pink-500 to-orange-400 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">
-                        Simulate Payment
-                    </button>
+                    <button onclick="openQRAccent()" class="w-full px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">
+  Unlock Certificate (Pay ₹99)
+</button>
+
                 </div>
             </div>
         </div>
@@ -1212,5 +1213,22 @@
 
   document.getElementById("download-again-btn").addEventListener("click", downloadCertificateAsPDF);
 </script>
+<!-- QR Modal -->
+<div id="qrModal-businesscomm" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+  <div class="bg-white p-6 rounded-xl text-center relative">
+    <h3 class="text-xl font-semibold mb-4">Scan to Pay ₹99</h3>
+    <img src="assets/images/pay99-qr.jpg" alt="QR Code" class="w-48 h-48 mx-auto mb-4" />
+    <p class="mb-2 text-gray-600">Use any UPI app to scan and pay</p>
+
+    <button id="markPaidBtn-businesscomm" onclick="confirmBusinesscommPayment()" 
+      class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-full mt-2 opacity-50 cursor-not-allowed" 
+      disabled>
+      Mark as Paid
+    </button>
+
+    <button onclick="closeQRBusinesscomm()" class="absolute top-2 right-4 text-red-500 text-xl font-bold">&times;</button>
+  </div>
+</div>
+
 </body>
 </html>

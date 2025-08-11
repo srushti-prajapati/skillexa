@@ -200,7 +200,7 @@
                 <button id="start-quiz-btn" class="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-500 text-white rounded-full font-medium text-lg hover:opacity-90 transition-opacity shadow-lg">
                     Start 20-Question Assessment
                 </button>
-                <p class="text-gray-300 mt-4">You'll have 10 minutes to complete all questions</p>
+                <p class="text-gray-300 mt-4">You'll have 15 minutes to complete all questions</p>
             </div>
         </div>
 
@@ -295,8 +295,8 @@
                     <p class="text-gray-300 mb-6">Complete the payment to receive your official Skillexa certification</p>
                     
                     <div class="mb-6">
-                        <div id="qr-code" class="w-48 h-48 mx-auto bg-white p-4 rounded-lg">    
-                        <div class="flex justify-center my-4">
+                              <div id="qr-code" class="w-48 h-48 mx-auto bg-white p-4 rounded-lg">
+                           <div class="flex justify-center my-4">
   <img src="assets/images/pay99-qr.jpg" alt="Pay ₹99 QR Code" class="w-40 h-40 object-contain rounded-md shadow-md" />
 </div>
                                 <!-- Simple QR code SVG representation -->
@@ -319,10 +319,9 @@
                     </div>
                     
                     <!-- Simulated payment button for demo purposes -->
-                  <button onclick="openQRAccent()" class="w-full px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">
-  Unlock Certificate (Pay ₹99)
-</button>
-
+                    <button id="simulate-payment-btn" class="w-full px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">
+                        Simulate Payment 
+                    </button>
                 </div>
             </div>
         </div>
@@ -342,12 +341,9 @@
                         
                         <div class="flex justify-between items-start mb-6 relative z-10">
                             <!-- Logo placeholder -->
-
-                             <div class="w-16 h-16 rounded-md overflow-hidden mr-3 shadow-md">
+                           <div class="w-16 h-16 rounded-md overflow-hidden mr-3 shadow-md">
                             <img src="assets/logo.jpg" alt="Skillexa Logo" class="w-full h-full object-cover" />
                             </div>
-                            
-                            
                             <div class="flex items-center">
                                 <div class="text-right mr-4">
                                     <h3 class="text-xl font-bold text-gray-800">CERTIFICATE</h3>
@@ -409,15 +405,16 @@
                         </div>
                         
                         <div class="flex justify-between items-end mt-8 relative z-10">
-                            <div class="text-center">    
-                                <img src="assets/images/khushi.png" alt="Signature" class="mx-auto mb-2" style="height: 30px; contain;" />    
+                            <div class="text-center">
+                                 <img src="assets/images/khushi.png" alt="Signature" class="mx-auto mb-2" style="height: 30px; contain;" />
+                             
                                 <div class="w-40 border-b border-gray-400 mb-1"></div>
                                 <p class="text-gray-800 font-medium">Jagdeep Kaur I</p>
                                 <p class="text-gray-600 text-sm">Founder</p>
                             </div>
                             
                             <div class="text-center">
-                                    <img src="assets/images/srushti.jpg" alt="Signature" class="mx-auto mb-2" style="height: 30px; contain;" />
+                              <img src="assets/images/srushti.jpg" alt="Signature" class="mx-auto mb-2" style="height: 30px; contain;" />
                                 <div class="w-40 border-b border-gray-400 mb-1"></div>
                                 <p class="text-gray-800 font-medium">Prajapati Srushti K</p>
                                 <p class="text-gray-600 text-sm">Co-Founder</p>
@@ -1159,6 +1156,7 @@
                         format: 'a4'
                     });
                     
+                      const imgProps = pdf.getImageProperties(imgData);
                     const pdfWidth = pdf.internal.pageSize.getWidth();
                     const pdfHeightLimit = pdf.internal.pageSize.getHeight(); // max height available
                     const scaleRatio = Math.min(pdfWidth / imgProps.width, pdfHeightLimit / imgProps.height);
@@ -1178,69 +1176,6 @@
             }
         });
     </script>
-<script>
-  window.jsPDF = window.jspdf.jsPDF;
-
-  function downloadCertificateAsPDF() {
-    const certificate = document.getElementById("certificate");
-
-    html2canvas(certificate, { scale: 2, useCORS: true }).then(canvas => {
-      const imgData = canvas.toDataURL("image/png");
-
-      const pdf = new jsPDF({
-        orientation: "landscape",
-        unit: "mm",
-        format: "a4"
-      });
-
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
-
-      const imgProps = pdf.getImageProperties(imgData);
-      const imgWidth = imgProps.width;
-      const imgHeight = imgProps.height;
-
-      const scaleRatio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
-      const finalWidth = imgWidth * scaleRatio;
-      const finalHeight = imgHeight * scaleRatio;
-
-      const xOffset = (pdfWidth - finalWidth) / 2;
-      const yOffset = (pdfHeight - finalHeight) / 2;
-
-      pdf.addImage(imgData, 'PNG', xOffset, yOffset, finalWidth, finalHeight);
-
-      const userName = localStorage.getItem("userName") || "User";
-      const fileName = `${userName.replace(/\s+/g, "_")}_Communication_Skills_Certificate.pdf`;
-      pdf.save(fileName);
-    });
-  }
-
-  const certScreen = document.getElementById("certificate-screen");
-  const observer = new MutationObserver(() => {
-    if (!certScreen.classList.contains("hidden")) {
-      setTimeout(downloadCertificateAsPDF, 1000);
-    }
-  });
-  observer.observe(certScreen, { attributes: true, attributeFilter: ['class'] });
-
-  document.getElementById("download-again-btn").addEventListener("click", downloadCertificateAsPDF);
-</script>
-<!-- QR Modal -->
-<div id="qrModal-communication" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-  <div class="bg-white p-6 rounded-xl text-center relative">
-    <h3 class="text-xl font-semibold mb-4">Scan to Pay ₹99</h3>
-    <img src="assets/images/pay99-qr.jpg" alt="QR Code" class="w-48 h-48 mx-auto mb-4" />
-    <p class="mb-2 text-gray-600">Use any UPI app to scan and pay</p>
-
-    <button id="markPaidBtn-communication" onclick="confirmCommunicationPayment()" 
-      class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-full mt-2 opacity-50 cursor-not-allowed" 
-      disabled>
-      Mark as Paid
-    </button>
-
-    <button onclick="closeQRCommunication()" class="absolute top-2 right-4 text-red-500 text-xl font-bold">&times;</button>
-  </div>
-</div>
-
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96d929b3e5fef242',t:'MTc1NDkzMDMwMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 </body>
 </html>

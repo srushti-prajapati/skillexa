@@ -320,9 +320,12 @@
                     </div>
                     
                     <!-- Simulated payment button for demo purposes -->
-                    <button onclick="openQRAccent()" class="w-full px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">
-  Unlock Certificate (Pay ₹99)
-</button>
+                    <button id="simulate-payment-btn" class="w-full px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">
+                        Simulate Payment 
+                    </button>
+                </div>
+            </div>
+        </div>
 
                 </div>
             </div>
@@ -1179,21 +1182,6 @@
         });
     </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'967e731b40ca85e5',t:'MTc1Mzk3OTEwNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
-<!-- QR Modal -->
-<div id="qrModal-conflict" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-  <div class="bg-white p-6 rounded-xl text-center relative">
-    <h3 class="text-xl font-semibold mb-4">Scan to Pay ₹99</h3>
-    <img src="assets/images/pay99-qr.jpg" alt="QR Code" class="w-48 h-48 mx-auto mb-4" />
-    <p class="mb-2 text-gray-600">Use any UPI app to scan and pay</p>
 
-    <button id="markPaidBtn-conflict" onclick="confirmConflictPayment()" 
-      class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-full mt-2 opacity-50 cursor-not-allowed" 
-      disabled>
-      Mark as Paid
-    </button>
-
-    <button onclick="closeQRConflict()" class="absolute top-2 right-4 text-red-500 text-xl font-bold">&times;</button>
-  </div>
-</div>
 </body>
 </html>

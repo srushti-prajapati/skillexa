@@ -334,9 +334,12 @@
                     </div>
                     
                 <!-- Simulated payment button for demo purposes -->
-                    <button id="simulate-payment-btn" class="w-full px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">
-                        Simulate Payment 
-                    </button>
+                   <button id="simulate-payment-btn" 
+  class="w-full px-6 py-3 bg-gray-500 text-white rounded-lg font-medium cursor-not-allowed transition-all" 
+  disabled>
+  <span id="payment-btn-text">Simulate Payment</span>
+</button>
+
                 </div>
             </div>
         </div>
@@ -776,6 +779,7 @@
             const simulatePaymentBtn = document.getElementById('simulate-payment-btn');
             const downloadAgainBtn = document.getElementById('download-again-btn');
             
+
             const questionContainer = document.getElementById('question-container');
             const questionIcon = document.getElementById('question-icon');
             const questionText = document.getElementById('question-text');
@@ -786,13 +790,14 @@
             const timerElement = document.getElementById('timer');
             const timerBarElement = document.getElementById('timer-bar');
 
-            // Event listeners
-            loginForm.addEventListener('submit', handleLogin);
-            startQuizBtn.addEventListener('click', startQuiz);
-            prevBtn.addEventListener('click', showPreviousQuestion);
-            nextBtn.addEventListener('click', handleNextQuestion);
-            simulatePaymentBtn.addEventListener('click', handlePayment);
-            downloadAgainBtn.addEventListener('click', downloadCertificate);
+// Event listeners
+loginForm.addEventListener('submit', handleLogin);
+startQuizBtn.addEventListener('click', startQuiz);
+prevBtn.addEventListener('click', showPreviousQuestion);
+nextBtn.addEventListener('click', handleNextQuestion);
+quizForm.addEventListener('submit', handleSubmit);        // ✅ add this back
+simulatePaymentBtn.addEventListener('click', handlePayment); // ✅ keep this
+downloadAgainBtn.addEventListener('click', downloadCertificate);
 
             // Functions
             function handleLogin(e) {
@@ -1207,9 +1212,35 @@
                     alert('There was an error capturing your certificate. Please try again.');
                 });
             }
+       // ---- Payment button delayed enable ----
+(function initPaymentButton() {
+  const simulateBtn = document.getElementById("simulate-payment-btn");
+  const paymentBtnText = document.getElementById("payment-btn-text");
+  if (!simulateBtn || !paymentBtnText) return;
+
+  // Start disabled + gray
+  simulateBtn.disabled = true;
+  simulateBtn.classList.remove("bg-gradient-to-r", "from-green-500", "to-emerald-600");
+  simulateBtn.classList.add("bg-gray-500", "cursor-not-allowed");
+
+  // Enable after 60s (change to 3000 for test)
+  setTimeout(() => {
+    simulateBtn.disabled = false;
+    simulateBtn.classList.remove("bg-gray-500", "cursor-not-allowed");
+    simulateBtn.classList.add(
+      "bg-gradient-to-r",
+      "from-green-500",
+      "to-emerald-600",
+      "hover:opacity-90",
+      "transition-opacity"
+    );
+    paymentBtnText.textContent = "Simulate Payment";
+  }, 6000);
+})();
+
+
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9696846422ff858d',t:'MTc1NDIzMTQ3MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 
 </body>
 </html>

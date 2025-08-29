@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Payment Test</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 flex items-center justify-center min-h-screen">
+
+  <!-- Payment Section -->
+  <div class="w-full max-w-md mx-auto bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 shadow-lg text-center">
+    <h3 class="text-xl text-white mb-4">Get Your Certificate</h3>
+    <p class="text-white text-opacity-80 mb-6">Complete the payment to receive your official Skillexa certification</p>
+    
+    <div class="mb-6">
+      <div class="w-48 h-48 mx-auto bg-white p-4 rounded-lg shadow-md">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=PAY99" 
+             alt="Pay QR" class="w-full h-full object-contain rounded-md" />
+      </div>
+      <p class="text-white text-opacity-80 mt-2">Scan to pay via UPI</p>
+    </div>
+    
+    <!-- Payment Button (disabled initially) -->
+    <button id="simulate-payment-btn" 
+        class="w-full px-6 py-3 bg-gray-500 text-white rounded-lg font-medium cursor-not-allowed transition-all" 
+        disabled>
+        <span id="payment-btn-text">Simulate Payment</span>
+    </button>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const simulateBtn = document.getElementById("simulate-payment-btn");
+      const paymentBtnText = document.getElementById("payment-btn-text");
+
+      // Keep disabled at start (gray)
+      simulateBtn.disabled = true;
+
+      // Unlock after 60 seconds
+      setTimeout(() => {
+        simulateBtn.disabled = false;
+        simulateBtn.classList.remove("bg-gray-500", "cursor-not-allowed");
+        simulateBtn.classList.add(
+          "bg-gradient-to-r",
+          "from-green-500",
+          "to-emerald-600",
+          "hover:opacity-90",
+          "transition-opacity"
+        );
+        paymentBtnText.textContent = "Simulate Payment";
+      }, 60000); // 60s
+
+      // When clicked
+      simulateBtn.addEventListener("click", function () {
+        if (!simulateBtn.disabled) {
+          paymentBtnText.textContent = "Payment done ✅";
+          alert("✅ Payment Successful! Your certificate is being generated...");
+        }
+      });
+    });
+  </script>
+</body>
+</html>

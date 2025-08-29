@@ -237,7 +237,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <span id="timer" class="text-gray-300 font-medium">10:00</span>
+                        <span id="timer" class="text-gray-300 font-medium">15:00</span>
                     </div>
                     <div class="w-full bg-gray-700 rounded-full h-2">
                         <div id="timer-bar" class="timer-bar bg-gradient-to-r from-cyan-400 to-blue-400 h-2 rounded-full" style="width: 100%"></div>
@@ -314,11 +314,13 @@
                 <div class="w-full max-w-md mx-auto bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 shadow-lg text-center">
                     <h3 class="text-xl text-white mb-4 glow-text">Get Your Certificate</h3>
                     <p class="text-white text-opacity-80 mb-6">Complete the payment to receive your official Skillexa certification</p>
+                    
                     <div class="mb-6">
                         <div id="qr-code" class="w-48 h-48 mx-auto bg-white p-4 rounded-lg">
-                                  <div class="flex justify-center my-4">
-  <img src="assets/images/pay99-qr.jpg" alt="Pay ₹99 QR Code" class="w-40 h-40 object-contain rounded-md shadow-md" />
-</div>     
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="w-full h-full">
+                                <!-- Simple QR code SVG representation -->
+                                <rect x="10" y="10" width="80" height="80" fill="none" stroke="black" stroke-width="1" />
+                                <g fill="black">
                                     <!-- QR code pattern - simplified representation -->
                                     <rect x="20" y="20" width="20" height="20" />
                                     <rect x="60" y="20" width="20" height="20" />
@@ -335,13 +337,10 @@
                         <p class="text-white text-opacity-80 mt-2">Scan to pay via UPI</p>
                     </div>
                     
-                 <!-- Simulated payment button for demo purposes -->
+                    <!-- Simulated payment button for demo purposes -->
                     <button id="simulate-payment-btn" class="w-full px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg font-medium hover:opacity-90 transition-opacity">
                         Simulate Payment 
                     </button>
-                </div>
-            </div>
-        </div>
                 </div>
             </div>
         </div>
@@ -361,8 +360,9 @@
                         
                         <div class="flex justify-between items-start mb-6 relative z-10">
                             <!-- Logo placeholder -->
-                            <div class="w-16 h-16 rounded-md overflow-hidden mr-3 shadow-md">
+                               <div class="w-16 h-16 rounded-md overflow-hidden mr-3 shadow-md">
                             <img src="assets/logo.jpg" alt="Skillexa Logo" class="w-full h-full object-cover" />
+                            </div>
                             </div>
                             
                             <div class="flex items-center">
@@ -428,7 +428,6 @@
                         <div class="flex justify-between items-end mt-8 relative z-10">
                             <div class="text-center">
                                  <img src="assets/images/khushi.png" alt="Signature" class="mx-auto mb-2" style="height: 30px; contain;" />
-                             
                                 <div class="w-40 border-b border-gray-400 mb-1"></div>
                                 <p class="text-gray-800 font-medium">Jagdeep Kaur I</p>
                                 <p class="text-gray-600 text-sm">Founder</p>
@@ -436,9 +435,8 @@
                             
                             <div class="text-center">
                                  <img src="assets/images/srushti.jpg" alt="Signature" class="mx-auto mb-2" style="height: 30px; contain;" />
-                             
-                                <div class="w-40 border-b border-gray-400 mb-1"></div>
-                                <p class="text-gray-800 font-medium">Prajapati Srushti K</p>
+                               <div class="w-40 border-b border-gray-400 mb-1"></div>
+                                 <p class="text-gray-800 font-medium">Prajapati Srushti K</p>
                                 <p class="text-gray-600 text-sm">Co-Founder</p>
                             </div>
                         </div>
@@ -1159,7 +1157,7 @@
                         <span class="text-sm">${category}: <span class="font-medium">${result.rating}</span></span>
                     `;
                     
-                    certificateCategoriesContainer.appendChild(categoryElement)
+                    certificateCategoriesContainer.appendChild(categoryElement);
                 });
             }
 
@@ -1192,6 +1190,7 @@
                     const yOffset = (pdfHeightLimit - imgHeight) / 2;
                     pdf.addImage(imgData, 'PNG', xOffset, yOffset, imgWidth, imgHeight);
 
+                    
                     // Download the PDF
                     const userName = localStorage.getItem('userName') || 'User';
                     const fileName = `${userName.replace(/\s+/g, '_')}_Accent_Training_Certificate.pdf`;
@@ -1200,7 +1199,5 @@
             }
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'968ef9c1c566f7fa',t:'MTc1NDE1MjM5Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
-
-</body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'974cece900e71d39',t:'MTc1NjE0NDE2MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>

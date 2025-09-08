@@ -3,12 +3,12 @@
 <head>
  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
  <meta charset="UTF-8" />
-  <title>Verify Certificate – Skillexa</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Skillexa – Upgrade Your Skills with AI Tutor and AI Judge.">
-<meta name="keywords" content="AI Tutor, Skill Learning, AI Judge, Skillexa">
-<link rel="stylesheet" href="style.css" />
-  <style>
+ <title>Verify Certificate – Skillexa</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <meta name="description" content="Skillexa – Upgrade Your Skills with AI Tutor and AI Judge.">
+ <meta name="keywords" content="AI Tutor, Skill Learning, AI Judge, Skillexa"> 
+ <link rel="stylesheet" href="style.css" />
+ <style>
     body {
       font-family: 'Segoe UI', sans-serif;
       background: linear-gradient(to right, #e0f2fe, #f0fdfa);
@@ -17,6 +17,7 @@
       justify-content: center;
       min-height: 100vh;
       margin: 0;
+      flex-direction: column;
     }
 
     .verify-container {
@@ -27,6 +28,7 @@
       text-align: center;
       max-width: 500px;
       width: 90%;
+      margin-bottom: 40px;
     }
 
     .verify-container h1 {
@@ -61,7 +63,7 @@
 
     .result {
       margin-top: 20px;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: bold;
     }
 
@@ -72,50 +74,54 @@
     .invalid {
       color: red;
     }
-  </style>
+ </style>
 </head>
 <body>
+
 <header>
-<img src="assets/logo.jpg" class="logo" />
- <a href="index.html">
-  </a>
+  <img src="assets/logo.jpg" class="logo" />
+  <a href="index.html"></a>
 </header>
 
-  <div class="verify-container">
-    <h1>Verify Certificate</h1>
-    <input type="text" id="certIdInput" placeholder="Enter Certificate ID (e.g. SKLX-20250713-001)" />
-    <button onclick="verifyCertificate()">Verify</button>
-    <div id="result" class="result"></div>
-  </div>
+<div class="verify-container">
+  <h1>Verify Certificate</h1>
+  <input type="text" id="certIdInput" placeholder="Enter Certificate ID (e.g. SKX-123456)" />
+  <button onclick="verifyCertificate()">Verify</button>
+  <div id="result" class="result"></div>
+</div>
 
-  <script>
-    // Static mock certificate IDs (can update later)
-    const validCertIds = [
-      "SKLX-20250713-001",
-      "SKLX-20250713-002",
-      "SKLX-20250713-003"
-    ];
+<script>
+  function verifyCertificate() {
+    const inputId = document.getElementById("certIdInput").value.trim();
+    const resultBox = document.getElementById("result");
 
-    function verifyCertificate() {
-      const inputId = document.getElementById("certIdInput").value.trim();
-      const resultBox = document.getElementById("result");
+    // Get stored certificate data (from assessment page)
+    const certData = JSON.parse(localStorage.getItem("certificateData"));
 
-      if (!inputId) {
-        resultBox.innerHTML = "Please enter a certificate ID.";
-        resultBox.className = "result invalid";
-        return;
-      }
-
-      if (validCertIds.includes(inputId)) {
-        resultBox.innerHTML = "✅ Valid Certificate!";
-        resultBox.className = "result valid";
-      } else {
-        resultBox.innerHTML = "❌ Invalid Certificate ID.";
-        resultBox.className = "result invalid";
-      }
+    if (!inputId) {
+      resultBox.innerHTML = "⚠️ Please enter a certificate ID.";
+      resultBox.className = "result invalid";
+      return;
     }
-  </script>
-<footer style="background-color: #1e3a8a; color: white; padding: 40px 20px; text-align: center;">
+
+    if (certData && inputId === certData.id) {
+      resultBox.innerHTML = `
+        ✅ Valid Certificate! <br><br>
+        <strong>Name:</strong> ${certData.name} <br>
+        <strong>Score:</strong> ${certData.score}/100 <br>
+        <strong>Rank:</strong> ${certData.rating} <br>
+        <strong>Date:</strong> ${certData.date} <br>
+        <strong>ID:</strong> ${certData.id}
+      `;
+      resultBox.className = "result valid";
+    } else {
+      resultBox.innerHTML = "❌ Invalid Certificate ID.";
+      resultBox.className = "result invalid";
+    }
+  }
+</script>
+
+<footer style="background-color: #1e3a8a; color: white; padding: 40px 20px; text-align: center; width:100%;">
   <div style="max-width: 1000px; margin: auto;">
     <h2 style="margin-bottom: 10px; font-size: 1.6rem;">Skillexa</h2>
     <p style="margin: 5px 0;">Empowering skill development with AI-powered learning and evaluation.</p>
@@ -126,17 +132,16 @@
     </div>
 
     <div style="margin: 30px 0;">
-      <a href="https://www.instagram.com/_skillexa_?igsh=MXEzZzZ4N213aTdxNA%3D%3D&utm_source=qr" target="_blank" style="margin: 0 12px; color: #dbeafe; text-decoration: none;">📸 Instagram</a>
+      <a href="https://www.instagram.com/_skillexa_" target="_blank" style="margin: 0 12px; color: #dbeafe; text-decoration: none;">📸 Instagram</a>
       |
       <a href="https://www.youtube.com/@Skillexaa" target="_blank" style="margin: 0 12px; color: #dbeafe; text-decoration: none;">▶️ YouTube</a>
       |
       <a href="https://www.linkedin.com/in/jagdeep-kaur-i-2b3b632a2" target="_blank" style="margin: 0 12px; color: #dbeafe; text-decoration: none;">💼 LinkedIn</a>
       |
-      <a href="https://www.linkedin.com/in/jagdeep-kaur-i-2b3b632a2" target="_blank" style="margin: 0 12px; color: #dbeafe; text-decoration: none;">📢 Telegram Channel</a>
+      <a href="https://t.me/yourchannel" target="_blank" style="margin: 0 12px; color: #dbeafe; text-decoration: none;">📢 Telegram Channel</a>
     </div>
 
     <hr style="border: none; border-top: 1px solid #3b82f6; margin: 30px 0;" />
-
     <p style="font-size: 0.9rem;">&copy; 2025 Skillexa. All rights reserved.</p>
   </div>
 </footer>

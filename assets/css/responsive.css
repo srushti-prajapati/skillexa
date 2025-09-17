@@ -1,0 +1,54 @@
+/* ✅ Global responsive fixes for all Skillexa pages */
+
+/* Images shrink automatically */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Buttons friendly for mobile touch */
+button, .btn {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Prevent horizontal scrolling */
+body {
+  overflow-x: hidden;
+}
+
+/* Quiz Question Text */
+#question-text {
+  font-size: 1.125rem; /* 18px */
+}
+@media (min-width: 640px) {
+  #question-text { font-size: 1.25rem; } /* 20px */
+}
+@media (min-width: 768px) {
+  #question-text { font-size: 1.5rem; } /* 24px */
+}
+
+/* Certificate + Quiz + Results Boxes */
+.certificate-content,
+#question-container,
+.results-box {
+  padding: 1rem; /* small screens */
+}
+@media (min-width: 768px) {
+  .certificate-content,
+  #question-container,
+  .results-box {
+    padding: 2rem; /* larger screens */
+  }
+}
+
+/* Certificate container: no overflow on phones */
+#certificate {
+  max-width: 100%;
+  overflow-x: auto;
+}
+@media (min-width: 768px) {
+  #certificate {
+    max-width: 72rem; /* same as Tailwind max-w-5xl */
+  }
+}

@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tutor - Advanced Learning Assistant</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #0a0e27;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #1a1a2e, #16213e, #0f3460);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            z-index: -1;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .tutor-interface {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 1400px;
+            height: 90vh;
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .avatar-panel {
+            background: linear-gradient(135deg, rgba(74, 144, 226, 0.1), rgba(143, 72, 219, 0.1));
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 30px;
+            position: relative;
+        }
+
+        .avatar-container {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .avatar {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 120px;
+            color: white;
+            transition: all 0.4s ease;
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .avatar::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 3s linear infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .avatar.thinking {
+            transform: scale(1.05);
+            box-shadow: 0 25px 50px rgba(102, 126, 234, 0.5);
+        }
+
+        .avatar.speaking {
+            animation: speaking 1s ease-in-out infinite;
+        }
+
+        @keyframes speaking {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+
+        .tutor-info {
+            text-align: center;
+            color: white;
+        }
+
+        .tutor-name {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tutor-title {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px 20px;
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .status-dot.thinking {
+            background: #f59e0b;
+            animation: thinking-pulse 0.8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+        }
+
+        @keyframes thinking-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+
+        .status-text {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+        }
+
+        .chat-panel {
+            display: flex;
+            flex-direction: column;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .chat-header {
+            padding: 30px 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chat-title {
+            font-size: 32px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .chat-subtitle {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.6;
+        }
+
+        .level-selector {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .level-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.7);
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .level-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .level-btn.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-color: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .messages-container {
+            flex: 1;
+            padding: 30px 40px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .message {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            animation: messageAppear 0.6s ease-out;
+        }
+
+        @keyframes messageAppear {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+            justify-content: flex-start;
+        }
+
+        .message-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .message.user .message-avatar {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .message-content {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 20px 25px;
+            color: white;
+            line-height: 1.6;
+            max-width: 75%;
+            backdrop-filter: blur(10px);
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.2));
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .typing-indicator {
+            display: none;
+            align-items: center;
+            gap: 15px;
+            padding: 20px 40px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .typing-indicator.show {
+            display: flex;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 5px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: typingAnimation 1.4s ease-in-out infinite;
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typingAnimation {
+            0%, 60%, 100% { transform: scale(1); opacity: 0.3; }
+            30% { transform: scale(1.2); opacity: 1; }
+        }
+
+        .input-area {
+            padding: 25px 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .input-container {
+            display: flex;
+            gap: 15px;
+            align-items: flex-end;
+        }
+
+        .input-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        #messageInput {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            padding: 18px 25px;
+            color: white;
+            font-size: 16px;
+            font-family: inherit;
+            resize: none;
+            outline: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            min-height: 55px;
+            max-height: 120px;
+        }
+
+        #messageInput::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        #messageInput:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .send-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 50%;
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .send-btn:hover:not(:disabled) {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.6);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .welcome-message {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 18px;
+            margin-top: 100px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 1024px) {
+            .tutor-interface {
+                grid-template-columns: 1fr;
+                height: 100vh;
+            }
+            
+            .avatar-panel {
+                padding: 20px;
+            }
+            
+            .avatar {
+                width: 200px;
+                height: 200px;
+                font-size: 80px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .messages-container,
+            .input-area,
+            .chat-header {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+            
+            .level-selector {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation"></div>
+    
+    <div class="tutor-interface">
+        <div class="avatar-panel">
+            <div class="avatar-container">
+                <div class="avatar" id="avatar">👨‍🏫</div>
+            </div>
+            
+            <div class="tutor-info">
+                <div class="tutor-name">Professor AI</div>
+                <div class="tutor-title">Advanced Learning Assistant<br>Specialized in personalized education</div>
+                
+                <div class="status-indicator">
+                    <div class="status-dot" id="statusDot"></div>
+                    <div class="status-text" id="statusText">Ready to help</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-panel">
+            <div class="chat-header">
+                <div class="chat-title">Advanced AI Tutoring</div>
+                <div class="chat-subtitle">Get in-depth explanations, solve complex problems, and master any subject with personalized guidance.</div>
+                
+                <div class="level-selector">
+                    <button class="level-btn active" data-level="beginner">Foundation</button>
+                    <button class="level-btn" data-level="intermediate">Intermediate</button>
+                    <button class="level-btn" data-level="advanced">Expert</button>
+                </div>
+            </div>
+
+            <div class="messages-container" id="messagesContainer">
+                <div class="welcome-message">
+                    Welcome to advanced AI tutoring! I'm here to provide detailed explanations, solve complex problems, and help you master any subject. What would you like to learn today?
+                </div>
+            </div>
+
+            <div class="typing-indicator" id="typingIndicator">
+                <div class="typing-dots">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+                <span>Professor AI is analyzing your question...</span>
+            </div>
+
+            <div class="input-area">
+                <div class="input-container">
+                    <div class="input-wrapper">
+                        <textarea 
+                            id="messageInput" 
+                            placeholder="Ask about any topic: mathematics, physics, literature, history, programming..."
+                            rows="1"
+                        ></textarea>
+                    </div>
+                    <button class="send-btn" id="sendBtn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="m22 2-7 20-4-9-9-4 20-7z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class AdvancedAITutor {
+            constructor() {
+                this.currentLevel = 'beginner';
+                this.isProcessing = false;
+                this.conversationHistory = [];
+                
+                this.initializeElements();
+                this.setupEventListeners();
+                this.setupAutoResize();
+            }
+
+            initializeElements() {
+                this.avatar = document.getElementById('avatar');
+                this.statusDot = document.getElementById('statusDot');
+                this.statusText = document.getElementById('statusText');
+                this.messagesContainer = document.getElementById('messagesContainer');
+                this.messageInput = document.getElementById('messageInput');
+                this.sendBtn = document.getElementById('sendBtn');
+                this.typingIndicator = document.getElementById('typingIndicator');
+                this.levelBtns = document.querySelectorAll('.level-btn');
+            }
+
+            setupEventListeners() {
+                this.sendBtn.addEventListener('click', () => this.sendMessage());
+                this.messageInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        this.sendMessage();
+                    }
+                });
+
+                this.levelBtns.forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        this.levelBtns.forEach(b => b.classList.remove('active'));
+                        e.target.classList.add('active');
+                        this.currentLevel = e.target.dataset.level;
+                    });
+                });
+            }
+
+            setupAutoResize() {
+                this.messageInput.addEventListener('input', () => {
+                    this.messageInput.style.height = 'auto';
+                    this.messageInput.style.height = Math.min(this.messageInput.scrollHeight, 120) + 'px';
+                });
+            }
+
+            async sendMessage() {
+                const message = this.messageInput.value.trim();
+                if (!message || this.isProcessing) return;
+
+                this.addUserMessage(message);
+                this.messageInput.value = '';
+                this.messageInput.style.height = 'auto';
+                
+                await this.processAIResponse(message);
+            }
+
+            addUserMessage(message) {
+                const messageEl = document.createElement('div');
+                messageEl.className = 'message user';
+                messageEl.innerHTML = `
+                    <div class="message-avatar">U</div>
+                    <div class="message-content">${message}</div>
+                `;
+                
+                this.messagesContainer.appendChild(messageEl);
+                this.scrollToBottom();
+                this.conversationHistory.push({ role: 'user', content: message });
+            }
+
+            async processAIResponse(userMessage) {
+                this.startProcessing();
+                
+                // Simulate realistic AI processing time
+                const processingTime = 2000 + Math.random() * 2000;
+                await this.delay(processingTime);
+                
+                const response = this.generateIntelligentResponse(userMessage);
+                this.stopProcessing();
+                this.addAIMessage(response);
+                
+                this.conversationHistory.push({ role: 'assistant', content: response });
+            }
+
+            generateIntelligentResponse(question) {
+                const lowerQ = question.toLowerCase();
+                
+                // Advanced topic detection and response generation
+                if (this.isAbout(lowerQ, ['math', 'calculus', 'algebra', 'geometry', 'statistics'])) {
+                    return this.getMathResponse(question);
+                } else if (this.isAbout(lowerQ, ['physics', 'chemistry', 'biology', 'science'])) {
+                    return this.getScienceResponse(question);
+                } else if (this.isAbout(lowerQ, ['programming', 'code', 'javascript', 'python', 'algorithm'])) {
+                    return this.getProgrammingResponse(question);
+                } else if (this.isAbout(lowerQ, ['history', 'literature', 'philosophy', 'art'])) {
+                    return this.getHumanitiesResponse(question);
+                } else {
+                    return this.getGeneralResponse(question);
+                }
+            }
+
+            isAbout(text, keywords) {
+                return keywords.some(keyword => text.includes(keyword));
+            }
+
+            getMathResponse(question) {
+                const responses = {
+                    beginner: "Let me break down this mathematical concept step by step. Mathematics is like building blocks - each concept builds on the previous one. I'll start with the fundamental principles and show you practical examples you can relate to.",
+                    intermediate: "This is an excellent mathematical question that involves several interconnected concepts. Let me walk you through the theoretical framework and then demonstrate the practical applications with detailed problem-solving techniques.",
+                    advanced: "This mathematical problem requires a sophisticated approach involving multiple theoretical domains. Let me present the formal mathematical treatment, including proofs, derivations, and connections to broader mathematical structures."
+                };
+                
+                return responses[this.currentLevel] + "\n\n" + this.getSpecificMathContent(question);
+            }
+
+            getSpecificMathContent(question) {
+                if (question.toLowerCase().includes('derivative')) {
+                    return "Derivatives represent the instantaneous rate of change. Think of it as finding the exact slope of a curve at any given point. For example, if f(x) = x², then f'(x) = 2x tells us how steep the curve is at any x-value.";
+                } else if (question.toLowerCase().includes('integral')) {
+                    return "Integration is essentially the reverse of differentiation - it finds the area under a curve. It's incredibly powerful for calculating accumulated quantities like distance from velocity, or total growth from growth rates.";
+                } else {
+                    return "Mathematical thinking involves recognizing patterns, making logical connections, and applying systematic problem-solving approaches. Would you like me to work through a specific example?";
+                }
+            }
+
+            getScienceResponse(question) {
+                const responses = {
+                    beginner: "Science is all about understanding how our world works! Let me explain this concept using everyday examples that you can observe around you.",
+                    intermediate: "This scientific principle involves fascinating mechanisms that govern natural phenomena. Let me explain the underlying processes and how they connect to broader scientific understanding.",
+                    advanced: "This involves complex scientific theories and mechanisms. Let me present the current research, theoretical models, and empirical evidence that supports our understanding."
+                };
+                
+                return responses[this.currentLevel] + "\n\n" + this.getSpecificScienceContent(question);
+            }
+
+            getSpecificScienceContent(question) {
+                const lowerQ = question.toLowerCase();
+                if (lowerQ.includes('quantum')) {
+                    return "Quantum mechanics reveals that at the atomic scale, particles behave in ways that seem impossible in our everyday world - they can exist in multiple states simultaneously and instantly affect each other across vast distances.";
+                } else if (lowerQ.includes('evolution')) {
+                    return "Evolution is the change in heritable traits of biological populations over successive generations. It's driven by mechanisms like natural selection, genetic drift, and mutation, supported by overwhelming evidence from multiple scientific fields.";
+                } else if (lowerQ.includes('climate')) {
+                    return "Climate change involves complex interactions between atmospheric systems, ocean currents, solar radiation, and human activities. The greenhouse effect amplifies warming through feedback loops in Earth's climate system.";
+                } else {
+                    return "Scientific understanding comes from systematic observation, experimentation, and peer review. Each discovery builds on previous knowledge while sometimes revolutionizing our understanding.";
+                }
+            }
+
+            getProgrammingResponse(question) {
+                return `Programming is problem-solving through logical thinking and systematic approach. ${this.currentLevel === 'advanced' ? 'At an advanced level, we focus on algorithmic complexity, design patterns, and system architecture.' : this.currentLevel === 'intermediate' ? 'Let\'s explore the underlying concepts and best practices.' : 'Let me start with the fundamental concepts and build up gradually.'}\n\nEffective programming involves breaking down complex problems into smaller, manageable pieces. Would you like me to demonstrate with a specific example or concept?`;
+            }
+
+            getHumanitiesResponse(question) {
+                return `The humanities help us understand human culture, thought, and expression across time and societies. ${this.currentLevel === 'advanced' ? 'This involves critical analysis of primary sources, theoretical frameworks, and scholarly interpretations.' : this.currentLevel === 'intermediate' ? 'Let\'s explore the historical context and various perspectives.' : 'I\'ll explain this through engaging stories and relatable examples.'}\n\nUnderstanding humanities requires considering multiple perspectives and the cultural contexts that shaped ideas and events.`;
+            }
+
+            getGeneralResponse(question) {
+                const responses = [
+                    "That's a thoughtful question that touches on several important concepts. Let me provide a comprehensive explanation tailored to your learning level.",
+                    "I appreciate the depth of your inquiry. This topic involves multiple interconnected ideas that I'd be happy to explore with you.",
+                    "This is exactly the kind of question that leads to meaningful learning. Let me break this down systematically."
+                ];
+                
+                return responses[Math.floor(Math.random() * responses.length)] + "\n\n" + 
+                       "Based on your question, I can see you're thinking critically about this topic. Would you like me to focus on any particular aspect or provide more detailed examples?";
+            }
+
+            addAIMessage(message) {
+                const messageEl = document.createElement('div');
+                messageEl.className = 'message ai';
+                messageEl.innerHTML = `
+                    <div class="message-avatar">AI</div>
+                    <div class="message-content">${message}</div>
+                `;
+                
+                this.messagesContainer.appendChild(messageEl);
+                this.scrollToBottom();
+                
+                // Avatar speaking animation
+                this.avatar.classList.add('speaking');
+                setTimeout(() => this.avatar.classList.remove('speaking'), 3000);
+            }
+
+            startProcessing() {
+                this.isProcessing = true;
+                this.sendBtn.disabled = true;
+                
+                this.avatar.classList.add('thinking');
+                this.statusDot.classList.add('thinking');
+                this.statusText.textContent = 'Analyzing question...';
+                this.typingIndicator.classList.add('show');
+                
+                this.scrollToBottom();
+            }
+
+            stopProcessing() {
+                this.isProcessing = false;
+                this.sendBtn.disabled = false;
+                
+                this.avatar.classList.remove('thinking');
+                this.statusDot.classList.remove('thinking');
+                this.statusText.textContent = 'Ready to help';
+                this.typingIndicator.classList.remove('show');
+            }
+
+            scrollToBottom() {
+                setTimeout(() => {
+                    this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+                }, 100);
+            }
+
+            delay(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new AdvancedAITutor();
+        });
+    </script>
+</body>
+</html>

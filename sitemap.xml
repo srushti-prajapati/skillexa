@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Homepage -->
+  <url>
+    <loc>https://www.skillexa.co.in/</loc>
+    <lastmod>2025-09-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Main Pages -->
+  <url><loc>https://www.skillexa.co.in/about</loc></url>
+  <url><loc>https://www.skillexa.co.in/skill</loc></url>
+  <url><loc>https://www.skillexa.co.in/dashboard</loc></url>
+  <url><loc>https://www.skillexa.co.in/tutor</loc></url>
+  <url><loc>https://www.skillexa.co.in/judge</loc></url>
+  <url><loc>https://www.skillexa.co.in/certificate</loc></url>
+  <url><loc>https://www.skillexa.co.in/verify</loc></url>
+  <url><loc>https://www.skillexa.co.in/payment</loc></url>
+  <url><loc>https://www.skillexa.co.in/checkout</loc></url>
+  <url><loc>https://www.skillexa.co.in/signup-login</loc></url>
+
+  <!-- Assessment Pages -->
+  <url><loc>https://www.skillexa.co.in/accenttraining-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/appdevelopment-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/businessanalytics-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/businesscommunication-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/cloudcomputing-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/communication-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/conflictresolution-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/contentcreation-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/creativetriting-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/criticalthinking-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/culturalsensitivity-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/cybersecurity-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/databasemanagement-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/datascience-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/datastructureandalgorithm-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/decisionmaking-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/digitalmarketing-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/emotionalintelligence-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/emailwriting-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/entrepreneurship-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/graphicdesign-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/grammarvocabulary-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/interviewpreparation-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/leadership-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/logodesign-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/ml-aiassessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/ml-ai-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/motiongraphics-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/multilingualcommunication-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/photography-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/problemsolving-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/projectmanagement-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/publicspeaking-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/sales-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/seo-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/socialmediamarketing-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/spokenenglish-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/storytelling-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/timemanagement-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/translationpractice-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/uiuxdesign-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/videoediting-assessment</loc></url>
+  <url><loc>https://www.skillexa.co.in/webdevelopment-assessment</loc></url>
+
+</urlset>

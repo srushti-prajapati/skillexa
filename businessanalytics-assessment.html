@@ -94,6 +94,26 @@
         .celestial-text {
             text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #C850C0, 0 0 20px #C850C0;
         }
+        @media (max-width: 480px) {
+  h1, h2, h3 {
+    font-size: 90%; /* scale down big headings */
+  }
+
+  button {
+    width: 100%; /* buttons stretch on small phones */
+  }
+
+  .category-card,
+  .card {
+    padding: 1rem;
+    width: 100% !important; /* stack neatly */
+  }
+
+  .container {
+    padding: 0 10px; /* reduce side spacing */
+  }
+}
+
     </style>
 </head>
 <body>

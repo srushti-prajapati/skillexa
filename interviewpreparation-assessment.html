@@ -87,6 +87,26 @@
             background-color: rgba(249, 115, 22, 0.2);
             border-color: #f97316;
         }
+        @media (max-width: 480px) {
+  h1, h2, h3 {
+    font-size: 90%; /* scale down big headings */
+  }
+
+  button {
+    width: 100%; /* buttons stretch on small phones */
+  }
+
+  .category-card,
+  .card {
+    padding: 1rem;
+    width: 100% !important; /* stack neatly */
+  }
+
+  .container {
+    padding: 0 10px; /* reduce side spacing */
+  }
+}
+
     </style>
 </head>
 <body>

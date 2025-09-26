@@ -248,6 +248,23 @@
                             <p class="text-xs text-gray-400 cursor-pointer" onclick="logout()">Logout</p>
                         </div>
                     </div>
+                    <script>
+    function logout() {
+        // Clear user session/localStorage
+        localStorage.removeItem('user'); // replace 'user' with your storage key
+        // Redirect to signup/login page
+        window.location.href = 'signup-login.html'; // replace with your actual signup/login page path
+    }
+
+    // Optional: display username if logged in
+    const usernameDisplay = document.getElementById('username-display');
+    const user = localStorage.getItem('user');
+    if(user) {
+        usernameDisplay.textContent = user; // show username
+    } else {
+        usernameDisplay.textContent = 'Guest';
+    }
+</script>
                 </div>
             </div>
         </div>

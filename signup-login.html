@@ -58,49 +58,11 @@
     .hidden {
       display: none;
     }
-    @media (max-width: 480px) {
-  h1, h2, h3 {
-    font-size: 90%; /* scale down big headings */
-  }
-
-  button {
-    width: 100%; /* buttons stretch on small phones */
-  }
-
-  .category-card,
-  .card {
-    padding: 1rem;
-    width: 100% !important; /* stack neatly */
-  }
-
-  .container {
-    padding: 0 10px; /* reduce side spacing */
-  }
-}
-@media (max-width: 480px) {
-  h1, h2, h3 {
-    font-size: 90%; /* scale down big headings */
-  }
-
-  button {
-    width: 100%; /* buttons stretch on small phones */
-  }
-
-  .category-card,
-  .card {
-    padding: 1rem;
-    width: 100% !important; /* stack neatly */
-  }
-
-  .container {
-    padding: 0 10px; /* reduce side spacing */
-  }
-}
-
   </style>
 </head>
 <body>
   <div class="auth-container">
+    <!-- Login -->
     <div class="form-box" id="loginBox">
       <h2>Login to Skillexa</h2>
       <form id="loginForm">
@@ -111,6 +73,7 @@
       <p class="toggle-link" onclick="toggleForms()">Don't have an account? Sign Up</p>
     </div>
 
+    <!-- Signup -->
     <div class="form-box hidden" id="signupBox">
       <h2>Create Skillexa Account</h2>
       <form id="signupForm">
@@ -141,7 +104,14 @@
       signInWithEmailAndPassword,
       updateProfile
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      setDoc,
+      getDoc
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+    // 🔹 Firebase Config
     const firebaseConfig = {
       apiKey: "AIzaSyDvR9KfczfZEqa792GTXX1eGRGz3ial1Vc",
       authDomain: "skillexa-auth.firebaseapp.com",
@@ -153,20 +123,22 @@
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    const db = getFirestore(app);
 
-    // Toggle form view
+    // 🔹 Toggle Login/Signup
     window.toggleForms = function () {
       document.getElementById("loginBox").classList.toggle("hidden");
       document.getElementById("signupBox").classList.toggle("hidden");
     };
 
-    // Signup
+    // 🔹 Signup
     document.getElementById("signupForm").addEventListener("submit", async (e) => {
       e.preventDefault();
 
       const name = document.getElementById("signupName").value.trim();
       const email = document.getElementById("signupEmail").value.trim();
       const password = document.getElementById("signupPassword").value;
+      const mobile = document.getElementById("mobile").value.trim();
       const agree = document.getElementById("agreeTerms").checked;
 
       if (!agree) {
@@ -176,23 +148,37 @@
 
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        await updateProfile(userCredential.user, { displayName: name });
+        const user = userCredential.user;
 
-        localStorage.setItem("skillexa-user", JSON.stringify({
-          name: name,
+        // Save display name in Auth
+        await updateProfile(user, { displayName: name });
+
+        // Save user in Firestore
+        await setDoc(doc(db, "users", user.uid), {
+          fullName: name,
           email: email,
-          plan: "Freemium"
-        }));
-        localStorage.setItem("plan", "Freemium");
+          mobile: mobile,
+          plan: "free",
+          progress: 0,
+          uid: user.uid
+        });
 
-        alert("Signup successful!");
+        // Save locally
+        localStorage.setItem("skillexa-user", JSON.stringify({
+          name,
+          email,
+          mobile,
+          plan: "free"
+        }));
+
+        alert("✅ Signup successful!");
         window.location.href = "dashboard.html";
       } catch (err) {
-        alert("Signup failed: " + err.message);
+        alert("❌ Signup failed: " + err.message);
       }
     });
 
-    // Login
+    // 🔹 Login
     document.getElementById("loginForm").addEventListener("submit", async (e) => {
       e.preventDefault();
 
@@ -203,14 +189,19 @@
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        localStorage.setItem("skillexa-user", JSON.stringify({
-          name: user.displayName || "User",
-          email: user.email,
-          plan: "Freemium"
-        }));
-        localStorage.setItem("plan", "Freemium");
+        // Fetch Firestore data
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        let userData = {};
+        if (userDoc.exists()) {
+          userData = userDoc.data();
+        } else {
+          userData = { name: user.displayName || "User", email: user.email, plan: "free" };
+        }
 
-        alert("Login successful!");
+        // Save in localStorage
+        localStorage.setItem("skillexa-user", JSON.stringify(userData));
+
+        alert("✅ Login successful!");
         window.location.href = "dashboard.html";
       } catch (err) {
         console.error("Login Error:", err.code, err.message);

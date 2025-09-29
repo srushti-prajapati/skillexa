@@ -1108,29 +1108,40 @@
            function handlePayment() {
     const btn = document.getElementById('simulate-payment-btn');
     
-    // Disable button immediately
-    btn.disabled = true;
-    btn.textContent = "Processing Payment...";
-    btn.classList.add("opacity-50", "cursor-not-allowed");
+   // Disable button immediately
+btn.disabled = true;
+btn.textContent = "Processing Payment...";
+btn.classList.add("opacity-50", "cursor-not-allowed");
 
-    // Wait for 1 minute before showing certificate
-    setTimeout(() => {
-        // Hide results screen and show certificate screen
-        resultsScreen.classList.add('hidden');
-        certificateScreen.classList.remove('hidden');
-        
-        // Generate certificate
-        generateCertificate();
-        
-        // Auto-download after 1 second
-        setTimeout(downloadCertificate, 1000);
+// Add a waiting message
+const waitingMessage = document.createElement('p');
+waitingMessage.id = "waiting-message";
+waitingMessage.textContent = "Please wait for certificate generation after payment (this may take up to 10 minutes)...";
+resultsScreen.appendChild(waitingMessage);
 
-        // Reset button state (optional, in case user returns)
-        btn.disabled = false;
-        btn.textContent = "Simulate Payment";
-        btn.classList.remove("opacity-50", "cursor-not-allowed");
-    }, 60000); // 60000 ms = 1 min
-}
+// Wait for 10 minutes before showing certificate
+setTimeout(() => {
+    // Hide results screen and show certificate screen
+    resultsScreen.classList.add('hidden');
+    certificateScreen.classList.remove('hidden');
+
+    // Remove waiting message
+    if(document.getElementById('waiting-message')){
+        document.getElementById('waiting-message').remove();
+    }
+
+    // Generate certificate
+    generateCertificate();
+
+    // Auto-download after 1 second
+    setTimeout(downloadCertificate, 1000);
+
+    // Reset button state (optional, in case user returns)
+    btn.disabled = false;
+    btn.textContent = "Simulate Payment";
+    btn.classList.remove("opacity-50", "cursor-not-allowed");
+}, 600000); // 600000 ms = 10 minutes
+
 
             function generateCertificate() {
                 // Get user info and results

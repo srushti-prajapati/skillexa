@@ -1,8 +1,16 @@
+// login.js
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { 
+  getAuth, 
+  signInWithEmailAndPassword 
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { 
+  getFirestore, 
+  doc, 
+  getDoc 
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// Firebase config
+// 🔑 Firebase config (same as signup.js)
 const firebaseConfig = {
   apiKey: "AIzaSyDvR9KfczfZEqa792GTXX1eGRGz3ial1Vc",
   authDomain: "skillexa-auth.firebaseapp.com",
@@ -12,11 +20,12 @@ const firebaseConfig = {
   appId: "1:560797846224:web:1a7bd6241fb2a8f7aa2cd5"
 };
 
-// Initialize Firebase
+// 🔥 Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+// ✅ Login form handler
 document.getElementById("loginForm").addEventListener("submit", async function (e) {
   e.preventDefault();
 
@@ -24,45 +33,32 @@ document.getElementById("loginForm").addEventListener("submit", async function (
   const password = document.getElementById("loginPassword").value;
 
   if (!email || !password) {
-    alert("Please enter both email and password.");
+    alert("Please enter email and password.");
     return;
   }
 
   try {
-    // 1️⃣ Sign in with Firebase Auth
+    // 1️⃣ Login user
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    // 2️⃣ Get user data from Firestore
-    const userDoc = await getDoc(doc(db, "users", user.uid));
-    let userData = {};
-    if (userDoc.exists()) {
-      userData = userDoc.data();
-    }
+    // 2️⃣ Fetch user details from Firestore
+    const docRef = doc(db, "users", user.uid);
+    const docSnap = await getDoc(docRef);
 
-    // 3️⃣ Save all info in localStorage
-    localStorage.setItem("skillexa-user", JSON.stringify({
-      name: userData.fullName || user.displayName || "User",
-      email: user.email,
-      plan: userData.plan || "Freemium",
-      TEL: userData.TEL || ""
-    }));
+    if (docSnap.exists()) {
+      const userData = docSnap.data();
 
-    localStorage.setItem("plan", userData.plan || "Freemium");
+      // Save in localStorage
+      localStorage.setItem("skillexa-user", JSON.stringify(userData));
 
-    alert("Login successful!");
-    window.location.href = "dashboard.html";
-
-  } catch (error) {
-    console.error("Login Error:", error.code, error.message);
-    if (error.code === "auth/user-not-found") {
-      alert("❌ No user found. Please sign up.");
-    } else if (error.code === "auth/wrong-password") {
-      alert("❌ Wrong password.");
-    } else if (error.code === "auth/invalid-email") {
-      alert("❌ Invalid email format.");
+      alert("Login successful!");
+      window.location.href = "dashboard.html";
     } else {
-      alert("❌ Login failed: " + error.message);
+      alert("User logged in but no details found in Firestore.");
     }
+  } catch (error) {
+    console.error("Login Error:", error.message);
+    alert("Login failed: " + error.message);
   }
 });

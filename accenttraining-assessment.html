@@ -1169,58 +1169,75 @@
                 });
             }
 
-            function downloadCertificate() {
-                // Make sure jsPDF is properly loaded
-                if (typeof window.jspdf === 'undefined') {
-                    console.error('jsPDF library not loaded properly');
-                    alert('PDF generation library not loaded. Please try again or check your internet connection.');
-                    return;
-                }
+           function downloadCertificate() {
+    // Make sure jsPDF is properly loaded
+    if (typeof window.jspdf === 'undefined') {
+        console.error('jsPDF library not loaded properly');
+        alert('PDF generation library not loaded. Please try again or check your internet connection.');
+        return;
+    }
 
-                const certificate = document.getElementById('certificate');
-                
-                // Use html2canvas with proper settings
-                html2canvas(certificate, {
-                    scale: 2, // Higher scale for better quality
-                    logging: false,
-                    useCORS: true,
-                    allowTaint: true,
-                    backgroundColor: '#ffffff'
-                }).then(function(canvas) {
-                    try {
-                        const imgData = canvas.toDataURL('image/png');
-                        
-                        // Create PDF using jsPDF
-                        const { jsPDF } = window.jspdf;
-                        const pdf = new jsPDF({
-                            orientation: 'landscape',
-                            unit: 'mm',
-                            format: 'a4'
-                        });
-                        
-                        const pdfWidth = pdf.internal.pageSize.getWidth();
-                        const pdfHeight = pdf.internal.pageSize.getHeight();
-                        
-                        // Add image to PDF, fitting to page
-                        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+    const certificate = document.getElementById('certificate');
 
-                        
-                        // Download the PDF
-                        const userName = localStorage.getItem('userName') || 'User';
-                        const fileName = `${userName.replace(/\s+/g, '_')}_Accent_Training_Certificate.pdf`;
-                        pdf.save(fileName);
-                        
-                        console.log('Certificate downloaded successfully');
-                    } catch (error) {
-                        console.error('Error generating PDF:', error);
-                        alert('There was an error generating your certificate. Please try again.');
-                    }
-                }).catch(function(error) {
-                    console.error('Error capturing certificate:', error);
-                    alert('There was an error capturing your certificate. Please try again.');
-                });
+    // Use html2canvas with proper settings
+    html2canvas(certificate, {
+        scale: 2, // Higher scale for better quality
+        logging: false,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#ffffff'
+    }).then(function(canvas) {
+        try {
+            const imgData = canvas.toDataURL('image/png');
+
+            // Create PDF using jsPDF
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF({
+                orientation: 'landscape',
+                unit: 'mm',
+                format: 'a4'
+            });
+
+            // Calculate correct scaling
+            const imgProps = pdf.getImageProperties(imgData);
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = pdf.internal.pageSize.getHeight();
+            const ratio = imgProps.width / imgProps.height;
+
+            let imgWidth = pdfWidth;
+            let imgHeight = pdfWidth / ratio;
+
+            if (imgHeight > pdfHeight) {
+                imgHeight = pdfHeight;
+                imgWidth = pdfHeight * ratio;
             }
-        });
+
+            // Center the image in landscape
+            pdf.addImage(
+                imgData,
+                'PNG',
+                (pdfWidth - imgWidth) / 2,
+                (pdfHeight - imgHeight) / 2,
+                imgWidth,
+                imgHeight
+            );
+
+            // Download the PDF
+            const userName = localStorage.getItem('userName') || 'User';
+            const fileName = `${userName.replace(/\s+/g, '_')}_Accent_Training_Certificate.pdf`;
+            pdf.save(fileName);
+
+            console.log('Certificate downloaded successfully');
+        } catch (error) {
+            console.error('Error generating PDF:', error);
+            alert('There was an error generating your certificate. Please try again.');
+        }
+    }).catch(function(error) {
+        console.error('Error capturing certificate:', error);
+        alert('There was an error capturing your certificate. Please try again.');
+    });
+}
+
     </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9806e19ab0dc4561',t:'MTc1ODA5NDA0OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
